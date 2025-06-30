@@ -3,8 +3,7 @@ Serviço para executar testes Python usando pytest.
 """
 import subprocess
 import sys
-import tempfile
-import shutil
+import json
 from pathlib import Path
 from typing import List
 from ..domain.models import TestExecution, TestResult
@@ -17,79 +16,63 @@ class TestExecutor:
         pass
     
     def run_tests(self, submission_path: Path, test_files: List[str]) -> List[TestExecution]:
-        """Executa testes em uma submissão."""
+        """Executa testes em uma submissão diretamente na pasta do aluno, detalhando cada função de teste."""
         results = []
         
-        # Cria um diretório temporário para executar os testes
-        with tempfile.TemporaryDirectory() as temp_dir:
-            temp_path = Path(temp_dir)
-            
-            # Copia os arquivos da submissão para o diretório temporário
-            self._copy_submission_files(submission_path, temp_path)
-            
-            # Executa cada arquivo de teste
-            for test_file in test_files:
-                test_result = self._run_single_test(temp_path, test_file)
-                if test_result:
-                    results.append(test_result)
+        # Remove report.json antigo, se existir
+        report_json = submission_path / "report.json"
+        if report_json.exists():
+            report_json.unlink()
         
-        return results
-    
-    def _copy_submission_files(self, source_path: Path, dest_path: Path):
-        """Copia arquivos da submissão para o diretório temporário."""
-        for item in source_path.iterdir():
-            if item.is_file():
-                shutil.copy2(item, dest_path)
-            elif item.is_dir():
-                shutil.copytree(item, dest_path / item.name)
-    
-    def _run_single_test(self, test_path: Path, test_file: str) -> TestExecution:
-        """Executa um arquivo de teste específico."""
-        test_file_path = test_path / test_file
+        # Monta lista de arquivos de teste
+        test_files_args = [str(submission_path / tf) for tf in test_files]
         
-        if not test_file_path.exists():
-            return TestExecution(
-                test_name=test_file,
-                result=TestResult.ERROR,
-                message=f"Arquivo de teste não encontrado: {test_file}"
-            )
-        
+        # Executa pytest com --json-report
         try:
-            # Executa o teste usando pytest
             result = subprocess.run(
-                [sys.executable, "-m", "pytest", str(test_file_path), "-v", "--tb=short"],
+                [sys.executable, "-m", "pytest", "-v", "--tb=short", "--json-report"] + test_files_args,
                 capture_output=True,
                 text=True,
-                cwd=test_path,
-                timeout=30  # Timeout de 30 segundos
-            )
-            
-            # Analisa o resultado
-            if result.returncode == 0:
-                return TestExecution(
-                    test_name=test_file,
-                    result=TestResult.PASSED,
-                    message="Todos os testes passaram"
-                )
-            else:
-                return TestExecution(
-                    test_name=test_file,
-                    result=TestResult.FAILED,
-                    message=result.stdout + result.stderr
-                )
-                
-        except subprocess.TimeoutExpired:
-            return TestExecution(
-                test_name=test_file,
-                result=TestResult.ERROR,
-                message="Timeout na execução do teste"
+                cwd=submission_path,
+                timeout=60
             )
         except Exception as e:
-            return TestExecution(
-                test_name=test_file,
-                result=TestResult.ERROR,
-                message=f"Erro na execução: {str(e)}"
-            )
+            return [TestExecution(test_name="pytest", result=TestResult.ERROR, message=f"Erro ao rodar pytest: {e}")]
+        
+        # Lê o report.json
+        if not report_json.exists():
+            # Fallback: não gerou report.json, retorna erro genérico
+            return [TestExecution(test_name="pytest", result=TestResult.ERROR, message="pytest não gerou report.json. STDOUT:\n" + result.stdout + "\nSTDERR:\n" + result.stderr)]
+        
+        with open(report_json, encoding="utf-8") as f:
+            report = json.load(f)
+        
+        # Extrai resultados detalhados
+        for test in report.get("tests", []):
+            name = test.get("nodeid", "?")
+            outcome = test.get("outcome", "error")
+            duration = test.get("duration", 0.0)
+            message = test.get("longrepr", "") or test.get("call", {}).get("crash", {}).get("message", "")
+            if outcome == "passed":
+                result_enum = TestResult.PASSED
+            elif outcome == "failed":
+                result_enum = TestResult.FAILED
+            elif outcome == "skipped":
+                result_enum = TestResult.SKIPPED
+            else:
+                result_enum = TestResult.ERROR
+            results.append(TestExecution(
+                test_name=name,
+                result=result_enum,
+                message=message,
+                execution_time=duration
+            ))
+        
+        # Se não houver testes, retorna erro
+        if not results:
+            results.append(TestExecution(test_name="pytest", result=TestResult.ERROR, message="Nenhum teste encontrado ou erro na execução."))
+        
+        return results
     
     def run_specific_test(self, submission_path: Path, test_file: str) -> TestExecution:
         """Executa um teste específico."""
