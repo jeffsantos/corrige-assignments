@@ -57,9 +57,7 @@ def correct(assignment, turma, aluno, output_format, output_dir, all_assignments
         
         # Verifica API key do OpenAI
         openai_api_key = os.getenv("OPENAI_API_KEY")
-        if not openai_api_key:
-            console.print("[yellow]Aviso: OPENAI_API_KEY não configurada. A análise de IA será limitada.[/yellow]")
-        
+
         # Inicializa serviços
         correction_service = CorrectionService(enunciados_path, respostas_path, openai_api_key)
         report_generator = ReportGenerator()

@@ -19,6 +19,9 @@ class AIAnalyzer:
             if secrets_path.exists():
                 try:
                     self.api_key = secrets_path.read_text(encoding="utf-8").strip()
+                    # Remove quebras de linha, espaços e caracteres de controle
+                    self.api_key = "".join(char for char in self.api_key if char.isprintable() or char == '-')
+                    print(f"✅ Chave da OpenAI carregada de: {secrets_path}")
                 except Exception as e:
                     print(f"⚠️  Erro ao ler chave da OpenAI em {secrets_path}: {e}")
         
@@ -28,6 +31,9 @@ class AIAnalyzer:
             if project_secrets_path.exists():
                 try:
                     self.api_key = project_secrets_path.read_text(encoding="utf-8").strip()
+                    # Remove quebras de linha, espaços e caracteres de controle
+                    self.api_key = "".join(char for char in self.api_key if char.isprintable() or char == '-')
+                    print(f"✅ Chave da OpenAI carregada de: {project_secrets_path}")
                 except Exception as e:
                     print(f"⚠️  Erro ao ler chave da OpenAI em {project_secrets_path}: {e}")
         
@@ -35,6 +41,7 @@ class AIAnalyzer:
         
         if self.ai_available:
             self.client = OpenAI(api_key=self.api_key)
+            print(f"🤖 OpenAI API configurada com sucesso (chave: {self.api_key[:10]}...{self.api_key[-4:]})")
         else:
             print("⚠️  OpenAI API key não configurada. A análise de IA será limitada.")
     
