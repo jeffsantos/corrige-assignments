@@ -1,0 +1,27 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+openai = "*"
+pytest = "*"
+beautifulsoup4 = "*"
+requests = "*"
+pandas = "*"
+streamlit = "*"
+jinja2 = "*"
+markdown = "*"
+pyyaml = "*"
+click = "*"
+rich = "*"
+pathlib = "*"
+
+[dev-packages]
+black = "*"
+flake8 = "*"
+mypy = "*"
+pytest-cov = "*"
+
+[requires]
+python_version = "3.13" 
