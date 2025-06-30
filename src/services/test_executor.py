@@ -19,18 +19,15 @@ class TestExecutor:
         """Executa testes em uma submissão diretamente na pasta do aluno, detalhando cada função de teste."""
         results = []
         
-        # Remove report.json antigo, se existir
-        report_json = submission_path / "report.json"
+        # Remove .report.json antigo, se existir
+        report_json = submission_path / ".report.json"
         if report_json.exists():
             report_json.unlink()
         
-        # Monta lista de arquivos de teste
-        test_files_args = [str(submission_path / tf) for tf in test_files]
-        
-        # Executa pytest com --json-report
+        # Executa pytest com --json-report usando caminhos relativos
         try:
             result = subprocess.run(
-                [sys.executable, "-m", "pytest", "-v", "--tb=short", "--json-report"] + test_files_args,
+                [sys.executable, "-m", "pytest", "-v", "--tb=short", "--json-report"] + test_files,
                 capture_output=True,
                 text=True,
                 cwd=submission_path,
@@ -39,10 +36,10 @@ class TestExecutor:
         except Exception as e:
             return [TestExecution(test_name="pytest", result=TestResult.ERROR, message=f"Erro ao rodar pytest: {e}")]
         
-        # Lê o report.json
+        # Lê o .report.json (com ponto no início)
         if not report_json.exists():
-            # Fallback: não gerou report.json, retorna erro genérico
-            return [TestExecution(test_name="pytest", result=TestResult.ERROR, message="pytest não gerou report.json. STDOUT:\n" + result.stdout + "\nSTDERR:\n" + result.stderr)]
+            # Fallback: não gerou .report.json, retorna erro genérico
+            return [TestExecution(test_name="pytest", result=TestResult.ERROR, message="pytest não gerou .report.json. STDOUT:\n" + result.stdout + "\nSTDERR:\n" + result.stderr)]
         
         with open(report_json, encoding="utf-8") as f:
             report = json.load(f)
