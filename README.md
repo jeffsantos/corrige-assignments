@@ -1,15 +1,17 @@
 # Sistema de Correção Automática de Atividades
 
-Sistema inteligente para correção automática de atividades de programação Python e HTML usando IA (OpenAI GPT) e testes automatizados.
+Sistema inteligente para correção automática de atividades de programação Python e HTML usando IA (OpenAI GPT) e testes automatizados com **detalhamento por função de teste**.
 
 ## 🎯 Funcionalidades
 
 - **Análise Automática de Código Python**: Execução de testes com pytest e análise qualitativa usando IA
+- **Detalhamento de Testes**: Resultados individuais por função de teste (ex: `test_parse_data_function_signature`)
 - **Avaliação de Páginas HTML/CSS**: Verificação de elementos obrigatórios e análise de qualidade
 - **Geração de Relatórios**: Múltiplos formatos (Console, HTML, Markdown, JSON)
 - **Suporte a Múltiplas Turmas**: Gerenciamento de diferentes turmas e assignments
 - **Integração com ChatGPT**: Análise qualitativa e feedback personalizado
 - **Interface CLI**: Comando simples e intuitivo
+- **Busca Automática da API OpenAI**: Configuração flexível da chave da API
 
 ## 🏗️ Arquitetura
 
@@ -24,10 +26,10 @@ src/
 │   └── submission_repository.py
 ├── services/         # Lógica de negócio
 │   ├── correction_service.py
-│   ├── test_executor.py
-│   └── ai_analyzer.py
+│   ├── test_executor.py      # Execução direta na pasta do aluno
+│   └── ai_analyzer.py        # Busca automática da API OpenAI
 ├── utils/            # Utilitários
-│   └── report_generator.py
+│   └── report_generator.py   # Relatórios com detalhamento de testes
 └── main.py          # Ponto de entrada CLI
 ```
 
@@ -46,6 +48,7 @@ corrige-assignments/
 ├── src/                 # Código fonte do sistema
 ├── tests/               # Testes unitários
 ├── reports/             # Relatórios gerados
+├── .secrets/            # Chaves de API (não versionado)
 ├── Pipfile              # Dependências do projeto
 ├── config.py            # Configurações
 └── README.md            # Este arquivo
@@ -55,9 +58,9 @@ corrige-assignments/
 
 ### 1. Pré-requisitos
 
-- Python 3.9+
+- Python 3.13+
 - pipenv
-- Chave de API do OpenAI
+- Chave de API do OpenAI (opcional, mas recomendado)
 
 ### 2. Instalação
 
@@ -160,8 +163,8 @@ python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-
 from src.services.correction_service import CorrectionService
 from src.utils.report_generator import ReportGenerator
 
-# Inicializa serviços
-correction_service = CorrectionService(enunciados_path, respostas_path, openai_api_key)
+# Inicializa serviços (API OpenAI será buscada automaticamente)
+correction_service = CorrectionService(enunciados_path, respostas_path)
 report_generator = ReportGenerator()
 
 # Corrige um assignment
@@ -170,7 +173,7 @@ report = correction_service.correct_assignment(
     turma_name="ebape-prog-aplic-barra-2025"
 )
 
-# Gera relatório
+# Gera relatório com detalhamento de testes
 report_generator.generate_console_report(report)
 report.save_to_file("relatorio.json")
 ```
@@ -186,7 +189,7 @@ OPENAI_MAX_TOKENS = 1000
 OPENAI_TEMPERATURE = 0.3
 
 # Configurações de teste
-TEST_TIMEOUT = 30  # segundos
+TEST_TIMEOUT = 60  # segundos (aumentado para testes complexos)
 
 # Rubricas padrão
 PYTHON_RUBRIC = {
@@ -208,17 +211,41 @@ O sistema gera relatórios detalhados incluindo:
 
 ### Análise por Aluno
 - Nota final calculada
-- Resultados dos testes
+- **Detalhamento de testes por função** (ex: `test_parse_data_function_signature`)
+- Status individual de cada teste (✅ passou, ❌ falhou, ⚠️ erro)
+- Tempo de execução de cada teste
 - Feedback da análise de IA
 - Comentários e sugestões
 
+### Exemplo de Relatório de Testes
+```
+🧪 Resultados dos Testes:
+✅ test_scraping.py::test_fetch_page_function_signature (0.023s)
+❌ test_scraping.py::test_parse_data_function_signature (0.045s)
+✅ test_scraping.py::test_generate_csv_function_existence (0.012s)
+✅ tests/test_app.py::test_streamlit_import (0.001s)
+...
+```
+
 ### Formatos de Saída
-- **Console**: Exibição colorida e formatada
-- **HTML**: Relatório web interativo
-- **Markdown**: Documento estruturado
+- **Console**: Exibição colorida e formatada com detalhamento de testes
+- **HTML**: Relatório web interativo com estilos para diferentes status de teste
+- **Markdown**: Documento estruturado com listas de testes
 - **JSON**: Dados estruturados para processamento
 
 ## 🧪 Testes
+
+### Execução de Testes
+O sistema executa testes **diretamente na pasta da submissão do aluno**, garantindo:
+- Fidelidade total ao ambiente do aluno
+- Detecção de dependências e imports
+- Execução em contexto real
+
+### Detalhamento de Testes
+- **pytest-json-report**: Gera relatórios JSON detalhados
+- **Análise por função**: Cada teste individual é reportado
+- **Tempo de execução**: Medição precisa do tempo de cada teste
+- **Mensagens de erro**: Captura de tracebacks e erros específicos
 
 ```bash
 # Executar todos os testes
@@ -233,13 +260,32 @@ pipenv run pytest tests/test_models.py
 
 ## 🔍 Exemplos de Uso
 
-### Exemplo 1: Correção de Assignment Python
+### Exemplo 1: Correção de Assignment Python com Detalhamento
 
 ```bash
 python -m src.main correct \
   --assignment prog1-prova-av \
   --turma ebape-prog-aplic-barra-2025 \
   --output-format html
+```
+
+**Saída esperada:**
+```
+📊 Sistema de Correção Automática
+📈 Resumo Estatístico
+┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓
+┃ Métrica             ┃ Valor  ┃
+┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━┩
+│ Total de Submissões │ 1      │
+│ Nota Média          │ 9.1    │
+│ Taxa de Aprovação   │ 100.0% │
+└─────────────────────┴────────┘
+
+🧪 Resultados dos Testes:
+✅ test_scraping.py::test_fetch_page_function_signature (0.023s)
+❌ test_scraping.py::test_parse_data_function_signature (0.045s)
+✅ test_scraping.py::test_generate_csv_function_existence (0.012s)
+...
 ```
 
 ### Exemplo 2: Correção de Assignment HTML
@@ -257,7 +303,7 @@ python -m src.main correct \
 python -m src.main correct \
   --assignment prog1-prova-av \
   --turma ebape-prog-aplic-barra-2025 \
-  --aluno "joao-silva"
+  --aluno "prog1-prova-av-ana-clara-e-isabella"
 ```
 
 ## 🤖 Análise de IA
@@ -276,11 +322,16 @@ O sistema usa a API do OpenAI para:
 - Análise de estilização
 - Feedback sobre responsividade
 
+### Busca Automática da API
+- Configuração flexível sem necessidade de variáveis de ambiente
+- Suporte multiplataforma (Linux, macOS, Windows)
+- Fallback para análise básica quando API não está disponível
+
 ## 📝 Critérios de Avaliação
 
 ### Assignments Python
-- **40%**: Funcionamento correto (testes)
-- **30%**: Qualidade do código (IA)
+- **40%**: Funcionamento correto (testes automatizados)
+- **30%**: Qualidade do código (análise de IA)
 - **20%**: Documentação
 - **10%**: Criatividade
 
@@ -307,6 +358,14 @@ O sistema usa a API do OpenAI para:
 - **Error Handling**: Trate exceções adequadamente
 - **Testing**: Mantenha cobertura de testes alta
 
+### Melhorias Recentes
+
+- ✅ **Detalhamento de testes por função**
+- ✅ **Execução direta na pasta do aluno**
+- ✅ **Busca automática da API OpenAI**
+- ✅ **Relatórios aprimorados em múltiplos formatos**
+- ✅ **Integração com pytest-json-report**
+
 ## 📄 Licença
 
 Este projeto é desenvolvido para uso acadêmico na FGV.
@@ -325,6 +384,7 @@ Para dúvidas ou problemas:
 - Abra uma issue no repositório
 - Consulte a documentação
 - Execute `python -m src.main --help` para ajuda
+- Execute `python example_usage.py` para exemplos práticos
 
 ---
 
