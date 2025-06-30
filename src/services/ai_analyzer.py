@@ -4,7 +4,7 @@ Serviço para análise de código usando IA (OpenAI).
 import os
 from pathlib import Path
 from typing import List, Dict, Any
-import openai
+from openai import OpenAI
 from ..domain.models import CodeAnalysis, HTMLAnalysis, Assignment
 
 
@@ -21,10 +21,20 @@ class AIAnalyzer:
                     self.api_key = secrets_path.read_text(encoding="utf-8").strip()
                 except Exception as e:
                     print(f"⚠️  Erro ao ler chave da OpenAI em {secrets_path}: {e}")
+        
+        # Busca no diretório do projeto
+        if not self.api_key:
+            project_secrets_path = Path(".secrets") / "open-ai-api-key.txt"
+            if project_secrets_path.exists():
+                try:
+                    self.api_key = project_secrets_path.read_text(encoding="utf-8").strip()
+                except Exception as e:
+                    print(f"⚠️  Erro ao ler chave da OpenAI em {project_secrets_path}: {e}")
+        
         self.ai_available = bool(self.api_key)
         
         if self.ai_available:
-            openai.api_key = self.api_key
+            self.client = OpenAI(api_key=self.api_key)
         else:
             print("⚠️  OpenAI API key não configurada. A análise de IA será limitada.")
     
@@ -47,8 +57,8 @@ class AIAnalyzer:
         prompt = self._build_python_analysis_prompt(python_files, assignment)
         
         try:
-            # Chama a API do OpenAI
-            response = openai.ChatCompletion.create(
+            # Chama a API do OpenAI usando a nova versão
+            response = self.client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": "Você é um professor experiente de Python analisando código de alunos. Seja construtivo e específico."},
@@ -89,8 +99,8 @@ class AIAnalyzer:
         prompt = self._build_html_analysis_prompt(html_files, css_files, assignment)
         
         try:
-            # Chama a API do OpenAI
-            response = openai.ChatCompletion.create(
+            # Chama a API do OpenAI usando a nova versão
+            response = self.client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": "Você é um professor experiente de HTML/CSS analisando páginas web de alunos. Seja construtivo e específico."},
