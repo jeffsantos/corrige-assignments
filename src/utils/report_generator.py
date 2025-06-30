@@ -79,9 +79,13 @@ class ReportGenerator:
         # Detalhes por aluno
         self.console.print("\n[bold]📝 Detalhes por Aluno:[/bold]")
         for submission in report.submissions:
+            # Constrói detalhes dos testes
+            test_details = self._build_test_details(submission.test_results)
+            
             self.console.print(Panel(
                 f"[bold]{submission.student_name}[/bold]\n"
                 f"Nota: {submission.final_score:.1f}/10\n\n"
+                f"[bold cyan]🧪 Resultados dos Testes:[/bold cyan]\n{test_details}\n\n"
                 f"[dim]{submission.feedback}[/dim]",
                 title=f"👤 {submission.student_name}",
                 border_style="green" if submission.final_score >= 7.0 else "red"
@@ -122,6 +126,10 @@ class ReportGenerator:
         .pass {{ background-color: #fff3cd; }}
         .fail {{ background-color: #f8d7da; }}
         .student-detail {{ margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }}
+        .test-passed {{ color: #155724; background-color: #d4edda; padding: 5px; margin: 2px 0; border-radius: 3px; }}
+        .test-failed {{ color: #721c24; background-color: #f8d7da; padding: 5px; margin: 2px 0; border-radius: 3px; }}
+        .test-error {{ color: #856404; background-color: #fff3cd; padding: 5px; margin: 2px 0; border-radius: 3px; }}
+        .test-skipped {{ color: #0c5460; background-color: #d1ecf1; padding: 5px; margin: 2px 0; border-radius: 3px; }}
     </style>
 </head>
 <body>
@@ -201,13 +209,49 @@ class ReportGenerator:
         """Constrói detalhes dos alunos em HTML."""
         details = []
         for submission in submissions:
+            # Constrói detalhes dos testes
+            test_details_html = self._build_html_test_details(submission.test_results)
+            
             details.append(f"""
             <div class="student-detail">
                 <h3>👤 {submission.student_name}</h3>
                 <p><strong>Nota:</strong> {submission.final_score:.1f}/10</p>
+                
+                <h4>🧪 Resultados dos Testes:</h4>
+                {test_details_html}
+                
+                <h4>📝 Feedback:</h4>
                 <pre>{submission.feedback}</pre>
             </div>
             """)
+        
+        return "".join(details)
+    
+    def _build_html_test_details(self, test_results: List) -> str:
+        """Constrói detalhes dos testes em HTML."""
+        if not test_results:
+            return "<p>Nenhum teste executado</p>"
+        
+        details = []
+        for test in test_results:
+            if test.result.value == "passed":
+                status_icon = "✅"
+                status_class = "test-passed"
+            elif test.result.value == "failed":
+                status_icon = "❌"
+                status_class = "test-failed"
+            elif test.result.value == "error":
+                status_icon = "⚠️"
+                status_class = "test-error"
+            else:
+                status_icon = "⏭️"
+                status_class = "test-skipped"
+            
+            time_info = ""
+            if hasattr(test, 'execution_time') and test.execution_time > 0:
+                time_info = f" ({test.execution_time:.2f}s)"
+            
+            details.append(f'<p class="{status_class}">{status_icon} <strong>{test.test_name}</strong>{time_info}</p>')
         
         return "".join(details)
     
@@ -257,9 +301,18 @@ class ReportGenerator:
         
         # Adiciona detalhes dos alunos
         for submission in report.submissions:
+            # Constrói detalhes dos testes
+            test_details_md = self._build_markdown_test_details(submission.test_results)
+            
             content += f"""### 👤 {submission.student_name}
 
 **Nota:** {submission.final_score:.1f}/10
+
+#### 🧪 Resultados dos Testes
+
+{test_details_md}
+
+#### 📝 Feedback
 
 ```
 {submission.feedback}
@@ -268,4 +321,56 @@ class ReportGenerator:
 ---
 """
         
-        return content 
+        return content
+    
+    def _build_markdown_test_details(self, test_results: List) -> str:
+        """Constrói detalhes dos testes em Markdown."""
+        if not test_results:
+            return "Nenhum teste executado"
+        
+        details = []
+        for test in test_results:
+            if test.result.value == "passed":
+                status_icon = "✅"
+            elif test.result.value == "failed":
+                status_icon = "❌"
+            elif test.result.value == "error":
+                status_icon = "⚠️"
+            else:
+                status_icon = "⏭️"
+            
+            time_info = ""
+            if hasattr(test, 'execution_time') and test.execution_time > 0:
+                time_info = f" ({test.execution_time:.2f}s)"
+            
+            details.append(f"- {status_icon} **{test.test_name}**{time_info}")
+        
+        return "\n".join(details)
+    
+    def _build_test_details(self, test_results: List) -> str:
+        """Constrói detalhes dos testes para exibição."""
+        if not test_results:
+            return "Nenhum teste executado"
+        
+        details = []
+        for test in test_results:
+            if test.result.value == "passed":
+                status_icon = "✅"
+                status_color = "green"
+            elif test.result.value == "failed":
+                status_icon = "❌"
+                status_color = "red"
+            elif test.result.value == "error":
+                status_icon = "⚠️"
+                status_color = "yellow"
+            else:
+                status_icon = "⏭️"
+                status_color = "blue"
+            
+            details.append(f"{status_icon} [bold {status_color}]{test.test_name}[/bold {status_color}]")
+            
+            # Adiciona tempo de execução se disponível
+            if hasattr(test, 'execution_time') and test.execution_time > 0:
+                details[-1] += f" ({test.execution_time:.2f}s)"
+        
+        return "\n".join(details) 
