@@ -21,7 +21,7 @@ class CorrectionService:
         self.assignment_repo = AssignmentRepository(enunciados_path)
         self.submission_repo = SubmissionRepository(respostas_path)
         self.test_executor = TestExecutor()
-        self.ai_analyzer = AIAnalyzer(openai_api_key)
+        self.ai_analyzer = AIAnalyzer(openai_api_key, enunciados_path)
     
     def correct_assignment(self, assignment_name: str, turma_name: str, 
                           student_name: Optional[str] = None) -> CorrectionReport:

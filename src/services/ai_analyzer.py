@@ -6,12 +6,13 @@ from pathlib import Path
 from typing import List, Dict, Any
 from openai import OpenAI
 from ..domain.models import CodeAnalysis, HTMLAnalysis, Assignment
+from .prompt_manager import PromptManager
 
 
 class AIAnalyzer:
     """Serviço para análise de código usando IA."""
     
-    def __init__(self, api_key: str = None):
+    def __init__(self, api_key: str = None, enunciados_path: Path = None):
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
         if not self.api_key:
             # Busca na home do usuário
@@ -44,9 +45,12 @@ class AIAnalyzer:
             print(f"🤖 OpenAI API configurada com sucesso (chave: {self.api_key[:10]}...{self.api_key[-4:]})")
         else:
             print("⚠️  OpenAI API key não configurada. A análise de IA será limitada.")
+        
+        # Inicializa o gerenciador de prompts
+        self.prompt_manager = PromptManager(enunciados_path) if enunciados_path else None
     
     def analyze_python_code(self, submission_path: Path, assignment: Assignment) -> CodeAnalysis:
-        """Analisa código Python usando IA."""
+        """Analisa código Python usando IA com prompt específico do assignment."""
         if not self.ai_available:
             return self._analyze_python_code_basic(submission_path, assignment)
         
@@ -60,18 +64,26 @@ class AIAnalyzer:
                 issues_found=["Arquivos Python ausentes"]
             )
         
-        # Constrói o prompt para análise
-        prompt = self._build_python_analysis_prompt(python_files, assignment)
+        # Constrói o prompt específico para o assignment
+        if self.prompt_manager:
+            prompt = self.prompt_manager.get_assignment_prompt(
+                assignment=assignment,
+                assignment_type="python",
+                student_code=self._format_python_files(python_files)
+            )
+        else:
+            # Fallback para prompt genérico
+            prompt = self._build_python_analysis_prompt(python_files, assignment)
         
         try:
-            # Chama a API do OpenAI usando a nova versão
+            # Chama a API do OpenAI
             response = self.client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "system", "content": "Você é um professor experiente de Python analisando código de alunos. Seja construtivo e específico."},
+                    {"role": "system", "content": "Você é um professor experiente de Python analisando código de alunos. Seja construtivo e específico, considerando os requisitos específicos do assignment."},
                     {"role": "user", "content": prompt}
                 ],
-                max_tokens=1000,
+                max_tokens=1500,
                 temperature=0.3
             )
             
@@ -87,7 +99,7 @@ class AIAnalyzer:
             )
     
     def analyze_html_code(self, submission_path: Path, assignment: Assignment) -> HTMLAnalysis:
-        """Analisa código HTML usando IA."""
+        """Analisa código HTML usando IA com prompt específico do assignment."""
         if not self.ai_available:
             return self._analyze_html_code_basic(submission_path, assignment)
         
@@ -102,18 +114,26 @@ class AIAnalyzer:
                 issues_found=["Arquivos HTML ausentes"]
             )
         
-        # Constrói o prompt para análise
-        prompt = self._build_html_analysis_prompt(html_files, css_files, assignment)
+        # Constrói o prompt específico para o assignment
+        if self.prompt_manager:
+            prompt = self.prompt_manager.get_assignment_prompt(
+                assignment=assignment,
+                assignment_type="html",
+                student_code=self._format_html_files(html_files, css_files)
+            )
+        else:
+            # Fallback para prompt genérico
+            prompt = self._build_html_analysis_prompt(html_files, css_files, assignment)
         
         try:
-            # Chama a API do OpenAI usando a nova versão
+            # Chama a API do OpenAI
             response = self.client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "system", "content": "Você é um professor experiente de HTML/CSS analisando páginas web de alunos. Seja construtivo e específico."},
+                    {"role": "system", "content": "Você é um professor experiente de HTML/CSS analisando páginas web de alunos. Seja construtivo e específico, considerando os requisitos específicos do assignment."},
                     {"role": "user", "content": prompt}
                 ],
-                max_tokens=1000,
+                max_tokens=1500,
                 temperature=0.3
             )
             
@@ -442,4 +462,24 @@ PROBLEMAS: [lista de problemas]
             comments=comments,
             suggestions=suggestions,
             issues_found=issues
-        ) 
+        )
+    
+    def _format_python_files(self, python_files: Dict[str, str]) -> str:
+        """Formata arquivos Python para o prompt."""
+        formatted = ""
+        for filename, content in python_files.items():
+            formatted += f"\n--- {filename} ---\n{content}\n"
+        return formatted
+    
+    def _format_html_files(self, html_files: Dict[str, str], css_files: Dict[str, str]) -> str:
+        """Formata arquivos HTML/CSS para o prompt."""
+        formatted = "Arquivos HTML:\n"
+        for filename, content in html_files.items():
+            formatted += f"\n--- {filename} ---\n{content}\n"
+        
+        if css_files:
+            formatted += "\nArquivos CSS:\n"
+            for filename, content in css_files.items():
+                formatted += f"\n--- {filename} ---\n{content}\n"
+        
+        return formatted 
