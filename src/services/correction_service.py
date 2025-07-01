@@ -17,11 +17,11 @@ from .ai_analyzer import AIAnalyzer
 class CorrectionService:
     """Serviço principal de correção."""
     
-    def __init__(self, enunciados_path: Path, respostas_path: Path, openai_api_key: str = None):
+    def __init__(self, enunciados_path: Path, respostas_path: Path, openai_api_key: str = None, logs_path: Path = None):
         self.assignment_repo = AssignmentRepository(enunciados_path)
         self.submission_repo = SubmissionRepository(respostas_path)
         self.test_executor = TestExecutor()
-        self.ai_analyzer = AIAnalyzer(openai_api_key, enunciados_path)
+        self.ai_analyzer = AIAnalyzer(openai_api_key, enunciados_path, logs_path)
     
     def correct_assignment(self, assignment_name: str, turma_name: str, 
                           submission_identifier: Optional[str] = None) -> CorrectionReport:

@@ -2,6 +2,8 @@
 Serviço para análise de código usando IA (OpenAI).
 """
 import os
+import json
+from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Any
 from openai import OpenAI
@@ -12,7 +14,7 @@ from .prompt_manager import PromptManager
 class AIAnalyzer:
     """Serviço para análise de código usando IA."""
     
-    def __init__(self, api_key: str = None, enunciados_path: Path = None):
+    def __init__(self, api_key: str = None, enunciados_path: Path = None, logs_path: Path = None):
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
         if not self.api_key:
             # Busca na home do usuário
@@ -48,6 +50,58 @@ class AIAnalyzer:
         
         # Inicializa o gerenciador de prompts
         self.prompt_manager = PromptManager(enunciados_path) if enunciados_path else None
+        
+        # Configuração de logs
+        self.logs_path = logs_path or Path("logs")
+        self.logs_path.mkdir(exist_ok=True)
+    
+    def _save_ai_log(self, assignment_name: str, submission_identifier: str, 
+                    analysis_type: str, prompt: str, response: str, 
+                    parsed_result: Dict[str, Any]) -> None:
+        """
+        Salva log da análise da IA para auditoria.
+        
+        Args:
+            assignment_name: Nome do assignment
+            submission_identifier: Identificador da submissão (login ou grupo)
+            analysis_type: Tipo de análise ('python' ou 'html')
+            prompt: Prompt enviado para a IA
+            response: Resposta raw da IA
+            parsed_result: Resultado processado da análise
+        """
+        try:
+            # Cria estrutura de diretórios: logs/YYYY-MM-DD/assignment_name/
+            today = datetime.now().strftime("%Y-%m-%d")
+            log_dir = self.logs_path / today / assignment_name
+            log_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Nome do arquivo de log
+            timestamp = datetime.now().strftime("%H-%M-%S")
+            log_filename = f"{submission_identifier}_{analysis_type}_{timestamp}.json"
+            log_file = log_dir / log_filename
+            
+            # Dados do log
+            log_data = {
+                "metadata": {
+                    "assignment_name": assignment_name,
+                    "submission_identifier": submission_identifier,
+                    "analysis_type": analysis_type,
+                    "timestamp": datetime.now().isoformat(),
+                    "ai_model": "gpt-3.5-turbo"
+                },
+                "prompt": prompt,
+                "raw_response": response,
+                "parsed_result": parsed_result
+            }
+            
+            # Salva o log
+            with open(log_file, 'w', encoding='utf-8') as f:
+                json.dump(log_data, f, indent=2, ensure_ascii=False)
+            
+            print(f"📝 Log salvo: {log_file}")
+            
+        except Exception as e:
+            print(f"⚠️  Erro ao salvar log: {e}")
     
     def analyze_python_code(self, submission_path: Path, assignment: Assignment) -> CodeAnalysis:
         """Analisa código Python usando IA com prompt específico do assignment."""
@@ -89,7 +143,25 @@ class AIAnalyzer:
             
             # Processa a resposta
             analysis_text = response.choices[0].message.content
-            return self._parse_python_analysis(analysis_text)
+            parsed_result = self._parse_python_analysis(analysis_text)
+            
+            # Salva log da análise
+            submission_identifier = submission_path.name.split('-', 1)[1] if '-' in submission_path.name else submission_path.name
+            self._save_ai_log(
+                assignment_name=assignment.name,
+                submission_identifier=submission_identifier,
+                analysis_type="python",
+                prompt=prompt,
+                response=analysis_text,
+                parsed_result={
+                    "score": parsed_result.score,
+                    "comments": parsed_result.comments,
+                    "suggestions": parsed_result.suggestions,
+                    "issues_found": parsed_result.issues_found
+                }
+            )
+            
+            return parsed_result
             
         except Exception as e:
             return CodeAnalysis(
@@ -139,7 +211,26 @@ class AIAnalyzer:
             
             # Processa a resposta
             analysis_text = response.choices[0].message.content
-            return self._parse_html_analysis(analysis_text)
+            parsed_result = self._parse_html_analysis(analysis_text)
+            
+            # Salva log da análise
+            submission_identifier = submission_path.name.split('-', 1)[1] if '-' in submission_path.name else submission_path.name
+            self._save_ai_log(
+                assignment_name=assignment.name,
+                submission_identifier=submission_identifier,
+                analysis_type="html",
+                prompt=prompt,
+                response=analysis_text,
+                parsed_result={
+                    "score": parsed_result.score,
+                    "required_elements": parsed_result.required_elements,
+                    "comments": parsed_result.comments,
+                    "suggestions": parsed_result.suggestions,
+                    "issues_found": parsed_result.issues_found
+                }
+            )
+            
+            return parsed_result
             
         except Exception as e:
             return HTMLAnalysis(

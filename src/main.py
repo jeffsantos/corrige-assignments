@@ -58,8 +58,11 @@ def correct(assignment, turma, submissao, output_format, output_dir, all_assignm
         # Verifica API key do OpenAI
         openai_api_key = os.getenv("OPENAI_API_KEY")
 
+        # Configura caminho dos logs
+        logs_path = base_path / "logs"
+        
         # Inicializa serviços
-        correction_service = CorrectionService(enunciados_path, respostas_path, openai_api_key)
+        correction_service = CorrectionService(enunciados_path, respostas_path, openai_api_key, logs_path)
         report_generator = ReportGenerator()
         
         if all_assignments:

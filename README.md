@@ -73,6 +73,7 @@ corrige-assignments/
 │       └── prog1-prova-av-submissions/
 │           └── aluno-nome/
 ├── reports/                       # Relatórios gerados
+├── logs/                          # Logs de auditoria da IA (não versionados)
 ├── src/                          # Código fonte
 │   ├── services/
 │   │   ├── ai_analyzer.py        # Análise de IA
@@ -250,6 +251,54 @@ PROBLEMAS: [lista de problemas encontrados]
 │ Taxa de Aprovação   │ 100.0% │
 │ Taxa de Excelência  │ 100.0% │
 └─────────────────────┴────────┘
+```
+
+## 📝 Sistema de Logs de Auditoria
+
+### Características
+
+- **Logs automáticos**: Todas as análises da IA são salvas automaticamente
+- **Estrutura organizada**: `logs/YYYY-MM-DD/assignment-name/submission_analysis_timestamp.json`
+- **Dados completos**: Prompt enviado, resposta raw da IA e resultado processado
+- **Auditoria completa**: Permite revisar como a IA chegou às suas avaliações
+- **Não versionados**: Os logs ficam na pasta `logs/` (ignorada pelo git)
+
+### Estrutura dos Logs
+
+```json
+{
+  "metadata": {
+    "assignment_name": "prog1-prova-av",
+    "submission_identifier": "joao-silva",
+    "analysis_type": "python",
+    "timestamp": "2025-01-15T10:30:14.095265",
+    "ai_model": "gpt-3.5-turbo"
+  },
+  "prompt": "Analise o código Python abaixo...",
+  "raw_response": "NOTA: 8.5\nCOMENTARIOS: ...",
+  "parsed_result": {
+    "score": 8.5,
+    "comments": ["Código bem estruturado"],
+    "suggestions": ["Adicionar mais comentários"],
+    "issues_found": ["Falta tratamento de erro"]
+  }
+}
+```
+
+### Localização dos Logs
+
+```
+logs/
+├── 2025-01-15/
+│   ├── prog1-prova-av/
+│   │   ├── joao-silva_python_10-30-14.json
+│   │   ├── maria-santos_python_10-35-22.json
+│   │   └── grupo-abc_python_10-40-15.json
+│   └── prog1-tarefa-html-curriculo/
+│       ├── ana-clara_html_11-15-30.json
+│       └── ...
+└── 2025-01-16/
+    └── ...
 ```
 
 ## 🧪 Execução de Testes

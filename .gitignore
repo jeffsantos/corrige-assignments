@@ -23,6 +23,7 @@ Thumbs.db
 enunciados/
 respostas/
 reports/
+logs/
 *.log
 
 # Secrets
