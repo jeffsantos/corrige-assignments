@@ -97,17 +97,30 @@ python -m src.main correct [OPÇÕES]
 # Corrigir assignment específico
 python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
 
-# Corrigir aluno específico
-python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --aluno nome-do-aluno
+# Corrigir submissão específica (aluno individual ou grupo)
+python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --submissao nome-do-aluno
 
 # Corrigir todos os assignments de uma turma
-python -m src.main correct --turma ebape-prog-aplic-barra-2025
+python -m src.main correct --turma ebape-prog-aplic-barra-2025 --all-assignments
 
+# Especificar formato de saída
+python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --output-format html
+
+# Especificar diretório de saída
+python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --output-dir meus-relatorios
+```
+
+### Comandos de Listagem
+
+```bash
 # Listar assignments disponíveis
-python -m src.main list assignments
+python -m src.main list-assignments
 
 # Listar turmas disponíveis
-python -m src.main list turmas
+python -m src.main list-turmas
+
+# Listar submissões de uma turma
+python -m src.main list-submissions --turma ebape-prog-aplic-barra-2025
 ```
 
 ### Exemplos de Uso
@@ -119,9 +132,34 @@ python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-
 # Exemplo 2: Assignment HTML com critérios específicos
 python -m src.main correct --assignment prog1-tarefa-html-curriculo --turma ebape-prog-aplic-barra-2025
 
-# Exemplo 3: Correção completa de turma
-python -m src.main correct --turma ebape-prog-aplic-barra-2025
+# Exemplo 3: Correção de submissão específica
+python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --submissao joao-silva
+
+# Exemplo 4: Correção completa de turma
+python -m src.main correct --turma ebape-prog-aplic-barra-2025 --all-assignments
+
+# Exemplo 5: Relatório em HTML
+python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --output-format html
+
+# Exemplo 6: Ver assignments disponíveis
+python -m src.main list-assignments
+
+# Exemplo 7: Ver submissões de uma turma
+python -m src.main list-submissions --turma ebape-prog-aplic-barra-2025
 ```
+
+### Opções Detalhadas
+
+| Opção | Descrição | Obrigatório |
+|-------|-----------|-------------|
+| `--assignment, -a` | Nome do assignment para corrigir | Sim* |
+| `--turma, -t` | Nome da turma | Sim |
+| `--submissao, -s` | Identificador da submissão (login do aluno ou nome do grupo) | Não |
+| `--output-format, -f` | Formato de saída: console, html, markdown, json | Não (padrão: console) |
+| `--output-dir, -o` | Diretório para salvar relatórios | Não (padrão: reports) |
+| `--all-assignments` | Corrigir todos os assignments da turma | Não |
+
+*Obrigatório apenas quando `--all-assignments` não é usado.
 
 ## 📝 Prompts Personalizados
 
@@ -253,11 +291,36 @@ enunciados/
 respostas/
 ├── turma-nome/
 │   ├── assignment1-submissions/
-│   │   ├── aluno1/
+│   │   ├── assignment1-aluno1/          # Submissão individual
 │   │   │   ├── main.py
 │   │   │   └── ...
-│   │   └── aluno2/
+│   │   ├── assignment1-grupo-abc/       # Submissão em grupo
+│   │   │   ├── main.py
+│   │   │   └── ...
+│   │   └── assignment1-outro-aluno/
 │   └── assignment2-submissions/
+```
+
+### Tipos de Submissão
+
+O sistema suporta dois tipos de submissão:
+
+1. **Submissões Individuais**: 
+   - Padrão: `{assignment-name}-{login-do-aluno}`
+   - Exemplo: `prog1-prova-av-joaosilva`
+
+2. **Submissões em Grupo**:
+   - Padrão: `{assignment-name}-{nome-do-grupo}`
+   - Exemplo: `prog1-prova-av-ana-clara-e-isabella`
+
+O tipo de submissão é configurado por assignment no arquivo `config.py`:
+
+```python
+ASSIGNMENT_SUBMISSION_TYPES = {
+    "prog1-tarefa-html-curriculo": SubmissionType.INDIVIDUAL,
+    "prog1-prova-av": SubmissionType.GROUP,
+    # ...
+}
 ```
 
 ## 🤝 Contribuição
