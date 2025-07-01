@@ -13,7 +13,8 @@ class ClassInfo:
         self.name = name
         self.bases = bases  # list of base class names
         self.module = module
-        self.attrs = set()  # attribute types (composition)
+        self.attrs = set()  # attribute types (composição)
+        self.dependencies = set()  # classes que esta classe depende (dependência)
 
 
 def find_py_files(base_dir):
@@ -26,6 +27,25 @@ def find_py_files(base_dir):
     return py_files
 
 
+def extract_type_name(type_annotation):
+    """Extrai o nome do tipo de uma anotação de tipo."""
+    if isinstance(type_annotation, ast.Name):
+        return type_annotation.id
+    elif isinstance(type_annotation, ast.Attribute):
+        return type_annotation.attr
+    elif isinstance(type_annotation, ast.Subscript):
+        # Para tipos como List[ClassName], Optional[ClassName], etc.
+        if isinstance(type_annotation.value, ast.Name):
+            return type_annotation.value.id
+        elif isinstance(type_annotation.value, ast.Attribute):
+            return type_annotation.value.attr
+    elif isinstance(type_annotation, ast.Constant):
+        # Para strings de tipo (type hints como strings)
+        if isinstance(type_annotation.value, str):
+            return type_annotation.value
+    return None
+
+
 def parse_classes(py_file):
     """Parse classes de um arquivo Python."""
     try:
@@ -36,6 +56,24 @@ def parse_classes(py_file):
         return []
     
     classes = []
+    imports = {}  # Mapeia imports para nomes locais
+    
+    # Primeiro, coletar imports
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                if alias.asname:
+                    imports[alias.asname] = alias.name
+                else:
+                    imports[alias.name] = alias.name
+        elif isinstance(node, ast.ImportFrom):
+            module = node.module or ""
+            for alias in node.names:
+                if alias.asname:
+                    imports[alias.asname] = f"{module}.{alias.name}"
+                else:
+                    imports[alias.name] = f"{module}.{alias.name}"
+    
     for node in ast.walk(tree):
         if isinstance(node, ast.ClassDef):
             # Extrair bases (herança)
@@ -53,18 +91,69 @@ def parse_classes(py_file):
             
             ci = ClassInfo(node.name, bases, module=module_path)
             
-            # Encontrar atributos que são instâncias de outras classes (composição)
+            # Encontrar atributos e dependências
             for stmt in node.body:
-                if isinstance(stmt, ast.AnnAssign) and isinstance(stmt.annotation, ast.Name):
-                    ci.attrs.add(stmt.annotation.id)
+                # Anotações de tipo (type hints)
+                if isinstance(stmt, ast.AnnAssign):
+                    if isinstance(stmt.annotation, ast.Name):
+                        ci.attrs.add(stmt.annotation.id)
+                        ci.dependencies.add(stmt.annotation.id)
+                    elif isinstance(stmt.annotation, ast.Attribute):
+                        ci.attrs.add(stmt.annotation.attr)
+                        ci.dependencies.add(stmt.annotation.attr)
+                    else:
+                        type_name = extract_type_name(stmt.annotation)
+                        if type_name:
+                            ci.dependencies.add(type_name)
+                
+                # Atribuições (composição)
                 elif isinstance(stmt, ast.Assign):
-                    # Tentar detectar: self.x = ClassName(...)
                     for target in stmt.targets:
                         if isinstance(target, ast.Attribute) and isinstance(stmt.value, ast.Call):
                             if isinstance(stmt.value.func, ast.Name):
                                 ci.attrs.add(stmt.value.func.id)
+                                ci.dependencies.add(stmt.value.func.id)
                             elif isinstance(stmt.value.func, ast.Attribute):
                                 ci.attrs.add(stmt.value.func.attr)
+                                ci.dependencies.add(stmt.value.func.attr)
+                
+                # Funções com type hints
+                elif isinstance(stmt, ast.FunctionDef):
+                    # Parâmetros com type hints
+                    for arg in stmt.args.args:
+                        if arg.annotation:
+                            type_name = extract_type_name(arg.annotation)
+                            if type_name:
+                                ci.dependencies.add(type_name)
+                    
+                    # Retorno com type hint
+                    if stmt.returns:
+                        type_name = extract_type_name(stmt.returns)
+                        if type_name:
+                            ci.dependencies.add(type_name)
+                    
+                    # Corpo da função - procurar por referências de tipo
+                    for func_node in ast.walk(stmt):
+                        if isinstance(func_node, ast.Name):
+                            if func_node.id in imports:
+                                # É um import
+                                imported_name = imports[func_node.id]
+                                if '.' in imported_name:
+                                    class_name = imported_name.split('.')[-1]
+                                    ci.dependencies.add(class_name)
+                                else:
+                                    ci.dependencies.add(imported_name)
+            
+            # Procurar por referências de tipo no corpo da classe
+            for class_node in ast.walk(node):
+                if isinstance(class_node, ast.Name):
+                    if class_node.id in imports:
+                        imported_name = imports[class_node.id]
+                        if '.' in imported_name:
+                            class_name = imported_name.split('.')[-1]
+                            ci.dependencies.add(class_name)
+                        else:
+                            ci.dependencies.add(imported_name)
             
             classes.append(ci)
     return classes
@@ -90,6 +179,8 @@ def build_class_map():
             class_map[ci.name] = ci
             module_map[ci.module].append(ci.name)
             print(f"    Classe encontrada: {ci.name} (bases: {ci.bases})")
+            if ci.dependencies:
+                print(f"      Dependências: {ci.dependencies}")
     
     print(f"Total de classes encontradas: {len(class_map)}")
     return class_map, module_map
@@ -112,6 +203,12 @@ def generate_mermaid(class_map, module_map):
             if attr in class_map:
                 lines.append(f"    {cname} --> {attr} : has-a")
     
+    # Dependências (referências de tipo, imports, etc.)
+    for cname, ci in class_map.items():
+        for dep in ci.dependencies:
+            if dep in class_map and dep not in ci.attrs:  # Não duplicar composições
+                lines.append(f"    {cname} ..> {dep} : depends-on")
+    
     # Agrupar por módulo (como comentários)
     lines.append("")
     for module, classes in module_map.items():
@@ -129,6 +226,18 @@ def generate_markdown(class_map, module_map):
     # Estatísticas
     total_classes = len(class_map)
     modules_count = len(module_map)
+    
+    # Contar relacionamentos
+    inheritances = 0
+    compositions = 0
+    dependencies = 0
+    
+    for ci in class_map.values():
+        for base in ci.bases:
+            if base and base != "object" and base in class_map:
+                inheritances += 1
+        compositions += len([attr for attr in ci.attrs if attr in class_map])
+        dependencies += len([dep for dep in ci.dependencies if dep in class_map and dep not in ci.attrs])
     
     # Agrupar classes por módulo para a tabela
     module_details = []
@@ -151,6 +260,9 @@ Este diagrama representa a arquitetura e relacionamentos entre as classes do sis
 **Estatísticas:**
 - **Total de classes:** {total_classes}
 - **Módulos:** {modules_count}
+- **Heranças:** {inheritances}
+- **Composições:** {compositions}
+- **Dependências:** {dependencies}
 
 ## Diagrama de Classes
 
@@ -180,32 +292,52 @@ Este diagrama representa a arquitetura e relacionamentos entre as classes do sis
 """
     
     # Listar heranças
-    inheritances = []
+    inheritances_list = []
     for cname, ci in class_map.items():
         for base in ci.bases:
             if base and base != "object" and base in class_map:
-                inheritances.append(f"- `{cname}` herda de `{base}`")
+                inheritances_list.append(f"- `{cname}` herda de `{base}`")
     
-    if inheritances:
-        markdown_content += "\n".join(inheritances)
+    if inheritances_list:
+        markdown_content += "\n".join(inheritances_list)
     else:
         markdown_content += "- Nenhuma herança encontrada"
     
     markdown_content += "\n\n### Composição\n"
     
     # Listar composições
-    compositions = []
+    compositions_list = []
     for cname, ci in class_map.items():
         for attr in ci.attrs:
             if attr in class_map:
-                compositions.append(f"- `{cname}` contém `{attr}`")
+                compositions_list.append(f"- `{cname}` contém `{attr}`")
     
-    if compositions:
-        markdown_content += "\n".join(compositions)
+    if compositions_list:
+        markdown_content += "\n".join(compositions_list)
     else:
         markdown_content += "- Nenhuma composição encontrada"
     
+    markdown_content += "\n\n### Dependências\n"
+    
+    # Listar dependências
+    dependencies_list = []
+    for cname, ci in class_map.items():
+        for dep in ci.dependencies:
+            if dep in class_map and dep not in ci.attrs:  # Não duplicar composições
+                dependencies_list.append(f"- `{cname}` depende de `{dep}`")
+    
+    if dependencies_list:
+        markdown_content += "\n".join(dependencies_list)
+    else:
+        markdown_content += "- Nenhuma dependência encontrada"
+    
     markdown_content += f"""
+
+## Legenda do Diagrama
+
+- **<|--** : Herança (is-a)
+- **-->** : Composição (has-a)
+- **..>** : Dependência (depends-on)
 
 ## Como Visualizar
 
