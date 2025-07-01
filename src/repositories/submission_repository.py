@@ -4,6 +4,7 @@ Repositório para gerenciar submissões dos alunos.
 from pathlib import Path
 from typing import List, Optional
 from ..domain.models import IndividualSubmission, GroupSubmission, Submission, Turma, SubmissionType, Assignment
+from config import get_assignment_submission_type, is_assignment_configured
 
 
 class SubmissionRepository:
@@ -74,7 +75,7 @@ class SubmissionRepository:
                 for submission_dir in assignment_dir.iterdir():
                     if submission_dir.is_dir():
                         try:
-                            submission_type, identifier = Assignment.parse_submission_identifier(
+                            submission_type, identifier = self._parse_submission_identifier(
                                 assignment_name, submission_dir.name
                             )
                             if submission_type == SubmissionType.INDIVIDUAL:
@@ -92,13 +93,36 @@ class SubmissionRepository:
             group_submissions=list(group_submissions)
         )
     
+    def _parse_submission_identifier(self, assignment_name: str, submission_folder_name: str) -> tuple[SubmissionType, str]:
+        """
+        Extrai o tipo de submissão e identificador a partir do nome da pasta.
+        Usa a configuração do config.py para determinar o tipo de submissão.
+        """
+        # Remove o prefixo do assignment para obter o sufixo
+        prefix = f"{assignment_name}-"
+        if not submission_folder_name.startswith(prefix):
+            raise ValueError(f"Nome da pasta '{submission_folder_name}' não corresponde ao assignment '{assignment_name}'")
+        
+        suffix = submission_folder_name[len(prefix):]
+        
+        # Usa a configuração do config.py para determinar o tipo
+        if is_assignment_configured(assignment_name):
+            submission_type = get_assignment_submission_type(assignment_name)
+            return submission_type, suffix
+        else:
+            # Fallback: tenta adivinhar baseado no nome (lógica antiga)
+            if ' ' in suffix or suffix.count('-') > 1:
+                return SubmissionType.GROUP, suffix
+            else:
+                return SubmissionType.INDIVIDUAL, suffix
+    
     def _load_submission(self, submission_path: Path, turma_name: str, assignment_name: str) -> Optional[Submission]:
         """Carrega uma submissão a partir do diretório."""
         submission_folder_name = submission_path.name
         
         # Determina o tipo de submissão e extrai o identificador
         try:
-            submission_type, identifier = Assignment.parse_submission_identifier(
+            submission_type, identifier = self._parse_submission_identifier(
                 assignment_name, submission_folder_name
             )
         except ValueError:
