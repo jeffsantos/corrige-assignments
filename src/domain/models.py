@@ -202,4 +202,105 @@ class CorrectionReport:
     def save_to_file(self, filepath: Path) -> None:
         """Salva o relatório em arquivo JSON."""
         with open(filepath, 'w', encoding='utf-8') as f:
-            json.dump(self.to_dict(), f, indent=2, ensure_ascii=False) 
+            json.dump(self.to_dict(), f, indent=2, ensure_ascii=False)
+    
+    @classmethod
+    def load_from_file(cls, filepath: Path) -> 'CorrectionReport':
+        """Carrega o relatório de um arquivo JSON."""
+        with open(filepath, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        # Reconstrói as submissões
+        submissions = []
+        for sub_data in data.get('submissions', []):
+            if sub_data['submission_type'] == 'individual':
+                submission = IndividualSubmission(
+                    github_login=sub_data['identifier'],
+                    assignment_name=data['assignment_name'],
+                    turma=data['turma'],
+                    submission_path=Path(),  # Não é necessário para conversão
+                    final_score=sub_data['final_score'],
+                    feedback=sub_data['feedback']
+                )
+                
+                # Reconstrói análise de código se existir
+                if sub_data.get('code_analysis'):
+                    code_analysis = CodeAnalysis(
+                        score=sub_data['code_analysis']['score'],
+                        comments=sub_data['code_analysis'].get('comments', []),
+                        suggestions=sub_data['code_analysis'].get('suggestions', []),
+                        issues_found=sub_data['code_analysis'].get('issues_found', [])
+                    )
+                    submission.code_analysis = code_analysis
+                
+                # Reconstrói análise HTML se existir
+                if sub_data.get('html_analysis'):
+                    html_analysis = HTMLAnalysis(
+                        score=sub_data['html_analysis']['score'],
+                        required_elements=sub_data['html_analysis'].get('required_elements', {}),
+                        comments=sub_data['html_analysis'].get('comments', []),
+                        suggestions=sub_data['html_analysis'].get('suggestions', []),
+                        issues_found=sub_data['html_analysis'].get('issues_found', [])
+                    )
+                    submission.html_analysis = html_analysis
+                
+                # Reconstrói resultados de testes
+                for test_data in sub_data.get('test_results', []):
+                    test_result = TestExecution(
+                        test_name=test_data['test_name'],
+                        result=TestResult(test_data['result']),
+                        message=test_data.get('message', '')
+                    )
+                    submission.test_results.append(test_result)
+                
+                submissions.append(submission)
+            
+            else:  # group submission
+                submission = GroupSubmission(
+                    group_name=sub_data['identifier'],
+                    assignment_name=data['assignment_name'],
+                    turma=data['turma'],
+                    submission_path=Path(),  # Não é necessário para conversão
+                    final_score=sub_data['final_score'],
+                    feedback=sub_data['feedback']
+                )
+                
+                # Reconstrói análise de código se existir
+                if sub_data.get('code_analysis'):
+                    code_analysis = CodeAnalysis(
+                        score=sub_data['code_analysis']['score'],
+                        comments=sub_data['code_analysis'].get('comments', []),
+                        suggestions=sub_data['code_analysis'].get('suggestions', []),
+                        issues_found=sub_data['code_analysis'].get('issues_found', [])
+                    )
+                    submission.code_analysis = code_analysis
+                
+                # Reconstrói análise HTML se existir
+                if sub_data.get('html_analysis'):
+                    html_analysis = HTMLAnalysis(
+                        score=sub_data['html_analysis']['score'],
+                        required_elements=sub_data['html_analysis'].get('required_elements', {}),
+                        comments=sub_data['html_analysis'].get('comments', []),
+                        suggestions=sub_data['html_analysis'].get('suggestions', []),
+                        issues_found=sub_data['html_analysis'].get('issues_found', [])
+                    )
+                    submission.html_analysis = html_analysis
+                
+                # Reconstrói resultados de testes
+                for test_data in sub_data.get('test_results', []):
+                    test_result = TestExecution(
+                        test_name=test_data['test_name'],
+                        result=TestResult(test_data['result']),
+                        message=test_data.get('message', '')
+                    )
+                    submission.test_results.append(test_result)
+                
+                submissions.append(submission)
+        
+        return cls(
+            assignment_name=data['assignment_name'],
+            turma=data['turma'],
+            submissions=submissions,
+            summary=data.get('summary', {}),
+            generated_at=data.get('generated_at', '')
+        ) 

@@ -68,6 +68,24 @@ def run_example():
     # Comentar para não executar automaticamente
     # cli(["correct", "--turma", "ebape-prog-aplic-barra-2025"])
     
+    # Exemplo 5: Converter relatório JSON existente para HTML
+    print("\n📝 Exemplo 5: Converter relatório JSON existente para HTML")
+    print("-" * 50)
+    print("Gera um relatório HTML a partir de um JSON já existente, sem rodar a correção novamente.")
+    print("Comando:")
+    print("  python -m src.main convert-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --format html")
+    # Comentar para não executar automaticamente
+    # cli(["convert-report", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025", "--format", "html"])
+
+    # Exemplo 6: Converter o relatório JSON mais recente para Markdown
+    print("\n📝 Exemplo 6: Converter o relatório JSON mais recente para Markdown")
+    print("-" * 50)
+    print("Gera um relatório Markdown a partir do JSON mais recente no diretório de relatórios.")
+    print("Comando:")
+    print("  python -m src.main convert-latest --format markdown")
+    # Comentar para não executar automaticamente
+    # cli(["convert-latest", "--format", "markdown"])
+    
     print("\n✅ Exemplos demonstrados!")
     print("\n💡 Para executar os exemplos, descomente as linhas correspondentes no código.")
     print("💡 Para mais opções, execute: python -m src.main --help")

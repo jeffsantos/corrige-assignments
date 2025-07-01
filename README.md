@@ -142,10 +142,22 @@ python -m src.main correct --turma ebape-prog-aplic-barra-2025 --all-assignments
 # Exemplo 5: Relatório em HTML
 python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --output-format html
 
-# Exemplo 6: Ver assignments disponíveis
+# Exemplo 6: Converter relatório JSON existente para HTML
+python -m src.main convert-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --format html
+
+# Exemplo 7: Converter relatório JSON existente para Markdown
+python -m src.main convert-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --format markdown
+
+# Exemplo 8: Converter o relatório JSON mais recente para HTML
+python -m src.main convert-latest --format html
+
+# Exemplo 9: Converter o relatório JSON mais recente para Markdown
+python -m src.main convert-latest --format markdown
+
+# Exemplo 10: Ver assignments disponíveis
 python -m src.main list-assignments
 
-# Exemplo 7: Ver submissões de uma turma
+# Exemplo 11: Ver submissões de uma turma
 python -m src.main list-submissions --turma ebape-prog-aplic-barra-2025
 ```
 
@@ -395,3 +407,23 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 - OpenAI pela API GPT
 - pytest pela framework de testes
 - Comunidade Python pelos recursos utilizados 
+
+### Conversão de Relatórios JSON para HTML/Markdown
+
+Após gerar um relatório JSON com o comando `correct`, você pode convertê-lo para HTML ou Markdown sem precisar rodar a correção novamente:
+
+```bash
+# Converter um relatório específico para HTML
+python -m src.main convert-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --format html
+
+# Converter um relatório específico para Markdown
+python -m src.main convert-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --format markdown
+
+# Converter o relatório JSON mais recente para HTML
+python -m src.main convert-latest --format html
+
+# Converter o relatório JSON mais recente para Markdown
+python -m src.main convert-latest --format markdown
+```
+
+Os arquivos convertidos serão salvos no diretório de relatórios (`reports/` por padrão). 

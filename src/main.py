@@ -242,5 +242,130 @@ def list_submissions(turma):
         sys.exit(1)
 
 
+@cli.command()
+@click.option('--assignment', '-a', required=True, help='Nome do assignment')
+@click.option('--turma', '-t', required=True, help='Nome da turma')
+@click.option('--format', '-f', type=click.Choice(['html', 'markdown']), required=True, 
+              help='Formato de saída (html ou markdown)')
+@click.option('--input-dir', '-i', default='reports', help='Diretório com os relatórios JSON')
+@click.option('--output-dir', '-o', default='reports', help='Diretório para salvar relatórios convertidos')
+def convert_report(assignment, turma, format, input_dir, output_dir):
+    """Converte um relatório JSON existente para HTML ou Markdown."""
+    try:
+        base_path = Path(__file__).parent.parent
+        input_path = Path(input_dir)
+        output_path = Path(output_dir)
+        
+        # Verifica se o diretório de entrada existe
+        if not input_path.exists():
+            console.print(f"[red]Erro: Diretório de entrada '{input_dir}' não encontrado[/red]")
+            sys.exit(1)
+        
+        # Cria diretório de saída se não existir
+        output_path.mkdir(exist_ok=True)
+        
+        # Nome do arquivo JSON
+        json_filename = f"{assignment}_{turma}.json"
+        json_path = input_path / json_filename
+        
+        if not json_path.exists():
+            console.print(f"[red]Erro: Relatório JSON não encontrado: {json_path}[/red]")
+            console.print(f"[yellow]Dica: Execute primeiro o comando 'correct' para gerar o relatório JSON[/yellow]")
+            sys.exit(1)
+        
+        # Carrega o relatório JSON
+        console.print(Panel(f"[bold blue]Convertendo relatório {assignment} da turma {turma}[/bold blue]"))
+        
+        from src.domain.models import CorrectionReport
+        report = CorrectionReport.load_from_file(json_path)
+        
+        # Inicializa o gerador de relatórios
+        from src.utils.report_generator import ReportGenerator
+        report_generator = ReportGenerator()
+        
+        # Converte para o formato solicitado
+        if format == 'html':
+            output_filename = f"{assignment}_{turma}.html"
+            output_file = output_path / output_filename
+            report_generator.generate_html_report(report, output_file)
+            console.print(f"[green]Relatório HTML salvo: {output_file}[/green]")
+        
+        elif format == 'markdown':
+            output_filename = f"{assignment}_{turma}.md"
+            output_file = output_path / output_filename
+            report_generator.generate_markdown_report(report, output_file)
+            console.print(f"[green]Relatório Markdown salvo: {output_file}[/green]")
+        
+        console.print(f"[bold green]✅ Conversão concluída![/bold green]")
+    
+    except Exception as e:
+        console.print(f"[red]Erro durante a conversão: {str(e)}[/red]")
+        sys.exit(1)
+
+
+@cli.command()
+@click.option('--format', '-f', type=click.Choice(['html', 'markdown']), required=True, 
+              help='Formato de saída (html ou markdown)')
+@click.option('--input-dir', '-i', default='reports', help='Diretório com os relatórios JSON')
+@click.option('--output-dir', '-o', default='reports', help='Diretório para salvar relatórios convertidos')
+def convert_latest(format, input_dir, output_dir):
+    """Converte o relatório JSON mais recente para HTML ou Markdown."""
+    try:
+        base_path = Path(__file__).parent.parent
+        input_path = Path(input_dir)
+        output_path = Path(output_dir)
+        
+        # Verifica se o diretório de entrada existe
+        if not input_path.exists():
+            console.print(f"[red]Erro: Diretório de entrada '{input_dir}' não encontrado[/red]")
+            sys.exit(1)
+        
+        # Cria diretório de saída se não existir
+        output_path.mkdir(exist_ok=True)
+        
+        # Encontra o arquivo JSON mais recente
+        json_files = list(input_path.glob("*.json"))
+        
+        if not json_files:
+            console.print(f"[red]Erro: Nenhum relatório JSON encontrado em '{input_dir}'[/red]")
+            console.print(f"[yellow]Dica: Execute primeiro o comando 'correct' para gerar relatórios JSON[/yellow]")
+            sys.exit(1)
+        
+        # Ordena por data de modificação (mais recente primeiro)
+        latest_json = max(json_files, key=lambda f: f.stat().st_mtime)
+        
+        console.print(Panel(f"[bold blue]Convertendo relatório mais recente: {latest_json.name}[/bold blue]"))
+        
+        # Carrega o relatório JSON
+        from src.domain.models import CorrectionReport
+        report = CorrectionReport.load_from_file(latest_json)
+        
+        # Inicializa o gerador de relatórios
+        from src.utils.report_generator import ReportGenerator
+        report_generator = ReportGenerator()
+        
+        # Extrai nome base do arquivo (sem extensão)
+        base_name = latest_json.stem
+        
+        # Converte para o formato solicitado
+        if format == 'html':
+            output_filename = f"{base_name}.html"
+            output_file = output_path / output_filename
+            report_generator.generate_html_report(report, output_file)
+            console.print(f"[green]Relatório HTML salvo: {output_file}[/green]")
+        
+        elif format == 'markdown':
+            output_filename = f"{base_name}.md"
+            output_file = output_path / output_filename
+            report_generator.generate_markdown_report(report, output_file)
+            console.print(f"[green]Relatório Markdown salvo: {output_file}[/green]")
+        
+        console.print(f"[bold green]✅ Conversão concluída![/bold green]")
+    
+    except Exception as e:
+        console.print(f"[red]Erro durante a conversão: {str(e)}[/red]")
+        sys.exit(1)
+
+
 if __name__ == "__main__":
     cli() 
