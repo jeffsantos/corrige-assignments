@@ -86,9 +86,26 @@ def run_example():
     # Comentar para não executar automaticamente
     # cli(["convert-latest", "--format", "markdown"])
     
+    # Exemplo 7: Verificar logs de auditoria da IA
+    print("\n📝 Exemplo 7: Logs de Auditoria da IA")
+    print("-" * 50)
+    print("O sistema gera logs detalhados de todas as análises da IA.")
+    print("Localização: logs/YYYY-MM-DD/assignment-name/")
+    print("Conteúdo: Prompt, resposta raw da IA, resultado processado")
+    print("Formato: JSON com metadados completos")
+    
+    # Exemplo 8: Gerar diagrama UML da arquitetura
+    print("\n📝 Exemplo 8: Gerar Diagrama UML da Arquitetura")
+    print("-" * 50)
+    print("Gera um diagrama UML completo da arquitetura do sistema.")
+    print("Comando:")
+    print("  python tools/generate_mermaid_uml.py")
+    print("Saída: diagrama_uml.md com diagrama Mermaid")
+    
     print("\n✅ Exemplos demonstrados!")
     print("\n💡 Para executar os exemplos, descomente as linhas correspondentes no código.")
     print("💡 Para mais opções, execute: python -m src.main --help")
+    print("💡 Para ver a arquitetura: python tools/generate_mermaid_uml.py")
 
 if __name__ == "__main__":
     run_example() 

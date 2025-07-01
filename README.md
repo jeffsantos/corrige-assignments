@@ -7,10 +7,12 @@ Sistema inteligente para correção automática de assignments de programação 
 - 🤖 **Análise de IA específica por assignment** - Prompts personalizados para cada atividade
 - 📋 **Leitura automática de README.md** - Considera descrições e requisitos específicos
 - 🏗️ **Análise de estrutura de enunciados** - Avalia se o aluno seguiu a estrutura fornecida
-- 🧪 **Execução de testes detalhada** - Resultados por função com tempos de execução
+- 🧪 **Execução de testes detalhada** - Resultados por função com tempos de execução (PytestExecutor)
 - 📊 **Relatórios em múltiplos formatos** - Console, HTML, Markdown e JSON
 - 🔧 **Configuração flexível** - API key automática ou manual
 - 🎯 **Critérios específicos** - Avaliação baseada nos requisitos de cada assignment
+- 👥 **Suporte a submissões individuais e em grupo** - Configuração por assignment
+- 📝 **Logs de auditoria da IA** - Registro completo das análises para transparência
 
 ## 🚀 Instalação
 
@@ -51,6 +53,22 @@ mkdir -p ~/.secrets
 echo "sua-chave-aqui" > ~/.secrets/open-ai-api-key.txt
 ```
 
+### Configuração de Tipos de Submissão
+
+O sistema suporta submissões individuais e em grupo, configuradas por assignment no arquivo `config.py`:
+
+```python
+# config.py
+ASSIGNMENT_SUBMISSION_TYPES = {
+    # Assignments individuais
+    "prog1-tarefa-html-curriculo": SubmissionType.INDIVIDUAL,
+    "prog1-tarefa-scrap-simples": SubmissionType.INDIVIDUAL,
+    
+    # Assignments em grupo
+    "prog1-prova-av": SubmissionType.GROUP,
+}
+```
+
 ## 📁 Estrutura do Projeto
 
 ```
@@ -74,12 +92,14 @@ corrige-assignments/
 │           └── aluno-nome/
 ├── reports/                       # Relatórios gerados
 ├── logs/                          # Logs de auditoria da IA (não versionados)
+│   └── YYYY-MM-DD/               # Logs organizados por data
+│       └── assignment-name/      # Logs por assignment
 ├── src/                          # Código fonte
 │   ├── services/
 │   │   ├── ai_analyzer.py        # Análise de IA
 │   │   ├── prompt_manager.py     # Gerenciador de prompts
 │   │   ├── correction_service.py # Serviço principal
-│   │   └── test_executor.py      # Execução de testes
+│   │   └── test_executor.py      # Execução de testes (PytestExecutor)
 │   └── ...
 └── example_usage.py              # Exemplos de uso
 ```
@@ -184,6 +204,15 @@ O sistema suporta prompts personalizados para cada assignment:
 2. **Template Padrão**: Se não existir prompt personalizado, usa template baseado no tipo (Python/HTML)
 3. **Leitura Automática**: Lê README.md e estrutura de arquivos do enunciado
 4. **Versionamento**: Os prompts ficam na pasta `prompts/` (versionada) separada dos enunciados
+
+### Logs de Auditoria da IA
+
+O sistema gera logs detalhados de todas as análises da IA para transparência e auditoria:
+
+- **Localização**: `logs/YYYY-MM-DD/assignment-name/`
+- **Conteúdo**: Prompt enviado, resposta raw da IA, resultado processado
+- **Formato**: JSON com metadados completos
+- **Uso**: Para verificar consistência das análises e debug de problemas
 
 ### Exemplo de Prompt Personalizado
 
