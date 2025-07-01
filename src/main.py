@@ -190,9 +190,12 @@ def list_turmas():
         console.print(Panel("[bold blue]Turmas Disponíveis[/bold blue]"))
         
         for turma in turmas:
+            total_submissions = len(turma.individual_submissions) + len(turma.group_submissions)
             console.print(f"[cyan]{turma.name}[/cyan]")
             console.print(f"  Assignments: {len(turma.assignments)}")
-            console.print(f"  Alunos: {len(turma.students)}")
+            console.print(f"  Submissões individuais: {len(turma.individual_submissions)}")
+            console.print(f"  Submissões em grupo: {len(turma.group_submissions)}")
+            console.print(f"  Total de submissões: {total_submissions}")
             console.print()
     
     except Exception as e:
