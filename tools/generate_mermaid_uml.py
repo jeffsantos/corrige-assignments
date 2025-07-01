@@ -186,13 +186,38 @@ def build_class_map():
     return class_map, module_map
 
 
+def get_package_name(module_path):
+    """Extrai o nome do pacote a partir do caminho do módulo."""
+    # Remove 'src/' do início
+    if module_path.startswith('src/'):
+        module_path = module_path[4:]
+    
+    # Se tem subdiretórios, pega o primeiro (ex: domain/models.py -> domain)
+    if '/' in module_path:
+        return module_path.split('/')[0]
+    else:
+        return 'root'
+
+
 def generate_mermaid(class_map, module_map):
-    """Gera diagrama Mermaid."""
+    """Gera diagrama Mermaid com pacotes."""
     lines = ["classDiagram"]
     
-    # Classes e herança
+    # Agrupar classes por pacote
+    packages = defaultdict(list)
+    for module, classes in module_map.items():
+        package = get_package_name(module)
+        packages[package].extend(classes)
+    
+    # Definir pacotes
+    for package_name, classes in packages.items():
+        lines.append(f"    package {package_name} {{")
+        for class_name in sorted(classes):
+            lines.append(f"        class {class_name}")
+        lines.append("    }")
+    
+    # Herança
     for cname, ci in class_map.items():
-        lines.append(f"    class {cname}")
         for base in ci.bases:
             if base and base != "object" and base in class_map:
                 lines.append(f"    {base} <|-- {cname}")
@@ -208,13 +233,6 @@ def generate_mermaid(class_map, module_map):
         for dep in ci.dependencies:
             if dep in class_map and dep not in ci.attrs:  # Não duplicar composições
                 lines.append(f"    {cname} ..> {dep} : depends-on")
-    
-    # Agrupar por módulo (como comentários)
-    lines.append("")
-    for module, classes in module_map.items():
-        lines.append(f"%% Module: {module}")
-        for cname in classes:
-            lines.append(f"%%   - {cname}")
     
     return "\n".join(lines)
 
@@ -249,6 +267,14 @@ def generate_markdown(class_map, module_map):
         })
     module_details.sort(key=lambda x: x['module'])
     
+    # Agrupar por pacotes para estatísticas
+    packages = defaultdict(list)
+    for module, classes in module_map.items():
+        package = get_package_name(module)
+        packages[package].extend(classes)
+    
+    packages_count = len(packages)
+    
     markdown_content = f"""# Diagrama UML - Sistema de Correção Automática
 
 > Gerado automaticamente em {datetime.now().strftime('%d/%m/%Y às %H:%M:%S')}
@@ -260,6 +286,7 @@ Este diagrama representa a arquitetura e relacionamentos entre as classes do sis
 **Estatísticas:**
 - **Total de classes:** {total_classes}
 - **Módulos:** {modules_count}
+- **Pacotes:** {packages_count}
 - **Heranças:** {inheritances}
 - **Composições:** {compositions}
 - **Dependências:** {dependencies}
@@ -269,6 +296,21 @@ Este diagrama representa a arquitetura e relacionamentos entre as classes do sis
 ```mermaid
 {mermaid_diagram}
 ```
+
+## Estrutura por Pacote
+
+"""
+    
+    # Adicionar tabela de pacotes
+    markdown_content += "| Pacote | Classes | Quantidade |\n"
+    markdown_content += "|--------|---------|------------|\n"
+    
+    for package_name, classes in sorted(packages.items()):
+        classes_list = ', '.join(sorted(classes))
+        count = len(classes)
+        markdown_content += f"| `{package_name}` | {classes_list} | {count} |\n"
+    
+    markdown_content += f"""
 
 ## Estrutura por Módulo
 
@@ -338,6 +380,7 @@ Este diagrama representa a arquitetura e relacionamentos entre as classes do sis
 - **<|--** : Herança (is-a)
 - **-->** : Composição (has-a)
 - **..>** : Dependência (depends-on)
+- **package** : Agrupamento de classes por pacote/módulo
 
 ## Como Visualizar
 
