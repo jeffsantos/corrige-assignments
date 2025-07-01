@@ -209,9 +209,9 @@ def generate_mermaid(class_map, module_map):
         package = get_package_name(module)
         packages[package].extend(classes)
     
-    # Definir pacotes
+    # Definir pacotes usando namespace
     for package_name, classes in packages.items():
-        lines.append(f"    package {package_name} {{")
+        lines.append(f"    namespace {package_name} {{")
         for class_name in sorted(classes):
             lines.append(f"        class {class_name}")
         lines.append("    }")
