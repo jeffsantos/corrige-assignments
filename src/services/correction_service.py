@@ -5,7 +5,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import List, Optional
 from ..domain.models import (
-    StudentSubmission, Assignment, CorrectionReport, 
+    IndividualSubmission, GroupSubmission, Submission, Assignment, CorrectionReport, 
     AssignmentType, TestResult
 )
 from ..repositories.assignment_repository import AssignmentRepository
@@ -24,7 +24,7 @@ class CorrectionService:
         self.ai_analyzer = AIAnalyzer(openai_api_key, enunciados_path)
     
     def correct_assignment(self, assignment_name: str, turma_name: str, 
-                          student_name: Optional[str] = None) -> CorrectionReport:
+                          submission_identifier: Optional[str] = None) -> CorrectionReport:
         """Corrige um assignment específico."""
         # Carrega o assignment
         assignment = self.assignment_repo.get_assignment(assignment_name)
@@ -32,8 +32,8 @@ class CorrectionService:
             raise ValueError(f"Assignment '{assignment_name}' não encontrado")
         
         # Carrega as submissões
-        if student_name:
-            submissions = [self.submission_repo.get_submission(turma_name, assignment_name, student_name)]
+        if submission_identifier:
+            submissions = [self.submission_repo.get_submission(turma_name, assignment_name, submission_identifier)]
             submissions = [s for s in submissions if s is not None]
         else:
             submissions = self.submission_repo.get_submissions_for_assignment(turma_name, assignment_name)
@@ -76,9 +76,9 @@ class CorrectionService:
         
         return reports
     
-    def _process_submission(self, submission: StudentSubmission, assignment: Assignment):
-        """Processa uma submissão individual."""
-        print(f"Processando submissão de {submission.student_name}...")
+    def _process_submission(self, submission: Submission, assignment: Assignment):
+        """Processa uma submissão."""
+        print(f"Processando submissão de {submission.display_name}...")
         
         # Executa testes se for assignment Python
         if assignment.type == AssignmentType.PYTHON and assignment.test_files:
@@ -105,14 +105,14 @@ class CorrectionService:
         # Gera feedback
         submission.feedback = self._generate_feedback(submission, assignment)
     
-    def _calculate_final_score(self, submission: StudentSubmission, assignment: Assignment) -> float:
+    def _calculate_final_score(self, submission: Submission, assignment: Assignment) -> float:
         """Calcula a nota final baseada nos critérios da rubrica."""
         if assignment.type == AssignmentType.PYTHON:
             return self._calculate_python_score(submission, assignment)
         else:
             return self._calculate_html_score(submission, assignment)
     
-    def _calculate_python_score(self, submission: StudentSubmission, assignment: Assignment) -> float:
+    def _calculate_python_score(self, submission: Submission, assignment: Assignment) -> float:
         """Calcula nota para assignments Python."""
         rubric = assignment.rubric
         
@@ -134,13 +134,13 @@ class CorrectionService:
         
         return min(10.0, max(0.0, final_score))
     
-    def _calculate_html_score(self, submission: StudentSubmission, assignment: Assignment) -> float:
+    def _calculate_html_score(self, submission: Submission, assignment: Assignment) -> float:
         """Calcula nota para assignments HTML."""
         if submission.html_analysis:
             return submission.html_analysis.score
         return 0.0
     
-    def _generate_feedback(self, submission: StudentSubmission, assignment: Assignment) -> str:
+    def _generate_feedback(self, submission: Submission, assignment: Assignment) -> str:
         """Gera feedback personalizado para o aluno."""
         feedback_parts = []
         
@@ -179,7 +179,7 @@ class CorrectionService:
         
         return "\n".join(feedback_parts)
     
-    def _calculate_summary(self, submissions: List[StudentSubmission]) -> dict:
+    def _calculate_summary(self, submissions: List[Submission]) -> dict:
         """Calcula estatísticas resumidas das submissões."""
         if not submissions:
             return {}

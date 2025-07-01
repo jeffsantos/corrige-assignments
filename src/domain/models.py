@@ -2,16 +2,23 @@
 Modelos de domínio para o sistema de correção automática.
 """
 from dataclasses import dataclass, field
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Optional, Any, Union
 from enum import Enum
 from pathlib import Path
 import json
+import re
 
 
 class AssignmentType(Enum):
     """Tipos de assignment suportados."""
     PYTHON = "python"
     HTML = "html"
+
+
+class SubmissionType(Enum):
+    """Tipos de submissão."""
+    INDIVIDUAL = "individual"
+    GROUP = "group"
 
 
 class TestResult(Enum):
@@ -51,9 +58,9 @@ class HTMLAnalysis:
 
 
 @dataclass
-class StudentSubmission:
-    """Submissão de um aluno."""
-    student_name: str
+class IndividualSubmission:
+    """Submissão individual de um aluno."""
+    github_login: str  # Login do aluno no GitHub
     assignment_name: str
     turma: str
     submission_path: Path
@@ -63,6 +70,35 @@ class StudentSubmission:
     html_analysis: Optional[HTMLAnalysis] = None
     final_score: float = 0.0
     feedback: str = ""
+    
+    @property
+    def display_name(self) -> str:
+        """Nome para exibição da submissão."""
+        return f"{self.github_login} (individual)"
+
+
+@dataclass
+class GroupSubmission:
+    """Submissão em grupo."""
+    group_name: str  # Nome do grupo no GitHub
+    assignment_name: str
+    turma: str
+    submission_path: Path
+    files: List[str] = field(default_factory=list)
+    test_results: List[TestExecution] = field(default_factory=list)
+    code_analysis: Optional[CodeAnalysis] = None
+    html_analysis: Optional[HTMLAnalysis] = None
+    final_score: float = 0.0
+    feedback: str = ""
+    
+    @property
+    def display_name(self) -> str:
+        """Nome para exibição da submissão."""
+        return f"{self.group_name} (grupo)"
+
+
+# Tipo união para representar qualquer tipo de submissão
+Submission = Union[IndividualSubmission, GroupSubmission]
 
 
 @dataclass
@@ -70,11 +106,39 @@ class Assignment:
     """Definição de um assignment."""
     name: str
     type: AssignmentType
+    submission_type: SubmissionType  # Novo campo
     description: str
     requirements: List[str] = field(default_factory=list)
     test_files: List[str] = field(default_factory=list)
     rubric: Dict[str, float] = field(default_factory=dict)
     path: Path = field(default_factory=Path)
+    
+    @classmethod
+    def parse_submission_identifier(cls, assignment_name: str, submission_folder_name: str) -> tuple[SubmissionType, str]:
+        """
+        Extrai o tipo de submissão e identificador a partir do nome da pasta.
+        
+        Args:
+            assignment_name: Nome do assignment (ex: 'prog1-tarefa-html-curriculo')
+            submission_folder_name: Nome da pasta da submissão (ex: 'prog1-tarefa-html-curriculo-anaclaravtoledo')
+        
+        Returns:
+            Tuple com (SubmissionType, identificador)
+        """
+        # Remove o prefixo do assignment para obter o sufixo
+        prefix = f"{assignment_name}-"
+        if not submission_folder_name.startswith(prefix):
+            raise ValueError(f"Nome da pasta '{submission_folder_name}' não corresponde ao assignment '{assignment_name}'")
+        
+        suffix = submission_folder_name[len(prefix):]
+        
+        # Verifica se é submissão individual (padrão: apenas login do GitHub)
+        # Login do GitHub geralmente não contém espaços ou hífens múltiplos
+        if re.match(r'^[a-zA-Z0-9_-]+$', suffix) and ' ' not in suffix:
+            return SubmissionType.INDIVIDUAL, suffix
+        
+        # Se contém espaços ou hífens múltiplos, é submissão em grupo
+        return SubmissionType.GROUP, suffix
 
 
 @dataclass
@@ -82,7 +146,8 @@ class Turma:
     """Representa uma turma."""
     name: str
     assignments: List[str] = field(default_factory=list)
-    students: List[str] = field(default_factory=list)
+    individual_submissions: List[str] = field(default_factory=list)  # Logins individuais
+    group_submissions: List[str] = field(default_factory=list)  # Nomes de grupos
 
 
 @dataclass
@@ -90,7 +155,7 @@ class CorrectionReport:
     """Relatório de correção."""
     assignment_name: str
     turma: str
-    submissions: List[StudentSubmission] = field(default_factory=list)
+    submissions: List[Submission] = field(default_factory=list)
     summary: Dict[str, Any] = field(default_factory=dict)
     generated_at: str = ""
     
@@ -103,7 +168,9 @@ class CorrectionReport:
             "summary": self.summary,
             "submissions": [
                 {
-                    "student_name": sub.student_name,
+                    "submission_type": "individual" if isinstance(sub, IndividualSubmission) else "group",
+                    "identifier": sub.github_login if isinstance(sub, IndividualSubmission) else sub.group_name,
+                    "display_name": sub.display_name,
                     "final_score": sub.final_score,
                     "feedback": sub.feedback,
                     "test_results": [

@@ -4,7 +4,8 @@ Repositório para gerenciar assignments e suas definições.
 from pathlib import Path
 from typing import List, Optional
 import re
-from ..domain.models import Assignment, AssignmentType
+from ..domain.models import Assignment, AssignmentType, SubmissionType
+from config import get_assignment_submission_type, is_assignment_configured
 
 
 class AssignmentRepository:
@@ -42,6 +43,9 @@ class AssignmentRepository:
         # Determina o tipo do assignment baseado no nome
         assignment_type = self._determine_assignment_type(assignment_path.name)
         
+        # Determina o tipo de submissão baseado na configuração
+        submission_type = self._determine_submission_type(assignment_path.name)
+        
         # Lê o README para extrair informações
         description, requirements = self._parse_readme(readme_path)
         
@@ -54,6 +58,7 @@ class AssignmentRepository:
         return Assignment(
             name=assignment_path.name,
             type=assignment_type,
+            submission_type=submission_type,
             description=description,
             requirements=requirements,
             test_files=test_files,
@@ -67,6 +72,17 @@ class AssignmentRepository:
             return AssignmentType.HTML
         else:
             return AssignmentType.PYTHON
+    
+    def _determine_submission_type(self, assignment_name: str) -> SubmissionType:
+        """Determina o tipo de submissão baseado na configuração."""
+        if is_assignment_configured(assignment_name):
+            return get_assignment_submission_type(assignment_name)
+        else:
+            # Fallback: tenta inferir baseado no nome
+            if "prova" in assignment_name.lower() or "final" in assignment_name.lower():
+                return SubmissionType.GROUP
+            else:
+                return SubmissionType.INDIVIDUAL
     
     def _parse_readme(self, readme_path: Path) -> tuple[str, List[str]]:
         """Extrai descrição e requisitos do README."""

@@ -3,6 +3,8 @@ Configurações do sistema de correção automática.
 """
 import os
 from pathlib import Path
+from typing import Dict
+from src.domain.models import SubmissionType
 
 # Caminhos base
 BASE_DIR = Path(__file__).parent
@@ -52,4 +54,46 @@ TEST_FILE_PATTERNS = ["test_*.py", "*_test.py", "tests/"]
 
 # Configurações de logging
 LOG_LEVEL = "INFO"
-LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s" 
+LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Configuração do tipo de submissão para cada assignment
+ASSIGNMENT_SUBMISSION_TYPES: Dict[str, SubmissionType] = {
+    # Assignments individuais
+    "prog1-tarefa-html-curriculo": SubmissionType.INDIVIDUAL,
+    "prog1-tarefa-html-tutorial": SubmissionType.INDIVIDUAL,
+    "prog1-tarefa-scrap-simples": SubmissionType.INDIVIDUAL,
+    "prog1-tarefa-scrap-yahoo": SubmissionType.INDIVIDUAL,
+    
+    # Assignments em grupo
+    "prog1-prova-av": SubmissionType.GROUP,
+}
+
+def get_assignment_submission_type(assignment_name: str) -> SubmissionType:
+    """
+    Retorna o tipo de submissão para um assignment específico.
+    
+    Args:
+        assignment_name: Nome do assignment
+        
+    Returns:
+        SubmissionType.INDIVIDUAL ou SubmissionType.GROUP
+        
+    Raises:
+        KeyError: Se o assignment não estiver configurado
+    """
+    if assignment_name not in ASSIGNMENT_SUBMISSION_TYPES:
+        raise KeyError(f"Assignment '{assignment_name}' não configurado em ASSIGNMENT_SUBMISSION_TYPES")
+    
+    return ASSIGNMENT_SUBMISSION_TYPES[assignment_name]
+
+def is_assignment_configured(assignment_name: str) -> bool:
+    """
+    Verifica se um assignment está configurado.
+    
+    Args:
+        assignment_name: Nome do assignment
+        
+    Returns:
+        True se o assignment estiver configurado, False caso contrário
+    """
+    return assignment_name in ASSIGNMENT_SUBMISSION_TYPES 

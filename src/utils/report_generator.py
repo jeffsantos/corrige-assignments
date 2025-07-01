@@ -7,7 +7,7 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 from rich.text import Text
-from ..domain.models import CorrectionReport, StudentSubmission
+from ..domain.models import CorrectionReport, Submission
 
 
 class ReportGenerator:
@@ -43,8 +43,8 @@ class ReportGenerator:
             self.console.print(summary_table)
         
         # Tabela de resultados
-        results_table = Table(title="📋 Resultados por Aluno")
-        results_table.add_column("Aluno", style="cyan")
+        results_table = Table(title="📋 Resultados por Submissão")
+        results_table.add_column("Submissão", style="cyan")
         results_table.add_column("Nota Final", style="green")
         results_table.add_column("Status", style="yellow")
         results_table.add_column("Testes", style="blue")
@@ -68,7 +68,7 @@ class ReportGenerator:
                 test_info = f"{passed}/{total}"
             
             results_table.add_row(
-                submission.student_name,
+                submission.display_name,
                 f"{submission.final_score:.1f}",
                 status,
                 test_info
@@ -76,18 +76,18 @@ class ReportGenerator:
         
         self.console.print(results_table)
         
-        # Detalhes por aluno
-        self.console.print("\n[bold]📝 Detalhes por Aluno:[/bold]")
+        # Detalhes por submissão
+        self.console.print("\n[bold]📝 Detalhes por Submissão:[/bold]")
         for submission in report.submissions:
             # Constrói detalhes dos testes
             test_details = self._build_test_details(submission.test_results)
             
             self.console.print(Panel(
-                f"[bold]{submission.student_name}[/bold]\n"
+                f"[bold]{submission.display_name}[/bold]\n"
                 f"Nota: {submission.final_score:.1f}/10\n\n"
                 f"[bold cyan]🧪 Resultados dos Testes:[/bold cyan]\n{test_details}\n\n"
                 f"[dim]{submission.feedback}[/dim]",
-                title=f"👤 {submission.student_name}",
+                title=f"👤 {submission.display_name}",
                 border_style="green" if submission.final_score >= 7.0 else "red"
             ))
     
@@ -150,11 +150,11 @@ class ReportGenerator:
         <p><strong>Taxa de Excelência:</strong> {report.summary.get('excellent_rate', 0):.1%}</p>
     </div>
     
-    <h2>📋 Resultados por Aluno</h2>
+    <h2>📋 Resultados por Submissão</h2>
     <table class="results-table">
         <thead>
             <tr>
-                <th>Aluno</th>
+                <th>Submissão</th>
                 <th>Nota Final</th>
                 <th>Status</th>
                 <th>Testes</th>
@@ -165,13 +165,13 @@ class ReportGenerator:
         </tbody>
     </table>
     
-    <h2>📝 Detalhes por Aluno</h2>
+    <h2>📝 Detalhes por Submissão</h2>
     {self._build_html_student_details(report.submissions)}
 </body>
 </html>
 """
     
-    def _build_html_table_rows(self, submissions: List[StudentSubmission]) -> str:
+    def _build_html_table_rows(self, submissions: List[Submission]) -> str:
         """Constrói linhas da tabela HTML."""
         rows = []
         for submission in sorted(submissions, key=lambda x: x.final_score, reverse=True):
@@ -196,7 +196,7 @@ class ReportGenerator:
             
             rows.append(f"""
             <tr class="{css_class}">
-                <td>{submission.student_name}</td>
+                <td>{submission.display_name}</td>
                 <td>{submission.final_score:.1f}</td>
                 <td>{status}</td>
                 <td>{test_info}</td>
@@ -205,7 +205,7 @@ class ReportGenerator:
         
         return "".join(rows)
     
-    def _build_html_student_details(self, submissions: List[StudentSubmission]) -> str:
+    def _build_html_student_details(self, submissions: List[Submission]) -> str:
         """Constrói detalhes dos alunos em HTML."""
         details = []
         for submission in submissions:
@@ -214,7 +214,7 @@ class ReportGenerator:
             
             details.append(f"""
             <div class="student-detail">
-                <h3>👤 {submission.student_name}</h3>
+                <h3>👤 {submission.display_name}</h3>
                 <p><strong>Nota:</strong> {submission.final_score:.1f}/10</p>
                 
                 <h4>🧪 Resultados dos Testes:</h4>
@@ -272,9 +272,9 @@ class ReportGenerator:
 - **Taxa de Aprovação:** {report.summary.get('passing_rate', 0):.1%}
 - **Taxa de Excelência:** {report.summary.get('excellent_rate', 0):.1%}
 
-## 📋 Resultados por Aluno
+## 📋 Resultados por Submissão
 
-| Aluno | Nota Final | Status | Testes |
+| Submissão | Nota Final | Status | Testes |
 |-------|------------|--------|--------|
 """
         
@@ -295,16 +295,16 @@ class ReportGenerator:
                 total = len(submission.test_results)
                 test_info = f"{passed}/{total}"
             
-            content += f"| {submission.student_name} | {submission.final_score:.1f} | {status} | {test_info} |\n"
+            content += f"| {submission.display_name} | {submission.final_score:.1f} | {status} | {test_info} |\n"
         
-        content += "\n## 📝 Detalhes por Aluno\n\n"
+        content += "\n## 📝 Detalhes por Submissão\n\n"
         
         # Adiciona detalhes dos alunos
         for submission in report.submissions:
             # Constrói detalhes dos testes
             test_details_md = self._build_markdown_test_details(submission.test_results)
             
-            content += f"""### 👤 {submission.student_name}
+            content += f"""### 👤 {submission.display_name}
 
 **Nota:** {submission.final_score:.1f}/10
 

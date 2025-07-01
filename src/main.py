@@ -29,12 +29,12 @@ def cli():
 @cli.command()
 @click.option('--assignment', '-a', help='Nome do assignment para corrigir')
 @click.option('--turma', '-t', required=True, help='Nome da turma')
-@click.option('--aluno', '-s', help='Nome específico do aluno (opcional)')
+@click.option('--submissao', '-s', help='Identificador da submissão (login do aluno ou nome do grupo)')
 @click.option('--output-format', '-f', type=click.Choice(['console', 'html', 'markdown', 'json']), 
               default='console', help='Formato de saída do relatório')
 @click.option('--output-dir', '-o', default='reports', help='Diretório para salvar relatórios')
 @click.option('--all-assignments', is_flag=True, help='Corrigir todos os assignments da turma')
-def correct(assignment, turma, aluno, output_format, output_dir, all_assignments):
+def correct(assignment, turma, submissao, output_format, output_dir, all_assignments):
     """Executa a correção de assignments."""
     try:
         # Configura caminhos
@@ -115,7 +115,7 @@ def correct(assignment, turma, aluno, output_format, output_dir, all_assignments
             ) as progress:
                 task = progress.add_task("Processando submissões...", total=None)
                 
-                report = correction_service.correct_assignment(assignment, turma, aluno)
+                report = correction_service.correct_assignment(assignment, turma, submissao)
                 
                 progress.update(task, description="Gerando relatório...")
                 
@@ -202,8 +202,8 @@ def list_turmas():
 
 @cli.command()
 @click.option('--turma', '-t', required=True, help='Nome da turma')
-def list_students(turma):
-    """Lista todos os alunos de uma turma."""
+def list_submissions(turma):
+    """Lista todas as submissões de uma turma."""
     try:
         base_path = Path(__file__).parent.parent
         respostas_path = base_path / "respostas"
@@ -219,13 +219,20 @@ def list_students(turma):
             console.print(f"[red]Turma '{turma}' não encontrada[/red]")
             sys.exit(1)
         
-        console.print(Panel(f"[bold blue]Alunos da Turma {turma}[/bold blue]"))
+        console.print(Panel(f"[bold blue]Submissões da Turma {turma}[/bold blue]"))
         
-        for student in sorted(turma_obj.students):
-            console.print(f"  [cyan]{student}[/cyan]")
+        if turma_obj.individual_submissions:
+            console.print(f"[yellow]Submissões Individuais ({len(turma_obj.individual_submissions)}):[/yellow]")
+            for login in sorted(turma_obj.individual_submissions):
+                console.print(f"  [cyan]{login}[/cyan] (individual)")
+        
+        if turma_obj.group_submissions:
+            console.print(f"[yellow]Submissões em Grupo ({len(turma_obj.group_submissions)}):[/yellow]")
+            for group in sorted(turma_obj.group_submissions):
+                console.print(f"  [cyan]{group}[/cyan] (grupo)")
     
     except Exception as e:
-        console.print(f"[red]Erro ao listar alunos: {str(e)}[/red]")
+        console.print(f"[red]Erro ao listar submissões: {str(e)}[/red]")
         sys.exit(1)
 
 
