@@ -10,7 +10,7 @@ from ..domain.models import (
 )
 from ..repositories.assignment_repository import AssignmentRepository
 from ..repositories.submission_repository import SubmissionRepository
-from .test_executor import TestExecutor
+from .test_executor import PytestExecutor
 from .ai_analyzer import AIAnalyzer
 
 
@@ -20,7 +20,7 @@ class CorrectionService:
     def __init__(self, enunciados_path: Path, respostas_path: Path, openai_api_key: str = None, logs_path: Path = None):
         self.assignment_repo = AssignmentRepository(enunciados_path)
         self.submission_repo = SubmissionRepository(respostas_path)
-        self.test_executor = TestExecutor()
+        self.test_executor = PytestExecutor()
         self.ai_analyzer = AIAnalyzer(openai_api_key, enunciados_path, logs_path)
     
     def correct_assignment(self, assignment_name: str, turma_name: str, 

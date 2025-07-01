@@ -113,32 +113,7 @@ class Assignment:
     rubric: Dict[str, float] = field(default_factory=dict)
     path: Path = field(default_factory=Path)
     
-    @classmethod
-    def parse_submission_identifier(cls, assignment_name: str, submission_folder_name: str) -> tuple[SubmissionType, str]:
-        """
-        Extrai o tipo de submissão e identificador a partir do nome da pasta.
-        
-        Args:
-            assignment_name: Nome do assignment (ex: 'prog1-tarefa-html-curriculo')
-            submission_folder_name: Nome da pasta da submissão (ex: 'prog1-tarefa-html-curriculo-anaclaravtoledo')
-        
-        Returns:
-            Tuple com (SubmissionType, identificador)
-        """
-        # Remove o prefixo do assignment para obter o sufixo
-        prefix = f"{assignment_name}-"
-        if not submission_folder_name.startswith(prefix):
-            raise ValueError(f"Nome da pasta '{submission_folder_name}' não corresponde ao assignment '{assignment_name}'")
-        
-        suffix = submission_folder_name[len(prefix):]
-        
-        # Verifica se é submissão individual (padrão: apenas login do GitHub)
-        # Login do GitHub geralmente não contém espaços ou hífens múltiplos
-        if re.match(r'^[a-zA-Z0-9_-]+$', suffix) and ' ' not in suffix:
-            return SubmissionType.INDIVIDUAL, suffix
-        
-        # Se contém espaços ou hífens múltiplos, é submissão em grupo
-        return SubmissionType.GROUP, suffix
+
 
 
 @dataclass

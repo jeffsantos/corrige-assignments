@@ -1,0 +1,543 @@
+"""Testes de integração para os serviços."""
+
+import pytest
+import tempfile
+import json
+from pathlib import Path
+from unittest.mock import Mock, patch, MagicMock
+from src.services.prompt_manager import PromptManager
+from src.services.test_executor import PytestExecutor
+from src.services.ai_analyzer import AIAnalyzer
+from src.services.correction_service import CorrectionService
+from src.repositories.assignment_repository import AssignmentRepository
+from src.repositories.submission_repository import SubmissionRepository
+from src.domain.models import (
+    AssignmentType, SubmissionType, IndividualSubmission, GroupSubmission,
+    Assignment, Turma, CorrectionReport
+)
+from config import get_assignment_submission_type, is_assignment_configured
+
+
+class TestConfiguration:
+    """Testes para o sistema de configuração."""
+    
+    def test_get_assignment_submission_type(self):
+        """Testa obtenção do tipo de submissão para assignments configurados."""
+        # Assignment configurado como grupo
+        submission_type = get_assignment_submission_type("prog1-prova-av")
+        assert submission_type == SubmissionType.GROUP
+        
+        # Assignment configurado como individual
+        submission_type = get_assignment_submission_type("prog1-tarefa-html-curriculo")
+        assert submission_type == SubmissionType.INDIVIDUAL
+    
+    def test_get_assignment_submission_type_not_configured(self):
+        """Testa erro para assignment não configurado."""
+        with pytest.raises(KeyError, match="não configurado"):
+            get_assignment_submission_type("assignment-inexistente")
+    
+    def test_is_assignment_configured(self):
+        """Testa verificação se assignment está configurado."""
+        assert is_assignment_configured("prog1-prova-av") is True
+        assert is_assignment_configured("prog1-tarefa-html-curriculo") is True
+        assert is_assignment_configured("assignment-inexistente") is False
+
+
+class TestPromptManager:
+    """Testes para PromptManager."""
+    
+    def test_load_prompt_from_prompts_folder(self):
+        """Testa carregamento de prompt da pasta prompts/."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Cria estrutura de pastas
+            enunciados_dir = Path(temp_dir) / "enunciados"
+            enunciados_dir.mkdir()
+            
+            # Cria prompt personalizado na pasta prompts (que é relativa ao projeto)
+            prompts_dir = Path(__file__).parent.parent.parent / "prompts"
+            assignment_dir = prompts_dir / "prog1-prova-av"
+            assignment_dir.mkdir(parents=True)
+            
+            # Cria prompt personalizado
+            prompt_content = "Este é um prompt personalizado para prog1-prova-av"
+            (assignment_dir / "prompt.txt").write_text(prompt_content)
+            
+            try:
+                # Testa carregamento
+                prompt_manager = PromptManager(enunciados_path=enunciados_dir)
+                assignment = Assignment(
+                    name="prog1-prova-av",
+                    type=AssignmentType.PYTHON,
+                    submission_type=SubmissionType.GROUP,
+                    description="Test assignment"
+                )
+                prompt = prompt_manager.get_assignment_prompt(
+                    assignment=assignment,
+                    assignment_type="python",
+                    student_code="def test(): pass"
+                )
+                
+                assert "personalizado" in prompt
+            finally:
+                # Limpa o arquivo criado
+                if (assignment_dir / "prompt.txt").exists():
+                    (assignment_dir / "prompt.txt").unlink()
+                if assignment_dir.exists():
+                    assignment_dir.rmdir()
+    
+    def test_fallback_to_enunciados_folder(self):
+        """Testa fallback para pasta enunciados/."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Cria estrutura de pastas
+            enunciados_dir = Path(temp_dir) / "enunciados"
+            assignment_dir = enunciados_dir / "prog1-prova-av"
+            assignment_dir.mkdir(parents=True)
+            
+            # Cria prompt no enunciado
+            prompt_content = "Prompt do enunciado"
+            (assignment_dir / "prompt.txt").write_text(prompt_content)
+            
+            # Testa carregamento com fallback
+            prompt_manager = PromptManager(enunciados_path=enunciados_dir)
+            assignment = Assignment(
+                name="prog1-prova-av",
+                type=AssignmentType.PYTHON,
+                submission_type=SubmissionType.GROUP,
+                description="Test assignment"
+            )
+            prompt = prompt_manager.get_assignment_prompt(
+                assignment=assignment,
+                assignment_type="python",
+                student_code="def test(): pass"
+            )
+            
+            assert "enunciado" in prompt
+    
+    def test_fallback_to_generic_prompt(self):
+        """Testa fallback para prompt genérico."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Não cria nenhum prompt personalizado
+            enunciados_dir = Path(temp_dir) / "enunciados"
+            enunciados_dir.mkdir()
+            
+            prompt_manager = PromptManager(enunciados_path=enunciados_dir)
+            assignment = Assignment(
+                name="prog1-prova-av",
+                type=AssignmentType.PYTHON,
+                submission_type=SubmissionType.GROUP,
+                description="Test assignment"
+            )
+            prompt = prompt_manager.get_assignment_prompt(
+                assignment=assignment,
+                assignment_type="python",
+                student_code="def test(): pass"
+            )
+            
+            # Deve retornar prompt genérico
+            assert "assignment" in prompt.lower()
+            assert "python" in prompt.lower()
+    
+    def test_read_readme_content(self):
+        """Testa leitura do conteúdo do README.md."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Cria README.md
+            readme_content = "# Assignment Title\n\nThis is the assignment description."
+            assignment_dir = Path(temp_dir) / "enunciados" / "prog1-prova-av"
+            assignment_dir.mkdir(parents=True)
+            (assignment_dir / "README.md").write_text(readme_content)
+            
+            prompt_manager = PromptManager(enunciados_path=Path(temp_dir) / "enunciados")
+            readme = prompt_manager._read_assignment_readme("prog1-prova-av")
+            
+            assert "Assignment Title" in readme
+    
+    def test_analyze_assignment_structure(self):
+        """Testa análise da estrutura do assignment."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Cria estrutura de arquivos
+            assignment_dir = Path(temp_dir) / "enunciados" / "prog1-prova-av"
+            assignment_dir.mkdir(parents=True)
+            
+            # Cria alguns arquivos
+            (assignment_dir / "main.py").write_text("# Main file")
+            (assignment_dir / "utils.py").write_text("# Utils file")
+            (assignment_dir / "data.csv").write_text("data")
+            
+            prompt_manager = PromptManager(enunciados_path=Path(temp_dir) / "enunciados")
+            structure = prompt_manager._analyze_expected_structure("prog1-prova-av")
+            
+            assert "main.py" in structure
+            assert "utils.py" in structure
+            assert "data.csv" in structure
+
+
+class TestPytestExecutor:
+    """Testes para PytestExecutor."""
+    
+    def test_execute_tests_with_pytest_json(self):
+        """Testa execução de testes com pytest-json-report."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Cria arquivo de teste simples
+            test_file = Path(temp_dir) / "test_example.py"
+            test_file.write_text("""
+import pytest
+
+def test_pass():
+    assert True
+
+def test_fail():
+    assert False
+
+def test_error():
+    raise Exception("Test error")
+""")
+            
+            test_executor = PytestExecutor()
+            results = test_executor.run_tests(Path(temp_dir), ["test_example.py"])
+            
+            # Verifica se os resultados foram parseados corretamente
+            assert len(results) >= 3
+            
+            # Encontra os testes específicos
+            pass_test = next((r for r in results if "test_pass" in r.test_name), None)
+            fail_test = next((r for r in results if "test_fail" in r.test_name), None)
+            error_test = next((r for r in results if "test_error" in r.test_name), None)
+            
+            if pass_test:
+                assert pass_test.result.value == "passed"
+            if fail_test:
+                assert fail_test.result.value == "failed"
+            if error_test:
+                # Pode ser "error" ou "failed" dependendo do pytest
+                assert error_test.result.value in ["error", "failed"]
+    
+    def test_execute_tests_no_test_files(self):
+        """Testa execução quando não há arquivos de teste."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            test_executor = PytestExecutor()
+            results = test_executor.run_tests(Path(temp_dir), [])
+            
+            assert len(results) == 1
+            assert results[0].result.value == "error"
+    
+    def test_execute_tests_invalid_python(self):
+        """Testa execução com código Python inválido."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Cria arquivo com sintaxe inválida
+            test_file = Path(temp_dir) / "test_invalid.py"
+            test_file.write_text("""
+def test_invalid():
+    if True
+        assert True
+""")
+            
+            test_executor = PytestExecutor()
+            results = test_executor.run_tests(Path(temp_dir), ["test_invalid.py"])
+            
+            # Deve capturar o erro de sintaxe
+            assert len(results) >= 1
+            assert results[0].result.value == "error"
+
+
+class TestAIAnalyzer:
+    """Testes para AIAnalyzer."""
+    
+    @patch('src.services.ai_analyzer.OpenAI')
+    def test_analyze_code(self, mock_openai):
+        """Testa análise de código com mock da OpenAI."""
+        # Configura mock
+        mock_client = Mock()
+        mock_openai.return_value = mock_client
+        
+        mock_response = Mock()
+        mock_response.choices = [Mock()]
+        mock_response.choices[0].message.content = """NOTA: 8.5
+COMENTARIOS: 
+- Good structure
+- Clear code
+
+SUGESTOES: 
+- Add comments
+- Improve documentation
+
+PROBLEMAS: 
+- Missing docstring
+- No error handling"""
+        mock_client.chat.completions.create.return_value = mock_response
+        
+        # Testa análise
+        with tempfile.TemporaryDirectory() as temp_dir:
+            submission_path = Path(temp_dir)
+            (submission_path / "main.py").write_text("def hello(): pass")
+            
+            assignment = Assignment(
+                name="prog1-prova-av",
+                type=AssignmentType.PYTHON,
+                submission_type=SubmissionType.GROUP,
+                description="Test assignment"
+            )
+            
+            analyzer = AIAnalyzer(api_key="fake-key")
+            result = analyzer.analyze_python_code(submission_path, assignment)
+            
+            assert result.score == 8.5
+            assert "Good structure" in result.comments
+            assert "Add comments" in result.suggestions
+            assert "Missing docstring" in result.issues_found
+    
+    @patch('src.services.ai_analyzer.OpenAI')
+    def test_analyze_html(self, mock_openai):
+        """Testa análise HTML com mock da OpenAI."""
+        # Configura mock
+        mock_client = Mock()
+        mock_openai.return_value = mock_client
+        
+        mock_response = Mock()
+        mock_response.choices = [Mock()]
+        mock_response.choices[0].message.content = """NOTA: 7.0
+ELEMENTOS: 
+- h1: True
+- h2: False
+- p: True
+
+COMENTARIOS: 
+- Good CSS
+- Clean structure
+
+SUGESTOES: 
+- Improve accessibility
+- Add more content
+
+PROBLEMAS: 
+- Missing alt
+- No navigation"""
+        mock_client.chat.completions.create.return_value = mock_response
+        
+        # Testa análise
+        with tempfile.TemporaryDirectory() as temp_dir:
+            submission_path = Path(temp_dir)
+            (submission_path / "index.html").write_text("<h1>Title</h1>")
+            
+            assignment = Assignment(
+                name="prog1-tarefa-html-curriculo",
+                type=AssignmentType.HTML,
+                submission_type=SubmissionType.INDIVIDUAL,
+                description="Test assignment"
+            )
+            
+            analyzer = AIAnalyzer(api_key="fake-key")
+            result = analyzer.analyze_html_code(submission_path, assignment)
+            
+            assert result.score == 7.0
+            # Verifica se os elementos foram parseados corretamente
+            assert "h1" in result.required_elements
+            assert "h2" in result.required_elements
+            assert "Good CSS" in result.comments
+    
+    def test_save_audit_log(self):
+        """Testa salvamento do log de auditoria."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            logs_dir = Path(temp_dir) / "logs"
+            logs_dir.mkdir()
+            
+            analyzer = AIAnalyzer(api_key="fake-key", logs_path=logs_dir)
+            
+            # Simula uma análise
+            analyzer._save_ai_log(
+                assignment_name="prog1-prova-av",
+                submission_identifier="joaosilva",
+                analysis_type="python",
+                prompt="Test prompt",
+                response="Test response",
+                parsed_result={"score": 8.0}
+            )
+            
+            # Verifica se o arquivo foi criado
+            log_files = list(logs_dir.glob("**/*.json"))
+            assert len(log_files) == 1
+            
+            # Verifica conteúdo
+            log_content = json.loads(log_files[0].read_text())
+            assert log_content["metadata"]["assignment_name"] == "prog1-prova-av"
+            assert log_content["metadata"]["submission_identifier"] == "joaosilva"
+            assert log_content["prompt"] == "Test prompt"
+            assert log_content["raw_response"] == "Test response"
+            assert log_content["parsed_result"]["score"] == 8.0
+
+
+class TestCorrectionService:
+    """Testes para CorrectionService."""
+    
+    def test_correct_assignment_integration(self):
+        """Testa integração completa da correção."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Cria estrutura de dados de teste
+            enunciados_dir = Path(temp_dir) / "enunciados"
+            respostas_dir = Path(temp_dir) / "respostas"
+            reports_dir = Path(temp_dir) / "reports"
+            
+            for dir_path in [enunciados_dir, respostas_dir, reports_dir]:
+                dir_path.mkdir(parents=True)
+            
+            # Cria assignment
+            assignment_dir = enunciados_dir / "prog1-prova-av"
+            assignment_dir.mkdir()
+            (assignment_dir / "README.md").write_text("# Assignment")
+            
+            # Cria submissão na estrutura correta
+            turma_dir = respostas_dir / "ebape-prog-aplic-barra-2025"
+            assignment_submissions_dir = turma_dir / "prog1-prova-av-submissions"
+            assignment_submissions_dir.mkdir(parents=True)
+            submission_dir = assignment_submissions_dir / "prog1-prova-av-joaosilva"
+            submission_dir.mkdir()
+            (submission_dir / "main.py").write_text("def hello(): return 'world'")
+            
+            # Mock dos serviços
+            with patch('src.services.ai_analyzer.AIAnalyzer') as mock_analyzer_class, \
+                 patch('src.services.test_executor.PytestExecutor') as mock_executor_class:
+                
+                # Configura mocks
+                mock_analyzer = Mock()
+                mock_analyzer_class.return_value = mock_analyzer
+                mock_analyzer.analyze_python_code.return_value = Mock(score=8.5)
+                
+                mock_executor = Mock()
+                mock_executor_class.return_value = mock_executor
+                mock_executor.run_tests.return_value = []
+                
+                # Executa correção
+                service = CorrectionService(
+                    enunciados_path=enunciados_dir,
+                    respostas_path=respostas_dir
+                )
+                
+                report = service.correct_assignment(
+                    assignment_name="prog1-prova-av",
+                    turma_name="ebape-prog-aplic-barra-2025"
+                )
+                
+                # Verifica resultado
+                assert report.assignment_name == "prog1-prova-av"
+                assert report.turma == "ebape-prog-aplic-barra-2025"
+                assert len(report.submissions) == 1
+                submission = report.submissions[0]
+                from src.domain.models import GroupSubmission
+                assert isinstance(submission, GroupSubmission)
+                assert submission.group_name == "joaosilva"
+                assert isinstance(submission.final_score, float)
+
+
+class TestRepositories:
+    """Testes para os repositórios."""
+    
+    def test_assignment_repository_load_assignments(self):
+        """Testa carregamento de assignments."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Cria assignments
+            enunciados_dir = Path(temp_dir) / "enunciados"
+            enunciados_dir.mkdir()
+            
+            # Assignment Python
+            python_assignment = enunciados_dir / "prog1-prova-av"
+            python_assignment.mkdir()
+            (python_assignment / "README.md").write_text("# Python Assignment")
+            
+            # Assignment HTML
+            html_assignment = enunciados_dir / "prog1-tarefa-html-curriculo"
+            html_assignment.mkdir()
+            (html_assignment / "README.md").write_text("# HTML Assignment")
+            
+            # Testa carregamento
+            repo = AssignmentRepository(enunciados_path=enunciados_dir)
+            assignments = repo.get_all_assignments()
+            
+            assert len(assignments) == 2
+            assert any(a.name == "prog1-prova-av" for a in assignments)
+            assert any(a.name == "prog1-tarefa-html-curriculo" for a in assignments)
+    
+    def test_assignment_repository_submission_type_configuration(self):
+        """Testa que o tipo de submissão é carregado da configuração."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Cria assignment configurado
+            enunciados_dir = Path(temp_dir) / "enunciados"
+            enunciados_dir.mkdir()
+            
+            assignment_dir = enunciados_dir / "prog1-prova-av"
+            assignment_dir.mkdir()
+            (assignment_dir / "README.md").write_text("# Assignment")
+            
+            # Testa carregamento
+            repo = AssignmentRepository(enunciados_path=enunciados_dir)
+            assignment = repo.get_assignment("prog1-prova-av")
+            
+            # Deve usar a configuração do config.py
+            assert assignment.submission_type == SubmissionType.GROUP
+    
+    def test_submission_repository_load_submissions(self):
+        """Testa carregamento de submissões."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Cria estrutura de submissões (estrutura esperada pelo SubmissionRepository)
+            respostas_dir = Path(temp_dir) / "respostas"
+            turma_dir = respostas_dir / "ebape-prog-aplic-barra-2025"
+            turma_dir.mkdir(parents=True)
+            
+            # Cria pasta de submissões do assignment
+            assignment_submissions_dir = turma_dir / "prog1-prova-av-submissions"
+            assignment_submissions_dir.mkdir()
+            
+            # Submissão individual
+            individual_dir = assignment_submissions_dir / "prog1-prova-av-joaosilva"
+            individual_dir.mkdir()
+            (individual_dir / "main.py").write_text("# Individual submission")
+            
+            # Submissão em grupo
+            group_dir = assignment_submissions_dir / "prog1-prova-av-ana-clara-e-nadine"
+            group_dir.mkdir()
+            (group_dir / "main.py").write_text("# Group submission")
+            
+            # Testa carregamento
+            repo = SubmissionRepository(respostas_path=respostas_dir)
+            submissions = repo.get_submissions_for_assignment(
+                turma_name="ebape-prog-aplic-barra-2025",
+                assignment_name="prog1-prova-av"
+            )
+            
+            assert len(submissions) == 2
+            
+            # Verifica tipos - deve usar configuração do config.py
+            # prog1-prova-av é configurado como GROUP, então ambas devem ser GroupSubmission
+            group_subs = [s for s in submissions if isinstance(s, GroupSubmission)]
+            individual_subs = [s for s in submissions if isinstance(s, IndividualSubmission)]
+            
+            assert len(group_subs) == 2  # Ambas são grupos devido à configuração
+            assert len(individual_subs) == 0
+            # Verifica se ambos os identificadores estão presentes (ordem pode variar)
+            group_names = [sub.group_name for sub in group_subs]
+            assert "joaosilva" in group_names
+            assert "ana-clara-e-nadine" in group_names
+    
+    def test_submission_repository_parse_identifier_with_config(self):
+        """Testa que o parse de identificador usa a configuração."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            respostas_dir = Path(temp_dir) / "respostas"
+            repo = SubmissionRepository(respostas_path=respostas_dir)
+            
+            # Testa com assignment configurado como grupo
+            submission_type, identifier = repo._parse_submission_identifier(
+                "prog1-prova-av", 
+                "prog1-prova-av-joaosilva"
+            )
+            
+            # Deve usar configuração do config.py (GROUP)
+            assert submission_type == SubmissionType.GROUP
+            assert identifier == "joaosilva"
+            
+            # Testa com assignment configurado como individual
+            submission_type, identifier = repo._parse_submission_identifier(
+                "prog1-tarefa-html-curriculo", 
+                "prog1-tarefa-html-curriculo-joaosilva"
+            )
+            
+            # Deve usar configuração do config.py (INDIVIDUAL)
+            assert submission_type == SubmissionType.INDIVIDUAL
+            assert identifier == "joaosilva"

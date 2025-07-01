@@ -9,7 +9,7 @@ from typing import List
 from ..domain.models import TestExecution, TestResult
 
 
-class TestExecutor:
+class PytestExecutor:
     """Serviço para executar testes Python."""
     
     def __init__(self):
