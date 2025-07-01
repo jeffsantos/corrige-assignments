@@ -1,6 +1,6 @@
 # Diagrama UML - Sistema de Correção Automática
 
-> Gerado automaticamente em 01/07/2025 às 12:27:51
+> Gerado automaticamente em 01/07/2025 às 16:36:39
 
 ## Visão Geral
 
@@ -20,6 +20,8 @@ Este diagrama representa a arquitetura e relacionamentos entre as classes do sis
 classDiagram
     namespace domain {
         class Assignment
+        class AssignmentTestExecution
+        class AssignmentTestResult
         class AssignmentType
         class CodeAnalysis
         class CorrectionReport
@@ -27,8 +29,6 @@ classDiagram
         class HTMLAnalysis
         class IndividualSubmission
         class SubmissionType
-        class TestExecution
-        class TestResult
         class Turma
     }
     namespace repositories {
@@ -39,37 +39,37 @@ classDiagram
         class AIAnalyzer
         class CorrectionService
         class PromptManager
-        class TestExecutor
+        class PytestExecutor
     }
     namespace utils {
         class ReportGenerator
     }
-    TestExecution --> TestResult : has-a
-    Assignment --> AssignmentType : has-a
+    AssignmentTestExecution --> AssignmentTestResult : has-a
     Assignment --> SubmissionType : has-a
-    AssignmentRepository ..> Assignment
+    Assignment --> AssignmentType : has-a
+    CorrectionReport ..> CorrectionReport
     AssignmentRepository ..> SubmissionType
     AssignmentRepository ..> AssignmentType
-    SubmissionRepository ..> Turma
-    SubmissionRepository ..> Assignment
-    SubmissionRepository ..> IndividualSubmission
+    AssignmentRepository ..> Assignment
     SubmissionRepository ..> SubmissionType
     SubmissionRepository ..> GroupSubmission
-    AIAnalyzer ..> HTMLAnalysis
+    SubmissionRepository ..> Turma
+    SubmissionRepository ..> IndividualSubmission
     AIAnalyzer ..> CodeAnalysis
+    AIAnalyzer ..> HTMLAnalysis
     AIAnalyzer ..> PromptManager
     AIAnalyzer ..> Assignment
-    CorrectionService ..> AssignmentRepository
-    CorrectionService ..> TestExecutor
-    CorrectionService ..> AIAnalyzer
-    CorrectionService ..> Assignment
+    CorrectionService ..> AssignmentType
     CorrectionService ..> CorrectionReport
     CorrectionService ..> SubmissionRepository
-    CorrectionService ..> TestResult
-    CorrectionService ..> AssignmentType
+    CorrectionService ..> PytestExecutor
+    CorrectionService ..> AIAnalyzer
+    CorrectionService ..> AssignmentTestResult
+    CorrectionService ..> Assignment
+    CorrectionService ..> AssignmentRepository
     PromptManager ..> Assignment
-    TestExecutor ..> TestExecution
-    TestExecutor ..> TestResult
+    PytestExecutor ..> AssignmentTestExecution
+    PytestExecutor ..> AssignmentTestResult
     ReportGenerator ..> CorrectionReport
 ```
 
@@ -77,9 +77,9 @@ classDiagram
 
 | Pacote | Classes | Quantidade |
 |--------|---------|------------|
-| `domain` | Assignment, AssignmentType, CodeAnalysis, CorrectionReport, GroupSubmission, HTMLAnalysis, IndividualSubmission, SubmissionType, TestExecution, TestResult, Turma | 11 |
+| `domain` | Assignment, AssignmentTestExecution, AssignmentTestResult, AssignmentType, CodeAnalysis, CorrectionReport, GroupSubmission, HTMLAnalysis, IndividualSubmission, SubmissionType, Turma | 11 |
 | `repositories` | AssignmentRepository, SubmissionRepository | 2 |
-| `services` | AIAnalyzer, CorrectionService, PromptManager, TestExecutor | 4 |
+| `services` | AIAnalyzer, CorrectionService, PromptManager, PytestExecutor | 4 |
 | `utils` | ReportGenerator | 1 |
 
 
@@ -87,13 +87,13 @@ classDiagram
 
 | Módulo | Classes | Quantidade |
 |--------|---------|------------|
-| `domain/models.py` | Assignment, AssignmentType, CodeAnalysis, CorrectionReport, GroupSubmission, HTMLAnalysis, IndividualSubmission, SubmissionType, TestExecution, TestResult, Turma | 11 |
+| `domain/models.py` | Assignment, AssignmentTestExecution, AssignmentTestResult, AssignmentType, CodeAnalysis, CorrectionReport, GroupSubmission, HTMLAnalysis, IndividualSubmission, SubmissionType, Turma | 11 |
 | `repositories/assignment_repository.py` | AssignmentRepository | 1 |
 | `repositories/submission_repository.py` | SubmissionRepository | 1 |
 | `services/ai_analyzer.py` | AIAnalyzer | 1 |
 | `services/correction_service.py` | CorrectionService | 1 |
 | `services/prompt_manager.py` | PromptManager | 1 |
-| `services/test_executor.py` | TestExecutor | 1 |
+| `services/test_executor.py` | PytestExecutor | 1 |
 | `utils/report_generator.py` | ReportGenerator | 1 |
 
 
@@ -103,34 +103,34 @@ classDiagram
 - Nenhuma herança encontrada
 
 ### Composição
-- `TestExecution` contém `TestResult`
-- `Assignment` contém `AssignmentType`
+- `AssignmentTestExecution` contém `AssignmentTestResult`
 - `Assignment` contém `SubmissionType`
+- `Assignment` contém `AssignmentType`
 
 ### Dependências
-- `AssignmentRepository` depende de `Assignment`
+- `CorrectionReport` depende de `CorrectionReport`
 - `AssignmentRepository` depende de `SubmissionType`
 - `AssignmentRepository` depende de `AssignmentType`
-- `SubmissionRepository` depende de `Turma`
-- `SubmissionRepository` depende de `Assignment`
-- `SubmissionRepository` depende de `IndividualSubmission`
+- `AssignmentRepository` depende de `Assignment`
 - `SubmissionRepository` depende de `SubmissionType`
 - `SubmissionRepository` depende de `GroupSubmission`
-- `AIAnalyzer` depende de `HTMLAnalysis`
+- `SubmissionRepository` depende de `Turma`
+- `SubmissionRepository` depende de `IndividualSubmission`
 - `AIAnalyzer` depende de `CodeAnalysis`
+- `AIAnalyzer` depende de `HTMLAnalysis`
 - `AIAnalyzer` depende de `PromptManager`
 - `AIAnalyzer` depende de `Assignment`
-- `CorrectionService` depende de `AssignmentRepository`
-- `CorrectionService` depende de `TestExecutor`
-- `CorrectionService` depende de `AIAnalyzer`
-- `CorrectionService` depende de `Assignment`
+- `CorrectionService` depende de `AssignmentType`
 - `CorrectionService` depende de `CorrectionReport`
 - `CorrectionService` depende de `SubmissionRepository`
-- `CorrectionService` depende de `TestResult`
-- `CorrectionService` depende de `AssignmentType`
+- `CorrectionService` depende de `PytestExecutor`
+- `CorrectionService` depende de `AIAnalyzer`
+- `CorrectionService` depende de `AssignmentTestResult`
+- `CorrectionService` depende de `Assignment`
+- `CorrectionService` depende de `AssignmentRepository`
 - `PromptManager` depende de `Assignment`
-- `TestExecutor` depende de `TestExecution`
-- `TestExecutor` depende de `TestResult`
+- `PytestExecutor` depende de `AssignmentTestExecution`
+- `PytestExecutor` depende de `AssignmentTestResult`
 - `ReportGenerator` depende de `CorrectionReport`
 
 ## Legenda do Diagrama

@@ -6,7 +6,7 @@ import json
 import tempfile
 from pathlib import Path
 from src.domain.models import (
-    AssignmentType, SubmissionType, TestResult, TestExecution, CodeAnalysis, 
+    AssignmentType, SubmissionType, AssignmentTestResult, AssignmentTestExecution, CodeAnalysis, 
     HTMLAnalysis, IndividualSubmission, GroupSubmission, Assignment, Turma, 
     CorrectionReport
 )
@@ -36,42 +36,42 @@ class TestSubmissionType:
         assert SubmissionType.GROUP.value == "group"
 
 
-class TestTestResult:
-    """Testes para o enum TestResult."""
+class TestAssignmentTestResult:
+    """Testes para o enum AssignmentTestResult."""
     
     def test_passed_result(self):
         """Testa o resultado passed."""
-        assert TestResult.PASSED.value == "passed"
+        assert AssignmentTestResult.PASSED.value == "passed"
     
     def test_failed_result(self):
         """Testa o resultado failed."""
-        assert TestResult.FAILED.value == "failed"
+        assert AssignmentTestResult.FAILED.value == "failed"
     
     def test_error_result(self):
         """Testa o resultado error."""
-        assert TestResult.ERROR.value == "error"
+        assert AssignmentTestResult.ERROR.value == "error"
     
     def test_skipped_result(self):
         """Testa o resultado skipped."""
-        assert TestResult.SKIPPED.value == "skipped"
+        assert AssignmentTestResult.SKIPPED.value == "skipped"
 
 
-class TestTestExecution:
-    """Testes para TestExecution."""
+class TestAssignmentTestExecution:
+    """Testes para AssignmentTestExecution."""
     
-    def test_test_execution_creation(self):
-        """Testa a criação de um TestExecution."""
-        test_exec = TestExecution(
-            test_name="test_example",
-            result=TestResult.PASSED,
-            message="Test passed successfully",
-            execution_time=1.5
+    def test_assignment_test_execution_creation(self):
+        """Testa a criação de um AssignmentTestExecution."""
+        test_exec = AssignmentTestExecution(
+            test_name="test_soma",
+            result=AssignmentTestResult.PASSED,
+            message="",
+            execution_time=0.1
         )
         
-        assert test_exec.test_name == "test_example"
-        assert test_exec.result == TestResult.PASSED
-        assert test_exec.message == "Test passed successfully"
-        assert test_exec.execution_time == 1.5
+        assert test_exec.test_name == "test_soma"
+        assert test_exec.result == AssignmentTestResult.PASSED
+        assert test_exec.message == ""
+        assert test_exec.execution_time == 0.1
 
 
 class TestCodeAnalysis:
@@ -421,15 +421,15 @@ class TestCorrectionReport:
     def test_correction_report_with_test_results(self):
         """Testa relatório com resultados de testes."""
         test_results = [
-            TestExecution(
+            AssignmentTestExecution(
                 test_name="test_function",
-                result=TestResult.PASSED,
+                result=AssignmentTestResult.PASSED,
                 message="Test passed",
                 execution_time=0.5
             ),
-            TestExecution(
+            AssignmentTestExecution(
                 test_name="test_another_function",
-                result=TestResult.FAILED,
+                result=AssignmentTestResult.FAILED,
                 message="Test failed",
                 execution_time=0.3
             )

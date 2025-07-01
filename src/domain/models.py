@@ -21,7 +21,7 @@ class SubmissionType(Enum):
     GROUP = "group"
 
 
-class TestResult(Enum):
+class AssignmentTestResult(Enum):
     """Resultados possíveis de testes."""
     PASSED = "passed"
     FAILED = "failed"
@@ -30,10 +30,10 @@ class TestResult(Enum):
 
 
 @dataclass
-class TestExecution:
+class AssignmentTestExecution:
     """Resultado da execução de um teste."""
     test_name: str
-    result: TestResult
+    result: AssignmentTestResult
     message: str = ""
     execution_time: float = 0.0
 
@@ -65,7 +65,7 @@ class IndividualSubmission:
     turma: str
     submission_path: Path
     files: List[str] = field(default_factory=list)
-    test_results: List[TestExecution] = field(default_factory=list)
+    test_results: List[AssignmentTestExecution] = field(default_factory=list)
     code_analysis: Optional[CodeAnalysis] = None
     html_analysis: Optional[HTMLAnalysis] = None
     final_score: float = 0.0
@@ -85,7 +85,7 @@ class GroupSubmission:
     turma: str
     submission_path: Path
     files: List[str] = field(default_factory=list)
-    test_results: List[TestExecution] = field(default_factory=list)
+    test_results: List[AssignmentTestExecution] = field(default_factory=list)
     code_analysis: Optional[CodeAnalysis] = None
     html_analysis: Optional[HTMLAnalysis] = None
     final_score: float = 0.0
@@ -221,9 +221,9 @@ class CorrectionReport:
                 
                 # Reconstrói resultados de testes
                 for test_data in sub_data.get('test_results', []):
-                    test_result = TestExecution(
+                    test_result = AssignmentTestExecution(
                         test_name=test_data['test_name'],
-                        result=TestResult(test_data['result']),
+                        result=AssignmentTestResult(test_data['result']),
                         message=test_data.get('message', '')
                     )
                     submission.test_results.append(test_result)
@@ -263,9 +263,9 @@ class CorrectionReport:
                 
                 # Reconstrói resultados de testes
                 for test_data in sub_data.get('test_results', []):
-                    test_result = TestExecution(
+                    test_result = AssignmentTestExecution(
                         test_name=test_data['test_name'],
-                        result=TestResult(test_data['result']),
+                        result=AssignmentTestResult(test_data['result']),
                         message=test_data.get('message', '')
                     )
                     submission.test_results.append(test_result)

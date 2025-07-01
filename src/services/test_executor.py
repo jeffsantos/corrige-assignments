@@ -6,7 +6,7 @@ import sys
 import json
 from pathlib import Path
 from typing import List
-from ..domain.models import TestExecution, TestResult
+from ..domain.models import AssignmentTestExecution, AssignmentTestResult
 
 
 class PytestExecutor:
@@ -15,7 +15,7 @@ class PytestExecutor:
     def __init__(self):
         pass
     
-    def run_tests(self, submission_path: Path, test_files: List[str]) -> List[TestExecution]:
+    def run_tests(self, submission_path: Path, test_files: List[str]) -> List[AssignmentTestExecution]:
         """Executa testes em uma submissão diretamente na pasta do aluno, detalhando cada função de teste."""
         results = []
         
@@ -34,12 +34,12 @@ class PytestExecutor:
                 timeout=60
             )
         except Exception as e:
-            return [TestExecution(test_name="pytest", result=TestResult.ERROR, message=f"Erro ao rodar pytest: {e}")]
+            return [AssignmentTestExecution(test_name="pytest", result=AssignmentTestResult.ERROR, message=f"Erro ao rodar pytest: {e}")]
         
         # Lê o .report.json (com ponto no início)
         if not report_json.exists():
             # Fallback: não gerou .report.json, retorna erro genérico
-            return [TestExecution(test_name="pytest", result=TestResult.ERROR, message="pytest não gerou .report.json. STDOUT:\n" + result.stdout + "\nSTDERR:\n" + result.stderr)]
+            return [AssignmentTestExecution(test_name="pytest", result=AssignmentTestResult.ERROR, message="pytest não gerou .report.json. STDOUT:\n" + result.stdout + "\nSTDERR:\n" + result.stderr)]
         
         with open(report_json, encoding="utf-8") as f:
             report = json.load(f)
@@ -51,14 +51,14 @@ class PytestExecutor:
             duration = test.get("duration", 0.0)
             message = test.get("longrepr", "") or test.get("call", {}).get("crash", {}).get("message", "")
             if outcome == "passed":
-                result_enum = TestResult.PASSED
+                result_enum = AssignmentTestResult.PASSED
             elif outcome == "failed":
-                result_enum = TestResult.FAILED
+                result_enum = AssignmentTestResult.FAILED
             elif outcome == "skipped":
-                result_enum = TestResult.SKIPPED
+                result_enum = AssignmentTestResult.SKIPPED
             else:
-                result_enum = TestResult.ERROR
-            results.append(TestExecution(
+                result_enum = AssignmentTestResult.ERROR
+            results.append(AssignmentTestExecution(
                 test_name=name,
                 result=result_enum,
                 message=message,
@@ -67,15 +67,15 @@ class PytestExecutor:
         
         # Se não houver testes, retorna erro
         if not results:
-            results.append(TestExecution(test_name="pytest", result=TestResult.ERROR, message="Nenhum teste encontrado ou erro na execução."))
+            results.append(AssignmentTestExecution(test_name="pytest", result=AssignmentTestResult.ERROR, message="Nenhum teste encontrado ou erro na execução."))
         
         return results
     
-    def run_specific_test(self, submission_path: Path, test_file: str) -> TestExecution:
+    def run_specific_test(self, submission_path: Path, test_file: str) -> AssignmentTestExecution:
         """Executa um teste específico."""
         results = self.run_tests(submission_path, [test_file])
-        return results[0] if results else TestExecution(
+        return results[0] if results else AssignmentTestExecution(
             test_name=test_file,
-            result=TestResult.ERROR,
+            result=AssignmentTestResult.ERROR,
             message="Nenhum resultado obtido"
         ) 

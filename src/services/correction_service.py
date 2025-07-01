@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import List, Optional
 from ..domain.models import (
     IndividualSubmission, GroupSubmission, Submission, Assignment, CorrectionReport, 
-    AssignmentType, TestResult
+    AssignmentType, AssignmentTestResult
 )
 from ..repositories.assignment_repository import AssignmentRepository
 from ..repositories.submission_repository import SubmissionRepository
@@ -119,7 +119,7 @@ class CorrectionService:
         # Nota dos testes (40% do peso total)
         test_score = 0.0
         if submission.test_results:
-            passed_tests = sum(1 for test in submission.test_results if test.result == TestResult.PASSED)
+            passed_tests = sum(1 for test in submission.test_results if test.result == AssignmentTestResult.PASSED)
             total_tests = len(submission.test_results)
             if total_tests > 0:
                 test_score = (passed_tests / total_tests) * 10.0
@@ -146,12 +146,12 @@ class CorrectionService:
         
         # Feedback dos testes
         if submission.test_results:
-            passed_tests = sum(1 for test in submission.test_results if test.result == TestResult.PASSED)
+            passed_tests = sum(1 for test in submission.test_results if test.result == AssignmentTestResult.PASSED)
             total_tests = len(submission.test_results)
             feedback_parts.append(f"Testes: {passed_tests}/{total_tests} passaram")
             
             # Adiciona detalhes dos testes que falharam
-            failed_tests = [test for test in submission.test_results if test.result == TestResult.FAILED]
+            failed_tests = [test for test in submission.test_results if test.result == AssignmentTestResult.FAILED]
             if failed_tests:
                 feedback_parts.append("Testes que falharam:")
                 for test in failed_tests[:3]:  # Limita a 3 testes para não ficar muito longo
