@@ -9,6 +9,7 @@ Sistema inteligente para correção automática de assignments de programação 
 - 🏗️ **Análise de estrutura de enunciados** - Avalia se o aluno seguiu a estrutura fornecida
 - 🧪 **Execução de testes detalhada** - Resultados por função com tempos de execução (PytestExecutor)
 - 📊 **Relatórios em múltiplos formatos** - Console, HTML, Markdown e JSON
+- 🔄 **Conversão de relatórios** - Converta JSON para HTML/Markdown sem re-execução
 - 🔧 **Configuração flexível** - API key automática ou manual
 - 🎯 **Critérios específicos** - Avaliação baseada nos requisitos de cada assignment
 - 👥 **Suporte a submissões individuais e em grupo** - Configuração por assignment
@@ -144,6 +145,22 @@ python -m src.main list-turmas
 python -m src.main list-submissions --turma ebape-prog-aplic-barra-2025
 ```
 
+### Comandos de Conversão de Relatórios
+
+```bash
+# Converter um relatório específico para HTML
+python -m src.main convert-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --format html
+
+# Converter um relatório específico para Markdown
+python -m src.main convert-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --format markdown
+
+# Converter o relatório JSON mais recente para HTML
+python -m src.main convert-latest --format html
+
+# Converter o relatório JSON mais recente para Markdown
+python -m src.main convert-latest --format markdown
+```
+
 ### Exemplos de Uso
 
 ```bash
@@ -194,6 +211,58 @@ python -m src.main list-submissions --turma ebape-prog-aplic-barra-2025
 
 *Obrigatório apenas quando `--all-assignments` não é usado.
 
+## 📊 Relatórios
+
+### Formatos Disponíveis
+
+- **Console**: Exibição colorida e formatada no terminal
+- **HTML**: Relatório interativo com gráficos e navegação
+- **Markdown**: Relatório em formato texto estruturado
+- **JSON**: Dados estruturados para processamento posterior
+
+### Conversão de Relatórios
+
+Após gerar um relatório JSON com o comando `correct`, você pode convertê-lo para HTML ou Markdown sem precisar rodar a correção novamente:
+
+```bash
+# Converter um relatório específico para HTML
+python -m src.main convert-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --format html
+
+# Converter um relatório específico para Markdown
+python -m src.main convert-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --format markdown
+
+# Converter o relatório JSON mais recente para HTML
+python -m src.main convert-latest --format html
+
+# Converter o relatório JSON mais recente para Markdown
+python -m src.main convert-latest --format markdown
+```
+
+Os arquivos convertidos serão salvos no diretório de relatórios (`reports/` por padrão).
+
+### Exemplo de Relatório
+
+```
+╭───────────────────────────────────────────────────────────────────────────────────────────────────╮
+╰───────────────────────────────────────────────────────────────────────────────────────────────────╯
+│ Relatório de Correção                                                                             │
+│ Assignment: prog1-prova-av                                                                        │
+│ Turma: ebape-prog-aplic-barra-2025                                                                │
+│ Gerado em: 2025-07-01T10:30:14.095265                                                             │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────╯
+     📈 Resumo Estatístico      
+┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓
+┃ Métrica             ┃ Valor  ┃
+┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━┩
+│ Total de Submissões │ 1      │
+│ Nota Média          │ 9.09   │
+│ Nota Mínima         │ 9.09   │
+│ Nota Máxima         │ 9.09   │
+│ Taxa de Aprovação   │ 100.0% │
+│ Taxa de Excelência  │ 100.0% │
+└─────────────────────┴────────┘
+```
+
 ## 📝 Prompts Personalizados
 
 ### Sistema de Prompts Específicos
@@ -204,15 +273,6 @@ O sistema suporta prompts personalizados para cada assignment:
 2. **Template Padrão**: Se não existir prompt personalizado, usa template baseado no tipo (Python/HTML)
 3. **Leitura Automática**: Lê README.md e estrutura de arquivos do enunciado
 4. **Versionamento**: Os prompts ficam na pasta `prompts/` (versionada) separada dos enunciados
-
-### Logs de Auditoria da IA
-
-O sistema gera logs detalhados de todas as análises da IA para transparência e auditoria:
-
-- **Localização**: `logs/YYYY-MM-DD/assignment-name/`
-- **Conteúdo**: Prompt enviado, resposta raw da IA, resultado processado
-- **Formato**: JSON com metadados completos
-- **Uso**: Para verificar consistência das análises e debug de problemas
 
 ### Exemplo de Prompt Personalizado
 
@@ -261,38 +321,6 @@ PROBLEMAS: [lista de problemas encontrados]
 - `{assignment_description}` - Descrição do assignment
 - `{assignment_requirements}` - Lista de requisitos
 - `{student_code}` - Código do aluno formatado
-
-## 📊 Relatórios
-
-### Formatos Disponíveis
-
-- **Console**: Exibição colorida e formatada no terminal
-- **HTML**: Relatório interativo com gráficos e navegação
-- **Markdown**: Relatório em formato texto estruturado
-- **JSON**: Dados estruturados para processamento posterior
-
-### Exemplo de Relatório
-
-```
-╭───────────────────────────────────────────────────────────────────────────────────────────────────╮
-╰───────────────────────────────────────────────────────────────────────────────────────────────────╯
-│ Relatório de Correção                                                                             │
-│ Assignment: prog1-prova-av                                                                        │
-│ Turma: ebape-prog-aplic-barra-2025                                                                │
-│ Gerado em: 2025-07-01T10:30:14.095265                                                             │
-╰───────────────────────────────────────────────────────────────────────────────────────────────────╯
-     📈 Resumo Estatístico      
-┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓
-┃ Métrica             ┃ Valor  ┃
-┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━┩
-│ Total de Submissões │ 1      │
-│ Nota Média          │ 9.09   │
-│ Nota Mínima         │ 9.09   │
-│ Nota Máxima         │ 9.09   │
-│ Taxa de Aprovação   │ 100.0% │
-│ Taxa de Excelência  │ 100.0% │
-└─────────────────────┴────────┘
-```
 
 ## 📝 Sistema de Logs de Auditoria
 
@@ -436,23 +464,3 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 - OpenAI pela API GPT
 - pytest pela framework de testes
 - Comunidade Python pelos recursos utilizados 
-
-### Conversão de Relatórios JSON para HTML/Markdown
-
-Após gerar um relatório JSON com o comando `correct`, você pode convertê-lo para HTML ou Markdown sem precisar rodar a correção novamente:
-
-```bash
-# Converter um relatório específico para HTML
-python -m src.main convert-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --format html
-
-# Converter um relatório específico para Markdown
-python -m src.main convert-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --format markdown
-
-# Converter o relatório JSON mais recente para HTML
-python -m src.main convert-latest --format html
-
-# Converter o relatório JSON mais recente para Markdown
-python -m src.main convert-latest --format markdown
-```
-
-Os arquivos convertidos serão salvos no diretório de relatórios (`reports/` por padrão). 
