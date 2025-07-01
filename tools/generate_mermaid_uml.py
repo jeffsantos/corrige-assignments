@@ -232,7 +232,7 @@ def generate_mermaid(class_map, module_map):
     for cname, ci in class_map.items():
         for dep in ci.dependencies:
             if dep in class_map and dep not in ci.attrs:  # Não duplicar composições
-                lines.append(f"    {cname} ..> {dep} : depends-on")
+                lines.append(f"    {cname} ..> {dep}")
     
     return "\n".join(lines)
 
