@@ -12,6 +12,8 @@ class PromptManager:
     
     def __init__(self, enunciados_path: Path):
         self.enunciados_path = enunciados_path
+        # Caminho para a pasta de prompts na raiz do projeto
+        self.prompts_path = Path(__file__).parent.parent.parent / "prompts"
         self.prompt_templates = self._load_prompt_templates()
     
     def _load_prompt_templates(self) -> Dict[str, str]:
@@ -106,6 +108,16 @@ PROBLEMAS: [lista de problemas encontrados]"""
     
     def _load_custom_prompt(self, assignment_name: str) -> Optional[str]:
         """Carrega prompt personalizado do assignment se existir."""
+        # Primeiro tenta na pasta prompts/ (versionada)
+        prompt_file = self.prompts_path / assignment_name / "prompt.txt"
+        
+        if prompt_file.exists():
+            try:
+                return prompt_file.read_text(encoding="utf-8")
+            except Exception as e:
+                print(f"⚠️  Erro ao ler prompt personalizado para {assignment_name}: {e}")
+        
+        # Fallback: tenta na pasta enunciados/ (não versionada)
         prompt_file = self.enunciados_path / assignment_name / "prompt.txt"
         
         if prompt_file.exists():

@@ -1,0 +1,50 @@
+Analise o código Python abaixo para o assignment "{assignment_name}".
+
+DESCRIÇÃO DO ASSIGNMENT:
+{assignment_description}
+
+REQUISITOS ESPECÍFICOS:
+{assignment_requirements}
+
+CÓDIGO DO ALUNO:
+{student_code}
+
+INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS PARA ESTE ASSIGNMENT:
+
+Este é um assignment de Web Scraping básico para extrair dados do IMDB. Avalie considerando:
+
+1. **Funcionamento do Scraping (50% do peso)**:
+   - Deve acessar corretamente a URL: https://www.imdb.com/chart/top
+   - Deve usar `requests` para buscar o conteúdo HTML
+   - Deve usar `BeautifulSoup` para analisar a estrutura
+   - Deve extrair os 10 primeiros filmes da lista
+
+2. **Dados Extraídos (30% do peso)**:
+   - Deve extrair Título do filme
+   - Deve extrair Ano de lançamento
+   - Deve extrair Nota (rating)
+   - Deve exibir no formato: "1. The Shawshank Redemption (1994) - Nota: 9.2"
+
+3. **Qualidade do Código (20% do peso)**:
+   - Deve completar o arquivo `main.py` fornecido
+   - Código deve ser legível e bem comentado
+   - Deve tratar erros adequadamente (conexão, parsing)
+   - Deve seguir boas práticas de Python
+
+4. **Estrutura e Organização**:
+   - O aluno deve usar a estrutura fornecida no enunciado
+   - Deve completar o arquivo `main.py` existente
+   - Não deve modificar a estrutura básica fornecida
+
+5. **Funcionalidade**:
+   - O programa deve executar sem erros
+   - Deve exibir os dados no console
+   - Deve extrair dados reais do site IMDB
+
+Formate sua resposta assim:
+NOTA: [número de 0 a 10]
+COMENTARIOS: [lista de comentários sobre pontos positivos]
+SUGESTOES: [lista de sugestões de melhoria]
+PROBLEMAS: [lista de problemas encontrados]
+
+IMPORTANTE: Considere que o aluno recebeu uma estrutura base no enunciado. Avalie principalmente se ele implementou corretamente o scraping do IMDB e se extraiu os dados solicitados no formato correto. 

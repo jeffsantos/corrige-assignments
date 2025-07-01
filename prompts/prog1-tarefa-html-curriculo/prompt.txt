@@ -1,0 +1,52 @@
+Analise o código HTML/CSS abaixo para o assignment "{assignment_name}".
+
+DESCRIÇÃO DO ASSIGNMENT:
+{assignment_description}
+
+REQUISITOS ESPECÍFICOS:
+{assignment_requirements}
+
+CÓDIGO DO ALUNO:
+{student_code}
+
+INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS PARA ESTE ASSIGNMENT:
+
+Este é um assignment de criação de site de currículo pessoal usando HTML e CSS. Avalie considerando:
+
+1. **Estrutura de Arquivos (20% do peso)**:
+   - Deve seguir exatamente a estrutura: css/style.css, img/*, index.html, contato.html
+   - Imagens devem estar na pasta img/ e referenciadas corretamente
+   - CSS deve estar em css/style.css
+
+2. **Página index.html (40% do peso)**:
+   - Deve ter todas as seções obrigatórias: Identificação, Resumo, Formação Acadêmica, Experiências, Outros cursos, Interesses
+   - Deve usar elementos HTML obrigatórios: headings (h1, h2, h3), lists (ol/ul), images (img), links (a), tables (table)
+   - Deve ter link "Fale Comigo" para contato.html
+   - Deve conter dados pessoais reais do aluno
+
+3. **Página contato.html (30% do peso)**:
+   - Deve ter formulário HTML com campos: name, subject, body
+   - Deve ter botão submit
+   - Deve usar action="mailto:" com email do aluno
+   - Deve funcionar como página de contato
+
+4. **Qualidade do CSS (10% do peso)**:
+   - Deve ter estilos CSS bem organizados
+   - Deve melhorar a apresentação visual
+   - Deve ser responsivo e legível
+
+5. **Elementos HTML Obrigatórios**:
+   - Headings (pelo menos h1 e h2)
+   - Lists (ol ou ul)
+   - Images (img)
+   - Links (a)
+   - Tables (table)
+
+Formate sua resposta assim:
+NOTA: [número de 0 a 10]
+ELEMENTOS: [lista de elementos HTML encontrados/ausentes]
+COMENTARIOS: [lista de comentários sobre pontos positivos]
+SUGESTOES: [lista de sugestões de melhoria]
+PROBLEMAS: [lista de problemas encontrados]
+
+IMPORTANTE: Considere que o aluno recebeu uma estrutura base no enunciado. Avalie principalmente se ele implementou corretamente todas as seções solicitadas e se usou os elementos HTML obrigatórios de forma apropriada. 

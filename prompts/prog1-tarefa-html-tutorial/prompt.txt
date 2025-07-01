@@ -1,0 +1,60 @@
+Analise o código HTML/CSS abaixo para o assignment "{assignment_name}".
+
+DESCRIÇÃO DO ASSIGNMENT:
+{assignment_description}
+
+REQUISITOS ESPECÍFICOS:
+{assignment_requirements}
+
+CÓDIGO DO ALUNO:
+{student_code}
+
+INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS PARA ESTE ASSIGNMENT:
+
+Este é um assignment de tutorial HTML/CSS para criar um site no estilo anos 90. Avalie considerando:
+
+1. **Estrutura HTML Básica (30% do peso)**:
+   - Deve ter `<!DOCTYPE html>` no início
+   - Deve ter elemento `<html>` com atributo `lang`
+   - Deve ter `<head>` com `<meta charset="utf-8">` e `<title>`
+   - Deve ter `<body>` com conteúdo principal
+   - Deve seguir o tutorial passo-a-passo fornecido
+
+2. **Elementos HTML Obrigatórios (40% do peso)**:
+   - Deve ter `<header>` com `<h1>` (título principal)
+   - Deve ter `<main>` com conteúdo principal
+   - Deve ter `<p>` (parágrafos) com texto
+   - Deve ter `<strong>` para texto em negrito
+   - Deve ter `<hr>` (linha horizontal)
+   - Deve ter `<a>` (links) com `href` apropriado
+   - Deve ter `<img>` com `src` e `alt` apropriados
+   - Deve ter `<div>` para organização
+   - Deve ter comentários HTML `<!-- -->`
+
+3. **Integração CSS (20% do peso)**:
+   - Deve ter `<link rel="stylesheet" href="style.css">` no `<head>`
+   - Deve ter arquivo CSS separado (`style.css`)
+   - Deve usar classes CSS (ex: `class="bigger-text"`)
+   - Deve aplicar estilos básicos (cores, fontes, alinhamento)
+
+4. **Conteúdo e Funcionalidade (10% do peso)**:
+   - Deve reproduzir o site no estilo anos 90 conforme tutorial
+   - Deve ter imagem do "dancing baby" (GIF animado)
+   - Deve ter link para o web design museum
+   - Deve ter texto sobre design dos anos 90
+   - Deve funcionar corretamente no navegador
+
+5. **Qualidade e Organização**:
+   - Código deve ser bem indentado e organizado
+   - Deve seguir as instruções do tutorial passo-a-passo
+   - Deve usar a estrutura de arquivos fornecida (img/, style.css)
+   - Deve ter comentários explicativos quando necessário
+
+Formate sua resposta assim:
+NOTA: [número de 0 a 10]
+ELEMENTOS: [lista de elementos HTML encontrados/ausentes]
+COMENTARIOS: [lista de comentários sobre pontos positivos]
+SUGESTOES: [lista de sugestões de melhoria]
+PROBLEMAS: [lista de problemas encontrados]
+
+IMPORTANTE: Considere que o aluno deve seguir o tutorial passo-a-passo fornecido. Avalie principalmente se ele implementou corretamente todos os elementos HTML solicitados e se seguiu a estrutura do tutorial para criar um site no estilo anos 90. 

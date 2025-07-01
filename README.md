@@ -55,16 +55,19 @@ echo "sua-chave-aqui" > ~/.secrets/open-ai-api-key.txt
 
 ```
 corrige-assignments/
-├── enunciados/                    # Enunciados dos assignments
+├── enunciados/                    # Enunciados dos assignments (não versionados)
 │   ├── prog1-prova-av/
 │   │   ├── README.md             # Descrição da atividade
-│   │   ├── prompt.txt            # Prompt personalizado (opcional)
 │   │   ├── scraper.py            # Código base fornecido
 │   │   └── tests/                # Testes da atividade
 │   └── prog1-tarefa-html-curriculo/
 │       ├── README.md
-│       ├── prompt.txt            # Prompt personalizado
 │       └── ...
+├── prompts/                       # Prompts personalizados (versionados)
+│   ├── prog1-prova-av/
+│   │   └── prompt.txt            # Prompt personalizado
+│   └── prog1-tarefa-html-curriculo/
+│       └── prompt.txt            # Prompt personalizado
 ├── respostas/                     # Submissões dos alunos
 │   └── ebape-prog-aplic-barra-2025/
 │       └── prog1-prova-av-submissions/
@@ -126,14 +129,15 @@ python -m src.main correct --turma ebape-prog-aplic-barra-2025
 
 O sistema suporta prompts personalizados para cada assignment:
 
-1. **Prompt Personalizado**: Crie um arquivo `prompt.txt` na pasta do enunciado
+1. **Prompt Personalizado**: Crie um arquivo `prompt.txt` na pasta `prompts/{assignment-name}/`
 2. **Template Padrão**: Se não existir prompt personalizado, usa template baseado no tipo (Python/HTML)
 3. **Leitura Automática**: Lê README.md e estrutura de arquivos do enunciado
+4. **Versionamento**: Os prompts ficam na pasta `prompts/` (versionada) separada dos enunciados
 
 ### Exemplo de Prompt Personalizado
 
 ```txt
-# enunciados/prog1-prova-av/prompt.txt
+# prompts/prog1-prova-av/prompt.txt
 Analise o código Python abaixo para o assignment "{assignment_name}".
 
 DESCRIÇÃO DO ASSIGNMENT:

@@ -1,0 +1,51 @@
+Analise o código Python abaixo para o assignment "{assignment_name}".
+
+DESCRIÇÃO DO ASSIGNMENT:
+{assignment_description}
+
+REQUISITOS ESPECÍFICOS:
+{assignment_requirements}
+
+CÓDIGO DO ALUNO:
+{student_code}
+
+INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS PARA ESTE ASSIGNMENT:
+
+Este é um assignment de Web Scraping para consulta de ações no Yahoo Finance. Avalie considerando:
+
+1. **Funcionamento do Scraping (40% do peso)**:
+   - Deve construir corretamente a URL com parâmetros (`get_stock_url`)
+   - Deve converter datas para formato Unix (`convert_to_unix`)
+   - Deve usar `requests.get()` com cabeçalho User-Agent apropriado
+   - Deve extrair informações da página HTML com `BeautifulSoup` (`scrap_stock_page`)
+
+2. **Interface e Interação (30% do peso)**:
+   - Deve aceitar códigos de ações como argumentos (ex: `python main.py PBR VALE`)
+   - Deve solicitar duas datas no formato `AAAA-MM-DD`
+   - Deve exibir valores encontrados para cada ação
+   - Deve processar múltiplas ações conforme solicitado
+
+3. **Qualidade do Código (20% do peso)**:
+   - Deve completar as funções fornecidas no `main.py`
+   - Código deve ser legível e bem comentado
+   - Deve tratar erros adequadamente (datas inválidas, conexão, parsing)
+   - Deve seguir boas práticas de Python
+
+4. **Estrutura e Organização (10% do peso)**:
+   - O aluno deve usar a estrutura fornecida no enunciado
+   - Deve completar as funções existentes sem modificar a estrutura básica
+   - Deve manter a separação de responsabilidades entre funções
+
+5. **Funcionalidade**:
+   - O programa deve executar sem erros
+   - Deve aceitar entrada via linha de comando
+   - Deve processar datas corretamente
+   - Deve extrair dados reais do Yahoo Finance
+
+Formate sua resposta assim:
+NOTA: [número de 0 a 10]
+COMENTARIOS: [lista de comentários sobre pontos positivos]
+SUGESTOES: [lista de sugestões de melhoria]
+PROBLEMAS: [lista de problemas encontrados]
+
+IMPORTANTE: Considere que o aluno recebeu uma estrutura base no enunciado. Avalie principalmente se ele implementou corretamente as funções solicitadas e se o programa funciona conforme especificado na interface de linha de comando. 
