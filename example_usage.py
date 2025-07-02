@@ -113,9 +113,27 @@ def run_example():
     print("  • Gera relatório visual HTML com thumbnails")
     print("  • Não executa testes ou análise de IA")
     print("  • Mais rápido que correção completa")
+    print("  • Performance otimizada: dependências instaladas uma única vez")
+    print("  • Captura completa: altura mínima de 1800px")
+    print("  • Suporte a alta resolução: 2880x1620, 200% escala")
     
     # Comentar para não executar automaticamente
     # cli(["generate-thumbnails-only", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025"])
+    
+    # Exemplo 9b: Geração de thumbnails com logs detalhados
+    print("\n📝 Exemplo 9b: Geração de Thumbnails com Debug Detalhado")
+    print("-" * 50)
+    print("Assignment: prog1-prova-av (apenas thumbnails + verbose)")
+    print("Características:")
+    print("  • Todas as funcionalidades do exemplo 9")
+    print("  • Logs detalhados de debug com flag --verbose")
+    print("  • Mostra instalação de dependências")
+    print("  • Exibe dimensões de páginas detectadas")
+    print("  • Logs de captura de screenshots")
+    print("  • Informações de processos e portas")
+    
+    # Comentar para não executar automaticamente
+    # cli(["generate-thumbnails-only", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
     
     # Exemplo 10: Relatório visual completo com correção
     print("\n📝 Exemplo 10: Relatório Visual Completo")
@@ -128,9 +146,26 @@ def run_example():
     print("  • Organiza por nota (melhores primeiro)")
     print("  • Inclui estatísticas de sucesso dos thumbnails")
     print("  • Grid de thumbnails com filtros por faixa de nota")
+    print("  • Performance otimizada: dependências instaladas uma única vez")
+    print("  • Captura completa: altura mínima de 1800px")
+    print("  • Limpeza automática de processos órfãos")
     
     # Comentar para não executar automaticamente
     # cli(["generate-visual-report", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025"])
+    
+    # Exemplo 10b: Relatório visual com logs detalhados
+    print("\n📝 Exemplo 10b: Relatório Visual com Debug Detalhado")
+    print("-" * 50)
+    print("Assignment: prog1-prova-av (correção + thumbnails + verbose)")
+    print("Características:")
+    print("  • Todas as funcionalidades do exemplo 10")
+    print("  • Logs detalhados de debug com flag --verbose")
+    print("  • Debug completo da geração de thumbnails")
+    print("  • Informações de performance e otimizações")
+    print("  • Logs de limpeza de processos órfãos")
+    
+    # Comentar para não executar automaticamente
+    # cli(["generate-visual-report", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
     
     print("\n✅ Exemplos demonstrados!")
     print("\n💡 Para executar os exemplos, descomente as linhas correspondentes no código.")
@@ -141,6 +176,9 @@ def run_example():
     print("  • Configure OPENAI_API_KEY para análise de IA")
     print("  • Verifique se pipenv está configurado")
     print("  • Ajuste timeouts em config.py se necessário")
+    print("  • Dependências otimizadas: psutil, pillow")
+    print("  • Suporte a alta resolução: 2880x1620, 200% escala")
+    print("  • Use --verbose para debug detalhado")
 
 
 if __name__ == "__main__":

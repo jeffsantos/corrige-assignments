@@ -14,8 +14,11 @@ Sistema inteligente para correção automática de assignments de programação 
 - 🎯 **Critérios específicos** - Avaliação baseada nos requisitos de cada assignment
 - 👥 **Suporte a submissões individuais e em grupo** - Configuração por assignment
 - 📝 **Logs de auditoria da IA** - Registro completo das análises para transparência
-- 🖼️ **Geração automática de thumbnails** - Screenshots de dashboards Streamlit
+- 🖼️ **Geração automática de thumbnails** - Screenshots de dashboards Streamlit com captura completa
 - 📈 **Relatórios visuais** - Interface HTML com thumbnails organizados por nota
+- ⚡ **Performance otimizada** - Dependências instaladas uma única vez, limpeza automática de processos
+- 🔍 **Debug opcional** - Flag --verbose para logs detalhados
+- 🖥️ **Suporte a alta resolução** - Compatível com telas 2880x1620, 200% escala
 
 ## 🚀 Instalação
 
@@ -81,9 +84,16 @@ Para gerar thumbnails de dashboards Streamlit, configure as seguintes opções e
 # Configurações de thumbnails
 STREAMLIT_STARTUP_TIMEOUT = 30  # segundos para aguardar Streamlit inicializar
 SCREENSHOT_WAIT_TIME = 3  # segundos para aguardar renderização completa
-CHROME_WINDOW_SIZE = "1200,800"  # tamanho da janela do Chrome
+CHROME_WINDOW_SIZE = "1440,900"  # tamanho da janela do Chrome (otimizado para alta resolução)
 STREAMLIT_PORT_RANGE = (8501, 8600)  # range de portas para Streamlit
 ```
+
+**Novas funcionalidades otimizadas:**
+- **Performance**: Dependências instaladas uma única vez por execução
+- **Captura completa**: Altura mínima de 1800px para dashboards
+- **Suporte a alta resolução**: Compatível com telas 2880x1620, 200% escala
+- **Logs opcionais**: Flag `--verbose` para debug detalhado
+- **Limpeza automática**: Processos órfãos removidos automaticamente
 
 ## 📁 Estrutura do Projeto
 
@@ -187,8 +197,14 @@ python -m src.main convert-latest --format markdown
 # Gerar apenas thumbnails (sem correção)
 python -m src.main generate-thumbnails-only --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
 
+# Gerar apenas thumbnails com logs detalhados
+python -m src.main generate-thumbnails-only --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose
+
 # Gerar relatório visual completo (correção + thumbnails)
 python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
+
+# Gerar relatório visual com logs detalhados
+python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose
 
 # Especificar diretório de saída para relatórios visuais
 python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --output-dir reports/visual
@@ -233,8 +249,14 @@ python -m src.main list-submissions --turma ebape-prog-aplic-barra-2025
 # Exemplo 12: Gerar apenas thumbnails de dashboards
 python -m src.main generate-thumbnails-only --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
 
-# Exemplo 13: Gerar relatório visual completo
+# Exemplo 13: Gerar apenas thumbnails com logs detalhados
+python -m src.main generate-thumbnails-only --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose
+
+# Exemplo 14: Gerar relatório visual completo
 python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
+
+# Exemplo 15: Gerar relatório visual com logs detalhados
+python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose
 ```
 
 ## 🖼️ Funcionalidade de Thumbnails Streamlit
@@ -248,6 +270,11 @@ O sistema inclui funcionalidade avançada para gerar thumbnails de dashboards St
 - **Tratamento de erros**: Instala dependências automaticamente se necessário
 - **Relatórios visuais**: Interface HTML organizada por nota
 - **Estatísticas**: Taxa de sucesso dos thumbnails gerados
+- **Performance otimizada**: Dependências instaladas uma única vez por execução
+- **Captura completa**: Altura mínima de 1800px para dashboards
+- **Suporte a alta resolução**: Compatível com telas 2880x1620, 200% escala
+- **Logs opcionais**: Flag `--verbose` para debug detalhado
+- **Limpeza automática**: Processos órfãos removidos automaticamente
 
 ### Como Funciona
 
@@ -262,8 +289,18 @@ O sistema inclui funcionalidade avançada para gerar thumbnails de dashboards St
 # config.py
 STREAMLIT_STARTUP_TIMEOUT = 30  # Tempo para inicializar
 SCREENSHOT_WAIT_TIME = 3        # Tempo para renderizar
-CHROME_WINDOW_SIZE = "1200,800" # Tamanho da janela
+CHROME_WINDOW_SIZE = "1440,900" # Tamanho da janela (otimizado para alta resolução)
 STREAMLIT_PORT_RANGE = (8501, 8600) # Range de portas
+```
+
+### Dependências Adicionais
+
+O sistema agora inclui dependências otimizadas para thumbnails:
+
+```python
+# Pipfile
+psutil = "*"    # Gerenciamento de processos órfãos
+pillow = "*"    # Manipulação de imagens para captura completa
 ```
 
 ### Solução de Problemas
@@ -272,6 +309,11 @@ STREAMLIT_PORT_RANGE = (8501, 8600) # Range de portas
 - **Timeouts**: Aumente `STREAMLIT_STARTUP_TIMEOUT`
 - **Erros de dependência**: O sistema tenta instalar automaticamente
 - **Conflitos de porta**: Ajuste `STREAMLIT_PORT_RANGE`
+- **Thumbnails cortados**: Sistema agora usa altura mínima de 1800px automaticamente
+- **Performance lenta**: Dependências instaladas uma única vez por execução
+- **Processos órfãos**: Limpeza automática implementada
+- **Telas de alta resolução**: Suporte nativo para 2880x1620, 200% escala
+- **Debug detalhado**: Use flag `--verbose` para logs completos
 
 ## 📊 Relatórios
 
