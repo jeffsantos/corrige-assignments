@@ -128,12 +128,24 @@ class Turma:
 
 
 @dataclass
+class ThumbnailResult:
+    """Resultado da captura de thumbnail de um dashboard Streamlit."""
+    submission_identifier: str
+    display_name: str
+    thumbnail_path: Path
+    capture_timestamp: str
+    streamlit_status: str  # "success", "error", "timeout"
+    error_message: Optional[str] = None
+
+
+@dataclass
 class CorrectionReport:
     """Relatório de correção."""
     assignment_name: str
     turma: str
     submissions: List[Submission] = field(default_factory=list)
     summary: Dict[str, Any] = field(default_factory=dict)
+    thumbnails: List[ThumbnailResult] = field(default_factory=list)
     generated_at: str = ""
     
     def to_dict(self) -> Dict[str, Any]:
@@ -143,6 +155,17 @@ class CorrectionReport:
             "turma": self.turma,
             "generated_at": self.generated_at,
             "summary": self.summary,
+            "thumbnails": [
+                {
+                    "submission_identifier": thumb.submission_identifier,
+                    "display_name": thumb.display_name,
+                    "thumbnail_path": str(thumb.thumbnail_path),
+                    "capture_timestamp": thumb.capture_timestamp,
+                    "streamlit_status": thumb.streamlit_status,
+                    "error_message": thumb.error_message
+                }
+                for thumb in self.thumbnails
+            ],
             "submissions": [
                 {
                     "submission_type": "individual" if isinstance(sub, IndividualSubmission) else "group",
@@ -280,20 +303,24 @@ class CorrectionReport:
                 
                 submissions.append(submission)
         
+        # Reconstrói thumbnails se existirem
+        thumbnails = []
+        for thumb_data in data.get('thumbnails', []):
+            thumbnail = ThumbnailResult(
+                submission_identifier=thumb_data['submission_identifier'],
+                display_name=thumb_data['display_name'],
+                thumbnail_path=Path(thumb_data['thumbnail_path']),
+                capture_timestamp=thumb_data['capture_timestamp'],
+                streamlit_status=thumb_data['streamlit_status'],
+                error_message=thumb_data.get('error_message')
+            )
+            thumbnails.append(thumbnail)
+        
         return cls(
             assignment_name=data['assignment_name'],
             turma=data['turma'],
             submissions=submissions,
             summary=data.get('summary', {}),
+            thumbnails=thumbnails,
             generated_at=data.get('generated_at', '')
         ) 
-
-@dataclass
-class ThumbnailResult:
-    """Resultado da captura de thumbnail de um dashboard Streamlit."""
-    submission_identifier: str
-    display_name: str
-    thumbnail_path: Path
-    capture_timestamp: str
-    streamlit_status: str  # "success", "error", "timeout"
-    error_message: Optional[str] = None 

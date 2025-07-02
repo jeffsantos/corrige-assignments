@@ -12,6 +12,7 @@ from ..repositories.assignment_repository import AssignmentRepository
 from ..repositories.submission_repository import SubmissionRepository
 from .test_executor import PytestExecutor
 from .ai_analyzer import AIAnalyzer
+from .streamlit_thumbnail_service import StreamlitThumbnailService
 
 
 class CorrectionService:
@@ -22,6 +23,7 @@ class CorrectionService:
         self.submission_repo = SubmissionRepository(respostas_path)
         self.test_executor = PytestExecutor()
         self.ai_analyzer = AIAnalyzer(openai_api_key, enunciados_path, logs_path)
+        self.thumbnail_service = StreamlitThumbnailService()
     
     def correct_assignment(self, assignment_name: str, turma_name: str, 
                           submission_identifier: Optional[str] = None) -> CorrectionReport:
@@ -55,6 +57,15 @@ class CorrectionService:
         
         # Calcula estatísticas do relatório
         report.summary = self._calculate_summary(submissions)
+        
+        # Gera thumbnails se for assignment Streamlit
+        if assignment_name == "prog1-prova-av":
+            try:
+                report.thumbnails = self.thumbnail_service.generate_thumbnails_for_assignment(
+                    assignment_name, turma_name, submissions
+                )
+            except Exception as e:
+                print(f"Aviso: Erro ao gerar thumbnails: {e}")
         
         return report
     
