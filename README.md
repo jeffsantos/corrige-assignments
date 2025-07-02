@@ -74,6 +74,8 @@ ASSIGNMENT_SUBMISSION_TYPES = {
 
 ```
 corrige-assignments/
+├── doc/                          # Documentação técnica
+│   └── sistema-notas.md          # Sistema de cálculo de notas
 ├── enunciados/                    # Enunciados dos assignments (não versionados)
 │   ├── prog1-prova-av/
 │   │   ├── README.md             # Descrição da atividade
@@ -388,6 +390,17 @@ logs/
 ❌ test_parse_data_function_signature (0.234s)
    Erro: SystemExit: 1
 ```
+
+## 📚 Documentação Técnica
+
+### Sistema de Cálculo de Notas
+
+Para entender como o sistema calcula as notas finais dos alunos, consulte:
+- **[Sistema de Cálculo de Notas](doc/sistema-notas.md)** - Explicação detalhada das fórmulas e ponderações
+
+### Outros Documentos
+
+- **[Contexto do Projeto](contexto.md)** - Decisões de design e padrões estabelecidos
 
 ## 🔧 Configuração Avançada
 
