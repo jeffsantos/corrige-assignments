@@ -186,11 +186,16 @@ class CorrectionService:
         
         scores = [sub.final_score for sub in submissions]
         
+        # Arredonda para uma casa decimal para consistência visual
+        avg = round(sum(scores) / len(scores), 1)
+        min_score = round(min(scores), 1)
+        max_score = round(max(scores), 1)
+        
         return {
             "total_submissions": len(submissions),
-            "average_score": sum(scores) / len(scores),
-            "min_score": min(scores),
-            "max_score": max(scores),
+            "average_score": avg,
+            "min_score": min_score,
+            "max_score": max_score,
             "passing_rate": sum(1 for score in scores if score >= 6.0) / len(scores),
             "excellent_rate": sum(1 for score in scores if score >= 9.0) / len(scores)
         } 

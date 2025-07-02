@@ -453,6 +453,32 @@ class TestCorrectionService:
                 assert submission.group_name == "joaosilva"
                 assert isinstance(submission.final_score, float)
 
+    def test_summary_rounding_consistency(self):
+        """Testa se as estatísticas de nota no summary são arredondadas para uma casa decimal."""
+        from src.domain.models import IndividualSubmission, CorrectionReport
+        submissions = [
+            IndividualSubmission(
+                github_login=f"aluno{i}",
+                assignment_name="test-assignment",
+                turma="test-turma",
+                submission_path=Path("."),
+                final_score=nota
+            )
+            for i, nota in enumerate([9.1, 7.7, 6.4, 8.8, 9.9])
+        ]
+        service = CorrectionService(Path("."), Path("."))
+        summary = service._calculate_summary(submissions)
+        # Todos devem ter apenas uma casa decimal
+        for key in ["average_score", "min_score", "max_score"]:
+            value = summary[key]
+            # Deve ser float
+            assert isinstance(value, float)
+            # Deve ter apenas uma casa decimal
+            value_str = f"{value:.1f}"
+            assert float(value_str) == value, f"{key} não está arredondado corretamente: {value}"
+        # Checagem visual
+        print("Resumo arredondado:", summary)
+
 
 class TestRepositories:
     """Testes para os repositórios."""
