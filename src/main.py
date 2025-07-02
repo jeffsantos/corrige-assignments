@@ -15,6 +15,7 @@ from .services.correction_service import CorrectionService
 from .utils.report_generator import ReportGenerator
 from .repositories.assignment_repository import AssignmentRepository
 from .repositories.submission_repository import SubmissionRepository
+from .utils.visual_report_generator import VisualReportGenerator
 
 
 console = Console()
@@ -364,6 +365,71 @@ def convert_latest(format, input_dir, output_dir):
     
     except Exception as e:
         console.print(f"[red]Erro durante a conversão: {str(e)}[/red]")
+        sys.exit(1)
+
+
+@cli.command()
+@click.option('--assignment', '-a', required=True, help='Nome do assignment')
+@click.option('--turma', '-t', required=True, help='Nome da turma')
+@click.option('--output-dir', '-o', default='reports/visual', help='Diretório para salvar relatório visual')
+@click.option('--force-recapture', is_flag=True, help='Força recaptura de thumbnails mesmo se já existirem')
+def generate_visual_report(assignment, turma, output_dir, force_recapture):
+    """Gera relatório visual com thumbnails de dashboards Streamlit."""
+    try:
+        # Configura caminhos
+        base_path = Path(__file__).parent.parent
+        enunciados_path = base_path / "enunciados"
+        respostas_path = base_path / "respostas"
+        output_path = Path(output_dir)
+        
+        # Verifica se os diretórios existem
+        if not enunciados_path.exists():
+            console.print(f"[red]Erro: Diretório 'enunciados' não encontrado em {enunciados_path}[/red]")
+            sys.exit(1)
+        
+        if not respostas_path.exists():
+            console.print(f"[red]Erro: Diretório 'respostas' não encontrado em {respostas_path}[/red]")
+            sys.exit(1)
+        
+        # Cria diretório de saída se não existir
+        output_path.mkdir(parents=True, exist_ok=True)
+        
+        # Verifica API key do OpenAI
+        openai_api_key = os.getenv("OPENAI_API_KEY")
+        
+        # Configura caminho dos logs
+        logs_path = base_path / "logs"
+        
+        console.print(Panel(f"[bold blue]Gerando relatório visual para {assignment} da turma {turma}[/bold blue]"))
+        
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=console
+        ) as progress:
+            task = progress.add_task("Processando submissões...", total=None)
+            
+            # Inicializa serviços
+            correction_service = CorrectionService(enunciados_path, respostas_path, openai_api_key, logs_path)
+            visual_generator = VisualReportGenerator()
+            
+            # Executa correção (que inclui geração de thumbnails para assignments Streamlit)
+            report = correction_service.correct_assignment(assignment, turma)
+            
+            progress.update(task, description="Gerando relatório visual...")
+            
+            # Gera relatório visual
+            visual_report_path = visual_generator.generate_visual_report(
+                assignment, turma, report.thumbnails, report, output_path
+            )
+            
+            console.print(f"[green]Relatório visual salvo: {visual_report_path}[/green]")
+        
+        console.print(f"[bold green]✅ Relatório visual gerado com sucesso![/bold green]")
+        console.print(f"[yellow]Thumbnails gerados: {len(report.thumbnails)}[/yellow]")
+        
+    except Exception as e:
+        console.print(f"[red]Erro durante a geração do relatório visual: {str(e)}[/red]")
         sys.exit(1)
 
 

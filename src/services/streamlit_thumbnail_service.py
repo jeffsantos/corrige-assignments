@@ -68,6 +68,8 @@ class StreamlitThumbnailService:
         # Encontra porta disponível
         port = self._find_available_port()
         
+        print(f"  [DEBUG] Iniciando Streamlit na porta {port} para {identifier}")
+        
         # Executa Streamlit em background
         process = self._start_streamlit(main_file, port)
         
@@ -75,9 +77,29 @@ class StreamlitThumbnailService:
             # Aguarda Streamlit inicializar
             time.sleep(STREAMLIT_STARTUP_TIMEOUT)
             
+            # Verifica se o processo ainda está rodando
+            if process.poll() is not None:
+                # Processo terminou, vamos verificar o que aconteceu
+                stdout, stderr = process.communicate()
+                error_msg = stderr.decode('utf-8', errors='ignore') if stderr else "Processo terminou sem erro específico"
+                print(f"  [DEBUG] Streamlit falhou para {identifier}: {error_msg}")
+                raise RuntimeError(f"Streamlit falhou: {error_msg}")
+            
             # Captura screenshot
             thumbnail_path = self.output_dir / f"{identifier}_{assignment_name}.png"
-            self._capture_screenshot(port, thumbnail_path)
+            try:
+                self._capture_screenshot(port, thumbnail_path)
+                print(f"  [DEBUG] Screenshot capturado com sucesso para {identifier}")
+            except Exception as screenshot_exc:
+                print(f"  [DEBUG] Erro na captura de screenshot para {identifier}: {screenshot_exc}")
+                # Loga stdout/stderr do processo Streamlit
+                if process.stdout:
+                    out = process.stdout.read().decode(errors='ignore')
+                    print(f"  [DEBUG] Streamlit stdout:\n{out}")
+                if process.stderr:
+                    err = process.stderr.read().decode(errors='ignore')
+                    print(f"  [DEBUG] Streamlit stderr:\n{err}")
+                raise screenshot_exc
             
             return ThumbnailResult(
                 submission_identifier=identifier,
@@ -86,6 +108,51 @@ class StreamlitThumbnailService:
                 capture_timestamp=datetime.now().isoformat(),
                 streamlit_status="success"
             )
+            
+        except Exception as e:
+            # Loga stdout/stderr do processo Streamlit em caso de erro
+            if process.stdout:
+                out = process.stdout.read().decode(errors='ignore')
+                print(f"  [DEBUG] Streamlit stdout:\n{out}")
+            if process.stderr:
+                err = process.stderr.read().decode(errors='ignore')
+                print(f"  [DEBUG] Streamlit stderr:\n{err}")
+            
+            # Verifica se é erro de importação e tenta instalar dependências
+            error_str = str(e).lower()
+            if any(keyword in error_str for keyword in ['module', 'import', 'no module named']):
+                print(f"  [DEBUG] Detectado erro de importação, tentando instalar dependências...")
+                self._install_common_dependencies(main_file.parent)
+                
+                # Tenta novamente após instalar dependências
+                print(f"  [DEBUG] Tentando novamente após instalar dependências...")
+                process = self._start_streamlit(main_file, port)
+                time.sleep(STREAMLIT_STARTUP_TIMEOUT)
+                
+                if process.poll() is not None:
+                    stdout, stderr = process.communicate()
+                    error_msg = stderr.decode('utf-8', errors='ignore') if stderr else "Processo terminou sem erro específico"
+                    print(f"  [DEBUG] Streamlit ainda falhou após instalar dependências: {error_msg}")
+                    raise RuntimeError(f"Streamlit falhou mesmo após instalar dependências: {error_msg}")
+                
+                # Tenta capturar screenshot novamente
+                try:
+                    self._capture_screenshot(port, thumbnail_path)
+                    print(f"  [DEBUG] Screenshot capturado com sucesso após instalar dependências")
+                    return ThumbnailResult(
+                        submission_identifier=identifier,
+                        display_name=submission.display_name,
+                        thumbnail_path=thumbnail_path,
+                        capture_timestamp=datetime.now().isoformat(),
+                        streamlit_status="success"
+                    )
+                except Exception as retry_exc:
+                    print(f"  [DEBUG] Falha na segunda tentativa: {retry_exc}")
+                    raise retry_exc
+                finally:
+                    self._stop_streamlit(process)
+            
+            raise e
             
         finally:
             # Para o processo Streamlit
@@ -120,6 +187,35 @@ class StreamlitThumbnailService:
             cwd=main_file.parent
         )
         return process
+    
+    def _install_common_dependencies(self, submission_path: Path):
+        """Instala dependências comuns que podem estar faltando."""
+        common_deps = [
+            "plotly",
+            "altair", 
+            "matplotlib",
+            "seaborn",
+            "numpy",
+            "pandas",
+            "requests",
+            "beautifulsoup4"
+        ]
+        
+        print(f"  [DEBUG] Tentando instalar dependências comuns...")
+        
+        for dep in common_deps:
+            try:
+                subprocess.run(
+                    ["pip", "install", dep],
+                    cwd=submission_path,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    timeout=30
+                )
+                print(f"  [DEBUG] Instalado: {dep}")
+            except Exception as e:
+                print(f"  [DEBUG] Falha ao instalar {dep}: {e}")
+                continue
     
     def _stop_streamlit(self, process: subprocess.Popen):
         """Para o processo Streamlit."""
