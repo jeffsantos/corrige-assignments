@@ -111,12 +111,15 @@ class StreamlitThumbnailService:
             
         except Exception as e:
             # Loga stdout/stderr do processo Streamlit em caso de erro
-            if process.stdout:
-                out = process.stdout.read().decode(errors='ignore')
-                print(f"  [DEBUG] Streamlit stdout:\n{out}")
-            if process.stderr:
-                err = process.stderr.read().decode(errors='ignore')
-                print(f"  [DEBUG] Streamlit stderr:\n{err}")
+            try:
+                if process.stdout:
+                    out = process.stdout.read().decode(errors='ignore')
+                    print(f"  [DEBUG] Streamlit stdout:\n{out}")
+                if process.stderr:
+                    err = process.stderr.read().decode(errors='ignore')
+                    print(f"  [DEBUG] Streamlit stderr:\n{err}")
+            except Exception as log_error:
+                print(f"  [DEBUG] Erro ao ler logs do processo: {log_error}")
             
             # Verifica se é erro de importação e tenta instalar dependências
             error_str = str(e).lower()
@@ -130,10 +133,13 @@ class StreamlitThumbnailService:
                 time.sleep(STREAMLIT_STARTUP_TIMEOUT)
                 
                 if process.poll() is not None:
-                    stdout, stderr = process.communicate()
-                    error_msg = stderr.decode('utf-8', errors='ignore') if stderr else "Processo terminou sem erro específico"
-                    print(f"  [DEBUG] Streamlit ainda falhou após instalar dependências: {error_msg}")
-                    raise RuntimeError(f"Streamlit falhou mesmo após instalar dependências: {error_msg}")
+                    try:
+                        stdout, stderr = process.communicate()
+                        error_msg = stderr.decode('utf-8', errors='ignore') if stderr else "Processo terminou sem erro específico"
+                        print(f"  [DEBUG] Streamlit ainda falhou após instalar dependências: {error_msg}")
+                    except Exception as comm_error:
+                        print(f"  [DEBUG] Erro ao comunicar com processo: {comm_error}")
+                    raise RuntimeError(f"Streamlit falhou mesmo após instalar dependências")
                 
                 # Tenta capturar screenshot novamente
                 try:
@@ -230,10 +236,19 @@ class StreamlitThumbnailService:
     def _stop_streamlit(self, process: subprocess.Popen):
         """Para o processo Streamlit."""
         try:
-            process.terminate()
-            process.wait(timeout=10)
-        except subprocess.TimeoutExpired:
-            process.kill()
+            if process.poll() is None:  # Processo ainda está rodando
+                process.terminate()
+                try:
+                    process.wait(timeout=10)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.wait(timeout=5)
+        except Exception as e:
+            print(f"  [DEBUG] Erro ao parar processo Streamlit: {e}")
+            try:
+                process.kill()
+            except:
+                pass
     
     def _capture_screenshot(self, port: int, output_path: Path):
         """Captura screenshot da página Streamlit."""
