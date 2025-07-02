@@ -253,43 +253,43 @@ PROBLEMAS: [lista de problemas encontrados]"""
     def _read_enunciado_code(self, assignment_name: str) -> str:
         """Lê o código fornecido no enunciado do assignment."""
         assignment_dir = self.enunciados_path / assignment_name
-        
+
         if not assignment_dir.exists():
             return "Diretório do assignment não encontrado."
-        
+
         code_files = []
-        
+
         # Lê arquivos Python
         for py_file in assignment_dir.rglob("*.py"):
             if py_file.is_file():
+                rel_path = py_file.relative_to(assignment_dir)
                 try:
                     content = py_file.read_text(encoding="utf-8")
-                    rel_path = py_file.relative_to(assignment_dir)
                     code_files.append(f"# {rel_path}\n{content}\n")
                 except Exception as e:
                     code_files.append(f"# {rel_path} - Erro ao ler: {e}\n")
-        
+
         # Lê arquivos HTML
         for html_file in assignment_dir.rglob("*.html"):
             if html_file.is_file():
+                rel_path = html_file.relative_to(assignment_dir)
                 try:
                     content = html_file.read_text(encoding="utf-8")
-                    rel_path = html_file.relative_to(assignment_dir)
                     code_files.append(f"<!-- {rel_path} -->\n{content}\n")
                 except Exception as e:
                     code_files.append(f"<!-- {rel_path} - Erro ao ler: {e} -->\n")
-        
+
         # Lê arquivos CSS
         for css_file in assignment_dir.rglob("*.css"):
             if css_file.is_file():
+                rel_path = css_file.relative_to(assignment_dir)
                 try:
                     content = css_file.read_text(encoding="utf-8")
-                    rel_path = css_file.relative_to(assignment_dir)
                     code_files.append(f"/* {rel_path} */\n{content}\n")
                 except Exception as e:
                     code_files.append(f"/* {rel_path} - Erro ao ler: {e} */\n")
-        
+
         if not code_files:
             return "Nenhum código fornecido no enunciado (arquivos vazios ou não encontrados)."
-        
+
         return "\n".join(code_files) 
