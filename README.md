@@ -14,6 +14,8 @@ Sistema inteligente para correção automática de assignments de programação 
 - 🎯 **Critérios específicos** - Avaliação baseada nos requisitos de cada assignment
 - 👥 **Suporte a submissões individuais e em grupo** - Configuração por assignment
 - 📝 **Logs de auditoria da IA** - Registro completo das análises para transparência
+- 🖼️ **Geração automática de thumbnails** - Screenshots de dashboards Streamlit
+- 📈 **Relatórios visuais** - Interface HTML com thumbnails organizados por nota
 
 ## 🚀 Instalação
 
@@ -22,6 +24,7 @@ Sistema inteligente para correção automática de assignments de programação 
 - Python 3.8+
 - pipenv (recomendado) ou pip
 - OpenAI API key (opcional, para análise de IA)
+- Chrome/Chromium (para geração de thumbnails Streamlit)
 
 ### Instalação
 
@@ -70,6 +73,18 @@ ASSIGNMENT_SUBMISSION_TYPES = {
 }
 ```
 
+### Configuração para Thumbnails Streamlit
+
+Para gerar thumbnails de dashboards Streamlit, configure as seguintes opções em `config.py`:
+
+```python
+# Configurações de thumbnails
+STREAMLIT_STARTUP_TIMEOUT = 30  # segundos para aguardar Streamlit inicializar
+SCREENSHOT_WAIT_TIME = 3  # segundos para aguardar renderização completa
+CHROME_WINDOW_SIZE = "1200,800"  # tamanho da janela do Chrome
+STREAMLIT_PORT_RANGE = (8501, 8600)  # range de portas para Streamlit
+```
+
 ## 📁 Estrutura do Projeto
 
 ```
@@ -94,6 +109,8 @@ corrige-assignments/
 │       └── prog1-prova-av-submissions/
 │           └── aluno-nome/
 ├── reports/                       # Relatórios gerados
+│   └── visual/                   # Relatórios visuais com thumbnails
+│       └── thumbnails/           # Screenshots dos dashboards
 ├── logs/                          # Logs de auditoria da IA (não versionados)
 │   └── YYYY-MM-DD/               # Logs organizados por data
 │       └── assignment-name/      # Logs por assignment
@@ -102,7 +119,8 @@ corrige-assignments/
 │   │   ├── ai_analyzer.py        # Análise de IA
 │   │   ├── prompt_manager.py     # Gerenciador de prompts
 │   │   ├── correction_service.py # Serviço principal
-│   │   └── test_executor.py      # Execução de testes (PytestExecutor)
+│   │   ├── test_executor.py      # Execução de testes (PytestExecutor)
+│   │   └── streamlit_thumbnail_service.py # Geração de thumbnails
 │   └── ...
 └── example_usage.py              # Exemplos de uso
 ```
@@ -163,6 +181,19 @@ python -m src.main convert-latest --format html
 python -m src.main convert-latest --format markdown
 ```
 
+### Comandos de Thumbnails Streamlit
+
+```bash
+# Gerar apenas thumbnails (sem correção)
+python -m src.main generate-thumbnails-only --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
+
+# Gerar relatório visual completo (correção + thumbnails)
+python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
+
+# Especificar diretório de saída para relatórios visuais
+python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --output-dir reports/visual
+```
+
 ### Exemplos de Uso
 
 ```bash
@@ -198,20 +229,49 @@ python -m src.main list-assignments
 
 # Exemplo 11: Ver submissões de uma turma
 python -m src.main list-submissions --turma ebape-prog-aplic-barra-2025
+
+# Exemplo 12: Gerar apenas thumbnails de dashboards
+python -m src.main generate-thumbnails-only --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
+
+# Exemplo 13: Gerar relatório visual completo
+python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
 ```
 
-### Opções Detalhadas
+## 🖼️ Funcionalidade de Thumbnails Streamlit
 
-| Opção | Descrição | Obrigatório |
-|-------|-----------|-------------|
-| `--assignment, -a` | Nome do assignment para corrigir | Sim* |
-| `--turma, -t` | Nome da turma | Sim |
-| `--submissao, -s` | Identificador da submissão (login do aluno ou nome do grupo) | Não |
-| `--output-format, -f` | Formato de saída: console, html, markdown, json | Não (padrão: console) |
-| `--output-dir, -o` | Diretório para salvar relatórios | Não (padrão: reports) |
-| `--all-assignments` | Corrigir todos os assignments da turma | Não |
+O sistema inclui funcionalidade avançada para gerar thumbnails de dashboards Streamlit, permitindo visualização rápida dos trabalhos dos alunos.
 
-*Obrigatório apenas quando `--all-assignments` não é usado.
+### Características
+
+- **Geração automática**: Captura screenshots de cada dashboard Streamlit
+- **Processamento paralelo**: Cada submissão roda em porta separada
+- **Tratamento de erros**: Instala dependências automaticamente se necessário
+- **Relatórios visuais**: Interface HTML organizada por nota
+- **Estatísticas**: Taxa de sucesso dos thumbnails gerados
+
+### Como Funciona
+
+1. **Detecção**: Identifica assignments que usam Streamlit
+2. **Inicialização**: Inicia cada dashboard em porta separada
+3. **Captura**: Usa Selenium para capturar screenshot
+4. **Organização**: Cria relatório visual com thumbnails organizados
+
+### Configurações
+
+```python
+# config.py
+STREAMLIT_STARTUP_TIMEOUT = 30  # Tempo para inicializar
+SCREENSHOT_WAIT_TIME = 3        # Tempo para renderizar
+CHROME_WINDOW_SIZE = "1200,800" # Tamanho da janela
+STREAMLIT_PORT_RANGE = (8501, 8600) # Range de portas
+```
+
+### Solução de Problemas
+
+- **Thumbnails em branco**: Aumente `SCREENSHOT_WAIT_TIME`
+- **Timeouts**: Aumente `STREAMLIT_STARTUP_TIMEOUT`
+- **Erros de dependência**: O sistema tenta instalar automaticamente
+- **Conflitos de porta**: Ajuste `STREAMLIT_PORT_RANGE`
 
 ## 📊 Relatórios
 

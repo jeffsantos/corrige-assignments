@@ -6,6 +6,7 @@ import time
 import subprocess
 import threading
 import socket
+import requests
 from datetime import datetime
 from pathlib import Path
 from typing import List, Optional, Tuple
@@ -74,16 +75,9 @@ class StreamlitThumbnailService:
         process = self._start_streamlit(main_file, port)
         
         try:
-            # Aguarda Streamlit inicializar
-            time.sleep(STREAMLIT_STARTUP_TIMEOUT)
-            
-            # Verifica se o processo ainda está rodando
-            if process.poll() is not None:
-                # Processo terminou, vamos verificar o que aconteceu
-                stdout, stderr = process.communicate()
-                error_msg = stderr.decode('utf-8', errors='ignore') if stderr else "Processo terminou sem erro específico"
-                print(f"  [DEBUG] Streamlit falhou para {identifier}: {error_msg}")
-                raise RuntimeError(f"Streamlit falhou: {error_msg}")
+            # Aguarda Streamlit inicializar e verifica saúde
+            if not self._wait_for_streamlit_ready(port, identifier):
+                raise RuntimeError("Streamlit não inicializou corretamente")
             
             # Captura screenshot
             thumbnail_path = self.output_dir / f"{identifier}_{assignment_name}.png"
@@ -93,12 +87,7 @@ class StreamlitThumbnailService:
             except Exception as screenshot_exc:
                 print(f"  [DEBUG] Erro na captura de screenshot para {identifier}: {screenshot_exc}")
                 # Loga stdout/stderr do processo Streamlit
-                if process.stdout:
-                    out = process.stdout.read().decode(errors='ignore')
-                    print(f"  [DEBUG] Streamlit stdout:\n{out}")
-                if process.stderr:
-                    err = process.stderr.read().decode(errors='ignore')
-                    print(f"  [DEBUG] Streamlit stderr:\n{err}")
+                self._log_process_output(process, identifier)
                 raise screenshot_exc
             
             return ThumbnailResult(
@@ -110,16 +99,7 @@ class StreamlitThumbnailService:
             )
             
         except Exception as e:
-            # Loga stdout/stderr do processo Streamlit em caso de erro
-            try:
-                if process.stdout:
-                    out = process.stdout.read().decode(errors='ignore')
-                    print(f"  [DEBUG] Streamlit stdout:\n{out}")
-                if process.stderr:
-                    err = process.stderr.read().decode(errors='ignore')
-                    print(f"  [DEBUG] Streamlit stderr:\n{err}")
-            except Exception as log_error:
-                print(f"  [DEBUG] Erro ao ler logs do processo: {log_error}")
+            print(f"  [DEBUG] Erro na captura de thumbnail: {e}")
             
             # Verifica se é erro de importação e tenta instalar dependências
             error_str = str(e).lower()
@@ -130,16 +110,10 @@ class StreamlitThumbnailService:
                 # Tenta novamente após instalar dependências
                 print(f"  [DEBUG] Tentando novamente após instalar dependências...")
                 process = self._start_streamlit(main_file, port)
-                time.sleep(STREAMLIT_STARTUP_TIMEOUT)
                 
-                if process.poll() is not None:
-                    try:
-                        stdout, stderr = process.communicate()
-                        error_msg = stderr.decode('utf-8', errors='ignore') if stderr else "Processo terminou sem erro específico"
-                        print(f"  [DEBUG] Streamlit ainda falhou após instalar dependências: {error_msg}")
-                    except Exception as comm_error:
-                        print(f"  [DEBUG] Erro ao comunicar com processo: {comm_error}")
-                    raise RuntimeError(f"Streamlit falhou mesmo após instalar dependências")
+                if not self._wait_for_streamlit_ready(port, identifier):
+                    print(f"  [DEBUG] Streamlit ainda falhou após instalar dependências")
+                    raise RuntimeError("Streamlit falhou mesmo após instalar dependências")
                 
                 # Tenta capturar screenshot novamente
                 try:
@@ -164,6 +138,42 @@ class StreamlitThumbnailService:
             # Para o processo Streamlit e aguarda um pouco para garantir que a porta seja liberada
             self._stop_streamlit(process)
             time.sleep(2)  # Aguarda 2 segundos para liberar a porta
+    
+    def _wait_for_streamlit_ready(self, port: int, identifier: str) -> bool:
+        """Aguarda Streamlit inicializar e verifica se está funcionando."""
+        max_attempts = STREAMLIT_STARTUP_TIMEOUT // 2  # Tenta a cada 2 segundos
+        attempt = 0
+        
+        while attempt < max_attempts:
+            try:
+                # Verifica se a porta está respondendo
+                response = requests.get(f"http://localhost:{port}", timeout=5)
+                if response.status_code == 200:
+                    print(f"  [DEBUG] Streamlit está respondendo na porta {port} para {identifier}")
+                    return True
+            except requests.RequestException:
+                pass
+            
+            attempt += 1
+            time.sleep(2)
+            print(f"  [DEBUG] Tentativa {attempt}/{max_attempts} - aguardando Streamlit para {identifier}")
+        
+        print(f"  [DEBUG] Timeout aguardando Streamlit para {identifier}")
+        return False
+    
+    def _log_process_output(self, process: subprocess.Popen, identifier: str):
+        """Loga a saída do processo Streamlit para debug."""
+        try:
+            if process.stdout:
+                out = process.stdout.read().decode(errors='ignore')
+                if out.strip():
+                    print(f"  [DEBUG] Streamlit stdout para {identifier}:\n{out}")
+            if process.stderr:
+                err = process.stderr.read().decode(errors='ignore')
+                if err.strip():
+                    print(f"  [DEBUG] Streamlit stderr para {identifier}:\n{err}")
+        except Exception as e:
+            print(f"  [DEBUG] Erro ao ler saída do processo: {e}")
     
     def _find_available_port(self) -> int:
         """Encontra uma porta disponível para o Streamlit."""
@@ -190,7 +200,9 @@ class StreamlitThumbnailService:
             "--server.port", str(port),
             "--server.headless", "true",
             "--server.enableCORS", "false",
-            "--server.enableXsrfProtection", "false"
+            "--server.enableXsrfProtection", "false",
+            "--server.runOnSave", "false",
+            "--browser.gatherUsageStats", "false"
         ]
         
         process = subprocess.Popen(
@@ -211,7 +223,8 @@ class StreamlitThumbnailService:
             "numpy",
             "pandas",
             "requests",
-            "beautifulsoup4"
+            "beautifulsoup4",
+            "lxml"
         ]
         
         print(f"  [DEBUG] Tentando instalar dependências comuns...")
@@ -256,6 +269,9 @@ class StreamlitThumbnailService:
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--disable-extensions")
+        chrome_options.add_argument("--disable-plugins")
         chrome_options.add_argument(f"--window-size={CHROME_WINDOW_SIZE}")
         
         driver = webdriver.Chrome(options=chrome_options)
@@ -263,6 +279,7 @@ class StreamlitThumbnailService:
         try:
             # Acessa a página Streamlit
             url = f"http://localhost:{port}"
+            print(f"  [DEBUG] Acessando {url}")
             driver.get(url)
             
             # Aguarda a página carregar
@@ -274,6 +291,10 @@ class StreamlitThumbnailService:
             
             # Captura screenshot
             driver.save_screenshot(str(output_path))
+            print(f"  [DEBUG] Screenshot salvo em {output_path}")
             
+        except Exception as e:
+            print(f"  [DEBUG] Erro na captura de screenshot: {e}")
+            raise e
         finally:
             driver.quit() 

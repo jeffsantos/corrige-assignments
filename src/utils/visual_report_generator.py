@@ -30,9 +30,12 @@ class VisualReportGenerator:
         # Ordena por nota decrescente
         submissions_with_thumbnails.sort(key=lambda x: x['submission'].final_score, reverse=True)
         
+        # Calcula estatísticas dos thumbnails
+        thumbnail_stats = self._calculate_thumbnail_stats(thumbnails)
+        
         # Gera HTML
         html_content = self._build_visual_html(
-            assignment_name, turma_name, submissions_with_thumbnails, correction_report
+            assignment_name, turma_name, submissions_with_thumbnails, correction_report, thumbnail_stats
         )
         
         # Salva arquivo
@@ -42,9 +45,23 @@ class VisualReportGenerator:
         
         return output_file
     
+    def _calculate_thumbnail_stats(self, thumbnails: List[ThumbnailResult]) -> dict:
+        """Calcula estatísticas dos thumbnails."""
+        total = len(thumbnails)
+        successful = sum(1 for t in thumbnails if t.streamlit_status == "success")
+        failed = sum(1 for t in thumbnails if t.streamlit_status == "error")
+        
+        return {
+            'total_thumbnails': total,
+            'successful_thumbnails': successful,
+            'failed_thumbnails': failed,
+            'success_rate': successful / total if total > 0 else 0
+        }
+    
     def _build_visual_html(self, assignment_name: str, turma_name: str,
                           submissions_with_thumbnails: List[dict],
-                          correction_report: CorrectionReport) -> str:
+                          correction_report: CorrectionReport,
+                          thumbnail_stats: dict) -> str:
         """Constrói o HTML do relatório visual."""
         
         # Gera grid de thumbnails
@@ -78,6 +95,19 @@ class VisualReportGenerator:
                 total = len(submission.test_results)
                 test_info = f"{passed}/{total}"
             
+            # Status do thumbnail
+            thumbnail_status = "❌ Erro"
+            thumbnail_status_class = "error"
+            if thumbnail:
+                if thumbnail.streamlit_status == "success":
+                    thumbnail_status = "✅ Sucesso"
+                    thumbnail_status_class = "success"
+                elif thumbnail.streamlit_status == "timeout":
+                    thumbnail_status = "⏰ Timeout"
+                    thumbnail_status_class = "timeout"
+                else:
+                    thumbnail_status = f"❌ {thumbnail.error_message[:30]}..." if thumbnail.error_message else "❌ Erro"
+            
             # Thumbnail ou placeholder
             if thumbnail and thumbnail.streamlit_status == "success" and thumbnail.thumbnail_path.exists():
                 thumbnail_src = f"thumbnails/{thumbnail.thumbnail_path.name}"
@@ -95,12 +125,12 @@ class VisualReportGenerator:
                     </div>
                 </div>
                 <div class="thumbnail-image">
-                    <img src="{thumbnail_src}" alt="{thumbnail_alt}" onclick="showDetails('{submission.display_name}', {submission.final_score}, '{test_info}', '{status_text}')">
+                    <img src="{thumbnail_src}" alt="{thumbnail_alt}" onclick="showDetails('{submission.display_name}', {submission.final_score}, '{test_info}', '{status_text}', '{thumbnail_status}')">
                 </div>
                 <div class="thumbnail-info">
                     <div class="status">{status_icon} {status_text}</div>
                     <div class="tests">🧪 {test_info}</div>
-                    <div class="timestamp">{thumbnail.capture_timestamp[:19] if thumbnail else 'N/A'}</div>
+                    <div class="thumbnail-status {thumbnail_status_class}">{thumbnail_status}</div>
                 </div>
             </div>
             """
@@ -271,6 +301,30 @@ class VisualReportGenerator:
             align-items: center;
             font-size: 0.9em;
             color: #6c757d;
+            flex-wrap: wrap;
+            gap: 10px;
+        }}
+        
+        .thumbnail-status {{
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }}
+        
+        .thumbnail-status.success {{
+            background: #d4edda;
+            color: #155724;
+        }}
+        
+        .thumbnail-status.error {{
+            background: #f8d7da;
+            color: #721c24;
+        }}
+        
+        .thumbnail-status.timeout {{
+            background: #fff3cd;
+            color: #856404;
         }}
         
         .modal {{
@@ -347,6 +401,11 @@ class VisualReportGenerator:
             .summary-grid {{
                 grid-template-columns: repeat(2, 1fr);
             }}
+            
+            .thumbnail-info {{
+                flex-direction: column;
+                align-items: flex-start;
+            }}
         }}
     </style>
 </head>
@@ -375,6 +434,14 @@ class VisualReportGenerator:
                 <div class="summary-item">
                     <h3>{correction_report.summary.get('excellent_rate', 0):.1%}</h3>
                     <p>Taxa de Excelência</p>
+                </div>
+                <div class="summary-item">
+                    <h3>{thumbnail_stats['successful_thumbnails']}/{thumbnail_stats['total_thumbnails']}</h3>
+                    <p>Thumbnails Gerados</p>
+                </div>
+                <div class="summary-item">
+                    <h3>{thumbnail_stats['success_rate']:.1%}</h3>
+                    <p>Taxa de Sucesso Thumbnails</p>
                 </div>
             </div>
         </div>
@@ -405,12 +472,13 @@ class VisualReportGenerator:
     </div>
     
     <script>
-        function showDetails(name, score, tests, status) {{
+        function showDetails(name, score, tests, status, thumbnailStatus) {{
             document.getElementById('modalTitle').textContent = name;
             document.getElementById('modalContent').innerHTML = `
                 <p><strong>Nota:</strong> ${{score}}/10</p>
                 <p><strong>Status:</strong> ${{status}}</p>
                 <p><strong>Testes:</strong> ${{tests}}</p>
+                <p><strong>Thumbnail:</strong> ${{thumbnailStatus}}</p>
             `;
             document.getElementById('detailsModal').style.display = 'block';
         }}

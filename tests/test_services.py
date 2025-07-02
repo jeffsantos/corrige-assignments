@@ -836,3 +836,116 @@ PROBLEMAS: [lista de problemas encontrados]"""
                     assert "COMENTARIOS:" in prompt_content
                     assert "SUGESTOES:" in prompt_content
                     assert "PROBLEMAS:" in prompt_content
+
+
+class TestStreamlitThumbnails:
+    """Testes para a funcionalidade de thumbnails Streamlit."""
+    
+    def test_streamlit_thumbnail_service_initialization(self):
+        """Testa inicialização do serviço de thumbnails."""
+        from src.services.streamlit_thumbnail_service import StreamlitThumbnailService
+        
+        # Testa com diretório padrão
+        service = StreamlitThumbnailService()
+        assert service.output_dir == Path("reports/visual/thumbnails")
+        
+        # Testa com diretório customizado
+        custom_dir = Path("test_thumbnails")
+        service = StreamlitThumbnailService(custom_dir)
+        assert service.output_dir == custom_dir
+        
+        # Verifica se o diretório foi criado
+        assert custom_dir.exists()
+        
+        # Limpa após o teste
+        import shutil
+        shutil.rmtree(custom_dir)
+    
+    def test_find_available_port(self):
+        """Testa busca de porta disponível."""
+        from src.services.streamlit_thumbnail_service import StreamlitThumbnailService
+        
+        service = StreamlitThumbnailService()
+        port = service._find_available_port()
+        
+        # Verifica se a porta está no range configurado
+        start_port, end_port = (8501, 8600)  # STREAMLIT_PORT_RANGE
+        assert port >= start_port
+        assert port < end_port
+        
+        # Verifica se a porta é um número válido
+        assert isinstance(port, int)
+        assert port > 0
+    
+    def test_calculate_thumbnail_stats(self):
+        """Testa cálculo de estatísticas de thumbnails."""
+        from src.utils.visual_report_generator import VisualReportGenerator
+        from src.domain.models import ThumbnailResult
+        
+        generator = VisualReportGenerator()
+        
+        # Cria thumbnails de teste
+        thumbnails = [
+            ThumbnailResult(
+                submission_identifier="user1",
+                display_name="User 1",
+                thumbnail_path=Path("test1.png"),
+                capture_timestamp="2024-01-01T10:00:00",
+                streamlit_status="success"
+            ),
+            ThumbnailResult(
+                submission_identifier="user2",
+                display_name="User 2",
+                thumbnail_path=Path("test2.png"),
+                capture_timestamp="2024-01-01T10:01:00",
+                streamlit_status="error",
+                error_message="Test error"
+            ),
+            ThumbnailResult(
+                submission_identifier="user3",
+                display_name="User 3",
+                thumbnail_path=Path("test3.png"),
+                capture_timestamp="2024-01-01T10:02:00",
+                streamlit_status="success"
+            )
+        ]
+        
+        stats = generator._calculate_thumbnail_stats(thumbnails)
+        
+        assert stats['total_thumbnails'] == 3
+        assert stats['successful_thumbnails'] == 2
+        assert stats['failed_thumbnails'] == 1
+        assert stats['success_rate'] == 2/3
+    
+    def test_thumbnail_result_creation(self):
+        """Testa criação de ThumbnailResult."""
+        from src.domain.models import ThumbnailResult
+        
+        # Testa criação com sucesso
+        result = ThumbnailResult(
+            submission_identifier="test_user",
+            display_name="Test User",
+            thumbnail_path=Path("test.png"),
+            capture_timestamp="2024-01-01T10:00:00",
+            streamlit_status="success"
+        )
+        
+        assert result.submission_identifier == "test_user"
+        assert result.display_name == "Test User"
+        assert result.streamlit_status == "success"
+        assert result.error_message is None
+        
+        # Testa criação com erro
+        error_result = ThumbnailResult(
+            submission_identifier="error_user",
+            display_name="Error User",
+            thumbnail_path=Path(),
+            capture_timestamp="2024-01-01T10:00:00",
+            streamlit_status="error",
+            error_message="Test error message"
+        )
+        
+        assert error_result.streamlit_status == "error"
+        assert error_result.error_message == "Test error message"
+
+

@@ -496,6 +496,19 @@ test(ai): adiciona testes para validação de parsing de respostas
 
 ## 🎯 Diretrizes para Futuras Implementações
 
+### Princípio Fundamental: Consistência de Padrões
+
+**Regra**: Sempre seguir o padrão já estabelecido ao editar qualquer arquivo existente.
+
+**Justificativa**: Manter consistência facilita manutenção, reduz confusão e garante que o código siga as convenções já definidas no projeto.
+
+**Exemplos de aplicação**:
+- **Arquivos de exemplo**: Seguir o formato `📝 Exemplo X: Título` com `"-" * 50` e características usando `•`
+- **Testes**: Usar asserções `assert` do pytest, não `unittest.TestCase`
+- **Docstrings**: Manter o padrão simples estabelecido
+- **Estrutura de comandos**: Seguir o padrão de opções e formatação já definido
+- **Mensagens de commit**: Usar a convenção Conventional Commits estabelecida
+
 ### Novos Recursos
 
 1. **Mantenha a arquitetura em camadas**
@@ -505,6 +518,7 @@ test(ai): adiciona testes para validação de parsing de respostas
 5. **Crie prompts personalizados quando necessário**
 6. **Implemente logs de auditoria para operações críticas**
 7. **Mantenha compatibilidade com formatos de relatório existentes**
+8. **Siga sempre o padrão já estabelecido no arquivo que está editando**
 
 ### Refatorações
 

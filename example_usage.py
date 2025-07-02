@@ -102,10 +102,46 @@ def run_example():
     print("  python tools/generate_mermaid_uml.py")
     print("Saída: diagrama_uml.md com diagrama Mermaid")
     
+    # Exemplo 9: Geração de thumbnails Streamlit (apenas thumbnails)
+    print("\n📝 Exemplo 9: Geração de Thumbnails Streamlit")
+    print("-" * 50)
+    print("Assignment: prog1-prova-av (apenas thumbnails)")
+    print("Características:")
+    print("  • Carrega todas as submissões do assignment")
+    print("  • Inicia cada dashboard Streamlit em porta separada")
+    print("  • Captura screenshot de cada dashboard")
+    print("  • Gera relatório visual HTML com thumbnails")
+    print("  • Não executa testes ou análise de IA")
+    print("  • Mais rápido que correção completa")
+    
+    # Comentar para não executar automaticamente
+    # cli(["generate-thumbnails-only", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025"])
+    
+    # Exemplo 10: Relatório visual completo com correção
+    print("\n📝 Exemplo 10: Relatório Visual Completo")
+    print("-" * 50)
+    print("Assignment: prog1-prova-av (correção + thumbnails)")
+    print("Características:")
+    print("  • Executa correção completa (testes + IA)")
+    print("  • Gera thumbnails de todos os dashboards")
+    print("  • Cria relatório visual com notas e thumbnails")
+    print("  • Organiza por nota (melhores primeiro)")
+    print("  • Inclui estatísticas de sucesso dos thumbnails")
+    print("  • Grid de thumbnails com filtros por faixa de nota")
+    
+    # Comentar para não executar automaticamente
+    # cli(["generate-visual-report", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025"])
+    
     print("\n✅ Exemplos demonstrados!")
     print("\n💡 Para executar os exemplos, descomente as linhas correspondentes no código.")
     print("💡 Para mais opções, execute: python -m src.main --help")
     print("💡 Para ver a arquitetura: python tools/generate_mermaid_uml.py")
+    print("\n🔧 Configurações para thumbnails:")
+    print("  • Instale Chrome/Chromium para Selenium")
+    print("  • Configure OPENAI_API_KEY para análise de IA")
+    print("  • Verifique se pipenv está configurado")
+    print("  • Ajuste timeouts em config.py se necessário")
+
 
 if __name__ == "__main__":
     run_example() 
