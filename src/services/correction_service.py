@@ -45,7 +45,12 @@ class CorrectionService:
         
         # Processa cada submissão
         for submission in submissions:
-            self._process_submission(submission, assignment)
+            try:
+                self._process_submission(submission, assignment)
+            except Exception as e:
+                print(f"❌ Erro ao processar submissão {submission.display_name}: {e}")
+                # Continua com a próxima submissão
+                continue
         
         # Cria o relatório
         report = CorrectionReport(
@@ -60,12 +65,16 @@ class CorrectionService:
         
         # Gera thumbnails se for assignment Streamlit
         if assignment_name == "prog1-prova-av":
+            print(f"\n🖼️  Iniciando geração de thumbnails para {len(submissions)} submissões...")
             try:
                 report.thumbnails = self.thumbnail_service.generate_thumbnails_for_assignment(
                     assignment_name, turma_name, submissions
                 )
+                print(f"✅ Geração de thumbnails concluída: {len(report.thumbnails)} thumbnails gerados")
             except Exception as e:
-                print(f"Aviso: Erro ao gerar thumbnails: {e}")
+                print(f"❌ Erro ao gerar thumbnails: {e}")
+                # Inicializa lista vazia para evitar erro
+                report.thumbnails = []
         
         return report
     
@@ -91,24 +100,35 @@ class CorrectionService:
         """Processa uma submissão."""
         print(f"Processando submissão de {submission.display_name}...")
         
-        # Executa testes se for assignment Python
-        if assignment.type == AssignmentType.PYTHON and assignment.test_files:
-            submission.test_results = self.test_executor.run_tests(
-                submission.submission_path, 
-                assignment.test_files
-            )
+        try:
+            # Executa testes se for assignment Python
+            if assignment.type == AssignmentType.PYTHON and assignment.test_files:
+                submission.test_results = self.test_executor.run_tests(
+                    submission.submission_path, 
+                    assignment.test_files
+                )
+        except Exception as e:
+            print(f"  ⚠️  Erro nos testes para {submission.display_name}: {e}")
+            submission.test_results = []
         
-        # Analisa código usando IA
-        if assignment.type == AssignmentType.PYTHON:
-            submission.code_analysis = self.ai_analyzer.analyze_python_code(
-                submission.submission_path, 
-                assignment
-            )
-        else:  # HTML
-            submission.html_analysis = self.ai_analyzer.analyze_html_code(
-                submission.submission_path, 
-                assignment
-            )
+        try:
+            # Analisa código usando IA
+            if assignment.type == AssignmentType.PYTHON:
+                submission.code_analysis = self.ai_analyzer.analyze_python_code(
+                    submission.submission_path, 
+                    assignment
+                )
+            else:  # HTML
+                submission.html_analysis = self.ai_analyzer.analyze_html_code(
+                    submission.submission_path, 
+                    assignment
+                )
+        except Exception as e:
+            print(f"  ⚠️  Erro na análise de IA para {submission.display_name}: {e}")
+            if assignment.type == AssignmentType.PYTHON:
+                submission.code_analysis = None
+            else:
+                submission.html_analysis = None
         
         # Calcula nota final
         submission.final_score = self._calculate_final_score(submission, assignment)
