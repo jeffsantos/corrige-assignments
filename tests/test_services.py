@@ -363,6 +363,33 @@ PROBLEMAS:
             assert log_content["prompt"] == "Test prompt"
             assert log_content["raw_response"] == "Test response"
             assert log_content["parsed_result"]["score"] == 8.0
+    
+    def test_parse_python_analysis_acento(self):
+        """Testa o parsing da resposta da IA para análise Python com acentos."""
+        analyzer = AIAnalyzer(api_key="fake-key")
+        test_response = """NOTA: 9
+
+COMENTÁRIOS:
+- O código do aluno está bem estruturado, separando claramente as funções de scraping do dashboard Streamlit.
+- As funções de scraping parecem estar funcionando corretamente, com a extração de dados da página HTML e a geração do arquivo CSV.
+- O dashboard Streamlit possui um título personalizado, filtros na sidebar, exibição de tabela de dados e dois gráficos interativos relevantes.
+- Os filtros escolhidos parecem adequados para os dados extraídos e os gráficos são informativos.
+
+SUGESTÕES:
+- Adicionar mais comentários explicativos ao código, principalmente em partes mais complexas ou que realizam operações específicas.
+- Melhorar a apresentação do dashboard com mais formatação e estilos visuais para tornar a experiência do usuário mais agradável.
+- Explorar mais funcionalidades do Streamlit, como widgets interativos e personalização de layout, para enriquecer o dashboard.
+
+PROBLEMAS:
+- Não foram identificados problemas significativos no código do aluno."""
+        result = analyzer._parse_python_analysis(test_response)
+        assert result.score == 9.0
+        assert len(result.comments) == 4
+        assert len(result.suggestions) == 3
+        assert len(result.issues_found) == 1
+        assert "O código do aluno está bem estruturado" in result.comments[0]
+        assert "Adicionar mais comentários explicativos ao código" in result.suggestions[0]
+        assert "Não foram identificados problemas" in result.issues_found[0]
 
 
 class TestCorrectionService:

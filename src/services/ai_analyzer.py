@@ -485,9 +485,9 @@ PROBLEMAS: [lista de problemas]
                     score = float(line.split(':')[1].strip())
                 except:
                     score = 0.0
-            elif line.startswith('COMENTARIOS:'):
+            elif line.startswith('COMENTARIOS:') or line.startswith('COMENTÁRIOS:'):
                 current_section = 'comments'
-            elif line.startswith('SUGESTOES:'):
+            elif line.startswith('SUGESTOES:') or line.startswith('SUGESTÕES:'):
                 current_section = 'suggestions'
             elif line.startswith('PROBLEMAS:'):
                 current_section = 'issues'
@@ -527,9 +527,9 @@ PROBLEMAS: [lista de problemas]
                     score = 0.0
             elif line.startswith('ELEMENTOS:'):
                 current_section = 'elements'
-            elif line.startswith('COMENTARIOS:'):
+            elif line.startswith('COMENTARIOS:') or line.startswith('COMENTÁRIOS:'):
                 current_section = 'comments'
-            elif line.startswith('SUGESTOES:'):
+            elif line.startswith('SUGESTOES:') or line.startswith('SUGESTÕES:'):
                 current_section = 'suggestions'
             elif line.startswith('PROBLEMAS:'):
                 current_section = 'issues'
