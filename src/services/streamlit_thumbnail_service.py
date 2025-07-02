@@ -173,7 +173,7 @@ class StreamlitThumbnailService:
     def _start_streamlit(self, main_file: Path, port: int) -> subprocess.Popen:
         """Inicia o Streamlit em background."""
         cmd = [
-            "streamlit", "run", "main.py",
+            "pipenv", "run", "streamlit", "run", "main.py",
             "--server.port", str(port),
             "--server.headless", "true",
             "--server.enableCORS", "false",
@@ -205,14 +205,17 @@ class StreamlitThumbnailService:
         
         for dep in common_deps:
             try:
-                subprocess.run(
-                    ["pip", "install", dep],
-                    cwd=submission_path,
+                # Usa pipenv run pip install para instalar no ambiente correto
+                result = subprocess.run(
+                    ["pipenv", "run", "pip", "install", dep],
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                     timeout=30
                 )
-                print(f"  [DEBUG] Instalado: {dep}")
+                if result.returncode == 0:
+                    print(f"  [DEBUG] Instalado: {dep}")
+                else:
+                    print(f"  [DEBUG] Falha ao instalar {dep}: {result.stderr.decode()}")
             except Exception as e:
                 print(f"  [DEBUG] Falha ao instalar {dep}: {e}")
                 continue
