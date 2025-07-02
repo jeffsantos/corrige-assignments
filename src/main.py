@@ -36,7 +36,8 @@ def cli():
               default='console', help='Formato de saída do relatório')
 @click.option('--output-dir', '-o', default='reports', help='Diretório para salvar relatórios')
 @click.option('--all-assignments', is_flag=True, help='Corrigir todos os assignments da turma')
-def correct(assignment, turma, submissao, output_format, output_dir, all_assignments):
+@click.option('--verbose', '-v', is_flag=True, help='Mostra logs detalhados de debug')
+def correct(assignment, turma, submissao, output_format, output_dir, all_assignments, verbose):
     """Executa a correção de assignments."""
     try:
         # Configura caminhos
@@ -64,7 +65,7 @@ def correct(assignment, turma, submissao, output_format, output_dir, all_assignm
         logs_path = base_path / "logs"
         
         # Inicializa serviços
-        correction_service = CorrectionService(enunciados_path, respostas_path, openai_api_key, logs_path)
+        correction_service = CorrectionService(enunciados_path, respostas_path, openai_api_key, logs_path, verbose=verbose)
         report_generator = ReportGenerator()
         
         if all_assignments:
@@ -412,11 +413,10 @@ def generate_visual_report(assignment, turma, output_dir, force_recapture, verbo
             task = progress.add_task("Processando submissões...", total=None)
             
             # Inicializa serviços
-            correction_service = CorrectionService(enunciados_path, respostas_path, openai_api_key, logs_path)
+            correction_service = CorrectionService(enunciados_path, respostas_path, openai_api_key, logs_path, verbose=verbose)
             visual_generator = VisualReportGenerator()
             
             # Executa correção (que inclui geração de thumbnails para assignments Streamlit)
-            # TODO: Passar verbose para o correction_service quando implementado
             report = correction_service.correct_assignment(assignment, turma)
             
             progress.update(task, description="Gerando relatório visual...")

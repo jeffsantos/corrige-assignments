@@ -160,6 +160,9 @@ python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-
 
 # Especificar diretório de saída
 python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --output-dir meus-relatorios
+
+# Mostrar logs detalhados de debug
+python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose
 ```
 
 ### Comandos de Listagem
@@ -227,6 +230,9 @@ python -m src.main correct --turma ebape-prog-aplic-barra-2025 --all-assignments
 
 # Exemplo 5: Relatório em HTML
 python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --output-format html
+
+# Exemplo 5b: Correção com logs detalhados de debug
+python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose
 
 # Exemplo 6: Converter relatório JSON existente para HTML
 python -m src.main convert-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --format html

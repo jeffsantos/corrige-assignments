@@ -32,6 +32,20 @@ def run_example():
     # Comentar para não executar automaticamente
     # cli(["correct", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025"])
     
+    # Exemplo 1b: Assignment Python com logs detalhados de debug
+    print("\n📝 Exemplo 1b: Assignment Python com Debug Detalhado")
+    print("-" * 50)
+    print("Assignment: prog1-prova-av (Web Scraping + Streamlit)")
+    print("Características:")
+    print("  • Todas as funcionalidades do exemplo 1")
+    print("  • Logs detalhados de debug com flag --verbose")
+    print("  • Debug da geração de thumbnails (se aplicável)")
+    print("  • Informações de performance e otimizações")
+    print("  • Logs de instalação de dependências")
+    
+    # Comentar para não executar automaticamente
+    # cli(["correct", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
+    
     # Exemplo 2: Assignment HTML com prompt personalizado
     print("\n📝 Exemplo 2: Assignment HTML com prompt personalizado")
     print("-" * 50)
@@ -67,6 +81,20 @@ def run_example():
     
     # Comentar para não executar automaticamente
     # cli(["correct", "--turma", "ebape-prog-aplic-barra-2025"])
+    
+    # Exemplo 4b: Correção completa de turma com logs detalhados
+    print("\n📝 Exemplo 4b: Correção Completa de Turma com Debug Detalhado")
+    print("-" * 50)
+    print("Turma: ebape-prog-aplic-barra-2025")
+    print("Características:")
+    print("  • Todas as funcionalidades do exemplo 4")
+    print("  • Logs detalhados de debug com flag --verbose")
+    print("  • Debug de todos os assignments processados")
+    print("  • Informações de performance para cada assignment")
+    print("  • Logs de geração de thumbnails (se aplicável)")
+    
+    # Comentar para não executar automaticamente
+    # cli(["correct", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
     
     # Exemplo 5: Converter relatório JSON existente para HTML
     print("\n📝 Exemplo 5: Converter relatório JSON existente para HTML")

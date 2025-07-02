@@ -490,7 +490,8 @@ class TestCorrectionService:
                 # Executa correção
                 service = CorrectionService(
                     enunciados_path=enunciados_dir,
-                    respostas_path=respostas_dir
+                    respostas_path=respostas_dir,
+                    verbose=False
                 )
                 
                 report = service.correct_assignment(
@@ -521,7 +522,7 @@ class TestCorrectionService:
             )
             for i, nota in enumerate([9.1, 7.7, 6.4, 8.8, 9.9])
         ]
-        service = CorrectionService(Path("."), Path("."))
+        service = CorrectionService(Path("."), Path("."), verbose=False)
         summary = service._calculate_summary(submissions)
         # Todos devem ter apenas uma casa decimal
         for key in ["average_score", "min_score", "max_score"]:
