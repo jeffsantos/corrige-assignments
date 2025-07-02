@@ -355,6 +355,145 @@ MAX_TEST_OUTPUT = 1000  # caracteres
 - Max tokens: 1000 (suficiente para análise)
 - Temperature: 0.3 (consistente mas não muito rígido)
 
+## 📝 Padrões de Mensagens de Commit
+
+### Convenção Conventional Commits
+
+**Decisão**: Seguir a convenção [Conventional Commits](https://www.conventionalcommits.org/) para mensagens de commit.
+
+**Formato**:
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Tipos de Commit
+
+**Padrão**: Tipos específicos para categorizar mudanças.
+
+- **`feat`**: Nova funcionalidade
+- **`fix`**: Correção de bug
+- **`docs`**: Mudanças na documentação
+- **`style`**: Mudanças que não afetam o código (formatação, espaços, etc.)
+- **`refactor`**: Refatoração de código (não adiciona funcionalidade nem corrige bug)
+- **`test`**: Adição ou correção de testes
+- **`chore`**: Mudanças em arquivos de build, config, etc.
+
+### Escopo (Scope)
+
+**Padrão**: Escopo opcional para especificar área afetada.
+
+- **`ai`**: Mudanças relacionadas à análise por IA
+- **`cli`**: Mudanças na interface de linha de comando
+- **`config`**: Mudanças em configurações
+- **`models`**: Mudanças nos modelos de domínio
+- **`tests`**: Mudanças nos testes
+- **`docs`**: Mudanças na documentação
+- **`prompts`**: Mudanças nos prompts personalizados
+
+### Descrição
+
+**Padrão**: Descrição clara e concisa em português.
+
+- **Imperativo**: "Adiciona", "Corrige", "Remove", "Atualiza"
+- **Conciso**: Máximo 50 caracteres
+- **Claro**: Deve explicar o que a mudança faz
+
+### Exemplos de Mensagens
+
+```bash
+# Nova funcionalidade
+feat(ai): adiciona sistema de logs de auditoria para análises da IA
+
+# Correção de bug
+fix(tests): corrige timeout em execução de testes longos
+
+# Documentação
+docs: atualiza README com exemplos de uso dos novos comandos
+
+# Refatoração
+refactor(services): reorganiza AIAnalyzer para melhor separação de responsabilidades
+
+# Configuração
+chore(config): adiciona configuração para novo assignment HTML
+
+# Testes
+test(models): adiciona testes para serialização de relatórios
+
+# Estilo
+style: corrige formatação de docstrings em todo o projeto
+```
+
+### Corpo da Mensagem (Body)
+
+**Padrão**: Detalhes adicionais quando necessário.
+
+```bash
+feat(ai): adiciona suporte a prompts personalizados por assignment
+
+Permite que cada assignment tenha seu próprio prompt.txt na pasta prompts/.
+O sistema carrega automaticamente o prompt personalizado ou usa o template padrão.
+
+- Adiciona PromptManager para gerenciar prompts
+- Implementa carregamento de prompts personalizados
+- Mantém compatibilidade com prompts padrão
+```
+
+### Rodapé (Footer)
+
+**Padrão**: Para referências a issues ou breaking changes.
+
+```bash
+feat(ai): adiciona configuração de temperatura da API OpenAI
+
+BREAKING CHANGE: AIAnalyzer agora requer configuração explícita de temperatura
+
+Closes #123
+```
+
+### Regras Importantes
+
+1. **Sempre use tipos convencionais** (`feat`, `fix`, `docs`, etc.)
+2. **Use escopo quando relevante** para identificar área afetada
+3. **Descrição em português** para facilitar entendimento da equipe
+4. **Mantenha descrição concisa** (máximo 50 caracteres)
+5. **Use corpo para detalhes** quando a descrição não for suficiente
+6. **Referencie issues** quando aplicável
+7. **Um commit por mudança lógica** - evite múltiplos tipos em uma mensagem
+8. **Consistência na capitalização** - sempre minúsculo no tipo e escopo
+
+### Lidando com Múltiplas Mudanças
+
+**Padrão**: Quando um commit inclui múltiplas mudanças relacionadas.
+
+**Opção 1 - Commit único com corpo detalhado**:
+```bash
+feat(ai): adiciona parsing robusto e testes para respostas da IA
+
+- Implementa parsing robusto para comentários com acentos
+- Adiciona testes específicos para validação de parsing
+- Mantém compatibilidade com respostas sem acentos
+```
+
+**Opção 2 - Commits separados** (recomendado):
+```bash
+feat(ai): adiciona parsing robusto para respostas da IA com acentos
+test(ai): adiciona testes para validação de parsing de respostas
+```
+
+**Decisão**: Preferir commits separados para melhor rastreabilidade e changelog mais preciso.
+
+### Integração com Ferramentas
+
+**Decisão**: Padrão compatível com ferramentas de automação.
+
+- **Semantic Versioning**: Commits `feat` e `fix` geram novas versões
+- **Changelog**: Geração automática de changelog baseado em commits
+- **CI/CD**: Análise automática de tipos de commit para pipelines
+
 ## 🎯 Diretrizes para Futuras Implementações
 
 ### Novos Recursos
