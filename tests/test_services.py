@@ -649,3 +649,190 @@ class TestRepositories:
             # Deve usar configuração do config.py (INDIVIDUAL)
             assert submission_type == SubmissionType.INDIVIDUAL
             assert identifier == "joaosilva"
+
+
+class TestPromptConsistency:
+    """Testes para garantir consistência entre prompts personalizados e fallback."""
+    
+    def test_python_prompt_consistency(self):
+        """Testa se prompts Python (personalizado e fallback) têm campos obrigatórios."""
+        # Testa prompt fallback
+        analyzer = AIAnalyzer(api_key="fake-key")
+        assignment = Assignment(
+            name="test-assignment",
+            type=AssignmentType.PYTHON,
+            submission_type=SubmissionType.INDIVIDUAL,
+            description="Test assignment",
+            requirements=["Requirement 1", "Requirement 2"]
+        )
+        
+        python_files = {"main.py": "def hello(): pass"}
+        fallback_prompt = analyzer._build_python_analysis_prompt(python_files, assignment)
+        
+        # Verifica campos obrigatórios no prompt fallback
+        assert "CÓDIGO DO ENUNCIADO:" in fallback_prompt
+        assert "CÓDIGO DO ALUNO:" in fallback_prompt
+        assert "JUSTIFICATIVA:" in fallback_prompt
+        assert "NOTA:" in fallback_prompt
+        assert "COMENTARIOS:" in fallback_prompt
+        assert "SUGESTOES:" in fallback_prompt
+        assert "PROBLEMAS:" in fallback_prompt
+    
+    def test_html_prompt_consistency(self):
+        """Testa se prompts HTML (personalizado e fallback) têm campos obrigatórios."""
+        # Testa prompt fallback
+        analyzer = AIAnalyzer(api_key="fake-key")
+        assignment = Assignment(
+            name="test-assignment",
+            type=AssignmentType.HTML,
+            submission_type=SubmissionType.INDIVIDUAL,
+            description="Test assignment",
+            requirements=["Requirement 1", "Requirement 2"]
+        )
+        
+        html_files = {"index.html": "<h1>Title</h1>"}
+        css_files = {"style.css": "body { margin: 0; }"}
+        fallback_prompt = analyzer._build_html_analysis_prompt(html_files, css_files, assignment)
+        
+        # Verifica campos obrigatórios no prompt fallback
+        assert "CÓDIGO DO ENUNCIADO:" in fallback_prompt
+        assert "CÓDIGO DO ALUNO:" in fallback_prompt
+        assert "JUSTIFICATIVA:" in fallback_prompt
+        assert "NOTA:" in fallback_prompt
+        assert "ELEMENTOS:" in fallback_prompt
+        assert "COMENTARIOS:" in fallback_prompt
+        assert "SUGESTOES:" in fallback_prompt
+        assert "PROBLEMAS:" in fallback_prompt
+    
+    def test_custom_prompt_consistency(self):
+        """Testa se prompts personalizados têm campos obrigatórios."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Cria estrutura de enunciados
+            enunciados_dir = Path(temp_dir) / "enunciados"
+            enunciados_dir.mkdir()
+            
+            # Cria assignment de teste
+            assignment_dir = enunciados_dir / "test-assignment"
+            assignment_dir.mkdir()
+            (assignment_dir / "main.py").write_text("# Código fornecido no enunciado")
+            
+            # Cria prompt personalizado
+            prompts_dir = Path(temp_dir) / "prompts"
+            prompts_dir.mkdir()
+            custom_prompt_dir = prompts_dir / "test-assignment"
+            custom_prompt_dir.mkdir()
+            
+            custom_prompt_content = """Analise o código Python abaixo para o assignment "{assignment_name}".
+
+DESCRIÇÃO DO ASSIGNMENT:
+{assignment_description}
+
+REQUISITOS ESPECÍFICOS:
+{assignment_requirements}
+
+CÓDIGO DO ENUNCIADO:
+{enunciado_code}
+
+CÓDIGO DO ALUNO:
+{student_code}
+
+Formate sua resposta assim:
+NOTA: [número de 0 a 10]
+JUSTIFICATIVA: [justificativa resumida e clara da nota]
+COMENTARIOS: [lista de comentários sobre pontos positivos]
+SUGESTOES: [lista de sugestões de melhoria]
+PROBLEMAS: [lista de problemas encontrados]"""
+            
+            (custom_prompt_dir / "prompt.txt").write_text(custom_prompt_content)
+            
+            # Testa com PromptManager
+            prompt_manager = PromptManager(enunciados_dir)
+            assignment = Assignment(
+                name="test-assignment",
+                type=AssignmentType.PYTHON,
+                submission_type=SubmissionType.INDIVIDUAL,
+                description="Test assignment",
+                requirements=["Requirement 1"]
+            )
+            
+            custom_prompt = prompt_manager.get_assignment_prompt(
+                assignment=assignment,
+                assignment_type="python",
+                student_code="def student_code(): pass"
+            )
+            
+            # Verifica campos obrigatórios no prompt personalizado
+            assert "CÓDIGO DO ENUNCIADO:" in custom_prompt
+            assert "CÓDIGO DO ALUNO:" in custom_prompt
+            assert "JUSTIFICATIVA:" in custom_prompt
+            assert "NOTA:" in custom_prompt
+            assert "COMENTARIOS:" in custom_prompt
+            assert "SUGESTOES:" in custom_prompt
+            assert "PROBLEMAS:" in custom_prompt
+    
+    def test_prompt_manager_template_consistency(self):
+        """Testa se templates padrão do PromptManager têm campos obrigatórios."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            enunciados_dir = Path(temp_dir) / "enunciados"
+            enunciados_dir.mkdir()
+            
+            prompt_manager = PromptManager(enunciados_dir)
+            
+            # Testa template Python
+            python_template = prompt_manager._get_default_python_prompt()
+            assert "CÓDIGO DO ENUNCIADO:" in python_template
+            assert "CÓDIGO DO ALUNO:" in python_template
+            assert "JUSTIFICATIVA:" in python_template
+            assert "NOTA:" in python_template
+            assert "COMENTARIOS:" in python_template
+            assert "SUGESTOES:" in python_template
+            assert "PROBLEMAS:" in python_template
+            
+            # Testa template HTML
+            html_template = prompt_manager._get_default_html_prompt()
+            assert "CÓDIGO DO ENUNCIADO:" in html_template
+            assert "CÓDIGO DO ALUNO:" in html_template
+            assert "JUSTIFICATIVA:" in html_template
+            assert "NOTA:" in html_template
+            assert "ELEMENTOS:" in html_template
+            assert "COMENTARIOS:" in html_template
+            assert "SUGESTOES:" in html_template
+            assert "PROBLEMAS:" in html_template
+    
+    def test_all_custom_prompts_have_required_fields(self):
+        """Testa se todos os prompts personalizados existentes têm campos obrigatórios."""
+        # Lista de prompts personalizados conhecidos
+        known_prompts = [
+            "prompts/prog1-tarefa-html-curriculo/prompt.txt",
+            "prompts/prog1-tarefa-html-tutorial/prompt.txt",
+            "prompts/prog1-tarefa-scrap-simples/prompt.txt",
+            "prompts/prog1-tarefa-scrap-yahoo/prompt.txt",
+            "prompts/prog1-prova-av/prompt.txt"
+        ]
+        
+        required_fields = [
+            "CÓDIGO DO ENUNCIADO:",
+            "CÓDIGO DO ALUNO:",
+            "JUSTIFICATIVA:",
+            "NOTA:"
+        ]
+        
+        for prompt_path in known_prompts:
+            if Path(prompt_path).exists():
+                prompt_content = Path(prompt_path).read_text(encoding="utf-8")
+                
+                # Verifica se todos os campos obrigatórios estão presentes
+                for field in required_fields:
+                    assert field in prompt_content, f"Campo '{field}' não encontrado em {prompt_path}"
+                
+                # Verifica se é um prompt Python ou HTML
+                if "ELEMENTOS:" in prompt_content:
+                    # É um prompt HTML
+                    assert "COMENTARIOS:" in prompt_content
+                    assert "SUGESTOES:" in prompt_content
+                    assert "PROBLEMAS:" in prompt_content
+                else:
+                    # É um prompt Python
+                    assert "COMENTARIOS:" in prompt_content
+                    assert "SUGESTOES:" in prompt_content
+                    assert "PROBLEMAS:" in prompt_content
