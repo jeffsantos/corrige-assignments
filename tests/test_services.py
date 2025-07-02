@@ -390,6 +390,61 @@ PROBLEMAS:
         assert "O código do aluno está bem estruturado" in result.comments[0]
         assert "Adicionar mais comentários explicativos ao código" in result.suggestions[0]
         assert "Não foram identificados problemas" in result.issues_found[0]
+    
+    def test_parse_python_analysis_justification(self):
+        """Testa se a justificativa da nota é capturada corretamente na análise Python."""
+        analyzer = AIAnalyzer(api_key="fake-key")
+        analysis_text = """
+NOTA: 8.5
+JUSTIFICATIVA: Código bem estruturado com implementação correta dos requisitos principais
+COMENTARIOS:
+- Boa organização do código
+- Implementação correta das funcionalidades
+SUGESTOES:
+- Adicionar mais comentários
+PROBLEMAS:
+- Falta tratamento de erro em uma função
+"""
+        
+        result = analyzer._parse_python_analysis(analysis_text)
+        
+        assert result.score == 8.5
+        assert result.score_justification == "Código bem estruturado com implementação correta dos requisitos principais"
+        assert "Boa organização do código" in result.comments
+        assert "Adicionar mais comentários" in result.suggestions
+        assert "Falta tratamento de erro em uma função" in result.issues_found
+    
+    def test_parse_html_analysis_justification(self):
+        """Testa se a justificativa da nota é capturada corretamente na análise HTML."""
+        analyzer = AIAnalyzer(api_key="fake-key")
+        analysis_text = """
+NOTA: 7.0
+JUSTIFICATIVA: Estrutura HTML adequada mas CSS poderia ser melhorado
+ELEMENTOS:
+- h1: encontrado
+- h2: encontrado
+- img: encontrado
+- a: encontrado
+COMENTARIOS:
+- Estrutura HTML correta
+- Elementos obrigatórios presentes
+SUGESTOES:
+- Melhorar estilos CSS
+PROBLEMAS:
+- CSS muito básico
+"""
+        
+        result = analyzer._parse_html_analysis(analysis_text)
+        
+        assert result.score == 7.0
+        assert result.score_justification == "Estrutura HTML adequada mas CSS poderia ser melhorado"
+        assert result.required_elements["h1"] == True
+        assert result.required_elements["h2"] == True
+        assert result.required_elements["img"] == True
+        assert result.required_elements["a"] == True
+        assert "Estrutura HTML correta" in result.comments
+        assert "Melhorar estilos CSS" in result.suggestions
+        assert "CSS muito básico" in result.issues_found
 
 
 class TestCorrectionService:

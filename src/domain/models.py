@@ -42,6 +42,7 @@ class AssignmentTestExecution:
 class CodeAnalysis:
     """Análise de código usando IA."""
     score: float  # Nota de 0 a 10
+    score_justification: str = ""  # Justificativa resumida da nota
     comments: List[str] = field(default_factory=list)
     suggestions: List[str] = field(default_factory=list)
     issues_found: List[str] = field(default_factory=list)
@@ -51,6 +52,7 @@ class CodeAnalysis:
 class HTMLAnalysis:
     """Análise de páginas HTML."""
     score: float  # Nota de 0 a 10
+    score_justification: str = ""  # Justificativa resumida da nota
     required_elements: Dict[str, bool] = field(default_factory=dict)
     comments: List[str] = field(default_factory=list)
     suggestions: List[str] = field(default_factory=list)
@@ -158,12 +160,14 @@ class CorrectionReport:
                     ],
                     "code_analysis": {
                         "score": sub.code_analysis.score,
+                        "score_justification": sub.code_analysis.score_justification,
                         "comments": sub.code_analysis.comments,
                         "suggestions": sub.code_analysis.suggestions,
                         "issues_found": sub.code_analysis.issues_found
                     } if sub.code_analysis else None,
                     "html_analysis": {
                         "score": sub.html_analysis.score,
+                        "score_justification": sub.html_analysis.score_justification,
                         "required_elements": sub.html_analysis.required_elements,
                         "comments": sub.html_analysis.comments,
                         "suggestions": sub.html_analysis.suggestions,
@@ -202,6 +206,7 @@ class CorrectionReport:
                 if sub_data.get('code_analysis'):
                     code_analysis = CodeAnalysis(
                         score=sub_data['code_analysis']['score'],
+                        score_justification=sub_data['code_analysis'].get('score_justification', ''),
                         comments=sub_data['code_analysis'].get('comments', []),
                         suggestions=sub_data['code_analysis'].get('suggestions', []),
                         issues_found=sub_data['code_analysis'].get('issues_found', [])
@@ -212,6 +217,7 @@ class CorrectionReport:
                 if sub_data.get('html_analysis'):
                     html_analysis = HTMLAnalysis(
                         score=sub_data['html_analysis']['score'],
+                        score_justification=sub_data['html_analysis'].get('score_justification', ''),
                         required_elements=sub_data['html_analysis'].get('required_elements', {}),
                         comments=sub_data['html_analysis'].get('comments', []),
                         suggestions=sub_data['html_analysis'].get('suggestions', []),
@@ -244,6 +250,7 @@ class CorrectionReport:
                 if sub_data.get('code_analysis'):
                     code_analysis = CodeAnalysis(
                         score=sub_data['code_analysis']['score'],
+                        score_justification=sub_data['code_analysis'].get('score_justification', ''),
                         comments=sub_data['code_analysis'].get('comments', []),
                         suggestions=sub_data['code_analysis'].get('suggestions', []),
                         issues_found=sub_data['code_analysis'].get('issues_found', [])
@@ -254,6 +261,7 @@ class CorrectionReport:
                 if sub_data.get('html_analysis'):
                     html_analysis = HTMLAnalysis(
                         score=sub_data['html_analysis']['score'],
+                        score_justification=sub_data['html_analysis'].get('score_justification', ''),
                         required_elements=sub_data['html_analysis'].get('required_elements', {}),
                         comments=sub_data['html_analysis'].get('comments', []),
                         suggestions=sub_data['html_analysis'].get('suggestions', []),

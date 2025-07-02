@@ -6,6 +6,9 @@ DESCRIÇÃO DO ASSIGNMENT:
 REQUISITOS ESPECÍFICOS:
 {assignment_requirements}
 
+CÓDIGO DO ENUNCIADO:
+{enunciado_code}
+
 CÓDIGO DO ALUNO:
 {student_code}
 
@@ -43,6 +46,7 @@ Este é um assignment de Web Scraping básico para extrair dados do IMDB. Avalie
 
 Formate sua resposta assim:
 NOTA: [número de 0 a 10]
+JUSTIFICATIVA: [justificativa resumida e clara da nota]
 COMENTARIOS: [lista de comentários sobre pontos positivos]
 SUGESTOES: [lista de sugestões de melhoria]
 PROBLEMAS: [lista de problemas encontrados]

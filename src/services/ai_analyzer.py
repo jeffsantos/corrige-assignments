@@ -54,6 +54,9 @@ class AIAnalyzer:
         # Configuração de logs
         self.logs_path = logs_path or Path("logs")
         self.logs_path.mkdir(exist_ok=True)
+        
+        # Caminho para enunciados (usado para ler código do enunciado)
+        self.enunciados_path = enunciados_path
     
     def _save_ai_log(self, assignment_name: str, submission_identifier: str, 
                     analysis_type: str, prompt: str, response: str, 
@@ -112,11 +115,12 @@ class AIAnalyzer:
         python_files = self._read_python_files(submission_path)
         
         if not python_files:
-            return CodeAnalysis(
-                score=0.0,
-                comments=["Nenhum arquivo Python encontrado"],
-                issues_found=["Arquivos Python ausentes"]
-            )
+                    return CodeAnalysis(
+            score=0.0,
+            score_justification="Nenhum arquivo Python encontrado para análise",
+            comments=["Nenhum arquivo Python encontrado"],
+            issues_found=["Arquivos Python ausentes"]
+        )
         
         # Constrói o prompt específico para o assignment
         if self.prompt_manager:
@@ -155,6 +159,7 @@ class AIAnalyzer:
                 response=analysis_text,
                 parsed_result={
                     "score": parsed_result.score,
+                    "score_justification": parsed_result.score_justification,
                     "comments": parsed_result.comments,
                     "suggestions": parsed_result.suggestions,
                     "issues_found": parsed_result.issues_found
@@ -166,6 +171,7 @@ class AIAnalyzer:
         except Exception as e:
             return CodeAnalysis(
                 score=0.0,
+                score_justification=f"Erro na análise de IA: {str(e)}",
                 comments=[f"Erro na análise de IA: {str(e)}"],
                 issues_found=["Falha na análise automática"]
             )
@@ -180,11 +186,12 @@ class AIAnalyzer:
         css_files = self._read_css_files(submission_path)
         
         if not html_files:
-            return HTMLAnalysis(
-                score=0.0,
-                comments=["Nenhum arquivo HTML encontrado"],
-                issues_found=["Arquivos HTML ausentes"]
-            )
+                    return HTMLAnalysis(
+            score=0.0,
+            score_justification="Nenhum arquivo HTML encontrado para análise",
+            comments=["Nenhum arquivo HTML encontrado"],
+            issues_found=["Arquivos HTML ausentes"]
+        )
         
         # Constrói o prompt específico para o assignment
         if self.prompt_manager:
@@ -235,6 +242,7 @@ class AIAnalyzer:
         except Exception as e:
             return HTMLAnalysis(
                 score=0.0,
+                score_justification=f"Erro na análise de IA: {str(e)}",
                 comments=[f"Erro na análise de IA: {str(e)}"],
                 issues_found=["Falha na análise automática"]
             )
@@ -395,6 +403,9 @@ class AIAnalyzer:
     
     def _build_python_analysis_prompt(self, python_files: Dict[str, str], assignment: Assignment) -> str:
         """Constrói o prompt para análise de código Python."""
+        # Lê código do enunciado se disponível
+        enunciado_code = self._read_enunciado_code(assignment.name)
+        
         prompt = f"""
 Analise o código Python abaixo para o assignment "{assignment.name}".
 
@@ -404,31 +415,37 @@ Descrição do assignment:
 Requisitos:
 {chr(10).join(f"- {req}" for req in assignment.requirements)}
 
-Código do aluno:
+CÓDIGO DO ENUNCIADO:
+{enunciado_code}
+
+CÓDIGO DO ALUNO:
 """
         
         for filename, content in python_files.items():
             prompt += f"\n--- {filename} ---\n{content}\n"
         
         prompt += """
-Por favor, analise o código e forneça:
-
-1. Uma nota de 0 a 10 (apenas o número)
-2. Comentários sobre pontos positivos
-3. Sugestões de melhoria
-4. Problemas encontrados
+Por favor, analise o código considerando:
+1. Se o aluno seguiu a estrutura e requisitos específicos do assignment
+2. Se implementou corretamente as funcionalidades solicitadas
+3. Se manteve a qualidade do código (quando não fornecido no enunciado)
+4. Se adicionou valor além do que foi fornecido no enunciado
 
 Formate sua resposta assim:
-NOTA: [número]
-COMENTARIOS: [lista de comentários]
-SUGESTOES: [lista de sugestões]
-PROBLEMAS: [lista de problemas]
+NOTA: [número de 0 a 10]
+JUSTIFICATIVA: [justificativa resumida e clara da nota]
+COMENTARIOS: [lista de comentários sobre pontos positivos]
+SUGESTOES: [lista de sugestões de melhoria]
+PROBLEMAS: [lista de problemas encontrados]
 """
         
         return prompt
     
     def _build_html_analysis_prompt(self, html_files: Dict[str, str], css_files: Dict[str, str], assignment: Assignment) -> str:
         """Constrói o prompt para análise de código HTML."""
+        # Lê código do enunciado se disponível
+        enunciado_code = self._read_enunciado_code(assignment.name)
+        
         prompt = f"""
 Analise o código HTML/CSS abaixo para o assignment "{assignment.name}".
 
@@ -438,7 +455,10 @@ Descrição do assignment:
 Requisitos:
 {chr(10).join(f"- {req}" for req in assignment.requirements)}
 
-Arquivos HTML:
+CÓDIGO DO ENUNCIADO:
+{enunciado_code}
+
+CÓDIGO DO ALUNO:
 """
         
         for filename, content in html_files.items():
@@ -450,20 +470,19 @@ Arquivos HTML:
                 prompt += f"\n--- {filename} ---\n{content}\n"
         
         prompt += """
-Por favor, analise o código e forneça:
-
-1. Uma nota de 0 a 10 (apenas o número)
-2. Verificação dos elementos HTML obrigatórios (h1, h2, h3, lists, images, links, tables)
-3. Comentários sobre pontos positivos
-4. Sugestões de melhoria
-5. Problemas encontrados
+Por favor, analise o código considerando:
+1. Se o aluno seguiu a estrutura e requisitos específicos do assignment
+2. Se implementou corretamente os elementos HTML/CSS solicitados
+3. Se manteve a qualidade do código (quando não fornecido no enunciado)
+4. Se adicionou valor além do que foi fornecido no enunciado
 
 Formate sua resposta assim:
-NOTA: [número]
-ELEMENTOS: [lista de elementos encontrados/ausentes]
-COMENTARIOS: [lista de comentários]
-SUGESTOES: [lista de sugestões]
-PROBLEMAS: [lista de problemas]
+NOTA: [número de 0 a 10]
+JUSTIFICATIVA: [justificativa resumida e clara da nota]
+ELEMENTOS: [lista de elementos HTML encontrados/ausentes]
+COMENTARIOS: [lista de comentários sobre pontos positivos]
+SUGESTOES: [lista de sugestões de melhoria]
+PROBLEMAS: [lista de problemas encontrados]
 """
         
         return prompt
@@ -472,6 +491,7 @@ PROBLEMAS: [lista de problemas]
         """Processa a resposta da IA para análise Python."""
         lines = analysis_text.split('\n')
         score = 0.0
+        score_justification = ""
         comments = []
         suggestions = []
         issues = []
@@ -485,6 +505,9 @@ PROBLEMAS: [lista de problemas]
                     score = float(line.split(':')[1].strip())
                 except:
                     score = 0.0
+            elif line.startswith('JUSTIFICATIVA:'):
+                current_section = 'justification'
+                score_justification = line.split(':', 1)[1].strip() if ':' in line else ""
             elif line.startswith('COMENTARIOS:') or line.startswith('COMENTÁRIOS:'):
                 current_section = 'comments'
             elif line.startswith('SUGESTOES:') or line.startswith('SUGESTÕES:'):
@@ -499,9 +522,16 @@ PROBLEMAS: [lista de problemas]
                     suggestions.append(item)
                 elif current_section == 'issues':
                     issues.append(item)
+            elif line and current_section == 'justification' and not line.startswith('-'):
+                # Continua a justificativa se não for um item de lista
+                if score_justification:
+                    score_justification += " " + line
+                else:
+                    score_justification = line
         
         return CodeAnalysis(
             score=score,
+            score_justification=score_justification,
             comments=comments,
             suggestions=suggestions,
             issues_found=issues
@@ -511,6 +541,7 @@ PROBLEMAS: [lista de problemas]
         """Processa a resposta da IA para análise HTML."""
         lines = analysis_text.split('\n')
         score = 0.0
+        score_justification = ""
         required_elements = {}
         comments = []
         suggestions = []
@@ -525,6 +556,9 @@ PROBLEMAS: [lista de problemas]
                     score = float(line.split(':')[1].strip())
                 except:
                     score = 0.0
+            elif line.startswith('JUSTIFICATIVA:'):
+                current_section = 'justification'
+                score_justification = line.split(':', 1)[1].strip() if ':' in line else ""
             elif line.startswith('ELEMENTOS:'):
                 current_section = 'elements'
             elif line.startswith('COMENTARIOS:') or line.startswith('COMENTÁRIOS:'):
@@ -546,9 +580,16 @@ PROBLEMAS: [lista de problemas]
                     suggestions.append(item)
                 elif current_section == 'issues':
                     issues.append(item)
+            elif line and current_section == 'justification' and not line.startswith('-'):
+                # Continua a justificativa se não for um item de lista
+                if score_justification:
+                    score_justification += " " + line
+                else:
+                    score_justification = line
         
         return HTMLAnalysis(
             score=score,
+            score_justification=score_justification,
             required_elements=required_elements,
             comments=comments,
             suggestions=suggestions,
@@ -573,4 +614,51 @@ PROBLEMAS: [lista de problemas]
             for filename, content in css_files.items():
                 formatted += f"\n--- {filename} ---\n{content}\n"
         
-        return formatted 
+        return formatted
+    
+    def _read_enunciado_code(self, assignment_name: str) -> str:
+        """Lê o código fornecido no enunciado do assignment."""
+        if not self.enunciados_path:
+            return "Caminho para enunciados não configurado."
+        
+        assignment_dir = self.enunciados_path / assignment_name
+        
+        if not assignment_dir.exists():
+            return "Diretório do assignment não encontrado."
+        
+        code_files = []
+        
+        # Lê arquivos Python
+        for py_file in assignment_dir.rglob("*.py"):
+            if py_file.is_file():
+                try:
+                    content = py_file.read_text(encoding="utf-8")
+                    rel_path = py_file.relative_to(assignment_dir)
+                    code_files.append(f"# {rel_path}\n{content}\n")
+                except Exception as e:
+                    code_files.append(f"# {rel_path} - Erro ao ler: {e}\n")
+        
+        # Lê arquivos HTML
+        for html_file in assignment_dir.rglob("*.html"):
+            if html_file.is_file():
+                try:
+                    content = html_file.read_text(encoding="utf-8")
+                    rel_path = html_file.relative_to(assignment_dir)
+                    code_files.append(f"<!-- {rel_path} -->\n{content}\n")
+                except Exception as e:
+                    code_files.append(f"<!-- {rel_path} - Erro ao ler: {e} -->\n")
+        
+        # Lê arquivos CSS
+        for css_file in assignment_dir.rglob("*.css"):
+            if css_file.is_file():
+                try:
+                    content = css_file.read_text(encoding="utf-8")
+                    rel_path = css_file.relative_to(assignment_dir)
+                    code_files.append(f"/* {rel_path} */\n{content}\n")
+                except Exception as e:
+                    code_files.append(f"/* {rel_path} - Erro ao ler: {e} */\n")
+        
+        if not code_files:
+            return "Nenhum código fornecido no enunciado (arquivos vazios ou não encontrados)."
+        
+        return "\n".join(code_files) 

@@ -6,6 +6,9 @@ DESCRIÇÃO DO ASSIGNMENT:
 REQUISITOS ESPECÍFICOS:
 {assignment_requirements}
 
+CÓDIGO DO ENUNCIADO:
+{enunciado_code}
+
 CÓDIGO DO ALUNO:
 {student_code}
 
@@ -44,6 +47,7 @@ Este é um assignment de criação de site de currículo pessoal usando HTML e C
 
 Formate sua resposta assim:
 NOTA: [número de 0 a 10]
+JUSTIFICATIVA: [justificativa resumida e clara da nota]
 ELEMENTOS: [lista de elementos HTML encontrados/ausentes]
 COMENTARIOS: [lista de comentários sobre pontos positivos]
 SUGESTOES: [lista de sugestões de melhoria]

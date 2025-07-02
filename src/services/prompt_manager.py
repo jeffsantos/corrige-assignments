@@ -39,6 +39,9 @@ ESTRUTURA ESPERADA (do enunciado):
 ARQUIVOS FORNECIDOS NO ENUNCIADO:
 {provided_files}
 
+CÓDIGO DO ENUNCIADO:
+{enunciado_code}
+
 CÓDIGO DO ALUNO:
 {student_code}
 
@@ -53,6 +56,7 @@ Por favor, analise o código considerando:
 
 Formate sua resposta assim:
 NOTA: [número de 0 a 10]
+JUSTIFICATIVA: [justificativa resumida e clara da nota]
 COMENTARIOS: [lista de comentários sobre pontos positivos]
 SUGESTOES: [lista de sugestões de melhoria]
 PROBLEMAS: [lista de problemas encontrados]"""
@@ -73,6 +77,9 @@ ESTRUTURA ESPERADA (do enunciado):
 ARQUIVOS FORNECIDOS NO ENUNCIADO:
 {provided_files}
 
+CÓDIGO DO ENUNCIADO:
+{enunciado_code}
+
 CÓDIGO DO ALUNO:
 {student_code}
 
@@ -87,6 +94,7 @@ Por favor, analise o código considerando:
 
 Formate sua resposta assim:
 NOTA: [número de 0 a 10]
+JUSTIFICATIVA: [justificativa resumida e clara da nota]
 ELEMENTOS: [lista de elementos HTML encontrados/ausentes]
 COMENTARIOS: [lista de comentários sobre pontos positivos]
 SUGESTOES: [lista de sugestões de melhoria]
@@ -134,6 +142,7 @@ PROBLEMAS: [lista de problemas encontrados]"""
             assignment_name=assignment.name,
             assignment_description=assignment.description,
             assignment_requirements="\n".join(f"- {req}" for req in assignment.requirements),
+            enunciado_code=self._read_enunciado_code(assignment.name),
             student_code=student_code
         )
     
@@ -158,6 +167,7 @@ PROBLEMAS: [lista de problemas encontrados]"""
             assignment_requirements="\n".join(f"- {req}" for req in assignment.requirements),
             expected_structure=expected_structure,
             provided_files=provided_files,
+            enunciado_code=self._read_enunciado_code(assignment.name),
             student_code=student_code,
             assessment_criteria=assessment_criteria or "Avalie se o aluno seguiu corretamente os requisitos e estrutura especificados."
         )
@@ -238,4 +248,48 @@ PROBLEMAS: [lista de problemas encontrados]"""
         if provided_files:
             return "Arquivos fornecidos no enunciado:\n" + "\n".join(provided_files)
         else:
-            return "Nenhum arquivo fornecido no enunciado." 
+            return "Nenhum arquivo fornecido no enunciado."
+    
+    def _read_enunciado_code(self, assignment_name: str) -> str:
+        """Lê o código fornecido no enunciado do assignment."""
+        assignment_dir = self.enunciados_path / assignment_name
+        
+        if not assignment_dir.exists():
+            return "Diretório do assignment não encontrado."
+        
+        code_files = []
+        
+        # Lê arquivos Python
+        for py_file in assignment_dir.rglob("*.py"):
+            if py_file.is_file():
+                try:
+                    content = py_file.read_text(encoding="utf-8")
+                    rel_path = py_file.relative_to(assignment_dir)
+                    code_files.append(f"# {rel_path}\n{content}\n")
+                except Exception as e:
+                    code_files.append(f"# {rel_path} - Erro ao ler: {e}\n")
+        
+        # Lê arquivos HTML
+        for html_file in assignment_dir.rglob("*.html"):
+            if html_file.is_file():
+                try:
+                    content = html_file.read_text(encoding="utf-8")
+                    rel_path = html_file.relative_to(assignment_dir)
+                    code_files.append(f"<!-- {rel_path} -->\n{content}\n")
+                except Exception as e:
+                    code_files.append(f"<!-- {rel_path} - Erro ao ler: {e} -->\n")
+        
+        # Lê arquivos CSS
+        for css_file in assignment_dir.rglob("*.css"):
+            if css_file.is_file():
+                try:
+                    content = css_file.read_text(encoding="utf-8")
+                    rel_path = css_file.relative_to(assignment_dir)
+                    code_files.append(f"/* {rel_path} */\n{content}\n")
+                except Exception as e:
+                    code_files.append(f"/* {rel_path} - Erro ao ler: {e} */\n")
+        
+        if not code_files:
+            return "Nenhum código fornecido no enunciado (arquivos vazios ou não encontrados)."
+        
+        return "\n".join(code_files) 
