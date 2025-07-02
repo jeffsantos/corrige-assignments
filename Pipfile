@@ -17,6 +17,7 @@ pyyaml = "*"
 click = "*"
 rich = "*"
 pathlib = "*"
+selenium = "*"
 
 [dev-packages]
 black = "*"

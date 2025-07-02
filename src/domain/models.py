@@ -287,3 +287,13 @@ class CorrectionReport:
             summary=data.get('summary', {}),
             generated_at=data.get('generated_at', '')
         ) 
+
+@dataclass
+class ThumbnailResult:
+    """Resultado da captura de thumbnail de um dashboard Streamlit."""
+    submission_identifier: str
+    display_name: str
+    thumbnail_path: Path
+    capture_timestamp: str
+    streamlit_status: str  # "success", "error", "timeout"
+    error_message: Optional[str] = None 
