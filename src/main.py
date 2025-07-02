@@ -12,6 +12,7 @@ from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
 from .services.correction_service import CorrectionService
+from .services.streamlit_thumbnail_service import StreamlitThumbnailService
 from .utils.report_generator import ReportGenerator
 from .repositories.assignment_repository import AssignmentRepository
 from .repositories.submission_repository import SubmissionRepository
@@ -374,7 +375,7 @@ def convert_latest(format, input_dir, output_dir):
 @click.option('--output-dir', '-o', default='reports/visual', help='Diretório para salvar relatório visual')
 @click.option('--force-recapture', is_flag=True, help='Força recaptura de thumbnails mesmo se já existirem')
 def generate_visual_report(assignment, turma, output_dir, force_recapture):
-    """Gera relatório visual com thumbnails de dashboards Streamlit."""
+    """Gera relatório visual com thumbnails de dashboards Streamlit (inclui correção completa)."""
     try:
         # Configura caminhos
         base_path = Path(__file__).parent.parent
@@ -430,6 +431,86 @@ def generate_visual_report(assignment, turma, output_dir, force_recapture):
         
     except Exception as e:
         console.print(f"[red]Erro durante a geração do relatório visual: {str(e)}[/red]")
+        sys.exit(1)
+
+
+@cli.command()
+@click.option('--assignment', '-a', required=True, help='Nome do assignment')
+@click.option('--turma', '-t', required=True, help='Nome da turma')
+@click.option('--output-dir', '-o', default='reports/visual', help='Diretório para salvar relatório visual')
+@click.option('--force-recapture', is_flag=True, help='Força recaptura de thumbnails mesmo se já existirem')
+def generate_thumbnails_only(assignment, turma, output_dir, force_recapture):
+    """Gera apenas thumbnails de dashboards Streamlit (sem correção)."""
+    try:
+        # Configura caminhos
+        base_path = Path(__file__).parent.parent
+        enunciados_path = base_path / "enunciados"
+        respostas_path = base_path / "respostas"
+        output_path = Path(output_dir)
+        
+        # Verifica se os diretórios existem
+        if not enunciados_path.exists():
+            console.print(f"[red]Erro: Diretório 'enunciados' não encontrado em {enunciados_path}[/red]")
+            sys.exit(1)
+        
+        if not respostas_path.exists():
+            console.print(f"[red]Erro: Diretório 'respostas' não encontrado em {respostas_path}[/red]")
+            sys.exit(1)
+        
+        # Cria diretório de saída se não existir
+        output_path.mkdir(parents=True, exist_ok=True)
+        
+        console.print(Panel(f"[bold blue]Gerando thumbnails para {assignment} da turma {turma}[/bold blue]"))
+        
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=console
+        ) as progress:
+            task = progress.add_task("Carregando submissões...", total=None)
+            
+            # Carrega submissões sem fazer correção
+            submission_repo = SubmissionRepository(respostas_path)
+            submissions = submission_repo.get_submissions_for_assignment(turma, assignment)
+            
+            if not submissions:
+                console.print(f"[red]Nenhuma submissão encontrada para {assignment} na turma {turma}[/red]")
+                sys.exit(1)
+            
+            progress.update(task, description="Gerando thumbnails...")
+            
+            # Inicializa serviço de thumbnails
+            thumbnail_service = StreamlitThumbnailService(output_path / "thumbnails")
+            visual_generator = VisualReportGenerator()
+            
+            # Gera apenas thumbnails
+            thumbnails = thumbnail_service.generate_thumbnails_for_assignment(
+                assignment, turma, submissions
+            )
+            
+            # Cria relatório básico apenas com thumbnails
+            from src.domain.models import CorrectionReport
+            report = CorrectionReport(
+                assignment_name=assignment,
+                turma=turma,
+                submissions=submissions,
+                thumbnails=thumbnails,
+                generated_at=datetime.now().isoformat()
+            )
+            
+            # Gera relatório visual
+            visual_report_path = visual_generator.generate_visual_report(
+                assignment, turma, thumbnails, report, output_path
+            )
+            
+            console.print(f"[green]Relatório visual salvo: {visual_report_path}[/green]")
+        
+        console.print(f"[bold green]✅ Thumbnails gerados com sucesso![/bold green]")
+        console.print(f"[yellow]Thumbnails gerados: {len(thumbnails)}[/yellow]")
+        console.print(f"[blue]💡 Use 'correct' para executar correção completa (testes + IA)[/blue]")
+        
+    except Exception as e:
+        console.print(f"[red]Erro durante a geração de thumbnails: {str(e)}[/red]")
         sys.exit(1)
 
 
