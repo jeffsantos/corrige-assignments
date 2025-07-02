@@ -25,7 +25,7 @@ MAX_TEST_OUTPUT = 1000  # caracteres
 # Configurações de thumbnails
 STREAMLIT_STARTUP_TIMEOUT = 30  # segundos para aguardar Streamlit inicializar
 SCREENSHOT_WAIT_TIME = 3  # segundos para aguardar renderização completa
-CHROME_WINDOW_SIZE = "1200,800"  # tamanho da janela do Chrome
+CHROME_WINDOW_SIZE = "1440,900"  # tamanho da janela do Chrome (maior para alta resolução)
 STREAMLIT_PORT_RANGE = (8501, 8600)  # range de portas para Streamlit
 
 # Configuração do tipo de submissão para cada assignment

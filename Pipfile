@@ -18,6 +18,8 @@ click = "*"
 rich = "*"
 pathlib = "*"
 selenium = "*"
+psutil = "*"
+pillow = "*"
 
 [dev-packages]
 black = "*"
@@ -26,4 +28,4 @@ mypy = "*"
 pytest-cov = "*"
 
 [requires]
-python_version = "3.13" 
+python_version = "3.13"

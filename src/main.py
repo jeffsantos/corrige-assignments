@@ -374,7 +374,8 @@ def convert_latest(format, input_dir, output_dir):
 @click.option('--turma', '-t', required=True, help='Nome da turma')
 @click.option('--output-dir', '-o', default='reports/visual', help='Diretório para salvar relatório visual')
 @click.option('--force-recapture', is_flag=True, help='Força recaptura de thumbnails mesmo se já existirem')
-def generate_visual_report(assignment, turma, output_dir, force_recapture):
+@click.option('--verbose', '-v', is_flag=True, help='Mostra logs detalhados de debug')
+def generate_visual_report(assignment, turma, output_dir, force_recapture, verbose):
     """Gera relatório visual com thumbnails de dashboards Streamlit (inclui correção completa)."""
     try:
         # Configura caminhos
@@ -415,6 +416,7 @@ def generate_visual_report(assignment, turma, output_dir, force_recapture):
             visual_generator = VisualReportGenerator()
             
             # Executa correção (que inclui geração de thumbnails para assignments Streamlit)
+            # TODO: Passar verbose para o correction_service quando implementado
             report = correction_service.correct_assignment(assignment, turma)
             
             progress.update(task, description="Gerando relatório visual...")
@@ -439,7 +441,8 @@ def generate_visual_report(assignment, turma, output_dir, force_recapture):
 @click.option('--turma', '-t', required=True, help='Nome da turma')
 @click.option('--output-dir', '-o', default='reports/visual', help='Diretório para salvar relatório visual')
 @click.option('--force-recapture', is_flag=True, help='Força recaptura de thumbnails mesmo se já existirem')
-def generate_thumbnails_only(assignment, turma, output_dir, force_recapture):
+@click.option('--verbose', '-v', is_flag=True, help='Mostra logs detalhados de debug')
+def generate_thumbnails_only(assignment, turma, output_dir, force_recapture, verbose):
     """Gera apenas thumbnails de dashboards Streamlit (sem correção)."""
     try:
         # Configura caminhos
@@ -480,7 +483,7 @@ def generate_thumbnails_only(assignment, turma, output_dir, force_recapture):
             progress.update(task, description="Gerando thumbnails...")
             
             # Inicializa serviço de thumbnails
-            thumbnail_service = StreamlitThumbnailService(output_path / "thumbnails")
+            thumbnail_service = StreamlitThumbnailService(output_path / "thumbnails", verbose=verbose)
             visual_generator = VisualReportGenerator()
             
             # Gera apenas thumbnails
