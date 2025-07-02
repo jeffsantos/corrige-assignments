@@ -155,8 +155,9 @@ class StreamlitThumbnailService:
             raise e
             
         finally:
-            # Para o processo Streamlit
+            # Para o processo Streamlit e aguarda um pouco para garantir que a porta seja liberada
             self._stop_streamlit(process)
+            time.sleep(2)  # Aguarda 2 segundos para liberar a porta
     
     def _find_available_port(self) -> int:
         """Encontra uma porta disponível para o Streamlit."""
@@ -165,6 +166,12 @@ class StreamlitThumbnailService:
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     s.bind(('localhost', port))
+                    s.close()
+                    # Testa novamente para garantir que a porta está realmente livre
+                    time.sleep(0.1)
+                    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s2:
+                        s2.bind(('localhost', port))
+                        s2.close()
                     return port
             except OSError:
                 continue
