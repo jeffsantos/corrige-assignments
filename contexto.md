@@ -494,6 +494,134 @@ test(ai): adiciona testes para validação de parsing de respostas
 - **Changelog**: Geração automática de changelog baseado em commits
 - **CI/CD**: Análise automática de tipos de commit para pipelines
 
+## 📚 Padrões de Documentação e Atualização
+
+### Atualização Obrigatória de Documentação
+
+**Decisão**: Sempre verificar e atualizar a documentação após cada mudança funcional.
+
+**Regra**: Após qualquer mudança que afete funcionalidade, interface ou comportamento do sistema, **sempre verificar** se é necessário atualizar:
+
+1. **`README.md`**: 
+   - Novos comandos ou opções
+   - Mudanças em exemplos de uso
+   - Novas funcionalidades
+   - Mudanças em configurações
+   - Atualizações de troubleshooting
+
+2. **`example_usage.py`**:
+   - Novos exemplos de uso
+   - Atualização de exemplos existentes
+   - Adição de casos de uso com novas flags (ex: `--verbose`)
+   - Demonstração de novas funcionalidades
+
+### Checklist de Verificação
+
+**Padrão**: Sempre executar este checklist após mudanças:
+
+- [ ] **README.md**: Novos comandos/opções documentados?
+- [ ] **README.md**: Exemplos atualizados?
+- [ ] **README.md**: Troubleshooting atualizado?
+- [ ] **example_usage.py**: Novos exemplos adicionados?
+- [ ] **example_usage.py**: Exemplos existentes atualizados?
+- [ ] **example_usage.py**: Novas flags demonstradas?
+
+### Exemplos de Atualizações Necessárias
+
+**Cenário 1 - Nova flag `--verbose`**:
+```bash
+# Adicionar ao README.md
+# Mostrar logs detalhados de debug
+python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose
+
+# Adicionar ao example_usage.py
+print("  • Logs detalhados de debug com flag --verbose")
+```
+
+**Cenário 2 - Novo comando**:
+```bash
+# Adicionar ao README.md
+### Comandos de Thumbnails Streamlit
+python -m src.main generate-thumbnails-only --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
+
+# Adicionar ao example_usage.py
+print("\n📝 Exemplo 9: Geração de Thumbnails Streamlit")
+```
+
+**Cenário 3 - Nova funcionalidade**:
+```bash
+# Adicionar ao README.md
+- 🖼️ **Geração automática de thumbnails** - Screenshots de dashboards Streamlit
+
+# Adicionar ao example_usage.py
+print("  • Captura screenshot de cada dashboard")
+```
+
+### Padrão de Exemplos no example_usage.py
+
+**Formato estabelecido**:
+```python
+print("\n📝 Exemplo X: Título Descritivo")
+print("-" * 50)
+print("Assignment: nome-do-assignment")
+print("Características:")
+print("  • Característica 1")
+print("  • Característica 2")
+print("  • Característica 3")
+
+# Comentar para não executar automaticamente
+# cli(["comando", "--opcao", "valor"])
+```
+
+### Padrão de Seções no README.md
+
+**Formato estabelecido**:
+```markdown
+### Comandos de [Categoria]
+
+```bash
+# Descrição do comando
+python -m src.main comando --opcao valor
+
+# Descrição de variação
+python -m src.main comando --opcao valor --flag
+```
+
+### Exemplos de Uso
+
+```bash
+# Exemplo X: Descrição
+python -m src.main comando --opcao valor
+
+# Exemplo Xb: Descrição com variação
+python -m src.main comando --opcao valor --flag
+```
+```
+
+### Justificativa
+
+**Por que é importante**:
+1. **Consistência**: Manter documentação sempre atualizada
+2. **Usabilidade**: Usuários precisam de exemplos práticos
+3. **Manutenção**: Facilita onboarding de novos desenvolvedores
+4. **Qualidade**: Documentação desatualizada é pior que sem documentação
+5. **Profissionalismo**: Projeto bem documentado demonstra qualidade
+
+### Exceções
+
+**Quando NÃO atualizar**:
+- Mudanças apenas em testes
+- Refatorações internas que não afetam interface
+- Correções de bugs que não mudam comportamento visível
+- Mudanças apenas em logs ou debug
+
+**Quando SEMPRE atualizar**:
+- Novos comandos ou opções
+- Mudanças em interface CLI
+- Novas funcionalidades
+- Mudanças em configurações
+- Correções que afetam exemplos existentes
+
 ## 🎯 Diretrizes para Futuras Implementações
 
 ### Princípio Fundamental: Consistência de Padrões
