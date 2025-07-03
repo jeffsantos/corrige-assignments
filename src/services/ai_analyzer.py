@@ -9,6 +9,7 @@ from typing import List, Dict, Any
 from openai import OpenAI
 from ..domain.models import CodeAnalysis, HTMLAnalysis, Assignment
 from .prompt_manager import PromptManager
+import re
 
 
 class AIAnalyzer:
@@ -479,7 +480,12 @@ Por favor, analise o código considerando:
 Formate sua resposta assim:
 NOTA: [número de 0 a 10]
 JUSTIFICATIVA: [justificativa resumida e clara da nota]
-ELEMENTOS: [lista de elementos HTML encontrados/ausentes]
+ELEMENTOS:
+- Headings (h1, h2): [Presente/Ausente]
+- Lists (ul/ol): [Presente/Ausente]
+- Images (img): [Presente/Ausente]
+- Links (a): [Presente/Ausente]
+- Tables (table): [Presente/Ausente]
 COMENTARIOS: [lista de comentários sobre pontos positivos]
 SUGESTOES: [lista de sugestões de melhoria]
 PROBLEMAS: [lista de problemas encontrados]
@@ -561,6 +567,10 @@ PROBLEMAS: [lista de problemas encontrados]
                 score_justification = line.split(':', 1)[1].strip() if ':' in line else ""
             elif line.startswith('ELEMENTOS:'):
                 current_section = 'elements'
+                # Processa elementos que podem estar na mesma linha após ELEMENTOS:
+                elements_text = line.split(':', 1)[1].strip() if ':' in line else ""
+                if elements_text:
+                    self._parse_elements_line(elements_text, required_elements)
             elif line.startswith('COMENTARIOS:') or line.startswith('COMENTÁRIOS:'):
                 current_section = 'comments'
             elif line.startswith('SUGESTOES:') or line.startswith('SUGESTÕES:'):
@@ -570,10 +580,8 @@ PROBLEMAS: [lista de problemas encontrados]
             elif line and current_section and line.startswith('-'):
                 item = line[1:].strip()
                 if current_section == 'elements':
-                    # Processa elementos HTML (ex: "h1: encontrado", "h2: ausente")
-                    if ':' in item:
-                        element, status = item.split(':', 1)
-                        required_elements[element.strip()] = 'encontrado' in status.lower()
+                    # Processa elementos HTML em formato de lista
+                    self._parse_elements_line(item, required_elements)
                 elif current_section == 'comments':
                     comments.append(item)
                 elif current_section == 'suggestions':
@@ -586,6 +594,9 @@ PROBLEMAS: [lista de problemas encontrados]
                     score_justification += " " + line
                 else:
                     score_justification = line
+            elif line and current_section == 'elements' and not line.startswith('-') and line:
+                # Processa elementos que podem estar em linhas separadas sem hífen
+                self._parse_elements_line(line, required_elements)
         
         return HTMLAnalysis(
             score=score,
@@ -595,6 +606,58 @@ PROBLEMAS: [lista de problemas encontrados]
             suggestions=suggestions,
             issues_found=issues
         )
+    
+    def _parse_elements_line(self, line: str, required_elements: Dict[str, bool]) -> None:
+        """Processa uma linha de elementos HTML para extrair status de presença."""
+        # Remove parênteses e conteúdo dentro deles
+        line = re.sub(r'\([^)]*\)', '', line)
+        
+        # Padrões para detectar elementos e seus status
+        element_patterns = [
+            # Padrão: "elemento: status" ou "elemento (status)"
+            (r'(\w+)\s*[:\(]\s*(presente|encontrado|sim|true|yes)', True),
+            (r'(\w+)\s*[:\(]\s*(ausente|não encontrado|não|false|no)', False),
+            # Padrão: "elemento" seguido de "Presente" ou "Ausente" na mesma linha
+            (r'(\w+).*?(presente|encontrado|sim|true|yes)', True),
+            (r'(\w+).*?(ausente|não encontrado|não|false|no)', False),
+        ]
+        
+        # Mapeamento de elementos comuns
+        element_mapping = {
+            'h1': 'h1', 'h2': 'h2', 'h3': 'h3', 'headings': 'headings',
+            'ul': 'ul', 'ol': 'ol', 'lists': 'lists', 'list': 'lists',
+            'img': 'img', 'images': 'img', 'image': 'img',
+            'a': 'a', 'links': 'a', 'link': 'a',
+            'table': 'table', 'tables': 'table'
+        }
+        
+        line_lower = line.lower()
+        
+        # Verifica padrões específicos
+        for pattern, status in element_patterns:
+            matches = re.findall(pattern, line_lower)
+            for match in matches:
+                element_name = match[0].strip()
+                if element_name in element_mapping:
+                    mapped_element = element_mapping[element_name]
+                    required_elements[mapped_element] = status
+        
+        # Verifica presença de elementos por palavras-chave
+        if any(word in line_lower for word in ['h1', 'h2', 'h3', 'headings']):
+            if 'headings' not in required_elements:
+                required_elements['headings'] = True
+        if any(word in line_lower for word in ['ul', 'ol', 'lists', 'list']):
+            if 'lists' not in required_elements:
+                required_elements['lists'] = True
+        if any(word in line_lower for word in ['img', 'images', 'image']):
+            if 'img' not in required_elements:
+                required_elements['img'] = True
+        if any(word in line_lower for word in ['a', 'links', 'link']):
+            if 'a' not in required_elements:
+                required_elements['a'] = True
+        if any(word in line_lower for word in ['table', 'tables']):
+            if 'table' not in required_elements:
+                required_elements['table'] = True
     
     def _format_python_files(self, python_files: Dict[str, str]) -> str:
         """Formata arquivos Python para o prompt."""

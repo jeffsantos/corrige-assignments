@@ -421,10 +421,11 @@ PROBLEMAS:
 NOTA: 7.0
 JUSTIFICATIVA: Estrutura HTML adequada mas CSS poderia ser melhorado
 ELEMENTOS:
-- h1: encontrado
-- h2: encontrado
-- img: encontrado
-- a: encontrado
+- Headings (h1, h2): Presente
+- Lists (ul/ol): Presente
+- Images (img): Presente
+- Links (a): Presente
+- Tables (table): Presente
 COMENTARIOS:
 - Estrutura HTML correta
 - Elementos obrigatórios presentes
@@ -438,13 +439,199 @@ PROBLEMAS:
         
         assert result.score == 7.0
         assert result.score_justification == "Estrutura HTML adequada mas CSS poderia ser melhorado"
-        assert result.required_elements["h1"] == True
-        assert result.required_elements["h2"] == True
+        assert result.required_elements["headings"] == True
+        assert result.required_elements["lists"] == True
         assert result.required_elements["img"] == True
         assert result.required_elements["a"] == True
+        assert result.required_elements["table"] == True
         assert "Estrutura HTML correta" in result.comments
         assert "Melhorar estilos CSS" in result.suggestions
         assert "CSS muito básico" in result.issues_found
+    
+    def test_parse_html_analysis_elements_inline_format(self):
+        """Testa parsing de elementos HTML quando vêm na mesma linha após ELEMENTOS:."""
+        analyzer = AIAnalyzer(api_key="fake-key")
+        analysis_text = """
+NOTA: 8.0
+JUSTIFICATIVA: Boa implementação dos elementos HTML obrigatórios
+ELEMENTOS: headings (h1, h2), lists (ul), images (img), links (a), tables (table)
+COMENTARIOS:
+- Todos os elementos obrigatórios presentes
+SUGESTOES:
+- Melhorar responsividade
+PROBLEMAS:
+- Nenhum problema encontrado
+"""
+        
+        result = analyzer._parse_html_analysis(analysis_text)
+        
+        assert result.score == 8.0
+        assert result.score_justification == "Boa implementação dos elementos HTML obrigatórios"
+        assert result.required_elements["headings"] == True
+        assert result.required_elements["lists"] == True
+        assert result.required_elements["img"] == True
+        assert result.required_elements["a"] == True
+        assert result.required_elements["table"] == True
+    
+    def test_parse_html_analysis_elements_mixed_format(self):
+        """Testa parsing de elementos HTML em formato misto (alguns com hífen, outros não)."""
+        analyzer = AIAnalyzer(api_key="fake-key")
+        analysis_text = """
+NOTA: 6.0
+JUSTIFICATIVA: Implementação parcial dos elementos HTML
+ELEMENTOS:
+- Headings (h1, h2): Presente
+- Lists (ul/ol): Ausente
+Images (img): Presente
+Links (a): Presente
+- Tables (table): Ausente
+COMENTARIOS:
+- Alguns elementos implementados corretamente
+SUGESTOES:
+- Adicionar listas e tabelas
+PROBLEMAS:
+- Elementos obrigatórios ausentes
+"""
+        
+        result = analyzer._parse_html_analysis(analysis_text)
+        
+        assert result.score == 6.0
+        assert result.score_justification == "Implementação parcial dos elementos HTML"
+        assert result.required_elements["headings"] == True
+        assert result.required_elements["lists"] == False
+        assert result.required_elements["img"] == True
+        assert result.required_elements["a"] == True
+        assert result.required_elements["table"] == False
+    
+    def test_parse_html_analysis_elements_with_parentheses(self):
+        """Testa parsing de elementos HTML com informações adicionais em parênteses."""
+        analyzer = AIAnalyzer(api_key="fake-key")
+        analysis_text = """
+NOTA: 9.0
+JUSTIFICATIVA: Excelente implementação com todos os elementos
+ELEMENTOS:
+- Headings (h1, h2): Presente (bem estruturados)
+- Lists (ul/ol): Presente (organizadas)
+- Images (img): Presente (com alt text)
+- Links (a): Presente (funcionais)
+- Tables (table): Presente (bem formatadas)
+COMENTARIOS:
+- Implementação completa
+SUGESTOES:
+- Nenhuma sugestão
+PROBLEMAS:
+- Nenhum problema
+"""
+        
+        result = analyzer._parse_html_analysis(analysis_text)
+        
+        assert result.score == 9.0
+        assert result.score_justification == "Excelente implementação com todos os elementos"
+        assert result.required_elements["headings"] == True
+        assert result.required_elements["lists"] == True
+        assert result.required_elements["img"] == True
+        assert result.required_elements["a"] == True
+        assert result.required_elements["table"] == True
+    
+    def test_parse_html_analysis_justification_multiline(self):
+        """Testa se justificativa multilinha é capturada corretamente."""
+        analyzer = AIAnalyzer(api_key="fake-key")
+        analysis_text = """
+NOTA: 7.5
+JUSTIFICATIVA: O aluno implementou corretamente a estrutura básica do site de currículo, 
+incluindo as duas páginas HTML solicitadas e o arquivo CSS. A organização dos arquivos 
+está adequada e os elementos HTML obrigatórios foram utilizados.
+ELEMENTOS:
+- Headings (h1, h2): Presente
+- Lists (ul/ol): Presente
+- Images (img): Presente
+- Links (a): Presente
+- Tables (table): Presente
+COMENTARIOS:
+- Estrutura correta
+SUGESTOES:
+- Melhorar CSS
+PROBLEMAS:
+- Nenhum
+"""
+        
+        result = analyzer._parse_html_analysis(analysis_text)
+        
+        expected_justification = "O aluno implementou corretamente a estrutura básica do site de currículo, incluindo as duas páginas HTML solicitadas e o arquivo CSS. A organização dos arquivos está adequada e os elementos HTML obrigatórios foram utilizados."
+        assert result.score == 7.5
+        assert result.score_justification == expected_justification
+    
+    def test_parse_html_analysis_real_log_examples(self):
+        """Testa parsing com exemplos reais dos logs problemáticos."""
+        analyzer = AIAnalyzer(api_key="fake-key")
+        
+        # Exemplo do log tarefa-html-curriculo-anaclaravtoledo_html_08-06-46.json
+        analysis_text_1 = """
+NOTA: 8
+JUSTIFICATIVA: O aluno atendeu à maioria dos requisitos do assignment, mas há alguns pontos que podem ser melhorados.
+ELEMENTOS:
+- Headings (h1, h2): Presentes
+- Lists (ul): Presente
+- Images (img): Presente
+- Links (a): Presente
+- Tables (table): Presente
+
+COMENTÁRIOS:
+- A estrutura de arquivos está correta, seguindo a organização solicitada.
+- A página index.html contém todas as seções obrigatórias e os elementos HTML necessários.
+- A página contato.html possui o formulário de contato com os campos solicitados.
+- O CSS está bem organizado e contribui para uma apresentação visual agradável.
+- Os estilos são consistentes e responsivos, tornando a página legível em diferentes dispositivos.
+
+SUGESTÕES:
+- Seria interessante adicionar mais detalhes às seções do currículo, como descrições mais elaboradas sobre a formação acadêmica e experiências.
+- Considerar a adição de mais informações pessoais, como habilidades, certificações ou projetos relevantes.
+- Melhorar a acessibilidade do formulário de contato, adicionando rótulos visíveis para os campos de entrada.
+
+PROBLEMAS:
+- O uso do atributo "method" no formulário de contato não é necessário, pois o envio por e-mail não é suportado em todos os navegadores. Recomenda-se utilizar uma solução de backend para processar os dados do formulário.
+- Não foi encontrado um h3 na página index.html, o que poderia ser adicionado para melhorar a hierarquia de títulos.
+"""
+        
+        result_1 = analyzer._parse_html_analysis(analysis_text_1)
+        
+        assert result_1.score == 8.0
+        assert result_1.score_justification == "O aluno atendeu à maioria dos requisitos do assignment, mas há alguns pontos que podem ser melhorados."
+        assert result_1.required_elements["headings"] == True
+        assert result_1.required_elements["lists"] == True
+        assert result_1.required_elements["img"] == True
+        assert result_1.required_elements["a"] == True
+        assert result_1.required_elements["table"] == True
+        
+        # Exemplo do log tarefa-html-curriculo-arthurrrangel_html_08-06-53.json
+        analysis_text_2 = """
+NOTA: 6
+JUSTIFICATIVA: O aluno seguiu a estrutura de arquivos corretamente e implementou as seções obrigatórias nas páginas index.html e contato.html. No entanto, faltam alguns elementos HTML obrigatórios e a qualidade do CSS poderia ser melhorada.
+ELEMENTOS: headings (h1, h2), lists (ul), images (img), links (a), tables (table)
+COMENTÁRIOS:
+- A estrutura de arquivos está correta, com os arquivos organizados conforme especificado.
+- As seções obrigatórias estão presentes nas páginas index.html e contato.html.
+- O link "Fale Comigo" para a página contato.html está funcionando corretamente.
+
+SUGESTÕES:
+- Adicionar mais elementos HTML obrigatórios, como headings (h3), lists (ol), e talvez uma tabela para organizar informações de forma mais estruturada.
+- Melhorar a qualidade do CSS, tornando-o mais organizado e aplicando estilos de forma mais consistente e esteticamente agradável.
+- Verificar a responsividade do site para garantir uma boa experiência em diferentes dispositivos.
+
+PROBLEMAS:
+- Faltam alguns elementos HTML obrigatórios, como headings (h3), lists (ol), e tables para melhorar a estrutura e organização do conteúdo.
+- O CSS poderia ser mais elaborado para melhorar a apresentação visual do site.
+"""
+        
+        result_2 = analyzer._parse_html_analysis(analysis_text_2)
+        
+        assert result_2.score == 6.0
+        assert result_2.score_justification == "O aluno seguiu a estrutura de arquivos corretamente e implementou as seções obrigatórias nas páginas index.html e contato.html. No entanto, faltam alguns elementos HTML obrigatórios e a qualidade do CSS poderia ser melhorada."
+        assert result_2.required_elements["headings"] == True
+        assert result_2.required_elements["lists"] == True
+        assert result_2.required_elements["img"] == True
+        assert result_2.required_elements["a"] == True
+        assert result_2.required_elements["table"] == True
 
 
 class TestCorrectionService:

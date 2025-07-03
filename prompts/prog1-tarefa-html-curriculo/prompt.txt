@@ -48,7 +48,12 @@ Este é um assignment de criação de site de currículo pessoal usando HTML e C
 Formate sua resposta assim:
 NOTA: [número de 0 a 10]
 JUSTIFICATIVA: [justificativa resumida e clara da nota]
-ELEMENTOS: [lista de elementos HTML encontrados/ausentes]
+ELEMENTOS:
+- Headings (h1, h2): [Presente/Ausente]
+- Lists (ul/ol): [Presente/Ausente]
+- Images (img): [Presente/Ausente]
+- Links (a): [Presente/Ausente]
+- Tables (table): [Presente/Ausente]
 COMENTARIOS: [lista de comentários sobre pontos positivos]
 SUGESTOES: [lista de sugestões de melhoria]
 PROBLEMAS: [lista de problemas encontrados]
