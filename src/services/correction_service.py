@@ -13,6 +13,7 @@ from ..repositories.submission_repository import SubmissionRepository
 from .test_executor import PytestExecutor
 from .ai_analyzer import AIAnalyzer
 from .streamlit_thumbnail_service import StreamlitThumbnailService
+from .html_thumbnail_service import HTMLThumbnailService
 
 
 class CorrectionService:
@@ -23,7 +24,8 @@ class CorrectionService:
         self.submission_repo = SubmissionRepository(respostas_path)
         self.test_executor = PytestExecutor()
         self.ai_analyzer = AIAnalyzer(openai_api_key, enunciados_path, logs_path)
-        self.thumbnail_service = StreamlitThumbnailService(verbose=verbose)
+        self.streamlit_thumbnail_service = StreamlitThumbnailService(verbose=verbose)
+        self.html_thumbnail_service = HTMLThumbnailService(verbose=verbose)
     
     def correct_assignment(self, assignment_name: str, turma_name: str, 
                           submission_identifier: Optional[str] = None) -> CorrectionReport:
@@ -63,16 +65,24 @@ class CorrectionService:
         # Calcula estatísticas do relatório
         report.summary = self._calculate_summary(submissions)
         
-        # Gera thumbnails se for assignment Streamlit
-        if assignment_name == "prog1-prova-av":
-            print(f"\n🖼️  Iniciando geração de thumbnails para {len(submissions)} submissões...")
+        # Gera thumbnails se o assignment suportar
+        from config import assignment_has_thumbnails, get_assignment_thumbnail_type
+        
+        if assignment_has_thumbnails(assignment_name):
+            thumbnail_type = get_assignment_thumbnail_type(assignment_name)
+            print(f"\n🖼️  Iniciando geração de thumbnails {thumbnail_type.upper()} para {len(submissions)} submissões...")
             try:
-                report.thumbnails = self.thumbnail_service.generate_thumbnails_for_assignment(
-                    assignment_name, turma_name, submissions
-                )
-                print(f"✅ Geração de thumbnails concluída: {len(report.thumbnails)} thumbnails gerados")
+                if thumbnail_type == "streamlit":
+                    report.thumbnails = self.streamlit_thumbnail_service.generate_thumbnails_for_assignment(
+                        assignment_name, turma_name, submissions
+                    )
+                elif thumbnail_type == "html":
+                    report.thumbnails = self.html_thumbnail_service.generate_thumbnails_for_assignment(
+                        assignment_name, turma_name, submissions
+                    )
+                print(f"✅ Geração de thumbnails {thumbnail_type.upper()} concluída: {len(report.thumbnails)} thumbnails gerados")
             except Exception as e:
-                print(f"❌ Erro ao gerar thumbnails: {e}")
+                print(f"❌ Erro ao gerar thumbnails {thumbnail_type.upper()}: {e}")
                 # Inicializa lista vazia para evitar erro
                 report.thumbnails = []
         

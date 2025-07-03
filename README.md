@@ -14,7 +14,7 @@ Sistema inteligente para correção automática de assignments de programação 
 - 🎯 **Critérios específicos** - Avaliação baseada nos requisitos de cada assignment
 - 👥 **Suporte a submissões individuais e em grupo** - Configuração por assignment
 - 📝 **Logs de auditoria da IA** - Registro completo das análises para transparência
-- 🖼️ **Geração automática de thumbnails** - Screenshots de dashboards Streamlit com captura completa
+- 🖼️ **Geração automática de thumbnails** - Screenshots de dashboards Streamlit e páginas HTML com captura completa
 - 📈 **Relatórios visuais** - Interface HTML com thumbnails organizados por nota
 - ⚡ **Performance otimizada** - Dependências instaladas uma única vez, limpeza automática de processos
 - 🔍 **Debug opcional** - Flag --verbose para logs detalhados
@@ -194,17 +194,23 @@ python -m src.main convert-latest --format html
 python -m src.main convert-latest --format markdown
 ```
 
-### Comandos de Thumbnails Streamlit
+### Comandos de Thumbnails
 
 ```bash
-# Gerar apenas thumbnails (sem correção)
+# Gerar apenas thumbnails (sem correção) - Streamlit
 python -m src.main generate-thumbnails-only --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
+
+# Gerar apenas thumbnails (sem correção) - HTML
+python -m src.main generate-html-thumbnails-only --assignment prog1-tarefa-html-curriculo --turma ebape-prog-aplic-barra-2025
 
 # Gerar apenas thumbnails com logs detalhados
 python -m src.main generate-thumbnails-only --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose
 
 # Gerar relatório visual completo (correção + thumbnails)
 python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
+
+# Gerar relatório visual completo (correção + thumbnails HTML)
+python -m src.main generate-visual-report --assignment prog1-tarefa-html-curriculo --turma ebape-prog-aplic-barra-2025
 
 # Gerar relatório visual com logs detalhados
 python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose
@@ -252,51 +258,75 @@ python -m src.main list-assignments
 # Exemplo 11: Ver submissões de uma turma
 python -m src.main list-submissions --turma ebape-prog-aplic-barra-2025
 
-# Exemplo 12: Gerar apenas thumbnails de dashboards
+# Exemplo 12: Gerar apenas thumbnails de dashboards Streamlit
 python -m src.main generate-thumbnails-only --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
 
-# Exemplo 13: Gerar apenas thumbnails com logs detalhados
+# Exemplo 13: Gerar apenas thumbnails de páginas HTML
+python -m src.main generate-html-thumbnails-only --assignment prog1-tarefa-html-curriculo --turma ebape-prog-aplic-barra-2025
+
+# Exemplo 14: Gerar apenas thumbnails com logs detalhados
 python -m src.main generate-thumbnails-only --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose
 
-# Exemplo 14: Gerar relatório visual completo
+# Exemplo 15: Gerar relatório visual completo (Streamlit)
 python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
 
-# Exemplo 15: Gerar relatório visual com logs detalhados
+# Exemplo 16: Gerar relatório visual completo (HTML)
+python -m src.main generate-visual-report --assignment prog1-tarefa-html-curriculo --turma ebape-prog-aplic-barra-2025
+
+# Exemplo 17: Gerar relatório visual com logs detalhados
 python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose
 ```
 
-## 🖼️ Funcionalidade de Thumbnails Streamlit
+## 🖼️ Funcionalidade de Thumbnails
 
-O sistema inclui funcionalidade avançada para gerar thumbnails de dashboards Streamlit, permitindo visualização rápida dos trabalhos dos alunos.
+O sistema inclui funcionalidade avançada para gerar thumbnails de dashboards Streamlit e páginas HTML, permitindo visualização rápida dos trabalhos dos alunos.
 
 ### Características
 
-- **Geração automática**: Captura screenshots de cada dashboard Streamlit
-- **Processamento paralelo**: Cada submissão roda em porta separada
-- **Tratamento de erros**: Instala dependências automaticamente se necessário
+- **Geração automática**: Captura screenshots de cada dashboard Streamlit ou página HTML
+- **Processamento paralelo**: Cada submissão roda em porta separada (Streamlit) ou arquivo separado (HTML)
+- **Tratamento de erros**: Instala dependências automaticamente se necessário (Streamlit)
 - **Relatórios visuais**: Interface HTML organizada por nota
 - **Estatísticas**: Taxa de sucesso dos thumbnails gerados
-- **Performance otimizada**: Dependências instaladas uma única vez por execução
-- **Captura completa**: Altura mínima de 1800px para dashboards
+- **Performance otimizada**: Dependências instaladas uma única vez por execução (Streamlit)
+- **Captura completa**: Altura mínima de 1800px para dashboards, 1200px para HTML
 - **Suporte a alta resolução**: Compatível com telas 2880x1620, 200% escala
 - **Logs opcionais**: Flag `--verbose` para debug detalhado
-- **Limpeza automática**: Processos órfãos removidos automaticamente
+- **Limpeza automática**: Processos órfãos removidos automaticamente (Streamlit)
+- **Suporte a HTML estático**: Captura direta de arquivos index.html sem servidor
 
 ### Como Funciona
 
+**Para Streamlit:**
 1. **Detecção**: Identifica assignments que usam Streamlit
 2. **Inicialização**: Inicia cada dashboard em porta separada
 3. **Captura**: Usa Selenium para capturar screenshot
+4. **Organização**: Cria relatório visual com thumbnails organizados
+
+**Para HTML:**
+1. **Detecção**: Identifica assignments que usam HTML estático
+2. **Leitura**: Acessa diretamente o arquivo index.html de cada submissão
+3. **Captura**: Usa Selenium para capturar screenshot da página HTML
 4. **Organização**: Cria relatório visual com thumbnails organizados
 
 ### Configurações
 
 ```python
 # config.py
+# Configurações para Streamlit
 STREAMLIT_STARTUP_TIMEOUT = 30  # Tempo para inicializar
+STREAMLIT_PORT_RANGE = (8501, 8600) # Range de portas
+
+# Configurações para captura de screenshots (Streamlit e HTML)
 SCREENSHOT_WAIT_TIME = 3        # Tempo para renderizar
 CHROME_WINDOW_SIZE = "1440,900" # Tamanho da janela (otimizado para alta resolução)
-STREAMLIT_PORT_RANGE = (8501, 8600) # Range de portas
+
+# Configuração de assignments que geram thumbnails
+ASSIGNMENTS_WITH_THUMBNAILS = {
+    "prog1-prova-av": "streamlit",           # Dashboard Streamlit
+    "prog1-tarefa-html-curriculo": "html",   # Página HTML
+    "prog1-tarefa-html-tutorial": "html",    # Página HTML
+}
 ```
 
 ### Dependências Adicionais
@@ -311,13 +341,22 @@ pillow = "*"    # Manipulação de imagens para captura completa
 
 ### Solução de Problemas
 
+**Para Streamlit:**
 - **Thumbnails em branco**: Aumente `SCREENSHOT_WAIT_TIME`
 - **Timeouts**: Aumente `STREAMLIT_STARTUP_TIMEOUT`
 - **Erros de dependência**: O sistema tenta instalar automaticamente
 - **Conflitos de porta**: Ajuste `STREAMLIT_PORT_RANGE`
-- **Thumbnails cortados**: Sistema agora usa altura mínima de 1800px automaticamente
+- **Thumbnails cortados**: Sistema usa altura mínima de 1800px automaticamente
 - **Performance lenta**: Dependências instaladas uma única vez por execução
 - **Processos órfãos**: Limpeza automática implementada
+
+**Para HTML:**
+- **Thumbnails em branco**: Aumente `SCREENSHOT_WAIT_TIME`
+- **Arquivo não encontrado**: Verifique se index.html existe na submissão
+- **Thumbnails cortados**: Sistema usa altura mínima de 1200px automaticamente
+- **Erros de renderização**: Verifique se o HTML é válido
+
+**Geral:**
 - **Telas de alta resolução**: Suporte nativo para 2880x1620, 200% escala
 - **Debug detalhado**: Use flag `--verbose` para logs completos
 

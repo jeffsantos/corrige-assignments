@@ -41,6 +41,30 @@ class TestConfiguration:
         assert is_assignment_configured("prog1-prova-av") is True
         assert is_assignment_configured("prog1-tarefa-html-curriculo") is True
         assert is_assignment_configured("assignment-inexistente") is False
+    
+    def test_get_assignment_thumbnail_type(self):
+        """Testa obtenção do tipo de thumbnail para assignments."""
+        from config import get_assignment_thumbnail_type
+        
+        # Testa assignments com thumbnails
+        assert get_assignment_thumbnail_type("prog1-prova-av") == "streamlit"
+        assert get_assignment_thumbnail_type("prog1-tarefa-html-curriculo") == "html"
+        assert get_assignment_thumbnail_type("prog1-tarefa-html-tutorial") == "html"
+        
+        # Testa assignment sem thumbnails
+        assert get_assignment_thumbnail_type("prog1-tarefa-scrap-simples") is None
+    
+    def test_assignment_has_thumbnails(self):
+        """Testa verificação se assignment gera thumbnails."""
+        from config import assignment_has_thumbnails
+        
+        # Testa assignments com thumbnails
+        assert assignment_has_thumbnails("prog1-prova-av") == True
+        assert assignment_has_thumbnails("prog1-tarefa-html-curriculo") == True
+        assert assignment_has_thumbnails("prog1-tarefa-html-tutorial") == True
+        
+        # Testa assignment sem thumbnails
+        assert assignment_has_thumbnails("prog1-tarefa-scrap-simples") == False
 
 
 class TestPromptManager:
@@ -1178,5 +1202,142 @@ class TestStreamlitThumbnails:
         
         assert error_result.streamlit_status == "error"
         assert error_result.error_message == "Test error message"
+
+
+class TestHTMLThumbnails:
+    """Testes para a funcionalidade de thumbnails HTML."""
+    
+    @pytest.mark.thumbnails
+    def test_html_thumbnail_service_initialization(self):
+        """Testa inicialização do serviço de thumbnails HTML."""
+        from src.services.html_thumbnail_service import HTMLThumbnailService
+        
+        # Testa com diretório padrão
+        service = HTMLThumbnailService()
+        assert service.output_dir == Path("reports/visual/thumbnails")
+        
+        # Testa com diretório customizado
+        custom_dir = Path("test_html_thumbnails")
+        service = HTMLThumbnailService(custom_dir)
+        assert service.output_dir == custom_dir
+        
+        # Verifica se o diretório foi criado
+        assert custom_dir.exists()
+        
+        # Limpa após o teste
+        import shutil
+        shutil.rmtree(custom_dir)
+    
+    @pytest.mark.thumbnails
+    def test_html_thumbnail_service_debug_print(self):
+        """Testa funcionalidade de debug do serviço HTML."""
+        from src.services.html_thumbnail_service import HTMLThumbnailService
+        
+        # Testa sem verbose
+        service = HTMLThumbnailService(verbose=False)
+        # Não deve gerar erro
+        service._debug_print("Test message")
+        
+        # Testa com verbose
+        service_verbose = HTMLThumbnailService(verbose=True)
+        # Não deve gerar erro
+        service_verbose._debug_print("Test message")
+    
+    @pytest.mark.thumbnails
+    def test_html_thumbnail_service_file_not_found(self):
+        """Testa tratamento de erro quando index.html não existe."""
+        from src.services.html_thumbnail_service import HTMLThumbnailService
+        from src.domain.models import IndividualSubmission
+        
+        service = HTMLThumbnailService()
+        
+        # Cria submissão mock sem index.html
+        with tempfile.TemporaryDirectory() as temp_dir:
+            submission_path = Path(temp_dir) / "test_submission"
+            submission_path.mkdir()
+            
+            submission = IndividualSubmission(
+                github_login="test_user",
+                assignment_name="test_assignment",
+                turma="test_turma",
+                submission_path=submission_path
+            )
+            
+            # Deve gerar erro quando index.html não existe
+            with pytest.raises(FileNotFoundError, match="index.html não encontrado"):
+                service._capture_submission_thumbnail(submission, "test_assignment", "test_turma")
+    
+    @pytest.mark.thumbnails
+    def test_html_thumbnail_service_with_valid_html(self):
+        """Testa serviço com HTML válido (sem captura real)."""
+        from src.services.html_thumbnail_service import HTMLThumbnailService
+        from src.domain.models import IndividualSubmission
+        
+        service = HTMLThumbnailService()
+        
+        # Cria submissão mock com index.html
+        with tempfile.TemporaryDirectory() as temp_dir:
+            submission_path = Path(temp_dir) / "test_submission"
+            submission_path.mkdir()
+            
+            # Cria index.html básico
+            index_html = submission_path / "index.html"
+            index_html.write_text("""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Test Page</title>
+            </head>
+            <body>
+                <h1>Test Content</h1>
+                <p>This is a test page.</p>
+            </body>
+            </html>
+            """)
+            
+            submission = IndividualSubmission(
+                github_login="test_user",
+                assignment_name="test_assignment",
+                turma="test_turma",
+                submission_path=submission_path
+            )
+            
+            # Testa que o método não falha na validação inicial
+            # (não testamos captura real pois requer Chrome/Selenium)
+            try:
+                service._capture_submission_thumbnail(submission, "test_assignment", "test_turma")
+            except Exception as e:
+                # Esperamos erro de Selenium/Chrome, mas não de validação
+                assert "index.html não encontrado" not in str(e)
+    
+    @pytest.mark.thumbnails
+    def test_html_thumbnail_service_error_handling(self):
+        """Testa tratamento de erros no serviço HTML."""
+        from src.services.html_thumbnail_service import HTMLThumbnailService
+        from src.domain.models import IndividualSubmission
+        
+        service = HTMLThumbnailService()
+        
+        # Cria submissão mock
+        with tempfile.TemporaryDirectory() as temp_dir:
+            submission_path = Path(temp_dir) / "test_submission"
+            submission_path.mkdir()
+            
+            submission = IndividualSubmission(
+                github_login="test_user",
+                assignment_name="test_assignment",
+                turma="test_turma",
+                submission_path=submission_path
+            )
+            
+            # Testa geração de thumbnails com erro
+            results = service.generate_thumbnails_for_assignment("test_assignment", "test_turma", [submission])
+            
+            # Deve retornar um resultado com erro
+            assert len(results) == 1
+            assert results[0].streamlit_status == "error"
+            assert "index.html não encontrado" in results[0].error_message
+            assert results[0].submission_identifier == "test_user"
+            assert results[0].display_name == "test_user (individual)"
 
 

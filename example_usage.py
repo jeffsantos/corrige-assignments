@@ -195,6 +195,70 @@ def run_example():
     # Comentar para não executar automaticamente
     # cli(["generate-visual-report", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
     
+    # Exemplo 11: Geração de thumbnails HTML (apenas thumbnails)
+    print("\n📝 Exemplo 11: Geração de Thumbnails HTML")
+    print("-" * 50)
+    print("Assignment: prog1-tarefa-html-curriculo (apenas thumbnails)")
+    print("Características:")
+    print("  • Carrega todas as submissões do assignment HTML")
+    print("  • Acessa diretamente o arquivo index.html de cada submissão")
+    print("  • Captura screenshot de cada página HTML")
+    print("  • Gera relatório visual HTML com thumbnails")
+    print("  • Não executa testes ou análise de IA")
+    print("  • Mais rápido que correção completa")
+    print("  • Não requer servidor (acesso direto ao arquivo)")
+    print("  • Captura completa: altura mínima de 1200px")
+    print("  • Suporte a alta resolução: 2880x1620, 200% escala")
+    
+    # Comentar para não executar automaticamente
+    # cli(["generate-html-thumbnails-only", "--assignment", "prog1-tarefa-html-curriculo", "--turma", "ebape-prog-aplic-barra-2025"])
+    
+    # Exemplo 11b: Geração de thumbnails HTML com logs detalhados
+    print("\n📝 Exemplo 11b: Geração de Thumbnails HTML com Debug Detalhado")
+    print("-" * 50)
+    print("Assignment: prog1-tarefa-html-curriculo (apenas thumbnails + verbose)")
+    print("Características:")
+    print("  • Todas as funcionalidades do exemplo 11")
+    print("  • Logs detalhados de debug com flag --verbose")
+    print("  • Mostra caminhos dos arquivos HTML acessados")
+    print("  • Exibe dimensões de páginas detectadas")
+    print("  • Logs de captura de screenshots")
+    print("  • Informações de renderização HTML")
+    
+    # Comentar para não executar automaticamente
+    # cli(["generate-html-thumbnails-only", "--assignment", "prog1-tarefa-html-curriculo", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
+    
+    # Exemplo 12: Relatório visual completo com correção HTML
+    print("\n📝 Exemplo 12: Relatório Visual Completo (HTML)")
+    print("-" * 50)
+    print("Assignment: prog1-tarefa-html-curriculo (correção + thumbnails)")
+    print("Características:")
+    print("  • Executa correção completa (análise de IA)")
+    print("  • Gera thumbnails de todas as páginas HTML")
+    print("  • Cria relatório visual com notas e thumbnails")
+    print("  • Organiza por nota (melhores primeiro)")
+    print("  • Inclui estatísticas de sucesso dos thumbnails")
+    print("  • Grid de thumbnails com filtros por faixa de nota")
+    print("  • Captura completa: altura mínima de 1200px")
+    print("  • Acesso direto a arquivos HTML (sem servidor)")
+    
+    # Comentar para não executar automaticamente
+    # cli(["generate-visual-report", "--assignment", "prog1-tarefa-html-curriculo", "--turma", "ebape-prog-aplic-barra-2025"])
+    
+    # Exemplo 12b: Relatório visual HTML com logs detalhados
+    print("\n📝 Exemplo 12b: Relatório Visual HTML com Debug Detalhado")
+    print("-" * 50)
+    print("Assignment: prog1-tarefa-html-curriculo (correção + thumbnails + verbose)")
+    print("Características:")
+    print("  • Todas as funcionalidades do exemplo 12")
+    print("  • Logs detalhados de debug com flag --verbose")
+    print("  • Debug completo da geração de thumbnails HTML")
+    print("  • Informações de acesso aos arquivos HTML")
+    print("  • Logs de renderização e captura")
+    
+    # Comentar para não executar automaticamente
+    # cli(["generate-visual-report", "--assignment", "prog1-tarefa-html-curriculo", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
+    
     print("\n✅ Exemplos demonstrados!")
     print("\n💡 Para executar os exemplos, descomente as linhas correspondentes no código.")
     print("💡 Para mais opções, execute: python -m src.main --help")

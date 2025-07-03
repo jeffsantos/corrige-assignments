@@ -3,7 +3,7 @@ Configurações do sistema de correção automática.
 """
 import os
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 from src.domain.models import SubmissionType
 
 # Caminhos base
@@ -40,6 +40,16 @@ ASSIGNMENT_SUBMISSION_TYPES: Dict[str, SubmissionType] = {
     "prog1-prova-av": SubmissionType.GROUP,
 }
 
+# Configuração de assignments que geram thumbnails
+ASSIGNMENTS_WITH_THUMBNAILS = {
+    # Assignments Streamlit
+    "prog1-prova-av": "streamlit",
+    
+    # Assignments HTML
+    "prog1-tarefa-html-curriculo": "html",
+    "prog1-tarefa-html-tutorial": "html",
+}
+
 def get_assignment_submission_type(assignment_name: str) -> SubmissionType:
     """
     Retorna o tipo de submissão para um assignment específico.
@@ -68,4 +78,28 @@ def is_assignment_configured(assignment_name: str) -> bool:
     Returns:
         True se o assignment estiver configurado, False caso contrário
     """
-    return assignment_name in ASSIGNMENT_SUBMISSION_TYPES 
+    return assignment_name in ASSIGNMENT_SUBMISSION_TYPES
+
+def get_assignment_thumbnail_type(assignment_name: str) -> Optional[str]:
+    """
+    Retorna o tipo de thumbnail para um assignment específico.
+    
+    Args:
+        assignment_name: Nome do assignment
+        
+    Returns:
+        "streamlit", "html" ou None se não gerar thumbnails
+    """
+    return ASSIGNMENTS_WITH_THUMBNAILS.get(assignment_name)
+
+def assignment_has_thumbnails(assignment_name: str) -> bool:
+    """
+    Verifica se um assignment gera thumbnails.
+    
+    Args:
+        assignment_name: Nome do assignment
+        
+    Returns:
+        True se o assignment gerar thumbnails, False caso contrário
+    """
+    return assignment_name in ASSIGNMENTS_WITH_THUMBNAILS 
