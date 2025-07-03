@@ -53,6 +53,6 @@ PROBLEMAS: [lista de problemas encontrados]
 
 IMPORTANTE: Considere que o aluno recebeu uma estrutura base no enunciado. Avalie principalmente se ele implementou corretamente o scraping do IMDB e se extraiu os dados solicitados no formato correto.
 
-CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO: A nota deve ser baseada EXCLUSIVAMENTE no cumprimento dos requisitos específicos definidos no README.md do enunciado. Se o aluno cumpriu TODOS os requisitos obrigatórios listados no enunciado, deve receber a nota máxima (10), mesmo que você identifique possíveis melhorias nos comentários ou sugestões. A avaliação deve ser restrita às instruções do enunciado, não a sugestões de melhoria ou boas práticas adicionais.
+CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO: Se o aluno cumpriu TODOS os requisitos obrigatórios listados no enunciado, deve receber a nota máxima (10), mesmo que você identifique possíveis melhorias nos comentários ou sugestões. A avaliação deve ser restrita às instruções do enunciado, não a sugestões de melhoria ou boas práticas adicionais.
 
 HIERARQUIA DE AVALIAÇÃO: Base sua nota PRINCIPALMENTE nos campos DESCRIÇÃO DO ASSIGNMENT, REQUISITOS ESPECÍFICOS e CÓDIGO DO ENUNCIADO. As INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS podem complementar ou esclarecer, mas NÃO devem ser mais rigorosas que os requisitos básicos do enunciado. Se o aluno cumpriu todos os requisitos dos 3 campos principais, a nota deve ser 10, independentemente das instruções específicas de avaliação. 
