@@ -25,6 +25,7 @@ respostas/
 reports/
 logs/
 *.log
+next.txt
 
 # Secrets
 .env
