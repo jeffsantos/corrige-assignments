@@ -6,10 +6,10 @@
 echo "🔧 Configurando commit hooks e template..."
 
 # Tornar o hook executável
-chmod +x .git/hooks/commit-msg
+chmod +x ../.git/hooks/commit-msg
 
 # Configurar template de commit
-git config --local commit.template .gitmessage
+git config --local commit.template ../.gitmessage
 
 echo "✅ Configuração concluída!"
 echo ""
