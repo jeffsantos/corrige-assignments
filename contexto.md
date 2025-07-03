@@ -399,7 +399,7 @@ MAX_TEST_OUTPUT = 1000  # caracteres
 **Padrão**: Descrição clara e concisa em português.
 
 - **Imperativo**: "Adiciona", "Corrige", "Remove", "Atualiza"
-- **Conciso**: Máximo 50 caracteres
+- **Conciso**: Máximo 80 caracteres
 - **Claro**: Deve explicar o que a mudança faz
 
 ### Exemplos de Mensagens
@@ -459,7 +459,7 @@ Closes #123
 1. **Sempre use tipos convencionais** (`feat`, `fix`, `docs`, etc.)
 2. **Use escopo quando relevante** para identificar área afetada
 3. **Descrição em português** para facilitar entendimento da equipe
-4. **Mantenha descrição concisa** (máximo 50 caracteres)
+4. **Mantenha descrição concisa** (máximo 80 caracteres)
 5. **Use corpo para detalhes** quando a descrição não for suficiente
 6. **Referencie issues** quando aplicável
 7. **Um commit por mudança lógica** - evite múltiplos tipos em uma mensagem

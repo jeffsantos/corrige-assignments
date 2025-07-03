@@ -37,7 +37,7 @@ tipo(escopo): descrição
 
 ### **Regras Importantes**
 1. **Descrição em português**
-2. **Máximo 50 caracteres** na descrição
+2. **Máximo 80 caracteres** na descrição
 3. **Use imperativo**: "adiciona", "corrige", "remove", "atualiza"
 4. **Escopo opcional**, mas recomendado para identificar área
 
@@ -107,7 +107,7 @@ O hook verifica automaticamente:
 - Formato Conventional Commits
 - Tipo válido (feat, fix, docs, etc.)
 - Descrição não vazia
-- Máximo 50 caracteres na descrição
+- Máximo 80 caracteres na descrição
 
 ### **⚠️ Avisos**
 - Escopo não está na lista de escopos comuns
@@ -143,7 +143,7 @@ git commit -m "invalid(ai): adiciona funcionalidade"
 ### **Teste de Descrição Longa**
 ```bash
 git commit -m "feat(ai): adiciona funcionalidade muito longa que excede cinquenta caracteres"
-# ❌ Deve falhar - mais de 50 caracteres
+# ❌ Deve falhar - mais de 80 caracteres
 ```
 
 ## 📋 **Checklist para Commits**
@@ -153,7 +153,7 @@ Antes de fazer commit, verifique:
 - [ ] Tipo correto (feat, fix, docs, etc.)
 - [ ] Escopo apropriado (se aplicável)
 - [ ] Descrição em português
-- [ ] Máximo 50 caracteres
+- [ ] Máximo 80 caracteres
 - [ ] Formato imperativo
 - [ ] Corpo do commit (se necessário)
 - [ ] Breaking changes documentados (se aplicável)

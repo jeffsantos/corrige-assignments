@@ -5,6 +5,7 @@ Este é o ponto de entrada principal do sistema.
 """
 import os
 import sys
+from datetime import datetime
 from pathlib import Path
 import click
 from rich.console import Console
