@@ -639,9 +639,35 @@ Para desenvolvimento rápido, execute apenas os testes básicos. Para validaçã
 
 ## 🤝 Contribuição
 
+### Padrões de Commit
+
+O projeto segue a convenção [Conventional Commits](https://www.conventionalcommits.org/) com adaptações para português. Para garantir consistência, o projeto inclui:
+
+- **Template de commit** (`.gitmessage`) - Guia visual para mensagens
+- **Hook de validação** (`.git/hooks/commit-msg`) - Validação automática
+- **Documentação completa** (`docs/commit-standards.md`) - Padrões detalhados
+
+#### Configuração Inicial
+```bash
+# Execute uma vez para configurar o ambiente
+./setup-commit-hooks.sh
+```
+
+#### Exemplos de Commits Válidos
+```bash
+feat(ai): adiciona parsing robusto para elementos HTML
+fix(tests): corrige timeout em execução de testes
+docs: atualiza README com exemplos de uso
+refactor(services): reorganiza AIAnalyzer para melhor separação
+```
+
+Para mais detalhes, consulte [Padrões de Commit](docs/commit-standards.md).
+
+### Processo de Contribuição
+
 1. Fork o projeto
 2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+3. Commit suas mudanças seguindo os padrões estabelecidos
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 

@@ -1,0 +1,44 @@
+# <tipo>(<escopo>): <descrição em português>
+# 
+# <corpo detalhado>
+# 
+# Tipos válidos:
+#   feat     : Nova funcionalidade
+#   fix      : Correção de bug
+#   docs     : Documentação
+#   style    : Formatação
+#   refactor : Refatoração
+#   test     : Testes
+#   chore    : Configuração
+# 
+# Escopos comuns:
+#   ai       : Análise de IA
+#   cli      : Interface de linha de comando
+#   config   : Configurações
+#   models   : Modelos de domínio
+#   tests    : Testes
+#   docs     : Documentação
+#   prompts  : Prompts personalizados
+#   services : Serviços
+#   utils    : Utilitários
+# 
+# Regras importantes:
+# - Descrição em português
+# - Máximo 50 caracteres na descrição
+# - Use imperativo: "adiciona", "corrige", "remove", "atualiza"
+# - Escopo opcional, mas recomendado para identificar área
+# 
+# Exemplos:
+#   feat(ai): adiciona parsing robusto para elementos HTML
+#   fix(tests): corrige timeout em execução de testes
+#   docs: atualiza README com exemplos de uso
+#   refactor(services): reorganiza AIAnalyzer para melhor separação
+#   test(models): adiciona testes para serialização de relatórios
+#   chore(config): adiciona configuração para novo assignment HTML
+# 
+# Para breaking changes:
+#   feat(ai): adiciona configuração de temperatura da API OpenAI
+#   
+#   BREAKING CHANGE: AIAnalyzer agora requer configuração explícita
+#   
+#   Closes #123 
