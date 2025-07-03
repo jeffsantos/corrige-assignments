@@ -48,18 +48,55 @@ CÓDIGO DO ALUNO:
 INSTRUÇÕES DE AVALIAÇÃO:
 {assessment_criteria}
 
+=== CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO ===
+
+**DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES:**
+
+**PROBLEMAS (só inclua aqui se for CRÍTICO):**
+- Requisitos OBRIGATÓRIOS do enunciado que estão AUSENTES ou INCORRETOS
+- Funções obrigatórias que não foram implementadas ou não funcionam
+- Estrutura de código que não segue o especificado no enunciado
+- Funcionalidades essenciais que não operam corretamente
+
+**SUGESTÕES (inclua aqui melhorias opcionais):**
+- Melhorias de código que não são obrigatórias
+- Otimizações de performance que não afetam funcionalidade
+- Adições de funcionalidades extras que enriquecem mas não são exigidas
+- Melhorias de legibilidade ou organização não obrigatórias
+- Sugestões de boas práticas que não são requisitos
+
+**EXEMPLOS DE CLASSIFICAÇÃO:**
+- ❌ PROBLEMA: "Função obrigatória não foi implementada" (se for obrigatória)
+- ✅ SUGESTÃO: "Poderia adicionar mais tratamento de erros"
+- ❌ PROBLEMA: "Estrutura de arquivos não segue o especificado" (se for obrigatório)
+- ✅ SUGESTÃO: "Poderia melhorar a organização do código"
+
+=== FORMATO DE RESPOSTA ===
+
+Formate sua resposta EXATAMENTE assim:
+
+NOTA: [número de 0 a 10]
+JUSTIFICATIVA: [justificativa resumida e clara da nota]
+
+COMENTARIOS: [lista de comentários sobre pontos positivos]
+
+SUGESTOES: [lista de sugestões de melhoria - apenas melhorias opcionais]
+
+PROBLEMAS: [lista de problemas encontrados - apenas requisitos obrigatórios ausentes/incorretos]
+
+=== REGRAS CRÍTICAS ===
+
+1. **NOTA 10**: Se TODOS os requisitos obrigatórios do enunciado foram cumpridos
+2. **PROBLEMAS**: Só inclua requisitos OBRIGATÓRIOS ausentes/incorretos
+3. **SUGESTÕES**: Inclua melhorias opcionais e aperfeiçoamentos
+4. **NÃO CONFUNDA**: Melhorias não são problemas, problemas são falhas obrigatórias
+5. **BASEIE A NOTA**: Nos requisitos do enunciado, não em suas preferências pessoais
+
 Por favor, analise o código considerando:
 1. Se o aluno seguiu a estrutura e requisitos específicos do assignment
 2. Se implementou corretamente as funcionalidades solicitadas
 3. Se manteve a qualidade do código (quando não fornecido no enunciado)
-4. Se adicionou valor além do que foi fornecido no enunciado
-
-Formate sua resposta assim:
-NOTA: [número de 0 a 10]
-JUSTIFICATIVA: [justificativa resumida e clara da nota]
-COMENTARIOS: [lista de comentários sobre pontos positivos]
-SUGESTOES: [lista de sugestões de melhoria]
-PROBLEMAS: [lista de problemas encontrados]"""
+4. Se adicionou valor além do que foi fornecido no enunciado"""
 
     def _get_default_html_prompt(self) -> str:
         """Template padrão para análise de código HTML."""
@@ -86,19 +123,57 @@ CÓDIGO DO ALUNO:
 INSTRUÇÕES DE AVALIAÇÃO:
 {assessment_criteria}
 
+=== CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO ===
+
+**DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES:**
+
+**PROBLEMAS (só inclua aqui se for CRÍTICO):**
+- Requisitos OBRIGATÓRIOS do enunciado que estão AUSENTES ou INCORRETOS
+- Elementos HTML obrigatórios que não foram implementados
+- Estrutura de arquivos que não segue o especificado no enunciado
+- Funcionalidades essenciais que não funcionam
+
+**SUGESTÕES (inclua aqui melhorias opcionais):**
+- Melhorias de design ou UX que não são obrigatórias
+- Otimizações de código que não afetam funcionalidade
+- Adições de conteúdo que enriquecem mas não são exigidas
+- Melhorias de acessibilidade ou responsividade não obrigatórias
+- Sugestões de boas práticas que não são requisitos
+
+**EXEMPLOS DE CLASSIFICAÇÃO:**
+- ❌ PROBLEMA: "Falta elemento HTML obrigatório" (se for obrigatório)
+- ✅ SUGESTÃO: "Poderia melhorar o design visual"
+- ❌ PROBLEMA: "Estrutura de arquivos incorreta" (se for obrigatória)
+- ✅ SUGESTÃO: "Poderia adicionar mais responsividade"
+
+=== FORMATO DE RESPOSTA ===
+
+Formate sua resposta EXATAMENTE assim:
+
+NOTA: [número de 0 a 10]
+JUSTIFICATIVA: [justificativa resumida e clara da nota]
+
+ELEMENTOS: [lista de elementos HTML encontrados/ausentes]
+
+COMENTARIOS: [lista de comentários sobre pontos positivos]
+
+SUGESTOES: [lista de sugestões de melhoria - apenas melhorias opcionais]
+
+PROBLEMAS: [lista de problemas encontrados - apenas requisitos obrigatórios ausentes/incorretos]
+
+=== REGRAS CRÍTICAS ===
+
+1. **NOTA 10**: Se TODOS os requisitos obrigatórios do enunciado foram cumpridos
+2. **PROBLEMAS**: Só inclua requisitos OBRIGATÓRIOS ausentes/incorretos
+3. **SUGESTÕES**: Inclua melhorias opcionais e aperfeiçoamentos
+4. **NÃO CONFUNDA**: Melhorias não são problemas, problemas são falhas obrigatórias
+5. **BASEIE A NOTA**: Nos requisitos do enunciado, não em suas preferências pessoais
+
 Por favor, analise o código considerando:
 1. Se o aluno seguiu a estrutura e requisitos específicos do assignment
 2. Se implementou corretamente os elementos HTML/CSS solicitados
 3. Se manteve a qualidade do código (quando não fornecido no enunciado)
-4. Se adicionou valor além do que foi fornecido no enunciado
-
-Formate sua resposta assim:
-NOTA: [número de 0 a 10]
-JUSTIFICATIVA: [justificativa resumida e clara da nota]
-ELEMENTOS: [lista de elementos HTML encontrados/ausentes]
-COMENTARIOS: [lista de comentários sobre pontos positivos]
-SUGESTOES: [lista de sugestões de melhoria]
-PROBLEMAS: [lista de problemas encontrados]"""
+4. Se adicionou valor além do que foi fornecido no enunciado"""
 
     def get_assignment_prompt(self, assignment: Assignment, assignment_type: str, 
                             student_code: str, assessment_criteria: str = "") -> str:

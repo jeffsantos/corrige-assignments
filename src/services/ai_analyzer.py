@@ -426,22 +426,55 @@ CÓDIGO DO ALUNO:
             prompt += f"\n--- {filename} ---\n{content}\n"
         
         prompt += """
+=== CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO ===
+
+**DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES:**
+
+**PROBLEMAS (só inclua aqui se for CRÍTICO):**
+- Requisitos OBRIGATÓRIOS do enunciado que estão AUSENTES ou INCORRETOS
+- Funções obrigatórias que não foram implementadas ou não funcionam
+- Estrutura de código que não segue o especificado no enunciado
+- Funcionalidades essenciais que não operam corretamente
+
+**SUGESTÕES (inclua aqui melhorias opcionais):**
+- Melhorias de código que não são obrigatórias
+- Otimizações de performance que não afetam funcionalidade
+- Adições de funcionalidades extras que enriquecem mas não são exigidas
+- Melhorias de legibilidade ou organização não obrigatórias
+- Sugestões de boas práticas que não são requisitos
+
+**EXEMPLOS DE CLASSIFICAÇÃO:**
+- ❌ PROBLEMA: "Função obrigatória não foi implementada" (se for obrigatória)
+- ✅ SUGESTÃO: "Poderia adicionar mais tratamento de erros"
+- ❌ PROBLEMA: "Estrutura de arquivos não segue o especificado" (se for obrigatório)
+- ✅ SUGESTÃO: "Poderia melhorar a organização do código"
+
+=== FORMATO DE RESPOSTA ===
+
+Formate sua resposta EXATAMENTE assim:
+
+NOTA: [número de 0 a 10]
+JUSTIFICATIVA: [justificativa resumida e clara da nota]
+
+COMENTARIOS: [lista de comentários sobre pontos positivos]
+
+SUGESTOES: [lista de sugestões de melhoria - apenas melhorias opcionais]
+
+PROBLEMAS: [lista de problemas encontrados - apenas requisitos obrigatórios ausentes/incorretos]
+
+=== REGRAS CRÍTICAS ===
+
+1. **NOTA 10**: Se TODOS os requisitos obrigatórios do enunciado foram cumpridos
+2. **PROBLEMAS**: Só inclua requisitos OBRIGATÓRIOS ausentes/incorretos
+3. **SUGESTÕES**: Inclua melhorias opcionais e aperfeiçoamentos
+4. **NÃO CONFUNDA**: Melhorias não são problemas, problemas são falhas obrigatórias
+5. **BASEIE A NOTA**: Nos requisitos do enunciado, não em suas preferências pessoais
+
 Por favor, analise o código considerando:
 1. Se o aluno seguiu a estrutura e requisitos específicos do assignment
 2. Se implementou corretamente as funcionalidades solicitadas
 3. Se manteve a qualidade do código (quando não fornecido no enunciado)
 4. Se adicionou valor além do que foi fornecido no enunciado
-
-Formate sua resposta assim:
-NOTA: [número de 0 a 10]
-JUSTIFICATIVA: [justificativa resumida e clara da nota]
-COMENTARIOS: [lista de comentários sobre pontos positivos]
-SUGESTOES: [lista de sugestões de melhoria]
-PROBLEMAS: [lista de problemas encontrados]
-
-CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO: Se o aluno cumpriu TODOS os requisitos obrigatórios listados no enunciado, deve receber a nota máxima (10), mesmo que você identifique possíveis melhorias nos comentários ou sugestões. A avaliação deve ser restrita às instruções do enunciado, não a sugestões de melhoria ou boas práticas adicionais.
-
-HIERARQUIA DE AVALIAÇÃO: Base sua nota PRINCIPALMENTE nos campos DESCRIÇÃO DO ASSIGNMENT, REQUISITOS ESPECÍFICOS e CÓDIGO DO ENUNCIADO. As INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS podem complementar ou esclarecer, mas NÃO devem ser mais rigorosas que os requisitos básicos do enunciado. Se o aluno cumpriu todos os requisitos dos 3 campos principais, a nota deve ser 10, independentemente das instruções específicas de avaliação.
 """
         
         return prompt
@@ -475,28 +508,62 @@ CÓDIGO DO ALUNO:
                 prompt += f"\n--- {filename} ---\n{content}\n"
         
         prompt += """
-Por favor, analise o código considerando:
-1. Se o aluno seguiu a estrutura e requisitos específicos do assignment
-2. Se implementou corretamente os elementos HTML/CSS solicitados
-3. Se manteve a qualidade do código (quando não fornecido no enunciado)
-4. Se adicionou valor além do que foi fornecido no enunciado
+=== CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO ===
 
-Formate sua resposta assim:
+**DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES:**
+
+**PROBLEMAS (só inclua aqui se for CRÍTICO):**
+- Requisitos OBRIGATÓRIOS do enunciado que estão AUSENTES ou INCORRETOS
+- Elementos HTML obrigatórios que não foram implementados
+- Estrutura de arquivos que não segue o especificado no enunciado
+- Funcionalidades essenciais que não funcionam
+
+**SUGESTÕES (inclua aqui melhorias opcionais):**
+- Melhorias de design ou UX que não são obrigatórias
+- Otimizações de código que não afetam funcionalidade
+- Adições de conteúdo que enriquecem mas não são exigidas
+- Melhorias de acessibilidade ou responsividade não obrigatórias
+- Sugestões de boas práticas que não são requisitos
+
+**EXEMPLOS DE CLASSIFICAÇÃO:**
+- ❌ PROBLEMA: "Falta elemento HTML obrigatório" (se for obrigatório)
+- ✅ SUGESTÃO: "Poderia melhorar o design visual"
+- ❌ PROBLEMA: "Estrutura de arquivos incorreta" (se for obrigatória)
+- ✅ SUGESTÃO: "Poderia adicionar mais responsividade"
+
+=== FORMATO DE RESPOSTA ===
+
+Formate sua resposta EXATAMENTE assim:
+
 NOTA: [número de 0 a 10]
 JUSTIFICATIVA: [justificativa resumida e clara da nota]
+
 ELEMENTOS:
 - Headings (h1, h2): [Presente/Ausente]
 - Lists (ul/ol): [Presente/Ausente]
 - Images (img): [Presente/Ausente]
 - Links (a): [Presente/Ausente]
 - Tables (table): [Presente/Ausente]
+
 COMENTARIOS: [lista de comentários sobre pontos positivos]
-SUGESTOES: [lista de sugestões de melhoria]
-PROBLEMAS: [lista de problemas encontrados]
 
-CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO: Se o aluno cumpriu TODOS os requisitos obrigatórios listados no enunciado, deve receber a nota máxima (10), mesmo que você identifique possíveis melhorias nos comentários ou sugestões. A avaliação deve ser restrita às instruções do enunciado, não a sugestões de melhoria ou boas práticas adicionais.
+SUGESTOES: [lista de sugestões de melhoria - apenas melhorias opcionais]
 
-HIERARQUIA DE AVALIAÇÃO: Base sua nota PRINCIPALMENTE nos campos DESCRIÇÃO DO ASSIGNMENT, REQUISITOS ESPECÍFICOS e CÓDIGO DO ENUNCIADO. As INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS podem complementar ou esclarecer, mas NÃO devem ser mais rigorosas que os requisitos básicos do enunciado. Se o aluno cumpriu todos os requisitos dos 3 campos principais, a nota deve ser 10, independentemente das instruções específicas de avaliação.
+PROBLEMAS: [lista de problemas encontrados - apenas requisitos obrigatórios ausentes/incorretos]
+
+=== REGRAS CRÍTICAS ===
+
+1. **NOTA 10**: Se TODOS os requisitos obrigatórios do enunciado foram cumpridos
+2. **PROBLEMAS**: Só inclua requisitos OBRIGATÓRIOS ausentes/incorretos
+3. **SUGESTÕES**: Inclua melhorias opcionais e aperfeiçoamentos
+4. **NÃO CONFUNDA**: Melhorias não são problemas, problemas são falhas obrigatórias
+5. **BASEIE A NOTA**: Nos requisitos do enunciado, não em suas preferências pessoais
+
+Por favor, analise o código considerando:
+1. Se o aluno seguiu a estrutura e requisitos específicos do assignment
+2. Se implementou corretamente os elementos HTML/CSS solicitados
+3. Se manteve a qualidade do código (quando não fornecido no enunciado)
+4. Se adicionou valor além do que foi fornecido no enunciado
 """
         
         return prompt

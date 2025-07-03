@@ -12,7 +12,30 @@ CÓDIGO DO ENUNCIADO:
 CÓDIGO DO ALUNO:
 {student_code}
 
-INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS PARA ESTE ASSIGNMENT:
+=== CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO ===
+
+**DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES:**
+
+**PROBLEMAS (só inclua aqui se for CRÍTICO):**
+- Requisitos OBRIGATÓRIOS do enunciado que estão AUSENTES ou INCORRETOS
+- Elementos HTML obrigatórios que não foram implementados
+- Estrutura de arquivos que não segue o especificado no enunciado
+- Funcionalidades essenciais que não funcionam
+
+**SUGESTÕES (inclua aqui melhorias opcionais):**
+- Melhorias de design ou UX que não são obrigatórias
+- Otimizações de código que não afetam funcionalidade
+- Adições de conteúdo que enriquecem mas não são exigidas
+- Melhorias de acessibilidade ou responsividade não obrigatórias
+- Sugestões de boas práticas que não são requisitos
+
+**EXEMPLOS DE CLASSIFICAÇÃO:**
+- ❌ PROBLEMA: "Falta tabela HTML" (se tabela for obrigatória no enunciado)
+- ✅ SUGESTÃO: "Poderia usar mais headings h3 para melhor organização"
+- ❌ PROBLEMA: "Formulário não tem campo 'name'" (se for obrigatório)
+- ✅ SUGESTÃO: "Poderia melhorar o CSS para responsividade"
+
+=== INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS ===
 
 Este é um assignment de criação de site de currículo pessoal usando HTML e CSS. Avalie considerando:
 
@@ -36,7 +59,6 @@ Este é um assignment de criação de site de currículo pessoal usando HTML e C
 4. **Qualidade do CSS (10% do peso)**:
    - Deve ter estilos CSS bem organizados
    - Deve melhorar a apresentação visual
-   - Deve ser responsivo e legível
 
 5. **Elementos HTML Obrigatórios**:
    - Headings (pelo menos h1 e h2)
@@ -45,21 +67,32 @@ Este é um assignment de criação de site de currículo pessoal usando HTML e C
    - Links (a)
    - Tables (table)
 
-Formate sua resposta assim:
+=== FORMATO DE RESPOSTA ===
+
+Formate sua resposta EXATAMENTE assim:
+
 NOTA: [número de 0 a 10]
 JUSTIFICATIVA: [justificativa resumida e clara da nota]
+
 ELEMENTOS:
 - Headings (h1, h2): [Presente/Ausente]
 - Lists (ul/ol): [Presente/Ausente]
 - Images (img): [Presente/Ausente]
 - Links (a): [Presente/Ausente]
 - Tables (table): [Presente/Ausente]
+
 COMENTARIOS: [lista de comentários sobre pontos positivos]
-SUGESTOES: [lista de sugestões de melhoria]
-PROBLEMAS: [lista de problemas encontrados]
+
+SUGESTOES: [lista de sugestões de melhoria - apenas melhorias opcionais]
+
+PROBLEMAS: [lista de problemas encontrados - apenas requisitos obrigatórios ausentes/incorretos]
+
+=== REGRAS CRÍTICAS ===
+
+1. **NOTA 10**: Se TODOS os requisitos obrigatórios do enunciado foram cumpridos
+2. **PROBLEMAS**: Só inclua requisitos OBRIGATÓRIOS ausentes/incorretos
+3. **SUGESTÕES**: Inclua melhorias opcionais e aperfeiçoamentos
+4. **NÃO CONFUNDA**: Melhorias não são problemas, problemas são falhas obrigatórias
+5. **BASEIE A NOTA**: Nos requisitos do enunciado, não em suas preferências pessoais
 
 IMPORTANTE: Considere que o aluno recebeu uma estrutura base no enunciado. Avalie principalmente se ele implementou corretamente todas as seções solicitadas e se usou os elementos HTML obrigatórios de forma apropriada.
-
-CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO: Se o aluno cumpriu TODOS os requisitos obrigatórios listados no enunciado, deve receber a nota máxima (10), mesmo que você identifique possíveis melhorias nos comentários ou sugestões. A avaliação deve ser restrita às instruções do enunciado, não a sugestões de melhoria ou boas práticas adicionais.
-
-HIERARQUIA DE AVALIAÇÃO: Base sua nota PRINCIPALMENTE nos campos DESCRIÇÃO DO ASSIGNMENT, REQUISITOS ESPECÍFICOS e CÓDIGO DO ENUNCIADO. As INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS podem complementar ou esclarecer, mas NÃO devem ser mais rigorosas que os requisitos básicos do enunciado. Se o aluno cumpriu todos os requisitos dos 3 campos principais, a nota deve ser 10, independentemente das instruções específicas de avaliação. 

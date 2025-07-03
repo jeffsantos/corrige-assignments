@@ -12,7 +12,30 @@ CÓDIGO DO ENUNCIADO:
 CÓDIGO DO ALUNO:
 {student_code}
 
-INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS PARA ESTE ASSIGNMENT:
+=== CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO ===
+
+**DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES:**
+
+**PROBLEMAS (só inclua aqui se for CRÍTICO):**
+- Requisitos OBRIGATÓRIOS do enunciado que estão AUSENTES ou INCORRETOS
+- Elementos HTML obrigatórios que não foram implementados
+- Estrutura HTML básica que não segue o tutorial
+- Funcionalidades essenciais que não funcionam
+
+**SUGESTÕES (inclua aqui melhorias opcionais):**
+- Melhorias de design que não são obrigatórias
+- Otimizações de código que não afetam funcionalidade
+- Adições de conteúdo que enriquecem mas não são exigidas
+- Melhorias de acessibilidade ou responsividade não obrigatórias
+- Sugestões de boas práticas que não são requisitos
+
+**EXEMPLOS DE CLASSIFICAÇÃO:**
+- ❌ PROBLEMA: "Falta elemento <header>" (se for obrigatório no tutorial)
+- ✅ SUGESTÃO: "Poderia adicionar mais cores ao design"
+- ❌ PROBLEMA: "Não tem link para web design museum" (se for obrigatório)
+- ✅ SUGESTÃO: "Poderia melhorar a responsividade"
+
+=== INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS ===
 
 Este é um assignment de tutorial HTML/CSS para criar um site no estilo anos 90. Avalie considerando:
 
@@ -47,27 +70,31 @@ Este é um assignment de tutorial HTML/CSS para criar um site no estilo anos 90.
    - Deve ter texto sobre design dos anos 90
    - Deve funcionar corretamente no navegador
 
-5. **Qualidade e Organização**:
-   - Código deve ser bem indentado e organizado
-   - Deve seguir as instruções do tutorial passo-a-passo
-   - Deve usar a estrutura de arquivos fornecida (img/, style.css)
-   - Deve ter comentários explicativos quando necessário
+=== FORMATO DE RESPOSTA ===
 
-Formate sua resposta assim:
+Formate sua resposta EXATAMENTE assim:
+
 NOTA: [número de 0 a 10]
 JUSTIFICATIVA: [justificativa resumida e clara da nota]
+
 ELEMENTOS:
-- Headings (h1, h2): [Presente/Ausente]
-- Lists (ul/ol): [Presente/Ausente]
-- Images (img): [Presente/Ausente]
-- Links (a): [Presente/Ausente]
-- Tables (table): [Presente/Ausente]
+- Estrutura HTML básica: [Presente/Ausente]
+- Elementos obrigatórios: [Presente/Ausente]
+- Integração CSS: [Presente/Ausente]
+- Conteúdo e funcionalidade: [Presente/Ausente]
+
 COMENTARIOS: [lista de comentários sobre pontos positivos]
-SUGESTOES: [lista de sugestões de melhoria]
-PROBLEMAS: [lista de problemas encontrados]
 
-IMPORTANTE: Considere que o aluno deve seguir o tutorial passo-a-passo fornecido. Avalie principalmente se ele implementou corretamente todos os elementos HTML solicitados e se seguiu a estrutura do tutorial para criar um site no estilo anos 90.
+SUGESTOES: [lista de sugestões de melhoria - apenas melhorias opcionais]
 
-CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO: Se o aluno cumpriu TODOS os requisitos obrigatórios listados no enunciado, deve receber a nota máxima (10), mesmo que você identifique possíveis melhorias nos comentários ou sugestões. A avaliação deve ser restrita às instruções do enunciado, não a sugestões de melhoria ou boas práticas adicionais.
+PROBLEMAS: [lista de problemas encontrados - apenas requisitos obrigatórios ausentes/incorretos]
 
-HIERARQUIA DE AVALIAÇÃO: Base sua nota PRINCIPALMENTE nos campos DESCRIÇÃO DO ASSIGNMENT, REQUISITOS ESPECÍFICOS e CÓDIGO DO ENUNCIADO. As INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS podem complementar ou esclarecer, mas NÃO devem ser mais rigorosas que os requisitos básicos do enunciado. Se o aluno cumpriu todos os requisitos dos 3 campos principais, a nota deve ser 10, independentemente das instruções específicas de avaliação. 
+=== REGRAS CRÍTICAS ===
+
+1. **NOTA 10**: Se TODOS os requisitos obrigatórios do tutorial foram cumpridos
+2. **PROBLEMAS**: Só inclua requisitos OBRIGATÓRIOS ausentes/incorretos
+3. **SUGESTÕES**: Inclua melhorias opcionais e aperfeiçoamentos
+4. **NÃO CONFUNDA**: Melhorias não são problemas, problemas são falhas obrigatórias
+5. **BASEIE A NOTA**: Nos requisitos do tutorial, não em suas preferências pessoais
+
+IMPORTANTE: Considere que o aluno seguiu um tutorial passo-a-passo. Avalie principalmente se ele implementou corretamente todos os elementos HTML e CSS solicitados no tutorial. 

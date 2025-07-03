@@ -633,7 +633,7 @@ PROBLEMAS:
     def test_prompt_contains_evaluation_criteria(self):
         """Testa se os prompts contêm o critério fundamental de avaliação."""
         analyzer = AIAnalyzer(api_key="fake-key")
-        
+
         # Testa prompt genérico de Python
         python_files = {"main.py": "def hello(): pass"}
         assignment = Assignment(
@@ -645,11 +645,11 @@ PROBLEMAS:
         )
         
         python_prompt = analyzer._build_python_analysis_prompt(python_files, assignment)
-        assert "CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO" in python_prompt
-        assert "baseada EXCLUSIVAMENTE no cumprimento dos requisitos específicos" in python_prompt
-        assert "nota máxima (10)" in python_prompt
-        assert "HIERARQUIA DE AVALIAÇÃO" in python_prompt
-        assert "DESCRIÇÃO DO ASSIGNMENT, REQUISITOS ESPECÍFICOS e CÓDIGO DO ENUNCIADO" in python_prompt
+        assert "CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO" in python_prompt
+        assert "DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES" in python_prompt
+        assert "NOTA 10" in python_prompt
+        assert "REGRAS CRÍTICAS" in python_prompt
+        assert "requisitos obrigatórios" in python_prompt
         
         # Testa prompt genérico de HTML
         html_files = {"index.html": "<h1>Title</h1>"}
@@ -663,11 +663,11 @@ PROBLEMAS:
         )
         
         html_prompt = analyzer._build_html_analysis_prompt(html_files, css_files, html_assignment)
-        assert "CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO" in html_prompt
-        assert "baseada EXCLUSIVAMENTE no cumprimento dos requisitos específicos" in html_prompt
-        assert "nota máxima (10)" in html_prompt
-        assert "HIERARQUIA DE AVALIAÇÃO" in html_prompt
-        assert "DESCRIÇÃO DO ASSIGNMENT, REQUISITOS ESPECÍFICOS e CÓDIGO DO ENUNCIADO" in html_prompt
+        assert "CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO" in html_prompt
+        assert "DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES" in html_prompt
+        assert "NOTA 10" in html_prompt
+        assert "REGRAS CRÍTICAS" in html_prompt
+        assert "requisitos obrigatórios" in html_prompt
 
 
 class TestCorrectionService:

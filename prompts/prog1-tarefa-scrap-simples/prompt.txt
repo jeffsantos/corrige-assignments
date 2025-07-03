@@ -12,7 +12,30 @@ CÓDIGO DO ENUNCIADO:
 CÓDIGO DO ALUNO:
 {student_code}
 
-INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS PARA ESTE ASSIGNMENT:
+=== CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO ===
+
+**DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES:**
+
+**PROBLEMAS (só inclua aqui se for CRÍTICO):**
+- Requisitos OBRIGATÓRIOS do enunciado que estão AUSENTES ou INCORRETOS
+- Funções obrigatórias que não foram implementadas ou não funcionam
+- Estrutura de código que não segue o especificado no enunciado
+- Funcionalidades essenciais que não operam corretamente
+
+**SUGESTÕES (inclua aqui melhorias opcionais):**
+- Melhorias de código que não são obrigatórias
+- Otimizações de performance que não afetam funcionalidade
+- Adições de funcionalidades extras que enriquecem mas não são exigidas
+- Melhorias de legibilidade ou organização não obrigatórias
+- Sugestões de boas práticas que não são requisitos
+
+**EXEMPLOS DE CLASSIFICAÇÃO:**
+- ❌ PROBLEMA: "Não acessa a URL do IMDB" (se for obrigatório)
+- ✅ SUGESTÃO: "Poderia adicionar mais tratamento de erros"
+- ❌ PROBLEMA: "Não extrai os 10 primeiros filmes" (se for obrigatório)
+- ✅ SUGESTÃO: "Poderia melhorar a formatação da saída"
+
+=== INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS ===
 
 Este é um assignment de Web Scraping básico para extrair dados do IMDB. Avalie considerando:
 
@@ -44,15 +67,25 @@ Este é um assignment de Web Scraping básico para extrair dados do IMDB. Avalie
    - Deve exibir os dados no console
    - Deve extrair dados reais do site IMDB
 
-Formate sua resposta assim:
+=== FORMATO DE RESPOSTA ===
+
+Formate sua resposta EXATAMENTE assim:
+
 NOTA: [número de 0 a 10]
 JUSTIFICATIVA: [justificativa resumida e clara da nota]
+
 COMENTARIOS: [lista de comentários sobre pontos positivos]
-SUGESTOES: [lista de sugestões de melhoria]
-PROBLEMAS: [lista de problemas encontrados]
 
-IMPORTANTE: Considere que o aluno recebeu uma estrutura base no enunciado. Avalie principalmente se ele implementou corretamente o scraping do IMDB e se extraiu os dados solicitados no formato correto.
+SUGESTOES: [lista de sugestões de melhoria - apenas melhorias opcionais]
 
-CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO: Se o aluno cumpriu TODOS os requisitos obrigatórios listados no enunciado, deve receber a nota máxima (10), mesmo que você identifique possíveis melhorias nos comentários ou sugestões. A avaliação deve ser restrita às instruções do enunciado, não a sugestões de melhoria ou boas práticas adicionais.
+PROBLEMAS: [lista de problemas encontrados - apenas requisitos obrigatórios ausentes/incorretos]
 
-HIERARQUIA DE AVALIAÇÃO: Base sua nota PRINCIPALMENTE nos campos DESCRIÇÃO DO ASSIGNMENT, REQUISITOS ESPECÍFICOS e CÓDIGO DO ENUNCIADO. As INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS podem complementar ou esclarecer, mas NÃO devem ser mais rigorosas que os requisitos básicos do enunciado. Se o aluno cumpriu todos os requisitos dos 3 campos principais, a nota deve ser 10, independentemente das instruções específicas de avaliação. 
+=== REGRAS CRÍTICAS ===
+
+1. **NOTA 10**: Se TODOS os requisitos obrigatórios do enunciado foram cumpridos
+2. **PROBLEMAS**: Só inclua requisitos OBRIGATÓRIOS ausentes/incorretos
+3. **SUGESTÕES**: Inclua melhorias opcionais e aperfeiçoamentos
+4. **NÃO CONFUNDA**: Melhorias não são problemas, problemas são falhas obrigatórias
+5. **BASEIE A NOTA**: Nos requisitos do enunciado, não em suas preferências pessoais
+
+IMPORTANTE: Considere que o aluno recebeu uma estrutura base no enunciado. Avalie principalmente se ele implementou corretamente o scraping do IMDB e se extraiu os dados solicitados no formato correto. 
