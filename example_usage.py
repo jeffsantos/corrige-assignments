@@ -130,8 +130,8 @@ def run_example():
     print("  python tools/generate_mermaid_uml.py")
     print("Saída: diagrama_uml.md com diagrama Mermaid")
     
-    # Exemplo 9: Geração de thumbnails Streamlit (apenas thumbnails)
-    print("\n📝 Exemplo 9: Geração de Thumbnails Streamlit")
+    # Exemplo 9: Relatório visual com thumbnails (sem correção)
+    print("\n📝 Exemplo 9: Relatório Visual com Thumbnails")
     print("-" * 50)
     print("Assignment: prog1-prova-av (apenas thumbnails)")
     print("Características:")
@@ -146,12 +146,12 @@ def run_example():
     print("  • Suporte a alta resolução: 2880x1620, 200% escala")
     
     # Comentar para não executar automaticamente
-    # cli(["generate-thumbnails-only", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025"])
+    # cli(["generate-visual-report", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025"])
     
-    # Exemplo 9b: Geração de thumbnails com logs detalhados
-    print("\n📝 Exemplo 9b: Geração de Thumbnails com Debug Detalhado")
+    # Exemplo 9b: Relatório visual com logs detalhados
+    print("\n📝 Exemplo 9b: Relatório Visual com Debug Detalhado")
     print("-" * 50)
-    print("Assignment: prog1-prova-av (apenas thumbnails + verbose)")
+    print("Assignment: prog1-prova-av (thumbnails + verbose)")
     print("Características:")
     print("  • Todas as funcionalidades do exemplo 9")
     print("  • Logs detalhados de debug com flag --verbose")
@@ -161,42 +161,10 @@ def run_example():
     print("  • Informações de processos e portas")
     
     # Comentar para não executar automaticamente
-    # cli(["generate-thumbnails-only", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
-    
-    # Exemplo 10: Relatório visual completo com correção
-    print("\n📝 Exemplo 10: Relatório Visual Completo")
-    print("-" * 50)
-    print("Assignment: prog1-prova-av (correção + thumbnails)")
-    print("Características:")
-    print("  • Executa correção completa (testes + IA)")
-    print("  • Gera thumbnails de todos os dashboards")
-    print("  • Cria relatório visual com notas e thumbnails")
-    print("  • Organiza por nota (melhores primeiro)")
-    print("  • Inclui estatísticas de sucesso dos thumbnails")
-    print("  • Grid de thumbnails com filtros por faixa de nota")
-    print("  • Performance otimizada: dependências instaladas uma única vez")
-    print("  • Captura completa: altura mínima de 1800px")
-    print("  • Limpeza automática de processos órfãos")
-    
-    # Comentar para não executar automaticamente
-    # cli(["generate-visual-report", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025"])
-    
-    # Exemplo 10b: Relatório visual com logs detalhados
-    print("\n📝 Exemplo 10b: Relatório Visual com Debug Detalhado")
-    print("-" * 50)
-    print("Assignment: prog1-prova-av (correção + thumbnails + verbose)")
-    print("Características:")
-    print("  • Todas as funcionalidades do exemplo 10")
-    print("  • Logs detalhados de debug com flag --verbose")
-    print("  • Debug completo da geração de thumbnails")
-    print("  • Informações de performance e otimizações")
-    print("  • Logs de limpeza de processos órfãos")
-    
-    # Comentar para não executar automaticamente
     # cli(["generate-visual-report", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
     
-    # Exemplo 11: Geração de thumbnails HTML (apenas thumbnails)
-    print("\n📝 Exemplo 11: Geração de Thumbnails HTML")
+    # Exemplo 10: Relatório visual com thumbnails HTML
+    print("\n📝 Exemplo 10: Relatório Visual com Thumbnails HTML")
     print("-" * 50)
     print("Assignment: prog1-tarefa-html-curriculo (apenas thumbnails)")
     print("Características:")
@@ -211,50 +179,19 @@ def run_example():
     print("  • Suporte a alta resolução: 2880x1620, 200% escala")
     
     # Comentar para não executar automaticamente
-    # cli(["generate-html-thumbnails-only", "--assignment", "prog1-tarefa-html-curriculo", "--turma", "ebape-prog-aplic-barra-2025"])
+    # cli(["generate-visual-report", "--assignment", "prog1-tarefa-html-curriculo", "--turma", "ebape-prog-aplic-barra-2025"])
     
-    # Exemplo 11b: Geração de thumbnails HTML com logs detalhados
-    print("\n📝 Exemplo 11b: Geração de Thumbnails HTML com Debug Detalhado")
+    # Exemplo 10b: Relatório visual HTML com logs detalhados
+    print("\n📝 Exemplo 10b: Relatório Visual HTML com Debug Detalhado")
     print("-" * 50)
-    print("Assignment: prog1-tarefa-html-curriculo (apenas thumbnails + verbose)")
+    print("Assignment: prog1-tarefa-html-curriculo (thumbnails + verbose)")
     print("Características:")
-    print("  • Todas as funcionalidades do exemplo 11")
+    print("  • Todas as funcionalidades do exemplo 10")
     print("  • Logs detalhados de debug com flag --verbose")
     print("  • Mostra caminhos dos arquivos HTML acessados")
     print("  • Exibe dimensões de páginas detectadas")
     print("  • Logs de captura de screenshots")
     print("  • Informações de renderização HTML")
-    
-    # Comentar para não executar automaticamente
-    # cli(["generate-html-thumbnails-only", "--assignment", "prog1-tarefa-html-curriculo", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
-    
-    # Exemplo 12: Relatório visual completo com correção HTML
-    print("\n📝 Exemplo 12: Relatório Visual Completo (HTML)")
-    print("-" * 50)
-    print("Assignment: prog1-tarefa-html-curriculo (correção + thumbnails)")
-    print("Características:")
-    print("  • Executa correção completa (análise de IA)")
-    print("  • Gera thumbnails de todas as páginas HTML")
-    print("  • Cria relatório visual com notas e thumbnails")
-    print("  • Organiza por nota (melhores primeiro)")
-    print("  • Inclui estatísticas de sucesso dos thumbnails")
-    print("  • Grid de thumbnails com filtros por faixa de nota")
-    print("  • Captura completa: altura mínima de 1200px")
-    print("  • Acesso direto a arquivos HTML (sem servidor)")
-    
-    # Comentar para não executar automaticamente
-    # cli(["generate-visual-report", "--assignment", "prog1-tarefa-html-curriculo", "--turma", "ebape-prog-aplic-barra-2025"])
-    
-    # Exemplo 12b: Relatório visual HTML com logs detalhados
-    print("\n📝 Exemplo 12b: Relatório Visual HTML com Debug Detalhado")
-    print("-" * 50)
-    print("Assignment: prog1-tarefa-html-curriculo (correção + thumbnails + verbose)")
-    print("Características:")
-    print("  • Todas as funcionalidades do exemplo 12")
-    print("  • Logs detalhados de debug com flag --verbose")
-    print("  • Debug completo da geração de thumbnails HTML")
-    print("  • Informações de acesso aos arquivos HTML")
-    print("  • Logs de renderização e captura")
     
     # Comentar para não executar automaticamente
     # cli(["generate-visual-report", "--assignment", "prog1-tarefa-html-curriculo", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])

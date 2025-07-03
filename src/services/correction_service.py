@@ -65,26 +65,8 @@ class CorrectionService:
         # Calcula estatísticas do relatório
         report.summary = self._calculate_summary(submissions)
         
-        # Gera thumbnails se o assignment suportar
-        from config import assignment_has_thumbnails, get_assignment_thumbnail_type
-        
-        if assignment_has_thumbnails(assignment_name):
-            thumbnail_type = get_assignment_thumbnail_type(assignment_name)
-            print(f"\n🖼️  Iniciando geração de thumbnails {thumbnail_type.upper()} para {len(submissions)} submissões...")
-            try:
-                if thumbnail_type == "streamlit":
-                    report.thumbnails = self.streamlit_thumbnail_service.generate_thumbnails_for_assignment(
-                        assignment_name, turma_name, submissions
-                    )
-                elif thumbnail_type == "html":
-                    report.thumbnails = self.html_thumbnail_service.generate_thumbnails_for_assignment(
-                        assignment_name, turma_name, submissions
-                    )
-                print(f"✅ Geração de thumbnails {thumbnail_type.upper()} concluída: {len(report.thumbnails)} thumbnails gerados")
-            except Exception as e:
-                print(f"❌ Erro ao gerar thumbnails {thumbnail_type.upper()}: {e}")
-                # Inicializa lista vazia para evitar erro
-                report.thumbnails = []
+        # Não gera thumbnails no comando correct (usar generate-visual-report para isso)
+        report.thumbnails = []
         
         return report
     

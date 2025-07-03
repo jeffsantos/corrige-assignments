@@ -197,19 +197,10 @@ python -m src.main convert-latest --format markdown
 ### Comandos de Thumbnails
 
 ```bash
-# Gerar apenas thumbnails (sem correção) - Streamlit
-python -m src.main generate-thumbnails-only --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
-
-# Gerar apenas thumbnails (sem correção) - HTML
-python -m src.main generate-html-thumbnails-only --assignment prog1-tarefa-html-curriculo --turma ebape-prog-aplic-barra-2025
-
-# Gerar apenas thumbnails com logs detalhados
-python -m src.main generate-thumbnails-only --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose
-
-# Gerar relatório visual completo (correção + thumbnails)
+# Gerar relatório visual com thumbnails (sem correção)
 python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
 
-# Gerar relatório visual completo (correção + thumbnails HTML)
+# Gerar relatório visual com thumbnails HTML
 python -m src.main generate-visual-report --assignment prog1-tarefa-html-curriculo --turma ebape-prog-aplic-barra-2025
 
 # Gerar relatório visual com logs detalhados
@@ -258,22 +249,13 @@ python -m src.main list-assignments
 # Exemplo 11: Ver submissões de uma turma
 python -m src.main list-submissions --turma ebape-prog-aplic-barra-2025
 
-# Exemplo 12: Gerar apenas thumbnails de dashboards Streamlit
-python -m src.main generate-thumbnails-only --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
-
-# Exemplo 13: Gerar apenas thumbnails de páginas HTML
-python -m src.main generate-html-thumbnails-only --assignment prog1-tarefa-html-curriculo --turma ebape-prog-aplic-barra-2025
-
-# Exemplo 14: Gerar apenas thumbnails com logs detalhados
-python -m src.main generate-thumbnails-only --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose
-
-# Exemplo 15: Gerar relatório visual completo (Streamlit)
+# Exemplo 12: Gerar relatório visual com thumbnails (Streamlit)
 python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
 
-# Exemplo 16: Gerar relatório visual completo (HTML)
+# Exemplo 13: Gerar relatório visual com thumbnails (HTML)
 python -m src.main generate-visual-report --assignment prog1-tarefa-html-curriculo --turma ebape-prog-aplic-barra-2025
 
-# Exemplo 17: Gerar relatório visual com logs detalhados
+# Exemplo 14: Gerar relatório visual com logs detalhados
 python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose
 ```
 
