@@ -198,25 +198,41 @@ class CorrectionService:
                 for test in failed_tests[:3]:  # Limita a 3 testes para não ficar muito longo
                     feedback_parts.append(f"- {test.test_name}: {test.message[:100]}...")
         
-        # Feedback da análise de IA
+        # Feedback da análise de IA - Padronizado para usar JUSTIFICATIVA e PROBLEMAS
         if assignment.type == AssignmentType.PYTHON and submission.code_analysis:
             feedback_parts.append(f"Análise de código: {submission.code_analysis.score:.1f}/10")
-            if submission.code_analysis.comments:
-                feedback_parts.append("Pontos positivos:")
-                for comment in submission.code_analysis.comments[:2]:
-                    feedback_parts.append(f"- {comment}")
+            
+            # Adiciona JUSTIFICATIVA se disponível
+            if submission.code_analysis.score_justification:
+                feedback_parts.append("Justificativa:")
+                feedback_parts.append(f"- {submission.code_analysis.score_justification}")
+            
+            # Adiciona PROBLEMAS se disponível
             if submission.code_analysis.issues_found:
-                feedback_parts.append("Problemas encontrados:")
-                for issue in submission.code_analysis.issues_found[:2]:
+                feedback_parts.append("Problemas:")
+                for issue in submission.code_analysis.issues_found[:3]:  # Limita a 3 problemas
                     feedback_parts.append(f"- {issue}")
         
         elif assignment.type == AssignmentType.HTML and submission.html_analysis:
             feedback_parts.append(f"Análise HTML/CSS: {submission.html_analysis.score:.1f}/10")
+            
+            # Mantém a apresentação dos elementos HTML (conforme solicitado)
             if submission.html_analysis.required_elements:
                 feedback_parts.append("Elementos HTML:")
                 for element, found in submission.html_analysis.required_elements.items():
                     status = "✓" if found else "✗"
                     feedback_parts.append(f"- {element}: {status}")
+            
+            # Adiciona JUSTIFICATIVA se disponível
+            if submission.html_analysis.score_justification:
+                feedback_parts.append("Justificativa:")
+                feedback_parts.append(f"- {submission.html_analysis.score_justification}")
+            
+            # Adiciona PROBLEMAS se disponível
+            if submission.html_analysis.issues_found:
+                feedback_parts.append("Problemas:")
+                for issue in submission.html_analysis.issues_found[:3]:  # Limita a 3 problemas
+                    feedback_parts.append(f"- {issue}")
         
         return "\n".join(feedback_parts)
     

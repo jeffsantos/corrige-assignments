@@ -785,6 +785,168 @@ class TestCorrectionService:
         # Checagem visual
         print("Resumo arredondado:", summary)
 
+    def test_generate_feedback_python_assignment(self):
+        """Testa geração de feedback para assignment Python com campos padronizados."""
+        from src.domain.models import IndividualSubmission, CodeAnalysis, AssignmentTestExecution, AssignmentTestResult
+        
+        # Cria submissão com análise de código
+        submission = IndividualSubmission(
+            github_login="test_user",
+            assignment_name="test-assignment",
+            turma="test-turma",
+            submission_path=Path("."),
+            code_analysis=CodeAnalysis(
+                score=8.5,
+                score_justification="Código bem estruturado com implementação correta",
+                comments=["Boa organização", "Implementação correta"],
+                suggestions=["Adicionar mais comentários"],
+                issues_found=["Falta tratamento de erro", "Variável não utilizada"]
+            ),
+            test_results=[
+                AssignmentTestExecution(
+                    test_name="test_function",
+                    result=AssignmentTestResult.PASSED,
+                    execution_time=0.1,
+                    message="Test passed"
+                ),
+                AssignmentTestExecution(
+                    test_name="test_another_function",
+                    result=AssignmentTestResult.FAILED,
+                    execution_time=0.2,
+                    message="Test failed"
+                )
+            ]
+        )
+        
+        # Cria assignment Python
+        assignment = Assignment(
+            name="test-assignment",
+            type=AssignmentType.PYTHON,
+            submission_type=SubmissionType.INDIVIDUAL,
+            description="Test assignment"
+        )
+        
+        # Gera feedback
+        service = CorrectionService(Path("."), Path("."), verbose=False)
+        feedback = service._generate_feedback(submission, assignment)
+        
+        # Verifica estrutura do feedback
+        lines = feedback.split('\n')
+        
+        # Deve conter informações dos testes
+        assert any("Testes: 1/2 passaram" in line for line in lines)
+        assert any("Testes que falharam:" in line for line in lines)
+        assert any("test_another_function" in line for line in lines)
+        
+        # Deve conter análise de código
+        assert any("Análise de código: 8.5/10" in line for line in lines)
+        
+        # Deve conter JUSTIFICATIVA (novo campo padronizado)
+        assert any("Justificativa:" in line for line in lines)
+        assert any("Código bem estruturado com implementação correta" in line for line in lines)
+        
+        # Deve conter PROBLEMAS (novo campo padronizado)
+        assert any("Problemas:" in line for line in lines)
+        assert any("Falta tratamento de erro" in line for line in lines)
+        assert any("Variável não utilizada" in line for line in lines)
+        
+        # NÃO deve conter "Pontos positivos" (campo antigo removido)
+        assert not any("Pontos positivos:" in line for line in lines)
+        assert not any("Problemas encontrados:" in line for line in lines)
+
+    def test_generate_feedback_html_assignment(self):
+        """Testa geração de feedback para assignment HTML com campos padronizados."""
+        from src.domain.models import IndividualSubmission, HTMLAnalysis
+        
+        # Cria submissão com análise HTML
+        submission = IndividualSubmission(
+            github_login="test_user",
+            assignment_name="test-assignment",
+            turma="test-turma",
+            submission_path=Path("."),
+            html_analysis=HTMLAnalysis(
+                score=7.0,
+                score_justification="Estrutura HTML adequada mas CSS poderia ser melhorado",
+                required_elements={
+                    "headings": True,
+                    "lists": True,
+                    "img": True,
+                    "a": True,
+                    "table": False
+                },
+                comments=["Estrutura HTML correta"],
+                suggestions=["Melhorar estilos CSS"],
+                issues_found=["CSS muito básico", "Falta responsividade"]
+            )
+        )
+        
+        # Cria assignment HTML
+        assignment = Assignment(
+            name="test-assignment",
+            type=AssignmentType.HTML,
+            submission_type=SubmissionType.INDIVIDUAL,
+            description="Test assignment"
+        )
+        
+        # Gera feedback
+        service = CorrectionService(Path("."), Path("."), verbose=False)
+        feedback = service._generate_feedback(submission, assignment)
+        
+        # Verifica estrutura do feedback
+        lines = feedback.split('\n')
+        
+        # Deve conter análise HTML/CSS
+        assert any("Análise HTML/CSS: 7.0/10" in line for line in lines)
+        
+        # Deve manter apresentação dos elementos HTML (conforme solicitado)
+        assert any("Elementos HTML:" in line for line in lines)
+        assert any("- headings: ✓" in line for line in lines)
+        assert any("- lists: ✓" in line for line in lines)
+        assert any("- img: ✓" in line for line in lines)
+        assert any("- a: ✓" in line for line in lines)
+        assert any("- table: ✗" in line for line in lines)
+        
+        # Deve conter JUSTIFICATIVA (novo campo padronizado)
+        assert any("Justificativa:" in line for line in lines)
+        assert any("Estrutura HTML adequada mas CSS poderia ser melhorado" in line for line in lines)
+        
+        # Deve conter PROBLEMAS (novo campo padronizado)
+        assert any("Problemas:" in line for line in lines)
+        assert any("CSS muito básico" in line for line in lines)
+        assert any("Falta responsividade" in line for line in lines)
+
+    def test_generate_feedback_without_analysis(self):
+        """Testa geração de feedback quando não há análise de IA."""
+        from src.domain.models import IndividualSubmission
+        
+        # Cria submissão sem análise
+        submission = IndividualSubmission(
+            github_login="test_user",
+            assignment_name="test-assignment",
+            turma="test-turma",
+            submission_path=Path(".")
+        )
+        
+        # Cria assignment Python
+        assignment = Assignment(
+            name="test-assignment",
+            type=AssignmentType.PYTHON,
+            submission_type=SubmissionType.INDIVIDUAL,
+            description="Test assignment"
+        )
+        
+        # Gera feedback
+        service = CorrectionService(Path("."), Path("."), verbose=False)
+        feedback = service._generate_feedback(submission, assignment)
+        
+        # Deve retornar string vazia ou apenas informações básicas
+        assert isinstance(feedback, str)
+        # Não deve conter campos de análise
+        assert "Análise de código:" not in feedback
+        assert "Análise HTML/CSS:" not in feedback
+        assert "Justificativa:" not in feedback
+        assert "Problemas:" not in feedback
+
 
 class TestRepositories:
     """Testes para os repositórios."""
