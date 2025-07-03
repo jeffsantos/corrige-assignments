@@ -562,6 +562,81 @@ ASSIGNMENT_SUBMISSION_TYPES = {
 }
 ```
 
+## 🧪 Testes
+
+### Execução de Testes
+
+O projeto usa pytest para testes automatizados. Os testes estão organizados em diferentes categorias para permitir execução seletiva:
+
+#### Testes Básicos (Execução Padrão)
+
+```bash
+# Executa todos os testes básicos (exclui testes de integração e thumbnails)
+pipenv run pytest tests/ -m "not integration and not thumbnails and not slow"
+
+# Ou simplesmente (padrão)
+pipenv run pytest tests/
+```
+
+#### Testes de Integração
+
+```bash
+# Executa apenas testes de integração
+pipenv run pytest tests/ -m integration
+
+# Executa todos os testes EXCETO os de integração
+pipenv run pytest tests/ -m "not integration"
+```
+
+#### Testes de Thumbnails
+
+```bash
+# Executa apenas testes relacionados a thumbnails
+pipenv run pytest tests/ -m thumbnails
+
+# Executa todos os testes EXCETO os de thumbnails
+pipenv run pytest tests/ -m "not thumbnails"
+```
+
+#### Testes Lentos
+
+```bash
+# Executa apenas testes marcados como lentos
+pipenv run pytest tests/ -m slow
+
+# Executa todos os testes EXCETO os lentos
+pipenv run pytest tests/ -m "not slow"
+```
+
+#### Combinações
+
+```bash
+# Executa testes de integração E thumbnails
+pipenv run pytest tests/ -m "integration and thumbnails"
+
+# Executa testes que são de integração OU thumbnails
+pipenv run pytest tests/ -m "integration or thumbnails"
+
+# Executa todos os testes exceto os lentos
+pipenv run pytest tests/ -m "not slow"
+```
+
+### Categorias de Testes
+
+- **`integration`**: Testes que executam integração completa do sistema (incluem geração de thumbnails)
+- **`thumbnails`**: Testes relacionados à funcionalidade de thumbnails Streamlit
+- **`slow`**: Testes que são mais lentos (geralmente incluem processos externos como Chrome/Selenium)
+
+### Por que Testes Opcionais?
+
+Alguns testes são marcados como opcionais porque:
+
+1. **Testes de Integração**: Executam o sistema completo, incluindo geração de thumbnails que requer Chrome/Selenium
+2. **Testes de Thumbnails**: Requerem ambiente com Chrome/Chromium instalado
+3. **Testes Lentos**: Podem levar mais tempo devido a processos externos
+
+Para desenvolvimento rápido, execute apenas os testes básicos. Para validação completa, execute todos os testes.
+
 ## 🤝 Contribuição
 
 1. Fork o projeto

@@ -450,6 +450,9 @@ PROBLEMAS:
 class TestCorrectionService:
     """Testes para CorrectionService."""
     
+    @pytest.mark.integration
+    @pytest.mark.thumbnails
+    @pytest.mark.slow
     def test_correct_assignment_integration(self):
         """Testa integração completa da correção."""
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -842,6 +845,7 @@ PROBLEMAS: [lista de problemas encontrados]"""
 class TestStreamlitThumbnails:
     """Testes para a funcionalidade de thumbnails Streamlit."""
     
+    @pytest.mark.thumbnails
     def test_streamlit_thumbnail_service_initialization(self):
         """Testa inicialização do serviço de thumbnails."""
         from src.services.streamlit_thumbnail_service import StreamlitThumbnailService
@@ -862,6 +866,7 @@ class TestStreamlitThumbnails:
         import shutil
         shutil.rmtree(custom_dir)
     
+    @pytest.mark.thumbnails
     def test_find_available_port(self):
         """Testa busca de porta disponível."""
         from src.services.streamlit_thumbnail_service import StreamlitThumbnailService
@@ -878,6 +883,7 @@ class TestStreamlitThumbnails:
         assert isinstance(port, int)
         assert port > 0
     
+    @pytest.mark.thumbnails
     def test_calculate_thumbnail_stats(self):
         """Testa cálculo de estatísticas de thumbnails."""
         from src.utils.visual_report_generator import VisualReportGenerator
@@ -918,6 +924,7 @@ class TestStreamlitThumbnails:
         assert stats['failed_thumbnails'] == 1
         assert stats['success_rate'] == 2/3
     
+    @pytest.mark.thumbnails
     def test_thumbnail_result_creation(self):
         """Testa criação de ThumbnailResult."""
         from src.domain.models import ThumbnailResult
