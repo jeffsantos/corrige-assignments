@@ -66,4 +66,6 @@ COMENTARIOS: [lista de comentários sobre pontos positivos]
 SUGESTOES: [lista de sugestões de melhoria]
 PROBLEMAS: [lista de problemas encontrados]
 
-IMPORTANTE: Considere que o aluno deve seguir o tutorial passo-a-passo fornecido. Avalie principalmente se ele implementou corretamente todos os elementos HTML solicitados e se seguiu a estrutura do tutorial para criar um site no estilo anos 90. 
+IMPORTANTE: Considere que o aluno deve seguir o tutorial passo-a-passo fornecido. Avalie principalmente se ele implementou corretamente todos os elementos HTML solicitados e se seguiu a estrutura do tutorial para criar um site no estilo anos 90.
+
+CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO: A nota deve ser baseada EXCLUSIVAMENTE no cumprimento dos requisitos específicos definidos no README.md do enunciado. Se o aluno cumpriu TODOS os requisitos obrigatórios listados no enunciado, deve receber a nota máxima (10), mesmo que você identifique possíveis melhorias nos comentários ou sugestões. A avaliação deve ser restrita às instruções do enunciado, não a sugestões de melhoria ou boas práticas adicionais. 

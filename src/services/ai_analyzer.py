@@ -438,6 +438,8 @@ JUSTIFICATIVA: [justificativa resumida e clara da nota]
 COMENTARIOS: [lista de comentários sobre pontos positivos]
 SUGESTOES: [lista de sugestões de melhoria]
 PROBLEMAS: [lista de problemas encontrados]
+
+CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO: A nota deve ser baseada EXCLUSIVAMENTE no cumprimento dos requisitos específicos definidos no README.md do enunciado. Se o aluno cumpriu TODOS os requisitos obrigatórios listados no enunciado, deve receber a nota máxima (10), mesmo que você identifique possíveis melhorias nos comentários ou sugestões. A avaliação deve ser restrita às instruções do enunciado, não a sugestões de melhoria ou boas práticas adicionais.
 """
         
         return prompt
@@ -489,6 +491,8 @@ ELEMENTOS:
 COMENTARIOS: [lista de comentários sobre pontos positivos]
 SUGESTOES: [lista de sugestões de melhoria]
 PROBLEMAS: [lista de problemas encontrados]
+
+CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO: A nota deve ser baseada EXCLUSIVAMENTE no cumprimento dos requisitos específicos definidos no README.md do enunciado. Se o aluno cumpriu TODOS os requisitos obrigatórios listados no enunciado, deve receber a nota máxima (10), mesmo que você identifique possíveis melhorias nos comentários ou sugestões. A avaliação deve ser restrita às instruções do enunciado, não a sugestões de melhoria ou boas práticas adicionais.
 """
         
         return prompt

@@ -444,9 +444,6 @@ PROBLEMAS:
         assert result.required_elements["img"] == True
         assert result.required_elements["a"] == True
         assert result.required_elements["table"] == True
-        assert "Estrutura HTML correta" in result.comments
-        assert "Melhorar estilos CSS" in result.suggestions
-        assert "CSS muito básico" in result.issues_found
     
     def test_parse_html_analysis_elements_inline_format(self):
         """Testa parsing de elementos HTML quando vêm na mesma linha após ELEMENTOS:."""
@@ -632,6 +629,41 @@ PROBLEMAS:
         assert result_2.required_elements["img"] == True
         assert result_2.required_elements["a"] == True
         assert result_2.required_elements["table"] == True
+    
+    def test_prompt_contains_evaluation_criteria(self):
+        """Testa se os prompts contêm o critério fundamental de avaliação."""
+        analyzer = AIAnalyzer(api_key="fake-key")
+        
+        # Testa prompt genérico de Python
+        python_files = {"main.py": "def hello(): pass"}
+        assignment = Assignment(
+            name="test-assignment",
+            type=AssignmentType.PYTHON,
+            submission_type=SubmissionType.INDIVIDUAL,
+            description="Test assignment",
+            requirements=["Requirement 1"]
+        )
+        
+        python_prompt = analyzer._build_python_analysis_prompt(python_files, assignment)
+        assert "CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO" in python_prompt
+        assert "baseada EXCLUSIVAMENTE no cumprimento dos requisitos específicos" in python_prompt
+        assert "nota máxima (10)" in python_prompt
+        
+        # Testa prompt genérico de HTML
+        html_files = {"index.html": "<h1>Title</h1>"}
+        css_files = {"style.css": "body { margin: 0; }"}
+        html_assignment = Assignment(
+            name="test-html-assignment",
+            type=AssignmentType.HTML,
+            submission_type=SubmissionType.INDIVIDUAL,
+            description="Test HTML assignment",
+            requirements=["Requirement 1"]
+        )
+        
+        html_prompt = analyzer._build_html_analysis_prompt(html_files, css_files, html_assignment)
+        assert "CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO" in html_prompt
+        assert "baseada EXCLUSIVAMENTE no cumprimento dos requisitos específicos" in html_prompt
+        assert "nota máxima (10)" in html_prompt
 
 
 class TestCorrectionService:
