@@ -648,6 +648,8 @@ PROBLEMAS:
         assert "CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO" in python_prompt
         assert "baseada EXCLUSIVAMENTE no cumprimento dos requisitos específicos" in python_prompt
         assert "nota máxima (10)" in python_prompt
+        assert "HIERARQUIA DE AVALIAÇÃO" in python_prompt
+        assert "DESCRIÇÃO DO ASSIGNMENT, REQUISITOS ESPECÍFICOS e CÓDIGO DO ENUNCIADO" in python_prompt
         
         # Testa prompt genérico de HTML
         html_files = {"index.html": "<h1>Title</h1>"}
@@ -664,6 +666,8 @@ PROBLEMAS:
         assert "CRITÉRIO FUNDAMENTAL DE AVALIAÇÃO" in html_prompt
         assert "baseada EXCLUSIVAMENTE no cumprimento dos requisitos específicos" in html_prompt
         assert "nota máxima (10)" in html_prompt
+        assert "HIERARQUIA DE AVALIAÇÃO" in html_prompt
+        assert "DESCRIÇÃO DO ASSIGNMENT, REQUISITOS ESPECÍFICOS e CÓDIGO DO ENUNCIADO" in html_prompt
 
 
 class TestCorrectionService:
