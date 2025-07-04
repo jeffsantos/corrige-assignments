@@ -142,9 +142,9 @@ class AIAnalyzer:
                 messages=[
                     {"role": "system", "content": "Você é um professor experiente de Python analisando código de alunos. Seja construtivo e específico, considerando os requisitos específicos do assignment."},
                     {"role": "user", "content": prompt}
-                ],
-                max_tokens=OPENAI_MAX_TOKENS,
-                temperature=OPENAI_TEMPERATURE
+                ]
+                #max_tokens=OPENAI_MAX_TOKENS,
+                #temperature=OPENAI_TEMPERATURE
             )
             
             # Processa a resposta
@@ -213,9 +213,9 @@ class AIAnalyzer:
                 messages=[
                     {"role": "system", "content": "Você é um professor experiente de HTML/CSS analisando páginas web de alunos. Seja construtivo e específico, considerando os requisitos específicos do assignment."},
                     {"role": "user", "content": prompt}
-                ],
-                max_tokens=OPENAI_MAX_TOKENS,
-                temperature=OPENAI_TEMPERATURE
+                ]
+                #max_tokens=OPENAI_MAX_TOKENS,
+                #temperature=OPENAI_TEMPERATURE
             )
             
             # Processa a resposta

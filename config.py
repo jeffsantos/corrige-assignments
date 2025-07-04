@@ -14,8 +14,11 @@ REPORTS_DIR = BASE_DIR / "reports"
 
 # Configurações da API OpenAI
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-OPENAI_MODEL = "gpt-3.5-turbo"
-OPENAI_MAX_TOKENS = 1000
+#OPENAI_MODEL = "gpt-3.5-turbo"
+#OPENAI_MODEL = "gpt-4.1-nano"
+OPENAI_MODEL = "gpt-4.1-mini"
+#OPENAI_MODEL = "gpt-4o-mini"
+OPENAI_MAX_TOKENS = 2000
 OPENAI_TEMPERATURE = 0.3
 
 # Configurações de teste

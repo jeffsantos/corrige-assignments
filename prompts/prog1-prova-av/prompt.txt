@@ -52,12 +52,7 @@ Este é um assignment de Web Scraping + Streamlit Dashboard. Avalie considerando
    - Deve ter 2 gráficos interativos relevantes
    - Deve ter descrição/resumo com markdown
 
-3. **Escolha dos Filtros e Gráficos (10% do peso)**:
-   - Os filtros devem fazer sentido para os dados
-   - Os gráficos devem ser apropriados e informativos
-   - A escolha deve demonstrar entendimento dos dados
-
-4. **Estrutura e Organização**:
+3. **Estrutura e Organização (10% do peso)**:
    - O aluno deve manter a estrutura fornecida no enunciado
    - Não deve modificar nomes de funções ou parâmetros dados
    - Deve manter separação entre scraping e dashboard
