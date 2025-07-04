@@ -9,6 +9,7 @@ from typing import List, Dict, Any
 from openai import OpenAI
 from ..domain.models import CodeAnalysis, HTMLAnalysis, Assignment
 from .prompt_manager import PromptManager
+from config import OPENAI_MODEL, OPENAI_MAX_TOKENS, OPENAI_TEMPERATURE
 import re
 
 
@@ -91,7 +92,7 @@ class AIAnalyzer:
                     "submission_identifier": submission_identifier,
                     "analysis_type": analysis_type,
                     "timestamp": datetime.now().isoformat(),
-                    "ai_model": "gpt-3.5-turbo"
+                    "ai_model": OPENAI_MODEL
                 },
                 "prompt": prompt,
                 "raw_response": response,
@@ -137,13 +138,13 @@ class AIAnalyzer:
         try:
             # Chama a API do OpenAI
             response = self.client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model=OPENAI_MODEL,
                 messages=[
                     {"role": "system", "content": "Você é um professor experiente de Python analisando código de alunos. Seja construtivo e específico, considerando os requisitos específicos do assignment."},
                     {"role": "user", "content": prompt}
                 ],
-                max_tokens=1500,
-                temperature=0.3
+                max_tokens=OPENAI_MAX_TOKENS,
+                temperature=OPENAI_TEMPERATURE
             )
             
             # Processa a resposta
@@ -208,13 +209,13 @@ class AIAnalyzer:
         try:
             # Chama a API do OpenAI
             response = self.client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model=OPENAI_MODEL,
                 messages=[
                     {"role": "system", "content": "Você é um professor experiente de HTML/CSS analisando páginas web de alunos. Seja construtivo e específico, considerando os requisitos específicos do assignment."},
                     {"role": "user", "content": prompt}
                 ],
-                max_tokens=1500,
-                temperature=0.3
+                max_tokens=OPENAI_MAX_TOKENS,
+                temperature=OPENAI_TEMPERATURE
             )
             
             # Processa a resposta
