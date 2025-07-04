@@ -15,27 +15,25 @@ class VisualReportGenerator:
                              output_dir: Path) -> Path:
         """Gera relatório visual HTML com thumbnails organizados."""
         
-        # Organiza thumbnails por nota (decrescente)
+        # Organiza thumbnails por índice (ordem de geração)
         submissions_with_thumbnails = []
-        for submission in correction_report.submissions:
+        for i, submission in enumerate(correction_report.submissions):
             # Encontra thumbnail correspondente
             thumbnail = next((t for t in thumbnails if t.submission_identifier == 
                             (getattr(submission, 'github_login', None) or getattr(submission, 'group_name', None))), None)
             
             submissions_with_thumbnails.append({
                 'submission': submission,
-                'thumbnail': thumbnail
+                'thumbnail': thumbnail,
+                'index': i + 1
             })
-        
-        # Ordena por nota decrescente
-        submissions_with_thumbnails.sort(key=lambda x: x['submission'].final_score, reverse=True)
         
         # Calcula estatísticas dos thumbnails
         thumbnail_stats = self._calculate_thumbnail_stats(thumbnails)
         
         # Gera HTML
         html_content = self._build_visual_html(
-            assignment_name, turma_name, submissions_with_thumbnails, correction_report, thumbnail_stats
+            assignment_name, turma_name, submissions_with_thumbnails, thumbnail_stats
         )
         
         # Salva arquivo
@@ -60,7 +58,6 @@ class VisualReportGenerator:
     
     def _build_visual_html(self, assignment_name: str, turma_name: str,
                           submissions_with_thumbnails: List[dict],
-                          correction_report: CorrectionReport,
                           thumbnail_stats: dict) -> str:
         """Constrói o HTML do relatório visual."""
         
@@ -69,31 +66,7 @@ class VisualReportGenerator:
         for item in submissions_with_thumbnails:
             submission = item['submission']
             thumbnail = item['thumbnail']
-            
-            # Determina status baseado na nota
-            if submission.final_score >= 9.0:
-                status_class = "excellent"
-                status_icon = "🟢"
-                status_text = "Excelente"
-            elif submission.final_score >= 7.0:
-                status_class = "good"
-                status_icon = "🟡"
-                status_text = "Bom"
-            elif submission.final_score >= 6.0:
-                status_class = "pass"
-                status_icon = "🟠"
-                status_text = "Aprovado"
-            else:
-                status_class = "fail"
-                status_icon = "🔴"
-                status_text = "Reprovado"
-            
-            # Informações dos testes
-            test_info = "N/A"
-            if submission.test_results:
-                passed = sum(1 for test in submission.test_results if test.result.value == "passed")
-                total = len(submission.test_results)
-                test_info = f"{passed}/{total}"
+            index = item['index']
             
             # Status do thumbnail
             thumbnail_status = "❌ Erro"
@@ -112,24 +85,24 @@ class VisualReportGenerator:
             if thumbnail and thumbnail.streamlit_status == "success" and thumbnail.thumbnail_path.exists():
                 thumbnail_src = f"thumbnails/{thumbnail.thumbnail_path.name}"
                 thumbnail_alt = f"Dashboard de {submission.display_name}"
+                has_thumbnail = True
             else:
                 thumbnail_src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkRhc2hib2FyZCBuw6NvIGRpc3BvbsOtdmVsPC90ZXh0Pjwvc3ZnPg=="
                 thumbnail_alt = "Dashboard não disponível"
+                has_thumbnail = False
+            
+            # Evento de clique baseado na disponibilidade do thumbnail
+            click_event = f"showThumbnailModal('{thumbnail_src}', '{submission.display_name}', {index})" if has_thumbnail else ""
             
             thumbnails_html += f"""
-            <div class="thumbnail-card {status_class}">
+            <div class="thumbnail-card">
                 <div class="thumbnail-header">
-                    <h3>{submission.display_name}</h3>
-                    <div class="score-badge {status_class}">
-                        {status_icon} {submission.final_score:.1f}/10
-                    </div>
+                    <h3>#{index} - {submission.display_name}</h3>
                 </div>
                 <div class="thumbnail-image">
-                    <img src="{thumbnail_src}" alt="{thumbnail_alt}" onclick="showDetails('{submission.display_name}', {submission.final_score}, '{test_info}', '{status_text}', '{thumbnail_status}')">
+                    <img src="{thumbnail_src}" alt="{thumbnail_alt}" onclick="{click_event}" style="cursor: {'pointer' if has_thumbnail else 'default'}">
                 </div>
                 <div class="thumbnail-info">
-                    <div class="status">{status_icon} {status_text}</div>
-                    <div class="tests">🧪 {test_info}</div>
                     <div class="thumbnail-status {thumbnail_status_class}">{thumbnail_status}</div>
                 </div>
             </div>
@@ -227,7 +200,6 @@ class VisualReportGenerator:
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
         }}
         
         .thumbnail-card:hover {{
@@ -238,9 +210,6 @@ class VisualReportGenerator:
         .thumbnail-header {{
             padding: 20px;
             background: #f8f9fa;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             border-bottom: 1px solid #e9ecef;
         }}
         
@@ -248,33 +217,6 @@ class VisualReportGenerator:
             font-size: 1.1em;
             color: #495057;
             margin: 0;
-        }}
-        
-        .score-badge {{
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9em;
-        }}
-        
-        .score-badge.excellent {{
-            background: #d4edda;
-            color: #155724;
-        }}
-        
-        .score-badge.good {{
-            background: #d1ecf1;
-            color: #0c5460;
-        }}
-        
-        .score-badge.pass {{
-            background: #fff3cd;
-            color: #856404;
-        }}
-        
-        .score-badge.fail {{
-            background: #f8d7da;
-            color: #721c24;
         }}
         
         .thumbnail-image {{
@@ -297,12 +239,10 @@ class VisualReportGenerator:
             padding: 15px 20px;
             background: #f8f9fa;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             font-size: 0.9em;
             color: #6c757d;
-            flex-wrap: wrap;
-            gap: 10px;
         }}
         
         .thumbnail-status {{
@@ -327,7 +267,8 @@ class VisualReportGenerator:
             color: #856404;
         }}
         
-        .modal {{
+        /* Modal para visualizar thumbnail em tamanho maior */
+        .thumbnail-modal {{
             display: none;
             position: fixed;
             z-index: 1000;
@@ -335,61 +276,86 @@ class VisualReportGenerator:
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
         }}
         
-        .modal-content {{
-            background-color: white;
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 15px;
-            width: 80%;
-            max-width: 600px;
+        .thumbnail-modal-content {{
             position: relative;
+            margin: 2% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow: auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
         }}
         
-        .close {{
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }}
-        
-        .close:hover {{
-            color: #000;
-        }}
-        
-        .filters {{
-            padding: 20px 30px;
-            background: #f8f9fa;
+        .thumbnail-modal-header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 1px solid #e9ecef;
         }}
         
-        .filter-buttons {{
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+        .thumbnail-modal-header h2 {{
+            color: #495057;
+            font-size: 1.5em;
         }}
         
-        .filter-btn {{
-            padding: 8px 16px;
-            border: none;
-            border-radius: 20px;
-            background: #e9ecef;
-            color: #495057;
+        .thumbnail-modal-close {{
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
             cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
             transition: all 0.3s ease;
         }}
         
-        .filter-btn.active {{
-            background: #667eea;
-            color: white;
+        .thumbnail-modal-close:hover {{
+            color: #000;
+            background: #f8f9fa;
         }}
         
-        .filter-btn:hover {{
-            background: #5a6fd8;
-            color: white;
+        .thumbnail-modal-image {{
+            text-align: center;
+            margin-bottom: 20px;
+        }}
+        
+        .thumbnail-modal-image img {{
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }}
+        
+        .thumbnail-modal-info {{
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }}
+        
+        .thumbnail-modal-info h3 {{
+            color: #495057;
+            margin-bottom: 10px;
+        }}
+        
+        .thumbnail-modal-info p {{
+            color: #6c757d;
+            margin: 5px 0;
         }}
         
         @media (max-width: 768px) {{
@@ -402,9 +368,14 @@ class VisualReportGenerator:
                 grid-template-columns: repeat(2, 1fr);
             }}
             
-            .thumbnail-info {{
-                flex-direction: column;
-                align-items: flex-start;
+            .thumbnail-modal-content {{
+                width: 95%;
+                margin: 5% auto;
+                padding: 15px;
+            }}
+            
+            .thumbnail-modal-image img {{
+                max-height: 60vh;
             }}
         }}
     </style>
@@ -412,48 +383,29 @@ class VisualReportGenerator:
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Relatório Visual de Dashboards</h1>
+            <h1>🖼️ Painel de Thumbnails</h1>
             <p>Assignment: {assignment_name} | Turma: {turma_name}</p>
         </div>
         
         <div class="summary">
-            <h2>📈 Resumo Estatístico</h2>
+            <h2>📊 Estatísticas dos Thumbnails</h2>
             <div class="summary-grid">
                 <div class="summary-item">
-                    <h3>{correction_report.summary.get('total_submissions', 0)}</h3>
+                    <h3>{thumbnail_stats['total_thumbnails']}</h3>
                     <p>Total de Submissões</p>
                 </div>
                 <div class="summary-item">
-                    <h3>{correction_report.summary.get('average_score', 0):.1f}</h3>
-                    <p>Nota Média</p>
-                </div>
-                <div class="summary-item">
-                    <h3>{correction_report.summary.get('passing_rate', 0):.1%}</h3>
-                    <p>Taxa de Aprovação</p>
-                </div>
-                <div class="summary-item">
-                    <h3>{correction_report.summary.get('excellent_rate', 0):.1%}</h3>
-                    <p>Taxa de Excelência</p>
-                </div>
-                <div class="summary-item">
-                    <h3>{thumbnail_stats['successful_thumbnails']}/{thumbnail_stats['total_thumbnails']}</h3>
+                    <h3>{thumbnail_stats['successful_thumbnails']}</h3>
                     <p>Thumbnails Gerados</p>
                 </div>
                 <div class="summary-item">
-                    <h3>{thumbnail_stats['success_rate']:.1%}</h3>
-                    <p>Taxa de Sucesso Thumbnails</p>
+                    <h3>{thumbnail_stats['failed_thumbnails']}</h3>
+                    <p>Thumbnails com Erro</p>
                 </div>
-            </div>
-        </div>
-        
-        <div class="filters">
-            <h3>🔍 Filtros</h3>
-            <div class="filter-buttons">
-                <button class="filter-btn active" onclick="filterByScore('all')">Todos</button>
-                <button class="filter-btn" onclick="filterByScore('excellent')">Excelente (9+)</button>
-                <button class="filter-btn" onclick="filterByScore('good')">Bom (7-8.9)</button>
-                <button class="filter-btn" onclick="filterByScore('pass')">Aprovado (6-6.9)</button>
-                <button class="filter-btn" onclick="filterByScore('fail')">Reprovado (<6)</button>
+                <div class="summary-item">
+                    <h3>{thumbnail_stats['success_rate']:.1%}</h3>
+                    <p>Taxa de Sucesso</p>
+                </div>
             </div>
         </div>
         
@@ -462,73 +414,56 @@ class VisualReportGenerator:
         </div>
     </div>
     
-    <!-- Modal para detalhes -->
-    <div id="detailsModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="modalTitle"></h2>
-            <div id="modalContent"></div>
+    <!-- Modal para visualizar thumbnail em tamanho maior -->
+    <div id="thumbnailModal" class="thumbnail-modal">
+        <div class="thumbnail-modal-content">
+            <div class="thumbnail-modal-header">
+                <h2 id="modalTitle">Visualizar Thumbnail</h2>
+                <button class="thumbnail-modal-close" onclick="closeThumbnailModal()">&times;</button>
+            </div>
+            <div class="thumbnail-modal-image">
+                <img id="modalImage" src="" alt="Thumbnail em tamanho maior">
+            </div>
+            <div class="thumbnail-modal-info">
+                <h3 id="modalSubtitle">Informações</h3>
+                <p id="modalIndex"></p>
+                <p id="modalStatus"></p>
+            </div>
         </div>
     </div>
     
     <script>
-        function showDetails(name, score, tests, status, thumbnailStatus) {{
-            document.getElementById('modalTitle').textContent = name;
-            document.getElementById('modalContent').innerHTML = `
-                <p><strong>Nota:</strong> ${{score}}/10</p>
-                <p><strong>Status:</strong> ${{status}}</p>
-                <p><strong>Testes:</strong> ${{tests}}</p>
-                <p><strong>Thumbnail:</strong> ${{thumbnailStatus}}</p>
-            `;
-            document.getElementById('detailsModal').style.display = 'block';
+        function showThumbnailModal(imageSrc, submissionName, index) {{
+            document.getElementById('modalTitle').textContent = submissionName;
+            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('modalImage').alt = `Thumbnail de ${{submissionName}}`;
+            document.getElementById('modalSubtitle').textContent = submissionName;
+            document.getElementById('modalIndex').textContent = `Submissão #${{index}}`;
+            document.getElementById('modalStatus').textContent = '✅ Thumbnail gerado com sucesso';
+            
+            document.getElementById('thumbnailModal').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Previne scroll da página
         }}
         
-        function closeModal() {{
-            document.getElementById('detailsModal').style.display = 'none';
+        function closeThumbnailModal() {{
+            document.getElementById('thumbnailModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restaura scroll da página
         }}
         
-        function filterByScore(filter) {{
-            const cards = document.querySelectorAll('.thumbnail-card');
-            const buttons = document.querySelectorAll('.filter-btn');
-            
-            // Remove active class from all buttons
-            buttons.forEach(btn => btn.classList.remove('active'));
-            
-            // Add active class to clicked button
-            event.target.classList.add('active');
-            
-            cards.forEach(card => {{
-                const score = parseFloat(card.querySelector('.score-badge').textContent.split(' ')[1]);
-                let show = false;
-                
-                switch(filter) {{
-                    case 'excellent':
-                        show = score >= 9.0;
-                        break;
-                    case 'good':
-                        show = score >= 7.0 && score < 9.0;
-                        break;
-                    case 'pass':
-                        show = score >= 6.0 && score < 7.0;
-                        break;
-                    case 'fail':
-                        show = score < 6.0;
-                        break;
-                    default:
-                        show = true;
-                }}
-                
-                card.style.display = show ? 'block' : 'none';
-            }});
-        }}
-        
-        // Close modal when clicking outside
+        // Fecha modal ao clicar fora dele
         window.onclick = function(event) {{
-            const modal = document.getElementById('detailsModal');
+            const modal = document.getElementById('thumbnailModal');
             if (event.target == modal) {{
-                modal.style.display = 'none';
+                closeThumbnailModal();
             }}
         }}
+        
+        // Fecha modal com tecla ESC
+        document.addEventListener('keydown', function(event) {{
+            if (event.key === 'Escape') {{
+                closeThumbnailModal();
+            }}
+        }});
     </script>
 </body>
 </html>
