@@ -123,7 +123,8 @@ class CorrectionService:
                 submission.code_analysis = self.ai_analyzer.analyze_python_code(
                     submission.submission_path, 
                     assignment,
-                    submission.python_execution
+                    submission.python_execution,
+                    submission.test_results
                 )
             else:  # HTML
                 submission.html_analysis = self.ai_analyzer.analyze_html_code(

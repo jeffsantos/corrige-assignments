@@ -96,7 +96,12 @@ Por favor, analise o código considerando:
 1. Se o aluno seguiu a estrutura e requisitos específicos do assignment
 2. Se implementou corretamente as funcionalidades solicitadas
 3. Se manteve a qualidade do código (quando não fornecido no enunciado)
-4. Se adicionou valor além do que foi fornecido no enunciado"""
+4. Se adicionou valor além do que foi fornecido no enunciado
+
+- Penalize a nota e aponte como PROBLEMA se o código não mostrar nada no terminal, mesmo sem erro.
+- NÃO avalie se as tags HTML, classes CSS ou seletores usados no scraping estão "corretos" baseado no conhecimento sobre as páginas originais. Esses elementos podem mudar e não são critério de avaliação. O que importa é se o código funciona e produz o resultado esperado.
+
+"""
 
     def _get_default_html_prompt(self) -> str:
         """Template padrão para análise de código HTML."""
@@ -173,10 +178,15 @@ Por favor, analise o código considerando:
 1. Se o aluno seguiu a estrutura e requisitos específicos do assignment
 2. Se implementou corretamente os elementos HTML/CSS solicitados
 3. Se manteve a qualidade do código (quando não fornecido no enunciado)
-4. Se adicionou valor além do que foi fornecido no enunciado"""
+4. Se adicionou valor além do que foi fornecido no enunciado
+
+- Penalize a nota e aponte como PROBLEMA se o código não mostrar nada no terminal, mesmo sem erro.
+- NÃO avalie se as tags HTML, classes CSS ou seletores usados no scraping estão "corretos" baseado no conhecimento sobre as páginas originais. Esses elementos podem mudar e não são critério de avaliação. O que importa é se o código funciona e produz o resultado esperado.
+
+"""
 
     def get_assignment_prompt(self, assignment: Assignment, assignment_type: str, 
-                            student_code: str, assessment_criteria: str = "", python_execution: Optional[Any] = None) -> str:
+                            student_code: str, assessment_criteria: str = "", python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None) -> str:
         """Gera o prompt específico para um assignment."""
         
         # Tenta carregar prompt personalizado do assignment
@@ -184,10 +194,10 @@ Por favor, analise o código considerando:
         
         if custom_prompt:
             # Usa prompt personalizado
-            return self._format_custom_prompt(custom_prompt, assignment, student_code, python_execution)
+            return self._format_custom_prompt(custom_prompt, assignment, student_code, python_execution, test_results)
         else:
             # Usa template padrão
-            return self._format_default_prompt(assignment, assignment_type, student_code, assessment_criteria, python_execution)
+            return self._format_default_prompt(assignment, assignment_type, student_code, assessment_criteria, python_execution, test_results)
     
     def _load_custom_prompt(self, assignment_name: str) -> Optional[str]:
         """Carrega prompt personalizado do assignment se existir."""
@@ -211,7 +221,7 @@ Por favor, analise o código considerando:
         
         return None
     
-    def _format_custom_prompt(self, prompt_template: str, assignment: Assignment, student_code: str, python_execution: Optional[Any] = None) -> str:
+    def _format_custom_prompt(self, prompt_template: str, assignment: Assignment, student_code: str, python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None) -> str:
         """Formata prompt personalizado."""
         formatted_prompt = prompt_template.format(
             assignment_name=assignment.name,
@@ -239,10 +249,68 @@ Erros do terminal (stderr):
 """
             formatted_prompt += execution_info
         
+        # Adiciona informações sobre os resultados dos testes se disponível
+        if test_results:
+            test_info = f"""
+
+RESULTADO DOS TESTES:
+Total de testes: {len(test_results)}
+Testes que passaram: {sum(1 for test in test_results if test.result.value == 'passed')}
+Testes que falharam: {sum(1 for test in test_results if test.result.value == 'failed')}
+Testes com erro: {sum(1 for test in test_results if test.result.value == 'error')}
+
+Detalhes dos testes:\n"""
+            for test in test_results:
+                status_emoji = "✅" if test.result.value == 'passed' else "❌" if test.result.value == 'failed' else "⚠️"
+                test_info += f"{status_emoji} {test.test_name} ({test.result.value.upper()})"
+                if test.message:
+                    test_info += f" - {test.message}"
+                if hasattr(test, 'execution_time') and test.execution_time > 0:
+                    test_info += f" ({test.execution_time:.3f}s)"
+                test_info += "\n"
+            test_info += "\n"
+            formatted_prompt += test_info
+        # Adiciona instruções críticas sobre execução e testes se houver execução ou testes
+        if python_execution or test_results:
+            instructions = """
+
+=== INSTRUÇÕES CRÍTICAS SOBRE EXECUÇÃO E TESTES ===
+
+⚠️ **REGRA FUNDAMENTAL**: AVALIE APENAS O QUE O CÓDIGO FAZ, NÃO COMO ELE FAZ!
+- Sempre considere o resultado dos testes e da execução do código na sua avaliação.
+- O campo \"Output do terminal (stdout)\" deve mostrar algo relevante. Se estiver vazio, isso indica que o programa não produziu nenhuma saída, o que é um erro lógico para aplicações de terminal.
+- O campo \"Erros do terminal (stderr)\" deve estar vazio. Se houver mensagens aqui, o código apresentou erros de execução.
+- Se ambos os campos estiverem vazios, o código rodou sem erro, mas não produziu nenhuma saída — isso deve ser considerado um problema grave, pois toda aplicação de terminal deve exibir alguma informação ao usuário.
+- Penalize a nota e aponte como PROBLEMA se o código não mostrar nada no terminal, mesmo sem erro.
+
+🚫 **PROIBIDO AVALIAR**:
+- NÃO avalie se as tags HTML, classes CSS ou seletores usados no scraping estão "corretos" baseado no seu conhecimento sobre as páginas originais
+- NÃO critique seletores CSS específicos como "incorretos" 
+- NÃO sugira seletores "melhores" ou "mais corretos"
+- NÃO avalie se a estrutura HTML extraída corresponde ao que você espera da página original
+- NÃO sugira revisar, ajustar ou corrigir seletores CSS
+- Esses elementos podem mudar constantemente e NÃO são critério de avaliação
+
+⚠️ **IMPORTANTE**: Não repita o mesmo problema múltiplas vezes. Se um dado não foi extraído corretamente, mencione apenas UMA vez como problema.
+
+📊 **CALIBRAÇÃO DE NOTAS**:
+- Se o código roda, exibe output e passa nos testes, mas apenas UM campo específico não foi extraído corretamente, considere uma nota entre 7-8
+- Se múltiplos campos não foram extraídos ou o código não funciona, aplique penalização maior
+- Se o código funciona perfeitamente mas tem pequenos problemas de formatação, considere nota 9-10
+
+✅ **O QUE AVALIAR**:
+- Se o código roda sem erros
+- Se exibe output no terminal
+- Se passa nos testes automatizados
+
+**LEMBRE-SE**: O que importa é se o código FUNCIONA e produz RESULTADO, não como ele chega nesse resultado!
+
+"""
+            formatted_prompt += instructions
         return formatted_prompt
     
     def _format_default_prompt(self, assignment: Assignment, assignment_type: str, 
-                              student_code: str, assessment_criteria: str, python_execution: Optional[Any] = None) -> str:
+                              student_code: str, assessment_criteria: str, python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None) -> str:
         """Formata prompt usando template padrão."""
         
         # Lê README.md do enunciado
@@ -285,6 +353,64 @@ Erros do terminal (stderr):
 """
             formatted_prompt += execution_info
         
+        # Adiciona informações sobre os resultados dos testes se disponível
+        if test_results:
+            test_info = f"""
+
+RESULTADO DOS TESTES:
+Total de testes: {len(test_results)}
+Testes que passaram: {sum(1 for test in test_results if test.result.value == 'passed')}
+Testes que falharam: {sum(1 for test in test_results if test.result.value == 'failed')}
+Testes com erro: {sum(1 for test in test_results if test.result.value == 'error')}
+
+Detalhes dos testes:\n"""
+            for test in test_results:
+                status_emoji = "✅" if test.result.value == 'passed' else "❌" if test.result.value == 'failed' else "⚠️"
+                test_info += f"{status_emoji} {test.test_name} ({test.result.value.upper()})"
+                if test.message:
+                    test_info += f" - {test.message}"
+                if hasattr(test, 'execution_time') and test.execution_time > 0:
+                    test_info += f" ({test.execution_time:.3f}s)"
+                test_info += "\n"
+            test_info += "\n"
+            formatted_prompt += test_info
+        # Adiciona instruções críticas sobre execução e testes se houver execução ou testes
+        if python_execution or test_results:
+            instructions = """
+
+=== INSTRUÇÕES CRÍTICAS SOBRE EXECUÇÃO E TESTES ===
+
+⚠️ **REGRA FUNDAMENTAL**: AVALIE APENAS O QUE O CÓDIGO FAZ, NÃO COMO ELE FAZ!
+- Sempre considere o resultado dos testes e da execução do código na sua avaliação.
+- O campo \"Output do terminal (stdout)\" deve mostrar algo relevante. Se estiver vazio, isso indica que o programa não produziu nenhuma saída, o que é um erro lógico para aplicações de terminal.
+- O campo \"Erros do terminal (stderr)\" deve estar vazio. Se houver mensagens aqui, o código apresentou erros de execução.
+- Se ambos os campos estiverem vazios, o código rodou sem erro, mas não produziu nenhuma saída — isso deve ser considerado um problema grave, pois toda aplicação de terminal deve exibir alguma informação ao usuário.
+- Penalize a nota e aponte como PROBLEMA se o código não mostrar nada no terminal, mesmo sem erro.
+
+🚫 **PROIBIDO AVALIAR**:
+- NÃO avalie se as tags HTML, classes CSS ou seletores usados no scraping estão "corretos" baseado no seu conhecimento sobre as páginas originais
+- NÃO critique seletores CSS específicos como "incorretos" 
+- NÃO sugira seletores "melhores" ou "mais corretos"
+- NÃO avalie se a estrutura HTML extraída corresponde ao que você espera da página original
+- NÃO sugira revisar, ajustar ou corrigir seletores CSS
+- Esses elementos podem mudar constantemente e NÃO são critério de avaliação
+
+⚠️ **IMPORTANTE**: Não repita o mesmo problema múltiplas vezes. Se um dado não foi extraído corretamente, mencione apenas UMA vez como problema.
+
+📊 **CALIBRAÇÃO DE NOTAS**:
+- Se o código roda, exibe output e passa nos testes, mas apenas UM campo específico não foi extraído corretamente, considere uma nota entre 7-8
+- Se múltiplos campos não foram extraídos ou o código não funciona, aplique penalização maior
+- Se o código funciona perfeitamente mas tem pequenos problemas de formatação, considere nota 9-10
+
+✅ **O QUE AVALIAR**:
+- Se o código roda sem erros
+- Se exibe output no terminal
+- Se passa nos testes automatizados
+
+**LEMBRE-SE**: O que importa é se o código FUNCIONA e produz RESULTADO, não como ele chega nesse resultado!
+
+"""
+            formatted_prompt += instructions
         return formatted_prompt
     
     def _read_assignment_readme(self, assignment_name: str) -> str:

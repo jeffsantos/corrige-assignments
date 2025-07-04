@@ -108,7 +108,7 @@ class AIAnalyzer:
         except Exception as e:
             print(f"⚠️  Erro ao salvar log: {e}")
     
-    def analyze_python_code(self, submission_path: Path, assignment: Assignment, python_execution: Optional[Any] = None) -> CodeAnalysis:
+    def analyze_python_code(self, submission_path: Path, assignment: Assignment, python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None) -> CodeAnalysis:
         """Analisa código Python usando IA com prompt específico do assignment."""
         if not self.ai_available:
             return self._analyze_python_code_basic(submission_path, assignment)
@@ -130,11 +130,12 @@ class AIAnalyzer:
                 assignment=assignment,
                 assignment_type="python",
                 student_code=self._format_python_files(python_files),
-                python_execution=python_execution
+                python_execution=python_execution,
+                test_results=test_results
             )
         else:
             # Fallback para prompt genérico
-            prompt = self._build_python_analysis_prompt(python_files, assignment, python_execution)
+            prompt = self._build_python_analysis_prompt(python_files, assignment, python_execution, test_results)
         
         try:
             # Chama a API do OpenAI
@@ -404,7 +405,7 @@ class AIAnalyzer:
         
         return css_files
     
-    def _build_python_analysis_prompt(self, python_files: Dict[str, str], assignment: Assignment, python_execution: Optional[Any] = None) -> str:
+    def _build_python_analysis_prompt(self, python_files: Dict[str, str], assignment: Assignment, python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None) -> str:
         """Constrói o prompt para análise de código Python."""
         # Lê código do enunciado se disponível
         enunciado_code = self._read_enunciado_code(assignment.name)
@@ -444,7 +445,60 @@ Erros do terminal (stderr):
 
 """
         
+        # Adiciona informações sobre os resultados dos testes se disponível
+        if test_results:
+            prompt += f"""
+
+RESULTADO DOS TESTES:
+Total de testes: {len(test_results)}
+Testes que passaram: {sum(1 for test in test_results if test.result.value == 'passed')}
+Testes que falharam: {sum(1 for test in test_results if test.result.value == 'failed')}
+Testes com erro: {sum(1 for test in test_results if test.result.value == 'error')}
+
+Detalhes dos testes:
+"""
+            for test in test_results:
+                status_emoji = "✅" if test.result.value == 'passed' else "❌" if test.result.value == 'failed' else "⚠️"
+                prompt += f"{status_emoji} {test.test_name} ({test.result.value.upper()})"
+                if test.message:
+                    prompt += f" - {test.message}"
+                if test.execution_time > 0:
+                    prompt += f" ({test.execution_time:.3f}s)"
+                prompt += "\n"
+            
+            prompt += "\n"
+        
+        # Adiciona instruções críticas sobre execução e testes
         prompt += """
+=== INSTRUÇÕES CRÍTICAS SOBRE EXECUÇÃO E TESTES ===
+
+⚠️ **REGRA FUNDAMENTAL**: AVALIE APENAS O QUE O CÓDIGO FAZ, NÃO COMO ELE FAZ!
+- Sempre considere o resultado dos testes e da execução do código na sua avaliação.
+- O campo "Output do terminal (stdout)" deve mostrar algo relevante. Se estiver vazio, isso indica que o programa não produziu nenhuma saída, o que é um erro lógico para aplicações de terminal.
+- O campo "Erros do terminal (stderr)" deve estar vazio. Se houver mensagens aqui, o código apresentou erros de execução.
+- Se ambos os campos estiverem vazios, o código rodou sem erro, mas não produziu nenhuma saída — isso deve ser considerado um problema grave, pois toda aplicação de terminal deve exibir alguma informação ao usuário.
+- Penalize a nota e aponte como PROBLEMA se o código não mostrar nada no terminal, mesmo sem erro.
+
+🚫 **PROIBIDO AVALIAR**:
+- NÃO avalie se as tags HTML, classes CSS ou seletores usados no scraping estão "corretos" baseado no seu conhecimento sobre as páginas originais
+- NÃO critique seletores CSS específicos como "incorretos" 
+- NÃO sugira seletores "melhores" ou "mais corretos"
+- NÃO avalie se a estrutura HTML extraída corresponde ao que você espera da página original
+- NÃO sugira revisar, ajustar ou corrigir seletores CSS
+- Esses elementos podem mudar constantemente e NÃO são critério de avaliação
+
+⚠️ **IMPORTANTE**: Não repita o mesmo problema múltiplas vezes. Se um dado não foi extraído corretamente, mencione apenas UMA vez como problema.
+
+📊 **CALIBRAÇÃO DE NOTAS**:
+- Se o código roda, exibe output e passa nos testes, mas apenas UM campo específico não foi extraído corretamente, considere uma nota entre 7-8
+- Se múltiplos campos não foram extraídos ou o código não funciona, aplique penalização maior
+- Se o código funciona perfeitamente mas tem pequenos problemas de formatação, considere nota 9-10
+- Se o código roda sem erros
+- Se exibe output no terminal
+- Se passa nos testes automatizados
+
+**LEMBRE-SE**: O que importa é se o código FUNCIONA e produz RESULTADO, não como ele chega nesse resultado!
+
 === CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO ===
 
 **DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES:**
