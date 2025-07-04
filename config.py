@@ -53,6 +53,13 @@ ASSIGNMENTS_WITH_THUMBNAILS = {
     "prog1-tarefa-html-tutorial": "html",
 }
 
+# Configuração de assignments Python que devem ter execução de código
+ASSIGNMENTS_WITH_PYTHON_EXECUTION = {
+    # Assignments Python de terminal (não-Streamlit)
+    "prog1-tarefa-scrap-simples": True,
+    "prog1-tarefa-scrap-yahoo": True,
+}
+
 def get_assignment_submission_type(assignment_name: str) -> SubmissionType:
     """
     Retorna o tipo de submissão para um assignment específico.
@@ -105,4 +112,16 @@ def assignment_has_thumbnails(assignment_name: str) -> bool:
     Returns:
         True se o assignment gerar thumbnails, False caso contrário
     """
-    return assignment_name in ASSIGNMENTS_WITH_THUMBNAILS 
+    return assignment_name in ASSIGNMENTS_WITH_THUMBNAILS
+
+def assignment_has_python_execution(assignment_name: str) -> bool:
+    """
+    Verifica se um assignment deve ter execução de código Python.
+    
+    Args:
+        assignment_name: Nome do assignment
+        
+    Returns:
+        True se o assignment deve ter execução Python, False caso contrário
+    """
+    return assignment_name in ASSIGNMENTS_WITH_PYTHON_EXECUTION 

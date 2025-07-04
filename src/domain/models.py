@@ -60,6 +60,20 @@ class HTMLAnalysis:
 
 
 @dataclass
+class PythonExecutionResult:
+    """Resultado da execução de código Python de terminal."""
+    submission_identifier: str
+    display_name: str
+    execution_timestamp: str
+    execution_status: str  # "success", "error", "timeout"
+    stdout_output: str
+    stderr_output: str
+    return_code: int
+    execution_time: float
+    error_message: Optional[str] = None
+
+
+@dataclass
 class IndividualSubmission:
     """Submissão individual de um aluno."""
     github_login: str  # Login do aluno no GitHub
@@ -70,6 +84,7 @@ class IndividualSubmission:
     test_results: List[AssignmentTestExecution] = field(default_factory=list)
     code_analysis: Optional[CodeAnalysis] = None
     html_analysis: Optional[HTMLAnalysis] = None
+    python_execution: Optional[PythonExecutionResult] = None
     final_score: float = 0.0
     feedback: str = ""
     
@@ -90,6 +105,7 @@ class GroupSubmission:
     test_results: List[AssignmentTestExecution] = field(default_factory=list)
     code_analysis: Optional[CodeAnalysis] = None
     html_analysis: Optional[HTMLAnalysis] = None
+    python_execution: Optional[PythonExecutionResult] = None
     final_score: float = 0.0
     feedback: str = ""
     
@@ -188,6 +204,14 @@ class CorrectionReport:
                         "suggestions": sub.code_analysis.suggestions,
                         "issues_found": sub.code_analysis.issues_found
                     } if sub.code_analysis else None,
+                    "python_execution": {
+                        "execution_status": sub.python_execution.execution_status,
+                        "execution_time": sub.python_execution.execution_time,
+                        "return_code": sub.python_execution.return_code,
+                        "stdout_output": sub.python_execution.stdout_output,
+                        "stderr_output": sub.python_execution.stderr_output,
+                        "error_message": sub.python_execution.error_message
+                    } if sub.python_execution else None,
                     "html_analysis": {
                         "score": sub.html_analysis.score,
                         "score_justification": sub.html_analysis.score_justification,

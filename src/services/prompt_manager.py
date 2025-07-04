@@ -3,7 +3,7 @@ Gerenciador de prompts específicos por assignment.
 """
 import os
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 from ..domain.models import Assignment
 
 
@@ -176,7 +176,7 @@ Por favor, analise o código considerando:
 4. Se adicionou valor além do que foi fornecido no enunciado"""
 
     def get_assignment_prompt(self, assignment: Assignment, assignment_type: str, 
-                            student_code: str, assessment_criteria: str = "") -> str:
+                            student_code: str, assessment_criteria: str = "", python_execution: Optional[Any] = None) -> str:
         """Gera o prompt específico para um assignment."""
         
         # Tenta carregar prompt personalizado do assignment
@@ -184,10 +184,10 @@ Por favor, analise o código considerando:
         
         if custom_prompt:
             # Usa prompt personalizado
-            return self._format_custom_prompt(custom_prompt, assignment, student_code)
+            return self._format_custom_prompt(custom_prompt, assignment, student_code, python_execution)
         else:
             # Usa template padrão
-            return self._format_default_prompt(assignment, assignment_type, student_code, assessment_criteria)
+            return self._format_default_prompt(assignment, assignment_type, student_code, assessment_criteria, python_execution)
     
     def _load_custom_prompt(self, assignment_name: str) -> Optional[str]:
         """Carrega prompt personalizado do assignment se existir."""
@@ -211,18 +211,38 @@ Por favor, analise o código considerando:
         
         return None
     
-    def _format_custom_prompt(self, prompt_template: str, assignment: Assignment, student_code: str) -> str:
+    def _format_custom_prompt(self, prompt_template: str, assignment: Assignment, student_code: str, python_execution: Optional[Any] = None) -> str:
         """Formata prompt personalizado."""
-        return prompt_template.format(
+        formatted_prompt = prompt_template.format(
             assignment_name=assignment.name,
             assignment_description=assignment.description,
             assignment_requirements="\n".join(f"- {req}" for req in assignment.requirements),
             enunciado_code=self._read_enunciado_code(assignment.name),
             student_code=student_code
         )
+        
+        # Adiciona informações sobre a execução do código se disponível
+        if python_execution:
+            execution_info = f"""
+
+RESULTADO DA EXECUÇÃO DO CÓDIGO:
+Status: {python_execution.execution_status}
+Tempo de execução: {python_execution.execution_time:.2f} segundos
+Código de retorno: {python_execution.return_code}
+
+Output do terminal (stdout):
+{python_execution.stdout_output}
+
+Erros do terminal (stderr):
+{python_execution.stderr_output}
+
+"""
+            formatted_prompt += execution_info
+        
+        return formatted_prompt
     
     def _format_default_prompt(self, assignment: Assignment, assignment_type: str, 
-                              student_code: str, assessment_criteria: str) -> str:
+                              student_code: str, assessment_criteria: str, python_execution: Optional[Any] = None) -> str:
         """Formata prompt usando template padrão."""
         
         # Lê README.md do enunciado
@@ -236,7 +256,7 @@ Por favor, analise o código considerando:
         
         template = self.prompt_templates.get(assignment_type, self.prompt_templates["python"])
         
-        return template.format(
+        formatted_prompt = template.format(
             assignment_name=assignment.name,
             assignment_description=assignment.description,
             assignment_requirements="\n".join(f"- {req}" for req in assignment.requirements),
@@ -246,6 +266,26 @@ Por favor, analise o código considerando:
             student_code=student_code,
             assessment_criteria=assessment_criteria or "Avalie se o aluno seguiu corretamente os requisitos e estrutura especificados."
         )
+        
+        # Adiciona informações sobre a execução do código se disponível
+        if python_execution:
+            execution_info = f"""
+
+RESULTADO DA EXECUÇÃO DO CÓDIGO:
+Status: {python_execution.execution_status}
+Tempo de execução: {python_execution.execution_time:.2f} segundos
+Código de retorno: {python_execution.return_code}
+
+Output do terminal (stdout):
+{python_execution.stdout_output}
+
+Erros do terminal (stderr):
+{python_execution.stderr_output}
+
+"""
+            formatted_prompt += execution_info
+        
+        return formatted_prompt
     
     def _read_assignment_readme(self, assignment_name: str) -> str:
         """Lê o README.md do enunciado do assignment."""

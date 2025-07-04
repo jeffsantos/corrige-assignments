@@ -14,6 +14,7 @@ from .test_executor import PytestExecutor
 from .ai_analyzer import AIAnalyzer
 from .streamlit_thumbnail_service import StreamlitThumbnailService
 from .html_thumbnail_service import HTMLThumbnailService
+from .python_execution_service import PythonExecutionService
 
 
 class CorrectionService:
@@ -26,6 +27,7 @@ class CorrectionService:
         self.ai_analyzer = AIAnalyzer(openai_api_key, enunciados_path, logs_path)
         self.streamlit_thumbnail_service = StreamlitThumbnailService(verbose=verbose)
         self.html_thumbnail_service = HTMLThumbnailService(verbose=verbose)
+        self.python_execution_service = PythonExecutionService(verbose=verbose)
     
     def correct_assignment(self, assignment_name: str, turma_name: str, 
                           submission_identifier: Optional[str] = None) -> CorrectionReport:
@@ -104,11 +106,24 @@ class CorrectionService:
             submission.test_results = []
         
         try:
+            # Executa código Python se for assignment Python de terminal
+            if assignment.type == AssignmentType.PYTHON:
+                from config import assignment_has_python_execution
+                if assignment_has_python_execution(assignment.name):
+                    submission.python_execution = self.python_execution_service._execute_submission_python(
+                        submission, assignment.name, submission.turma
+                    )
+        except Exception as e:
+            print(f"  ⚠️  Erro na execução Python para {submission.display_name}: {e}")
+            submission.python_execution = None
+        
+        try:
             # Analisa código usando IA
             if assignment.type == AssignmentType.PYTHON:
                 submission.code_analysis = self.ai_analyzer.analyze_python_code(
                     submission.submission_path, 
-                    assignment
+                    assignment,
+                    submission.python_execution
                 )
             else:  # HTML
                 submission.html_analysis = self.ai_analyzer.analyze_html_code(
@@ -183,6 +198,17 @@ class CorrectionService:
         # Feedback da análise de IA - Padronizado para usar JUSTIFICATIVA e PROBLEMAS
         if assignment.type == AssignmentType.PYTHON and submission.code_analysis:
             feedback_parts.append(f"Análise de código: {submission.code_analysis.score:.1f}/10")
+            
+            # Adiciona informações sobre execução Python se disponível
+            if submission.python_execution:
+                feedback_parts.append(f"Execução Python: {submission.python_execution.execution_status}")
+                if submission.python_execution.execution_status == "success":
+                    feedback_parts.append(f"- Tempo: {submission.python_execution.execution_time:.2f}s")
+                    feedback_parts.append(f"- Código de retorno: {submission.python_execution.return_code}")
+                    if submission.python_execution.stdout_output.strip():
+                        feedback_parts.append(f"- Output: {submission.python_execution.stdout_output.strip()[:100]}...")
+                else:
+                    feedback_parts.append(f"- Erro: {submission.python_execution.error_message}")
             
             # Adiciona JUSTIFICATIVA se disponível
             if submission.code_analysis.score_justification:

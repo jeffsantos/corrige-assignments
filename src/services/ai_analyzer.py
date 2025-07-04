@@ -5,7 +5,7 @@ import os
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from openai import OpenAI
 from ..domain.models import CodeAnalysis, HTMLAnalysis, Assignment
 from .prompt_manager import PromptManager
@@ -108,7 +108,7 @@ class AIAnalyzer:
         except Exception as e:
             print(f"⚠️  Erro ao salvar log: {e}")
     
-    def analyze_python_code(self, submission_path: Path, assignment: Assignment) -> CodeAnalysis:
+    def analyze_python_code(self, submission_path: Path, assignment: Assignment, python_execution: Optional[Any] = None) -> CodeAnalysis:
         """Analisa código Python usando IA com prompt específico do assignment."""
         if not self.ai_available:
             return self._analyze_python_code_basic(submission_path, assignment)
@@ -129,11 +129,12 @@ class AIAnalyzer:
             prompt = self.prompt_manager.get_assignment_prompt(
                 assignment=assignment,
                 assignment_type="python",
-                student_code=self._format_python_files(python_files)
+                student_code=self._format_python_files(python_files),
+                python_execution=python_execution
             )
         else:
             # Fallback para prompt genérico
-            prompt = self._build_python_analysis_prompt(python_files, assignment)
+            prompt = self._build_python_analysis_prompt(python_files, assignment, python_execution)
         
         try:
             # Chama a API do OpenAI
@@ -403,7 +404,7 @@ class AIAnalyzer:
         
         return css_files
     
-    def _build_python_analysis_prompt(self, python_files: Dict[str, str], assignment: Assignment) -> str:
+    def _build_python_analysis_prompt(self, python_files: Dict[str, str], assignment: Assignment, python_execution: Optional[Any] = None) -> str:
         """Constrói o prompt para análise de código Python."""
         # Lê código do enunciado se disponível
         enunciado_code = self._read_enunciado_code(assignment.name)
@@ -425,6 +426,23 @@ CÓDIGO DO ALUNO:
         
         for filename, content in python_files.items():
             prompt += f"\n--- {filename} ---\n{content}\n"
+        
+        # Adiciona informações sobre a execução do código se disponível
+        if python_execution:
+            prompt += f"""
+
+RESULTADO DA EXECUÇÃO DO CÓDIGO:
+Status: {python_execution.execution_status}
+Tempo de execução: {python_execution.execution_time:.2f} segundos
+Código de retorno: {python_execution.return_code}
+
+Output do terminal (stdout):
+{python_execution.stdout_output}
+
+Erros do terminal (stderr):
+{python_execution.stderr_output}
+
+"""
         
         prompt += """
 === CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO ===
