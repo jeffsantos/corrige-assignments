@@ -281,6 +281,21 @@ class CorrectionReport:
                     )
                     submission.test_results.append(test_result)
                 
+                # Reconstrói execução Python se existir
+                if sub_data.get('python_execution'):
+                    python_execution = PythonExecutionResult(
+                        submission_identifier=sub_data['identifier'],
+                        display_name=sub_data['display_name'],
+                        execution_status=sub_data['python_execution']['execution_status'],
+                        execution_time=sub_data['python_execution']['execution_time'],
+                        return_code=sub_data['python_execution']['return_code'],
+                        stdout_output=sub_data['python_execution']['stdout_output'],
+                        stderr_output=sub_data['python_execution']['stderr_output'],
+                        execution_timestamp=sub_data['python_execution'].get('execution_timestamp', ''),
+                        error_message=sub_data['python_execution'].get('error_message')
+                    )
+                    submission.python_execution = python_execution
+                
                 submissions.append(submission)
             
             else:  # group submission
@@ -324,6 +339,21 @@ class CorrectionReport:
                         message=test_data.get('message', '')
                     )
                     submission.test_results.append(test_result)
+                
+                # Reconstrói execução Python se existir
+                if sub_data.get('python_execution'):
+                    python_execution = PythonExecutionResult(
+                        submission_identifier=sub_data['identifier'],
+                        display_name=sub_data['display_name'],
+                        execution_status=sub_data['python_execution']['execution_status'],
+                        execution_time=sub_data['python_execution']['execution_time'],
+                        return_code=sub_data['python_execution']['return_code'],
+                        stdout_output=sub_data['python_execution']['stdout_output'],
+                        stderr_output=sub_data['python_execution']['stderr_output'],
+                        execution_timestamp=sub_data['python_execution'].get('execution_timestamp', ''),
+                        error_message=sub_data['python_execution'].get('error_message')
+                    )
+                    submission.python_execution = python_execution
                 
                 submissions.append(submission)
         
