@@ -15,6 +15,7 @@ from .ai_analyzer import AIAnalyzer
 from .streamlit_thumbnail_service import StreamlitThumbnailService
 from .html_thumbnail_service import HTMLThumbnailService
 from .python_execution_service import PythonExecutionService
+from .interactive_execution_service import InteractiveExecutionService
 
 
 class CorrectionService:
@@ -28,6 +29,7 @@ class CorrectionService:
         self.streamlit_thumbnail_service = StreamlitThumbnailService(verbose=verbose)
         self.html_thumbnail_service = HTMLThumbnailService(verbose=verbose)
         self.python_execution_service = PythonExecutionService(verbose=verbose)
+        self.interactive_execution_service = InteractiveExecutionService(verbose=verbose)
     
     def correct_assignment(self, assignment_name: str, turma_name: str, 
                           submission_identifier: Optional[str] = None) -> CorrectionReport:
@@ -109,7 +111,14 @@ class CorrectionService:
             # Executa código Python se for assignment Python de terminal
             if assignment.type == AssignmentType.PYTHON:
                 from config import assignment_has_python_execution
-                if assignment_has_python_execution(assignment.name):
+                
+                # Verifica se é um assignment interativo
+                if assignment.name == "prog1-tarefa-scrap-yahoo":
+                    print(f"  🔄 Executando programa interativo para {submission.display_name}...")
+                    submission.python_execution = self.interactive_execution_service.execute_interactive_program(
+                        assignment.name, submission.submission_path
+                    )
+                elif assignment_has_python_execution(assignment.name):
                     submission.python_execution = self.python_execution_service._execute_submission_python(
                         submission, assignment.name, submission.turma
                     )
