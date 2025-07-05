@@ -303,6 +303,23 @@ def run_example():
     # Comentar para não executar automaticamente
     # cli(["correct-all-with-visual", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
     
+    # Exemplo 18: Relatório visual de execução Python
+    print("\n📝 Exemplo 18: Relatório Visual de Execução Python")
+    print("-" * 50)
+    print("Assignment: prog1-tarefa-scrap-yahoo")
+    print("Características:")
+    print("  • Gera relatório visual da execução de programas Python")
+    print("  • Exibe saídas STDOUT e STDERR de cada submissão")
+    print("  • Mostra estatísticas de execução (tempo, código de retorno)")
+    print("  • Interface HTML responsiva e organizada")
+    print("  • Suporte a assignments interativos")
+    print("  • Formatação preservada da saída do programa")
+    print("  • Truncamento inteligente para saídas longas")
+    print("  • Indicadores visuais de status (sucesso, erro, parcial)")
+    
+    # Comentar para não executar automaticamente
+    # cli(["generate-execution-visual-report", "--assignment", "prog1-tarefa-scrap-yahoo", "--turma", "ebape-prog-aplic-barra-2025"])
+    
     print("\n✅ Exemplos demonstrados!")
     print("\n💡 Para executar os exemplos, descomente as linhas correspondentes no código.")
     print("💡 Para mais opções, execute: python -m src.main --help")

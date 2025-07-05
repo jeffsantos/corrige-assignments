@@ -9,6 +9,7 @@ from src.services.prompt_manager import PromptManager
 from src.services.test_executor import PytestExecutor
 from src.services.ai_analyzer import AIAnalyzer
 from src.services.correction_service import CorrectionService
+from src.services.python_execution_visual_service import PythonExecutionVisualService
 from src.repositories.assignment_repository import AssignmentRepository
 from src.repositories.submission_repository import SubmissionRepository
 from src.domain.models import (
@@ -1501,5 +1502,182 @@ class TestHTMLThumbnails:
             assert "index.html não encontrado" in results[0].error_message
             assert results[0].submission_identifier == "test_user"
             assert results[0].display_name == "test_user (individual)"
+
+
+class TestPythonExecutionVisualService:
+    """Testes para PythonExecutionVisualService."""
+    
+    def setup_method(self):
+        """Configuração para cada teste."""
+        self.service = PythonExecutionVisualService(verbose=False)
+        self.temp_dir = Path("tests/temp")
+        self.temp_dir.mkdir(exist_ok=True)
+    
+    def teardown_method(self):
+        """Limpeza após cada teste."""
+        # Remove arquivos temporários
+        for file in self.temp_dir.glob("*"):
+            if file.is_file():
+                file.unlink()
+        if self.temp_dir.exists():
+            self.temp_dir.rmdir()
+    
+    def test_generate_execution_visual_report_success(self):
+        """Testa geração bem-sucedida de relatório visual."""
+        from src.domain.models import PythonExecutionResult
+        from datetime import datetime
+        
+        # Cria submissões de teste
+        submissions = []
+        for i in range(2):
+            submission = Mock(spec=IndividualSubmission)
+            submission.display_name = f"aluno-{i+1}"
+            submission.github_login = f"aluno{i+1}"
+            
+            # Cria execução Python de teste
+            execution = PythonExecutionResult(
+                submission_identifier=f"aluno{i+1}",
+                display_name=f"aluno-{i+1}",
+                execution_status="success" if i == 0 else "error",
+                stdout_output=f"Saída padrão do aluno {i+1}\nLinha 2\nLinha 3",
+                stderr_output=f"Erro do aluno {i+1}" if i == 1 else "",
+                execution_time=1.5 + i,
+                return_code=0 if i == 0 else 1,
+                execution_timestamp=datetime.now().isoformat()
+            )
+            submission.python_execution = execution
+            submissions.append(submission)
+        
+        # Gera relatório
+        result_path = self.service.generate_execution_visual_report(
+            "test-assignment", "test-turma", submissions, self.temp_dir
+        )
+        
+        # Verifica se o arquivo foi criado
+        assert result_path.exists()
+        assert result_path.name == "test-assignment_test-turma_execution_visual.html"
+        
+        # Verifica conteúdo do HTML
+        content = result_path.read_text(encoding='utf-8')
+        assert "Relatório Visual de Execução Python" in content
+        assert "test-assignment" in content
+        assert "test-turma" in content
+        assert "aluno-1" in content
+        assert "aluno-2" in content
+        assert "Saída padrão do aluno 1" in content
+        assert "Erro do aluno 2" in content
+    
+    def test_generate_execution_visual_report_no_executions(self):
+        """Testa erro quando não há execuções Python."""
+        # Cria submissões sem execução Python
+        submissions = []
+        for i in range(2):
+            submission = Mock(spec=IndividualSubmission)
+            submission.display_name = f"aluno-{i+1}"
+            submission.python_execution = None
+            submissions.append(submission)
+        
+        # Deve gerar erro
+        with pytest.raises(ValueError, match="Nenhuma submissão com execução Python encontrada"):
+            self.service.generate_execution_visual_report(
+                "test-assignment", "test-turma", submissions, self.temp_dir
+            )
+    
+    def test_calculate_execution_stats(self):
+        """Testa cálculo de estatísticas de execução."""
+        # Cria dados de teste
+        submissions_with_execution = []
+        for i in range(3):
+            execution = Mock()
+            if i == 0:
+                execution.execution_status = "success"
+                execution.execution_time = 1.0
+            elif i == 1:
+                execution.execution_status = "partial_success"
+                execution.execution_time = 2.0
+            else:
+                execution.execution_status = "error"
+                execution.execution_time = 3.0
+            
+            submissions_with_execution.append({'execution': execution})
+        
+        # Calcula estatísticas
+        stats = self.service._calculate_execution_stats(submissions_with_execution)
+        
+        # Verifica resultados
+        assert stats['total_executions'] == 3
+        assert stats['successful_executions'] == 1
+        assert stats['partial_executions'] == 1
+        assert stats['failed_executions'] == 1
+        assert stats['success_rate'] == 1/3
+        assert stats['avg_execution_time'] == 2.0
+    
+    def test_format_output_for_display(self):
+        """Testa formatação de saída para exibição."""
+        # Teste com saída normal
+        output = "Linha 1\nLinha 2\nLinha 3"
+        formatted = self.service._format_output_for_display(output)
+        assert formatted == "Linha 1\nLinha 2\nLinha 3"
+        
+        # Teste com saída vazia
+        formatted = self.service._format_output_for_display("")
+        assert formatted == "Nenhuma saída"
+        
+        # Teste com saída muito longa (deve truncar)
+        long_output = "x" * 3000
+        formatted = self.service._format_output_for_display(long_output)
+        assert len(formatted) < 2100  # Deve ser truncado
+        assert "... (saída truncada)" in formatted
+        
+        # Teste com caracteres especiais (deve escapar HTML)
+        special_output = "<script>alert('test')</script>"
+        formatted = self.service._format_output_for_display(special_output)
+        assert "&lt;script&gt;" in formatted
+        assert "&lt;/script&gt;" in formatted
+    
+    def test_build_execution_visual_html(self):
+        """Testa construção do HTML do relatório visual."""
+        # Cria dados de teste
+        submissions_with_execution = []
+        for i in range(1):
+            submission = Mock()
+            submission.display_name = f"aluno-{i+1}"
+            
+            execution = Mock()
+            execution.execution_status = "success"
+            execution.stdout_output = "Saída teste"
+            execution.stderr_output = ""
+            execution.execution_time = 1.5
+            execution.return_code = 0
+            execution.execution_timestamp = "2025-01-15T10:30:00"
+            
+            submissions_with_execution.append({
+                'submission': submission,
+                'execution': execution,
+                'index': 1
+            })
+        
+        execution_stats = {
+            'total_executions': 1,
+            'successful_executions': 1,
+            'partial_executions': 0,
+            'failed_executions': 0,
+            'success_rate': 1.0,
+            'avg_execution_time': 1.5
+        }
+        
+        # Gera HTML
+        html = self.service._build_execution_visual_html(
+            "test-assignment", "test-turma", submissions_with_execution, execution_stats
+        )
+        
+        # Verifica elementos do HTML
+        assert "Relatório Visual de Execução Python" in html
+        assert "test-assignment" in html
+        assert "test-turma" in html
+        assert "aluno-1" in html
+        assert "Saída teste" in html
+        assert "1.50s" in html
+        assert "100.0%" in html  # Taxa de sucesso
 
 

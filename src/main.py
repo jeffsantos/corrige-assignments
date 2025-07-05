@@ -15,6 +15,7 @@ from rich.progress import Progress, SpinnerColumn, TextColumn
 from .services.correction_service import CorrectionService
 from .services.streamlit_thumbnail_service import StreamlitThumbnailService
 from .services.html_thumbnail_service import HTMLThumbnailService
+from .services.python_execution_visual_service import PythonExecutionVisualService
 from .utils.report_generator import ReportGenerator
 from .repositories.assignment_repository import AssignmentRepository
 from .repositories.submission_repository import SubmissionRepository
@@ -112,8 +113,9 @@ def correct(assignment, turma, submissao, output_format, output_dir, all_assignm
                 if with_visual_reports:
                     progress.update(task, description="Gerando relatórios visuais...")
                     
-                    # Inicializa serviço de relatórios visuais
+                    # Inicializa serviços de relatórios visuais
                     visual_generator = VisualReportGenerator()
+                    python_execution_visual_service = PythonExecutionVisualService(verbose=verbose)
                     
                     for report in reports:
                         # Verifica se o assignment suporta thumbnails
@@ -151,6 +153,25 @@ def correct(assignment, turma, submissao, output_format, output_dir, all_assignm
                                 continue
                         else:
                             console.print(f"[yellow]⚠️  Assignment '{report.assignment_name}' não suporta thumbnails[/yellow]")
+                        
+                        # Gera relatório visual de execução Python se for assignment Python
+                        from config import assignment_has_python_execution
+                        if assignment_has_python_execution(report.assignment_name):
+                            try:
+                                # Cria diretório para relatórios de execução
+                                execution_visual_dir = output_path / "visual"
+                                execution_visual_dir.mkdir(exist_ok=True)
+                                
+                                # Gera relatório visual de execução
+                                execution_visual_path = python_execution_visual_service.generate_execution_visual_report(
+                                    report.assignment_name, report.turma, report.submissions, execution_visual_dir
+                                )
+                                
+                                console.print(f"[green]Relatório visual de execução salvo: {execution_visual_path}[/green]")
+                                
+                            except Exception as e:
+                                console.print(f"[red]Erro ao gerar relatório visual de execução para {report.assignment_name}: {str(e)}[/red]")
+                                continue
             
             console.print(f"[bold green]✅ Correção concluída! {len(reports)} assignments processados.[/bold green]")
             
@@ -197,6 +218,10 @@ def correct(assignment, turma, submissao, output_format, output_dir, all_assignm
                 if with_visual_reports:
                     progress.update(task, description="Gerando relatório visual...")
                     
+                    # Inicializa serviços de relatórios visuais
+                    visual_generator = VisualReportGenerator()
+                    python_execution_visual_service = PythonExecutionVisualService(verbose=verbose)
+                    
                     # Verifica se o assignment suporta thumbnails
                     from config import assignment_has_thumbnails, get_assignment_thumbnail_type
                     
@@ -228,6 +253,24 @@ def correct(assignment, turma, submissao, output_format, output_dir, all_assignm
                         console.print(f"[yellow]Thumbnails gerados: {len(thumbnails)}[/yellow]")
                     else:
                         console.print(f"[yellow]⚠️  Assignment '{assignment}' não suporta thumbnails[/yellow]")
+                    
+                    # Gera relatório visual de execução Python se for assignment Python
+                    from config import assignment_has_python_execution
+                    if assignment_has_python_execution(assignment):
+                        try:
+                            # Cria diretório para relatórios de execução
+                            execution_visual_dir = output_path / "visual"
+                            execution_visual_dir.mkdir(exist_ok=True)
+                            
+                            # Gera relatório visual de execução
+                            execution_visual_path = python_execution_visual_service.generate_execution_visual_report(
+                                assignment, turma, report.submissions, execution_visual_dir
+                            )
+                            
+                            console.print(f"[green]Relatório visual de execução salvo: {execution_visual_path}[/green]")
+                            
+                        except Exception as e:
+                            console.print(f"[red]Erro ao gerar relatório visual de execução para {assignment}: {str(e)}[/red]")
             
             console.print(f"[bold green]✅ Correção concluída! {len(report.submissions)} submissões processadas.[/bold green]")
     
@@ -653,6 +696,78 @@ def export_results(assignment, turma, all_assignments, format, output_dir):
 
 
 @cli.command()
+@click.option('--assignment', '-a', required=True, help='Nome do assignment')
+@click.option('--turma', '-t', required=True, help='Nome da turma')
+@click.option('--output-dir', '-o', default='reports/visual', help='Diretório para salvar relatório visual')
+@click.option('--verbose', '-v', is_flag=True, help='Mostra logs detalhados de debug')
+def generate_execution_visual_report(assignment, turma, output_dir, verbose):
+    """Gera relatório visual da execução de programas Python."""
+    try:
+        # Configura caminhos
+        base_path = Path(__file__).parent.parent
+        output_path = Path(output_dir)
+        
+        # Cria diretório de saída se não existir
+        output_path.mkdir(parents=True, exist_ok=True)
+        
+        console.print(Panel(f"[bold blue]Gerando relatório visual de execução Python[/bold blue]"))
+        console.print(f"[blue]Assignment: {assignment}[/blue]")
+        console.print(f"[blue]Turma: {turma}[/blue]")
+        
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=console
+        ) as progress:
+            task = progress.add_task("Carregando relatório...", total=None)
+            
+            # Carrega relatório JSON existente
+            reports_path = base_path / "reports"
+            json_path = reports_path / f"{assignment}_{turma}.json"
+            
+            if not json_path.exists():
+                console.print(f"[red]Erro: Relatório JSON não encontrado: {json_path}[/red]")
+                console.print(f"[yellow]Dica: Execute primeiro o comando 'correct' para gerar o relatório JSON[/yellow]")
+                sys.exit(1)
+            
+            # Carrega o relatório
+            from src.domain.models import CorrectionReport
+            report = CorrectionReport.load_from_file(json_path)
+            
+            progress.update(task, description="Gerando relatório visual...")
+            
+            # Inicializa serviço de relatório visual de execução
+            python_execution_visual_service = PythonExecutionVisualService(verbose=verbose)
+            
+            # Gera relatório visual de execução
+            execution_visual_path = python_execution_visual_service.generate_execution_visual_report(
+                assignment, turma, report.submissions, output_path
+            )
+            
+            progress.update(task, description="Relatório visual gerado")
+        
+        console.print(f"[green]✅ Relatório visual de execução salvo: {execution_visual_path}[/green]")
+        console.print(f"[blue]📊 Submissões processadas: {len(report.submissions)}[/blue]")
+        
+        # Calcula estatísticas
+        submissions_with_execution = [s for s in report.submissions 
+                                    if hasattr(s, 'python_execution') and s.python_execution]
+        
+        if submissions_with_execution:
+            successful = sum(1 for s in submissions_with_execution 
+                           if s.python_execution.execution_status == "success")
+            console.print(f"[blue]✅ Execuções bem-sucedidas: {successful}/{len(submissions_with_execution)}[/blue]")
+        else:
+            console.print(f"[yellow]⚠️  Nenhuma submissão com execução Python encontrada[/yellow]")
+        
+        console.print(f"[bold green]✅ Relatório visual de execução concluído![/bold green]")
+        
+    except Exception as e:
+        console.print(f"[red]Erro ao gerar relatório visual de execução: {str(e)}[/red]")
+        sys.exit(1)
+
+
+@cli.command()
 @click.option('--turma', '-t', required=True, help='Nome da turma')
 @click.option('--output-format', '-f', type=click.Choice(['console', 'html', 'markdown', 'json']), 
               default='html', help='Formato de saída do relatório')
@@ -736,6 +851,8 @@ def correct_all_with_visual(turma, output_format, output_dir, force_recapture, v
             task = progress.add_task("3/4 - Gerando relatórios visuais...", total=None)
             
             visual_reports_generated = 0
+            execution_visual_reports_generated = 0
+            
             for report in reports:
                 # Verifica se o assignment suporta thumbnails
                 from config import assignment_has_thumbnails, get_assignment_thumbnail_type
@@ -773,6 +890,25 @@ def correct_all_with_visual(turma, output_format, output_dir, force_recapture, v
                         continue
                 else:
                     console.print(f"[yellow]⚠️  Assignment '{report.assignment_name}' não suporta thumbnails[/yellow]")
+                
+                # Gera relatório visual de execução Python se for assignment Python
+                from config import assignment_has_python_execution
+                if assignment_has_python_execution(report.assignment_name):
+                    try:
+                        # Inicializa serviço de relatório visual de execução
+                        python_execution_visual_service = PythonExecutionVisualService(verbose=verbose)
+                        
+                        # Gera relatório visual de execução
+                        execution_visual_path = python_execution_visual_service.generate_execution_visual_report(
+                            report.assignment_name, report.turma, report.submissions, output_path / "visual"
+                        )
+                        
+                        console.print(f"[green]✅ Relatório visual de execução: {execution_visual_path}[/green]")
+                        execution_visual_reports_generated += 1
+                        
+                    except Exception as e:
+                        console.print(f"[red]❌ Erro no relatório visual de execução para {report.assignment_name}: {str(e)}[/red]")
+                        continue
             
             progress.update(task, description="3/4 - Relatórios visuais concluídos")
             
@@ -800,6 +936,7 @@ def correct_all_with_visual(turma, output_format, output_dir, force_recapture, v
         console.print(f"\n[bold green]🎉 Processamento completo concluído![/bold green]")
         console.print(f"[blue]📊 Assignments processados: {len(reports)}[/blue]")
         console.print(f"[blue]📸 Relatórios visuais gerados: {visual_reports_generated}[/blue]")
+        console.print(f"[blue]🐍 Relatórios visuais de execução: {execution_visual_reports_generated}[/blue]")
         console.print(f"[blue]📁 Diretório de saída: {output_path}[/blue]")
         console.print(f"[blue]📋 Relatórios: {output_path}[/blue]")
         console.print(f"[blue]🖼️  Visuais: {output_path}/visual[/blue]")

@@ -16,6 +16,7 @@ Sistema inteligente para correção automática de assignments de programação 
 - 📝 **Logs de auditoria da IA** - Registro completo das análises para transparência
 - 🖼️ **Geração automática de thumbnails** - Screenshots de dashboards Streamlit e páginas HTML com captura completa
 - 📈 **Relatórios visuais** - Interface HTML com thumbnails organizados por nota
+- 🐍 **Relatórios visuais de execução Python** - Saídas de programas Python em interface visual organizada
 - ⚡ **Performance otimizada** - Dependências instaladas uma única vez, limpeza automática de processos
 - 🔍 **Debug opcional** - Flag --verbose para logs detalhados
 - 🖥️ **Suporte a alta resolução** - Compatível com telas 2880x1620, 200% escala
@@ -232,6 +233,19 @@ python -m src.main generate-visual-report --assignment prog1-prova-av --turma eb
 python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --output-dir reports/visual
 ```
 
+### Comandos de Relatórios Visuais de Execução Python
+
+```bash
+# Gerar relatório visual de execução Python (sem correção)
+python -m src.main generate-execution-visual-report --assignment prog1-tarefa-scrap-yahoo --turma ebape-prog-aplic-barra-2025
+
+# Gerar relatório visual de execução com logs detalhados
+python -m src.main generate-execution-visual-report --assignment prog1-tarefa-scrap-yahoo --turma ebape-prog-aplic-barra-2025 --verbose
+
+# Especificar diretório de saída para relatórios de execução
+python -m src.main generate-execution-visual-report --assignment prog1-tarefa-scrap-yahoo --turma ebape-prog-aplic-barra-2025 --output-dir reports/visual
+```
+
 ### Comandos de Processamento Completo
 
 ```bash
@@ -310,7 +324,9 @@ python -m src.main correct --turma ebape-prog-aplic-barra-2025 --all-assignments
 
 # Exemplo 19: Processamento completo de turma
 python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025
-```
+
+# Exemplo 20: Relatório visual de execução Python
+python -m src.main generate-execution-visual-report --assignment prog1-tarefa-scrap-yahoo --turma ebape-prog-aplic-barra-2025
 
 ## 🚀 Processamento Completo de Turmas
 
@@ -352,9 +368,9 @@ reports/
     └── assignment2_turma_results.csv
 ```
 
-## 🖼️ Funcionalidade de Thumbnails
+## 🖼️ Funcionalidade de Thumbnails e Relatórios Visuais
 
-O sistema inclui funcionalidade avançada para gerar thumbnails de dashboards Streamlit e páginas HTML, permitindo visualização rápida dos trabalhos dos alunos.
+O sistema inclui funcionalidade avançada para gerar thumbnails de dashboards Streamlit e páginas HTML, além de relatórios visuais da execução de programas Python, permitindo visualização rápida dos trabalhos dos alunos.
 
 ### Características
 
@@ -370,6 +386,15 @@ O sistema inclui funcionalidade avançada para gerar thumbnails de dashboards St
 - **Limpeza automática**: Processos órfãos removidos automaticamente (Streamlit)
 - **Suporte a HTML estático**: Captura direta de arquivos index.html sem servidor
 
+### Relatórios Visuais de Execução Python
+
+- **Saídas organizadas**: Exibe STDOUT e STDERR de cada execução
+- **Status visual**: Indicadores coloridos para sucesso, erro e execução parcial
+- **Estatísticas detalhadas**: Tempo de execução, código de retorno, taxa de sucesso
+- **Interface responsiva**: Layout adaptável para diferentes tamanhos de tela
+- **Formatação preservada**: Mantém formatação original da saída do programa
+- **Truncamento inteligente**: Limita saídas muito longas para melhor visualização
+
 ### Como Funciona
 
 **Para Streamlit:**
@@ -383,6 +408,12 @@ O sistema inclui funcionalidade avançada para gerar thumbnails de dashboards St
 2. **Leitura**: Acessa diretamente o arquivo index.html de cada submissão
 3. **Captura**: Usa Selenium para capturar screenshot da página HTML
 4. **Organização**: Cria relatório visual com thumbnails organizados
+
+**Para Execução Python:**
+1. **Detecção**: Identifica assignments que têm execução Python
+2. **Processamento**: Carrega dados de execução das submissões
+3. **Formatação**: Organiza saídas STDOUT e STDERR
+4. **Visualização**: Cria relatório HTML com cards de execução organizados
 
 ### Configurações
 
