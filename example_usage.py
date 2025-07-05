@@ -239,6 +239,70 @@ def run_example():
     # Comentar para não executar automaticamente
     # cli(["export-results", "--turma", "ebape-prog-aplic-barra-2025", "--all-assignments", "--output-dir", "meus-csv"])
     
+    # Exemplo 14: Correção com relatórios visuais
+    print("\n📝 Exemplo 14: Correção com Relatórios Visuais")
+    print("-" * 50)
+    print("Assignment: prog1-prova-av")
+    print("Características:")
+    print("  • Executa correção completa (testes + IA)")
+    print("  • Gera relatórios nos formatos solicitados")
+    print("  • Gera relatório visual com thumbnails automaticamente")
+    print("  • Tudo em uma única operação")
+    print("  • Ideal para assignments que suportam thumbnails")
+    
+    # Comentar para não executar automaticamente
+    # cli(["correct", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025", "--with-visual-reports"])
+    
+    # Exemplo 15: Correção completa de turma com visuais
+    print("\n📝 Exemplo 15: Correção Completa de Turma com Visuais")
+    print("-" * 50)
+    print("Turma: ebape-prog-aplic-barra-2025")
+    print("Características:")
+    print("  • Processa todos os assignments da turma")
+    print("  • Executa correção completa (testes + IA)")
+    print("  • Gera relatórios nos formatos solicitados")
+    print("  • Gera relatórios visuais para assignments compatíveis")
+    print("  • Tudo em uma única operação")
+    print("  • Tratamento de erros robusto")
+    
+    # Comentar para não executar automaticamente
+    # cli(["correct", "--turma", "ebape-prog-aplic-barra-2025", "--all-assignments", "--with-visual-reports"])
+    
+    # Exemplo 16: Processamento completo de turma
+    print("\n📝 Exemplo 16: Processamento Completo de Turma")
+    print("-" * 50)
+    print("Turma: ebape-prog-aplic-barra-2025")
+    print("Características:")
+    print("  • Processamento completo em 4 etapas:")
+    print("    1. Correção (testes + IA)")
+    print("    2. Relatórios (HTML/Markdown/JSON)")
+    print("    3. Thumbnails (relatórios visuais)")
+    print("    4. Exportação CSV")
+    print("  • Barra de progresso com etapas bem definidas")
+    print("  • Resumo final com estatísticas completas")
+    print("  • Estrutura organizada de saída")
+    print("  • Ideal para processamento de turmas completas")
+    print("  • Economia de tempo e esforço")
+    
+    # Comentar para não executar automaticamente
+    # cli(["correct-all-with-visual", "--turma", "ebape-prog-aplic-barra-2025"])
+    
+    # Exemplo 17: Processamento completo com logs detalhados
+    print("\n📝 Exemplo 17: Processamento Completo com Debug Detalhado")
+    print("-" * 50)
+    print("Turma: ebape-prog-aplic-barra-2025")
+    print("Características:")
+    print("  • Todas as funcionalidades do exemplo 16")
+    print("  • Logs detalhados de debug com flag --verbose")
+    print("  • Debug de todas as etapas do processamento")
+    print("  • Informações de performance para cada etapa")
+    print("  • Logs de geração de thumbnails")
+    print("  • Debug de exportação CSV")
+    print("  • Útil para troubleshooting e otimização")
+    
+    # Comentar para não executar automaticamente
+    # cli(["correct-all-with-visual", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
+    
     print("\n✅ Exemplos demonstrados!")
     print("\n💡 Para executar os exemplos, descomente as linhas correspondentes no código.")
     print("💡 Para mais opções, execute: python -m src.main --help")

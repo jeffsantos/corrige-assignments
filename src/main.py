@@ -38,8 +38,10 @@ def cli():
               default='console', help='Formato de saída do relatório')
 @click.option('--output-dir', '-o', default='reports', help='Diretório para salvar relatórios')
 @click.option('--all-assignments', is_flag=True, help='Corrigir todos os assignments da turma')
+@click.option('--with-visual-reports', is_flag=True, help='Gerar relatórios visuais com thumbnails após correção')
+@click.option('--force-recapture', is_flag=True, help='Força recaptura de thumbnails mesmo se já existirem (usado com --with-visual-reports)')
 @click.option('--verbose', '-v', is_flag=True, help='Mostra logs detalhados de debug')
-def correct(assignment, turma, submissao, output_format, output_dir, all_assignments, verbose):
+def correct(assignment, turma, submissao, output_format, output_dir, all_assignments, with_visual_reports, force_recapture, verbose):
     """Executa a correção de assignments."""
     try:
         # Configura caminhos
@@ -105,6 +107,50 @@ def correct(assignment, turma, submissao, output_format, output_dir, all_assignm
                         report_generator.generate_console_report(report)
                     
                     console.print(f"[green]Relatório JSON salvo: {json_path}[/green]")
+                
+                # Gera relatórios visuais se solicitado
+                if with_visual_reports:
+                    progress.update(task, description="Gerando relatórios visuais...")
+                    
+                    # Inicializa serviço de relatórios visuais
+                    visual_generator = VisualReportGenerator()
+                    
+                    for report in reports:
+                        # Verifica se o assignment suporta thumbnails
+                        from config import assignment_has_thumbnails, get_assignment_thumbnail_type
+                        
+                        if assignment_has_thumbnails(report.assignment_name):
+                            thumbnail_type = get_assignment_thumbnail_type(report.assignment_name)
+                            
+                            # Inicializa serviço de thumbnails apropriado
+                            if thumbnail_type == "streamlit":
+                                thumbnail_service = StreamlitThumbnailService(output_path / "visual" / "thumbnails", verbose=verbose)
+                            elif thumbnail_type == "html":
+                                thumbnail_service = HTMLThumbnailService(output_path / "visual" / "thumbnails", verbose=verbose)
+                            else:
+                                console.print(f"[yellow]⚠️  Tipo de thumbnail '{thumbnail_type}' não suportado para {report.assignment_name}[/yellow]")
+                                continue
+                            
+                            try:
+                                # Gera thumbnails
+                                thumbnails = thumbnail_service.generate_thumbnails_for_assignment(
+                                    report.assignment_name, report.turma, report.submissions
+                                )
+                                
+                                # Cria relatório visual
+                                visual_report_path = visual_generator.generate_visual_report(
+                                    report.assignment_name, report.turma, thumbnails, report, 
+                                    output_path / "visual"
+                                )
+                                
+                                console.print(f"[green]Relatório visual salvo: {visual_report_path}[/green]")
+                                console.print(f"[yellow]Thumbnails gerados: {len(thumbnails)}[/yellow]")
+                                
+                            except Exception as e:
+                                console.print(f"[red]Erro ao gerar relatório visual para {report.assignment_name}: {str(e)}[/red]")
+                                continue
+                        else:
+                            console.print(f"[yellow]⚠️  Assignment '{report.assignment_name}' não suporta thumbnails[/yellow]")
             
             console.print(f"[bold green]✅ Correção concluída! {len(reports)} assignments processados.[/bold green]")
             
@@ -146,6 +192,42 @@ def correct(assignment, turma, submissao, output_format, output_dir, all_assignm
                     report_generator.generate_console_report(report)
                 
                 console.print(f"[green]Relatório JSON salvo: {json_path}[/green]")
+                
+                # Gera relatório visual se solicitado
+                if with_visual_reports:
+                    progress.update(task, description="Gerando relatório visual...")
+                    
+                    # Verifica se o assignment suporta thumbnails
+                    from config import assignment_has_thumbnails, get_assignment_thumbnail_type
+                    
+                    if assignment_has_thumbnails(assignment):
+                        thumbnail_type = get_assignment_thumbnail_type(assignment)
+                        
+                        # Inicializa serviços
+                        visual_generator = VisualReportGenerator()
+                        
+                        if thumbnail_type == "streamlit":
+                            thumbnail_service = StreamlitThumbnailService(output_path / "visual" / "thumbnails", verbose=verbose)
+                        elif thumbnail_type == "html":
+                            thumbnail_service = HTMLThumbnailService(output_path / "visual" / "thumbnails", verbose=verbose)
+                        else:
+                            console.print(f"[red]Tipo de thumbnail '{thumbnail_type}' não suportado[/red]")
+                            sys.exit(1)
+                        
+                        # Gera thumbnails
+                        thumbnails = thumbnail_service.generate_thumbnails_for_assignment(
+                            assignment, turma, report.submissions
+                        )
+                        
+                        # Cria relatório visual
+                        visual_report_path = visual_generator.generate_visual_report(
+                            assignment, turma, thumbnails, report, output_path / "visual"
+                        )
+                        
+                        console.print(f"[green]Relatório visual salvo: {visual_report_path}[/green]")
+                        console.print(f"[yellow]Thumbnails gerados: {len(thumbnails)}[/yellow]")
+                    else:
+                        console.print(f"[yellow]⚠️  Assignment '{assignment}' não suporta thumbnails[/yellow]")
             
             console.print(f"[bold green]✅ Correção concluída! {len(report.submissions)} submissões processadas.[/bold green]")
     
@@ -567,6 +649,164 @@ def export_results(assignment, turma, all_assignments, format, output_dir):
         
     except Exception as e:
         console.print(f"[red]Erro durante a exportação: {str(e)}[/red]")
+        sys.exit(1)
+
+
+@cli.command()
+@click.option('--turma', '-t', required=True, help='Nome da turma')
+@click.option('--output-format', '-f', type=click.Choice(['console', 'html', 'markdown', 'json']), 
+              default='html', help='Formato de saída do relatório')
+@click.option('--output-dir', '-o', default='reports', help='Diretório para salvar relatórios')
+@click.option('--force-recapture', is_flag=True, help='Força recaptura de thumbnails mesmo se já existirem')
+@click.option('--verbose', '-v', is_flag=True, help='Mostra logs detalhados de debug')
+def correct_all_with_visual(turma, output_format, output_dir, force_recapture, verbose):
+    """Executa correção completa de turma com relatórios visuais."""
+    try:
+        # Configura caminhos
+        base_path = Path(__file__).parent.parent
+        enunciados_path = base_path / "enunciados"
+        respostas_path = base_path / "respostas"
+        output_path = Path(output_dir)
+        
+        # Verifica se os diretórios existem
+        if not enunciados_path.exists():
+            console.print(f"[red]Erro: Diretório 'enunciados' não encontrado em {enunciados_path}[/red]")
+            sys.exit(1)
+        
+        if not respostas_path.exists():
+            console.print(f"[red]Erro: Diretório 'respostas' não encontrado em {respostas_path}[/red]")
+            sys.exit(1)
+        
+        # Cria diretório de saída se não existir
+        output_path.mkdir(exist_ok=True)
+        
+        # Verifica API key do OpenAI
+        openai_api_key = os.getenv("OPENAI_API_KEY")
+
+        # Configura caminho dos logs
+        logs_path = base_path / "logs"
+        
+        # Inicializa serviços
+        correction_service = CorrectionService(enunciados_path, respostas_path, openai_api_key, logs_path, verbose=verbose)
+        report_generator = ReportGenerator()
+        visual_generator = VisualReportGenerator()
+        
+        console.print(Panel(f"[bold blue]Processamento completo da turma {turma}[/bold blue]"))
+        console.print("[yellow]📋 Inclui: Correção + Relatórios + Thumbnails + Exportação CSV[/yellow]")
+        
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=console
+        ) as progress:
+            # Etapa 1: Correção de todos os assignments
+            task = progress.add_task("1/4 - Corrigindo assignments...", total=None)
+            
+            reports = correction_service.correct_all_assignments(turma)
+            
+            progress.update(task, description="1/4 - Correção concluída")
+            
+            # Etapa 2: Geração de relatórios
+            task = progress.add_task("2/4 - Gerando relatórios...", total=None)
+            
+            for report in reports:
+                # Salva relatório JSON
+                json_path = output_path / f"{report.assignment_name}_{report.turma}.json"
+                report.save_to_file(json_path)
+                
+                # Gera relatórios no formato solicitado
+                if output_format == 'html':
+                    html_path = output_path / f"{report.assignment_name}_{report.turma}.html"
+                    report_generator.generate_html_report(report, html_path)
+                    console.print(f"[green]✅ Relatório HTML: {html_path}[/green]")
+                
+                elif output_format == 'markdown':
+                    md_path = output_path / f"{report.assignment_name}_{report.turma}.md"
+                    report_generator.generate_markdown_report(report, md_path)
+                    console.print(f"[green]✅ Relatório Markdown: {md_path}[/green]")
+                
+                else:  # console
+                    report_generator.generate_console_report(report)
+                
+                console.print(f"[green]✅ Relatório JSON: {json_path}[/green]")
+            
+            progress.update(task, description="2/4 - Relatórios concluídos")
+            
+            # Etapa 3: Geração de relatórios visuais
+            task = progress.add_task("3/4 - Gerando relatórios visuais...", total=None)
+            
+            visual_reports_generated = 0
+            for report in reports:
+                # Verifica se o assignment suporta thumbnails
+                from config import assignment_has_thumbnails, get_assignment_thumbnail_type
+                
+                if assignment_has_thumbnails(report.assignment_name):
+                    thumbnail_type = get_assignment_thumbnail_type(report.assignment_name)
+                    
+                    # Inicializa serviço de thumbnails apropriado
+                    if thumbnail_type == "streamlit":
+                        thumbnail_service = StreamlitThumbnailService(output_path / "visual" / "thumbnails", verbose=verbose)
+                    elif thumbnail_type == "html":
+                        thumbnail_service = HTMLThumbnailService(output_path / "visual" / "thumbnails", verbose=verbose)
+                    else:
+                        console.print(f"[yellow]⚠️  Tipo de thumbnail '{thumbnail_type}' não suportado para {report.assignment_name}[/yellow]")
+                        continue
+                    
+                    try:
+                        # Gera thumbnails
+                        thumbnails = thumbnail_service.generate_thumbnails_for_assignment(
+                            report.assignment_name, report.turma, report.submissions
+                        )
+                        
+                        # Cria relatório visual
+                        visual_report_path = visual_generator.generate_visual_report(
+                            report.assignment_name, report.turma, thumbnails, report, 
+                            output_path / "visual"
+                        )
+                        
+                        console.print(f"[green]✅ Relatório visual: {visual_report_path}[/green]")
+                        console.print(f"[yellow]📸 Thumbnails: {len(thumbnails)}[/yellow]")
+                        visual_reports_generated += 1
+                        
+                    except Exception as e:
+                        console.print(f"[red]❌ Erro no relatório visual para {report.assignment_name}: {str(e)}[/red]")
+                        continue
+                else:
+                    console.print(f"[yellow]⚠️  Assignment '{report.assignment_name}' não suporta thumbnails[/yellow]")
+            
+            progress.update(task, description="3/4 - Relatórios visuais concluídos")
+            
+            # Etapa 4: Exportação CSV
+            task = progress.add_task("4/4 - Exportando CSV...", total=None)
+            
+            try:
+                # Inicializa serviço de exportação CSV
+                from .services.csv_export_service import CSVExportService
+                csv_service = CSVExportService(output_path)
+                
+                exported_files = csv_service.export_all_assignments(turma, output_path / "csv")
+                
+                for csv_file in exported_files:
+                    assignment_name = csv_file.stem.replace(f"_{turma}_results", "")
+                    console.print(f"[green]✅ CSV exportado: {csv_file.name}[/green]")
+                
+                progress.update(task, description="4/4 - Exportação CSV concluída")
+                
+            except Exception as e:
+                console.print(f"[red]❌ Erro na exportação CSV: {str(e)}[/red]")
+                progress.update(task, description="4/4 - Exportação CSV falhou")
+        
+        # Resumo final
+        console.print(f"\n[bold green]🎉 Processamento completo concluído![/bold green]")
+        console.print(f"[blue]📊 Assignments processados: {len(reports)}[/blue]")
+        console.print(f"[blue]📸 Relatórios visuais gerados: {visual_reports_generated}[/blue]")
+        console.print(f"[blue]📁 Diretório de saída: {output_path}[/blue]")
+        console.print(f"[blue]📋 Relatórios: {output_path}[/blue]")
+        console.print(f"[blue]🖼️  Visuais: {output_path}/visual[/blue]")
+        console.print(f"[blue]📊 CSV: {output_path}/csv[/blue]")
+        
+    except Exception as e:
+        console.print(f"[red]Erro durante o processamento completo: {str(e)}[/red]")
         sys.exit(1)
 
 

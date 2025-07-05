@@ -155,6 +155,15 @@ python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-
 # Corrigir todos os assignments de uma turma
 python -m src.main correct --turma ebape-prog-aplic-barra-2025 --all-assignments
 
+# Corrigir com relatórios visuais (thumbnails)
+python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --with-visual-reports
+
+# Corrigir todos os assignments com relatórios visuais
+python -m src.main correct --turma ebape-prog-aplic-barra-2025 --all-assignments --with-visual-reports
+
+# Processamento completo de turma (correção + visuais + CSV)
+python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025
+
 # Especificar formato de saída
 python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --output-format html
 
@@ -223,6 +232,22 @@ python -m src.main generate-visual-report --assignment prog1-prova-av --turma eb
 python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --output-dir reports/visual
 ```
 
+### Comandos de Processamento Completo
+
+```bash
+# Processamento completo de turma (correção + visuais + CSV)
+python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025
+
+# Processamento completo com formato específico
+python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --output-format markdown
+
+# Processamento completo com logs detalhados
+python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --verbose
+
+# Processamento completo com diretório personalizado
+python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --output-dir meus-relatorios
+```
+
 ### Exemplos de Uso
 
 ```bash
@@ -276,6 +301,55 @@ python -m src.main export-results --assignment prog1-prova-av --turma ebape-prog
 
 # Exemplo 16: Exportar todos os assignments de uma turma para CSV
 python -m src.main export-results --turma ebape-prog-aplic-barra-2025 --all-assignments
+
+# Exemplo 17: Correção com relatórios visuais
+python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --with-visual-reports
+
+# Exemplo 18: Correção completa de turma com visuais
+python -m src.main correct --turma ebape-prog-aplic-barra-2025 --all-assignments --with-visual-reports
+
+# Exemplo 19: Processamento completo de turma
+python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025
+```
+
+## 🚀 Processamento Completo de Turmas
+
+O sistema oferece funcionalidades avançadas para processamento completo de turmas, combinando correção, relatórios visuais e exportação de dados em uma única operação.
+
+### Comando `correct-all-with-visual`
+
+Este comando executa um processamento completo de turma em 4 etapas:
+
+1. **Correção**: Executa testes e análise de IA para todos os assignments
+2. **Relatórios**: Gera relatórios nos formatos solicitados (HTML/Markdown/JSON)
+3. **Thumbnails**: Gera relatórios visuais com screenshots (quando aplicável)
+4. **Exportação CSV**: Exporta tabela de resultados para análise
+
+### Características
+
+- **Processamento em lote**: Todos os assignments da turma em uma operação
+- **Progress tracking**: Barra de progresso com 4 etapas bem definidas
+- **Tratamento de erros**: Continua processamento mesmo se um assignment falhar
+- **Relatórios consolidados**: Todos os formatos gerados automaticamente
+- **Thumbnails automáticos**: Detecta assignments que suportam thumbnails
+- **Exportação CSV**: Dados prontos para análise em planilhas/BI
+- **Resumo final**: Estatísticas completas do processamento
+
+### Estrutura de Saída
+
+```
+reports/
+├── assignment1_turma.json          # Relatórios JSON
+├── assignment1_turma.html          # Relatórios HTML
+├── assignment2_turma.json
+├── assignment2_turma.html
+├── visual/                         # Relatórios visuais
+│   ├── assignment1_turma.html
+│   ├── assignment2_turma.html
+│   └── thumbnails/                 # Screenshots
+└── csv/                           # Exportação CSV
+    ├── assignment1_turma_results.csv
+    └── assignment2_turma_results.csv
 ```
 
 ## 🖼️ Funcionalidade de Thumbnails
