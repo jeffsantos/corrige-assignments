@@ -85,7 +85,7 @@ class TestCSVExportService:
         # Adiciona resultados de testes
         submission.test_results = [
             AssignmentTestExecution("test1", AssignmentTestResult.PASSED, "", 0.1),
-            AssignmentTestExecution("test2", AssignmentTestExecution.PASSED, "", 0.2),
+            AssignmentTestExecution("test2", AssignmentTestResult.PASSED, "", 0.2),
         ]
         
         # Adiciona análise de código
@@ -194,7 +194,7 @@ class TestCSVExportService:
         assert stats['avg_final_score'] == 5.7  # (7.7+9.4+5.7+0.0)/4
         assert stats['min_final_score'] == 0.0
         assert stats['max_final_score'] == 9.4
-        assert stats['passing_rate'] == 75.0  # 3/4 >= 6.0
+        assert stats['passing_rate'] == 50.0  # 2/4 >= 6.0 (7.7 e 9.4)
         assert stats['excellent_rate'] == 25.0  # 1/4 >= 9.0
     
     def test_export_statistics_empty_data(self):
