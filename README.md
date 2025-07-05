@@ -561,6 +561,17 @@ O sistema suporta prompts personalizados para cada assignment:
 3. **Leitura Automática**: Lê README.md e estrutura de arquivos do enunciado
 4. **Versionamento**: Os prompts ficam na pasta `prompts/` (versionada) separada dos enunciados
 
+### Instruções Especiais para Scraping
+
+O sistema inclui **instruções específicas para assignments de scraping** que garantem que o LLM avalie apenas o **resultado final**, nunca o método usado:
+
+- **Proíbe avaliação de seletores CSS** baseada no conhecimento do LLM sobre páginas
+- **Foca apenas em**: código roda? extrai dados? formato correto? passa testes?
+- **Aplica automaticamente** a todos os assignments de scraping
+- **Garante avaliações justas** independente do método de implementação
+
+Para mais detalhes, consulte [Solução para Avaliação de Scraping](docs/solucao-scraping-llm.md).
+
 ### Exemplo de Prompt Personalizado
 
 ```txt

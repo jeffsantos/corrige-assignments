@@ -657,42 +657,52 @@ PROBLEMAS:
     
     def test_prompt_contains_evaluation_criteria(self):
         """Testa se os prompts contêm o critério fundamental de avaliação."""
-        analyzer = AIAnalyzer(api_key="fake-key")
+        # Cria PromptManager temporário para teste
+        with tempfile.TemporaryDirectory() as temp_dir:
+            enunciados_dir = Path(temp_dir) / "enunciados"
+            enunciados_dir.mkdir()
+            
+            prompt_manager = PromptManager(enunciados_path=enunciados_dir)
 
-        # Testa prompt genérico de Python
-        python_files = {"main.py": "def hello(): pass"}
-        assignment = Assignment(
-            name="test-assignment",
-            type=AssignmentType.PYTHON,
-            submission_type=SubmissionType.INDIVIDUAL,
-            description="Test assignment",
-            requirements=["Requirement 1"]
-        )
-        
-        python_prompt = analyzer._build_python_analysis_prompt(python_files, assignment)
-        assert "CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO" in python_prompt
-        assert "DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES" in python_prompt
-        assert "NOTA 10" in python_prompt
-        assert "REGRAS CRÍTICAS" in python_prompt
-        assert "requisitos obrigatórios" in python_prompt
-        
-        # Testa prompt genérico de HTML
-        html_files = {"index.html": "<h1>Title</h1>"}
-        css_files = {"style.css": "body { margin: 0; }"}
-        html_assignment = Assignment(
-            name="test-html-assignment",
-            type=AssignmentType.HTML,
-            submission_type=SubmissionType.INDIVIDUAL,
-            description="Test HTML assignment",
-            requirements=["Requirement 1"]
-        )
-        
-        html_prompt = analyzer._build_html_analysis_prompt(html_files, css_files, html_assignment)
-        assert "CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO" in html_prompt
-        assert "DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES" in html_prompt
-        assert "NOTA 10" in html_prompt
-        assert "REGRAS CRÍTICAS" in html_prompt
-        assert "requisitos obrigatórios" in html_prompt
+            # Testa prompt genérico de Python
+            assignment = Assignment(
+                name="test-assignment",
+                type=AssignmentType.PYTHON,
+                submission_type=SubmissionType.INDIVIDUAL,
+                description="Test assignment",
+                requirements=["Requirement 1"]
+            )
+            
+            python_prompt = prompt_manager.get_assignment_prompt(
+                assignment=assignment,
+                assignment_type="python",
+                student_code="def hello(): pass"
+            )
+            assert "CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO" in python_prompt
+            assert "DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES" in python_prompt
+            assert "NOTA 10" in python_prompt
+            assert "REGRAS CRÍTICAS" in python_prompt
+            assert "requisitos obrigatórios" in python_prompt
+            
+            # Testa prompt genérico de HTML
+            html_assignment = Assignment(
+                name="test-html-assignment",
+                type=AssignmentType.HTML,
+                submission_type=SubmissionType.INDIVIDUAL,
+                description="Test HTML assignment",
+                requirements=["Requirement 1"]
+            )
+            
+            html_prompt = prompt_manager.get_assignment_prompt(
+                assignment=html_assignment,
+                assignment_type="html",
+                student_code="<h1>Title</h1>"
+            )
+            assert "CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO" in html_prompt
+            assert "DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES" in html_prompt
+            assert "NOTA 10" in html_prompt
+            assert "REGRAS CRÍTICAS" in html_prompt
+            assert "requisitos obrigatórios" in html_prompt
 
 
 class TestCorrectionService:
@@ -1071,52 +1081,65 @@ class TestPromptConsistency:
     def test_python_prompt_consistency(self):
         """Testa se prompts Python (personalizado e fallback) têm campos obrigatórios."""
         # Testa prompt fallback
-        analyzer = AIAnalyzer(api_key="fake-key")
-        assignment = Assignment(
-            name="test-assignment",
-            type=AssignmentType.PYTHON,
-            submission_type=SubmissionType.INDIVIDUAL,
-            description="Test assignment",
-            requirements=["Requirement 1", "Requirement 2"]
-        )
-        
-        python_files = {"main.py": "def hello(): pass"}
-        fallback_prompt = analyzer._build_python_analysis_prompt(python_files, assignment)
-        
-        # Verifica campos obrigatórios no prompt fallback
-        assert "CÓDIGO DO ENUNCIADO:" in fallback_prompt
-        assert "CÓDIGO DO ALUNO:" in fallback_prompt
-        assert "JUSTIFICATIVA:" in fallback_prompt
-        assert "NOTA:" in fallback_prompt
-        assert "COMENTARIOS:" in fallback_prompt
-        assert "SUGESTOES:" in fallback_prompt
-        assert "PROBLEMAS:" in fallback_prompt
+        with tempfile.TemporaryDirectory() as temp_dir:
+            enunciados_dir = Path(temp_dir) / "enunciados"
+            enunciados_dir.mkdir()
+            
+            prompt_manager = PromptManager(enunciados_path=enunciados_dir)
+            assignment = Assignment(
+                name="test-assignment",
+                type=AssignmentType.PYTHON,
+                submission_type=SubmissionType.INDIVIDUAL,
+                description="Test assignment",
+                requirements=["Requirement 1", "Requirement 2"]
+            )
+            
+            fallback_prompt = prompt_manager.get_assignment_prompt(
+                assignment=assignment,
+                assignment_type="python",
+                student_code="def hello(): pass"
+            )
+            
+            # Verifica campos obrigatórios no prompt fallback
+            assert "CÓDIGO DO ENUNCIADO:" in fallback_prompt
+            assert "CÓDIGO DO ALUNO:" in fallback_prompt
+            assert "JUSTIFICATIVA:" in fallback_prompt
+            assert "NOTA:" in fallback_prompt
+            assert "COMENTARIOS:" in fallback_prompt
+            assert "SUGESTOES:" in fallback_prompt
+            assert "PROBLEMAS:" in fallback_prompt
     
     def test_html_prompt_consistency(self):
         """Testa se prompts HTML (personalizado e fallback) têm campos obrigatórios."""
         # Testa prompt fallback
-        analyzer = AIAnalyzer(api_key="fake-key")
-        assignment = Assignment(
-            name="test-assignment",
-            type=AssignmentType.HTML,
-            submission_type=SubmissionType.INDIVIDUAL,
-            description="Test assignment",
-            requirements=["Requirement 1", "Requirement 2"]
-        )
-        
-        html_files = {"index.html": "<h1>Title</h1>"}
-        css_files = {"style.css": "body { margin: 0; }"}
-        fallback_prompt = analyzer._build_html_analysis_prompt(html_files, css_files, assignment)
-        
-        # Verifica campos obrigatórios no prompt fallback
-        assert "CÓDIGO DO ENUNCIADO:" in fallback_prompt
-        assert "CÓDIGO DO ALUNO:" in fallback_prompt
-        assert "JUSTIFICATIVA:" in fallback_prompt
-        assert "NOTA:" in fallback_prompt
-        assert "ELEMENTOS:" in fallback_prompt
-        assert "COMENTARIOS:" in fallback_prompt
-        assert "SUGESTOES:" in fallback_prompt
-        assert "PROBLEMAS:" in fallback_prompt
+        with tempfile.TemporaryDirectory() as temp_dir:
+            enunciados_dir = Path(temp_dir) / "enunciados"
+            enunciados_dir.mkdir()
+            
+            prompt_manager = PromptManager(enunciados_path=enunciados_dir)
+            assignment = Assignment(
+                name="test-assignment",
+                type=AssignmentType.HTML,
+                submission_type=SubmissionType.INDIVIDUAL,
+                description="Test assignment",
+                requirements=["Requirement 1", "Requirement 2"]
+            )
+            
+            fallback_prompt = prompt_manager.get_assignment_prompt(
+                assignment=assignment,
+                assignment_type="html",
+                student_code="<h1>Title</h1>"
+            )
+            
+            # Verifica campos obrigatórios no prompt fallback
+            assert "CÓDIGO DO ENUNCIADO:" in fallback_prompt
+            assert "CÓDIGO DO ALUNO:" in fallback_prompt
+            assert "JUSTIFICATIVA:" in fallback_prompt
+            assert "NOTA:" in fallback_prompt
+            assert "ELEMENTOS:" in fallback_prompt
+            assert "COMENTARIOS:" in fallback_prompt
+            assert "SUGESTOES:" in fallback_prompt
+            assert "PROBLEMAS:" in fallback_prompt
     
     def test_custom_prompt_consistency(self):
         """Testa se prompts personalizados têm campos obrigatórios."""
@@ -1679,5 +1702,186 @@ class TestPythonExecutionVisualService:
         assert "Saída teste" in html
         assert "1.50s" in html
         assert "100.0%" in html  # Taxa de sucesso
+
+
+# --- Testes específicos para instruções de scraping (migrados de test_scraping_prompt_instructions.py) ---
+import pytest
+from src.services.prompt_manager import PromptManager
+from src.domain.models import Assignment, AssignmentType, SubmissionType
+from pathlib import Path
+
+class TestScrapingPromptInstructions:
+    """Testa se as instruções específicas para scraping estão sendo incluídas."""
+    
+    def setup_method(self):
+        """Configura o ambiente de teste."""
+        self.enunciados_path = Path("enunciados")
+        self.prompt_manager = PromptManager(self.enunciados_path)
+        
+        # Assignment de scraping para teste
+        self.scraping_assignment = Assignment(
+            name="prog1-tarefa-scrap-simples",
+            type=AssignmentType.PYTHON,
+            submission_type=SubmissionType.INDIVIDUAL,
+            description="Assignment de scraping do IMDB",
+            requirements=["Extrair dados do IMDB", "Usar requests e BeautifulSoup"]
+        )
+    
+    def test_scraping_instructions_in_custom_prompt(self):
+        """Testa se as instruções de scraping estão no prompt personalizado."""
+        student_code = "import requests\nfrom bs4 import BeautifulSoup\n# código do aluno"
+        
+        prompt = self.prompt_manager.get_assignment_prompt(
+            assignment=self.scraping_assignment,
+            assignment_type="python",
+            student_code=student_code
+        )
+        
+        # Verifica se as instruções específicas para scraping estão presentes
+        assert "REGRA ABSOLUTA PARA SCRAPING" in prompt
+        assert "AVALIE APENAS O RESULTADO FINAL, NUNCA O MÉTODO" in prompt
+        assert "PROIBIDO TOTALMENTE" in prompt
+        assert "NÃO avalie se os seletores CSS estão" in prompt
+        assert "CRITÉRIOS DE NOTA PARA SCRAPING" in prompt
+        assert "EXEMPLO DE AVALIAÇÃO CORRETA" in prompt
+    
+    def test_scraping_instructions_in_default_prompt(self):
+        """Testa se as instruções de scraping estão no prompt padrão."""
+        # Cria assignment sem prompt personalizado
+        assignment = Assignment(
+            name="novo-assignment-scraping",
+            type=AssignmentType.PYTHON,
+            submission_type=SubmissionType.INDIVIDUAL,
+            description="Novo assignment de scraping",
+            requirements=["Fazer scraping de dados"]
+        )
+        
+        student_code = "import requests\n# código do aluno"
+        
+        prompt = self.prompt_manager.get_assignment_prompt(
+            assignment=assignment,
+            assignment_type="python",
+            student_code=student_code
+        )
+        
+        # Verifica se as instruções específicas para scraping estão presentes
+        assert "INSTRUÇÕES ESPECÍFICAS PARA SCRAPING" in prompt
+        assert "SE ESTE FOR UM ASSIGNMENT DE SCRAPING" in prompt
+        assert "PROIBIDO TOTALMENTE EM SCRAPING" in prompt
+        assert "O QUE AVALIAR EM SCRAPING" in prompt
+    
+    def test_scraping_instructions_with_execution_results(self):
+        """Testa se as instruções de scraping estão presentes mesmo com resultados de execução."""
+        from src.domain.models import PythonExecutionResult
+        from datetime import datetime
+        
+        # Simula resultado de execução
+        execution_result = PythonExecutionResult(
+            submission_identifier="test-student",
+            display_name="Test Student",
+            execution_timestamp=datetime.now().isoformat(),
+            execution_status="success",
+            stdout_output="1. The Shawshank Redemption (1994) - Nota: 9.3",
+            stderr_output="",
+            return_code=0,
+            execution_time=2.5
+        )
+        
+        student_code = "import requests\n# código do aluno"
+        
+        prompt = self.prompt_manager.get_assignment_prompt(
+            assignment=self.scraping_assignment,
+            assignment_type="python",
+            student_code=student_code,
+            python_execution=execution_result
+        )
+        
+        # Verifica se tanto as instruções de execução quanto as de scraping estão presentes
+        assert "INSTRUÇÕES CRÍTICAS SOBRE EXECUÇÃO E TESTES" in prompt
+        assert "INSTRUÇÕES ESPECÍFICAS PARA SCRAPING" in prompt
+        assert "RESULTADO DA EXECUÇÃO DO CÓDIGO" in prompt
+        assert "The Shawshank Redemption" in prompt
+    
+    def test_scraping_instructions_prohibited_elements(self):
+        """Testa se os elementos proibidos estão claramente listados."""
+        student_code = "import requests\n# código do aluno"
+        
+        prompt = self.prompt_manager.get_assignment_prompt(
+            assignment=self.scraping_assignment,
+            assignment_type="python",
+            student_code=student_code
+        )
+        
+        # Verifica se todos os elementos proibidos estão listados
+        prohibited_elements = [
+            "NÃO avalie se os seletores CSS estão",
+            "NÃO critique classes CSS, IDs ou estrutura HTML",
+            "NÃO sugira seletores \"melhores\"",
+            "NÃO avalie se a estrutura HTML corresponde",
+            "NÃO mencione que \"a página deveria ter tabela\"",
+            "NÃO desconsidere dados extraídos só porque usou método diferente"
+        ]
+        
+        for element in prohibited_elements:
+            assert element in prompt, f"Elemento proibido não encontrado: {element}"
+    
+    def test_scraping_instructions_evaluation_criteria(self):
+        """Testa se os critérios de avaliação estão claramente definidos."""
+        student_code = "import requests\n# código do aluno"
+        
+        prompt = self.prompt_manager.get_assignment_prompt(
+            assignment=self.scraping_assignment,
+            assignment_type="python",
+            student_code=student_code
+        )
+        
+        # Verifica se os critérios de avaliação estão presentes (formato do prompt personalizado)
+        evaluation_criteria = [
+            "O código roda sem erros?",
+            "Extrai os dados solicitados (título, ano, nota)?",
+            "Retorna no formato correto (lista de dicionários)?",
+            "Exibe output no terminal no formato especificado?",
+            "Passa nos testes automatizados?"
+        ]
+        
+        for criterion in evaluation_criteria:
+            assert criterion in prompt, f"Critério de avaliação não encontrado: {criterion}"
+    
+    def test_scraping_instructions_note_criteria(self):
+        """Testa se os critérios de nota estão claramente definidos."""
+        student_code = "import requests\n# código do aluno"
+        
+        prompt = self.prompt_manager.get_assignment_prompt(
+            assignment=self.scraping_assignment,
+            assignment_type="python",
+            student_code=student_code
+        )
+        
+        # Verifica se os critérios de nota estão presentes (formato do prompt personalizado)
+        note_criteria = [
+            "**NOTA 10**: Código roda + extrai todos os dados + formato correto + passa testes",
+            "**NOTA 8-9**: Código roda + extrai dados (mesmo com pequenos problemas) + formato correto",
+            "**NOTA 6-7**: Código roda + extrai alguns dados + formato parcialmente correto",
+            "**NOTA 4-5**: Código roda mas não extrai dados corretos",
+            "**NOTA 0-3**: Código não roda ou não extrai nada"
+        ]
+        
+        for criterion in note_criteria:
+            assert criterion in prompt, f"Critério de nota não encontrado: {criterion}"
+    
+    def test_scraping_instructions_example(self):
+        """Testa se o exemplo de avaliação correta está presente."""
+        student_code = "import requests\n# código do aluno"
+        
+        prompt = self.prompt_manager.get_assignment_prompt(
+            assignment=self.scraping_assignment,
+            assignment_type="python",
+            student_code=student_code
+        )
+        
+        # Verifica se o exemplo está presente
+        assert "EXEMPLO DE AVALIAÇÃO CORRETA" in prompt
+        assert "CORRETO: \"Extrai dados corretos e código funciona\"" in prompt
+        assert "INCORRETO: \"Usa seletores CSS incorretos, deveria usar tabela\"" in prompt
 
 

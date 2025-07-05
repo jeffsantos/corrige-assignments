@@ -305,6 +305,37 @@ Detalhes dos testes:\n"""
 
 **LEMBRE-SE**: O que importa é se o código FUNCIONA e produz RESULTADO, não como ele chega nesse resultado!
 
+=== INSTRUÇÕES ESPECÍFICAS PARA SCRAPING ===
+
+🚨 **SE ESTE FOR UM ASSIGNMENT DE SCRAPING**: AVALIE APENAS O RESULTADO FINAL!
+
+⚠️ **PROIBIDO TOTALMENTE EM SCRAPING**:
+- ❌ NÃO avalie se os seletores CSS estão "corretos" ou "incorretos"
+- ❌ NÃO critique classes CSS, IDs ou estrutura HTML usados
+- ❌ NÃO sugira seletores "melhores" ou "mais apropriados"
+- ❌ NÃO avalie se a estrutura HTML corresponde ao que você conhece da página
+- ❌ NÃO mencione que "a página deveria ter tabela" ou "deveria usar classes específicas"
+- ❌ NÃO desconsidere dados extraídos só porque usou método diferente do esperado
+
+✅ **O QUE AVALIAR EM SCRAPING**:
+- ✅ O código roda sem erros?
+- ✅ Extrai os dados solicitados?
+- ✅ Retorna no formato correto?
+- ✅ Exibe output no terminal no formato especificado?
+- ✅ Passa nos testes automatizados?
+
+📊 **CRITÉRIOS DE NOTA PARA SCRAPING**:
+- **NOTA 10**: Código roda + extrai todos os dados + formato correto + passa testes
+- **NOTA 8-9**: Código roda + extrai dados (mesmo com pequenos problemas) + formato correto
+- **NOTA 6-7**: Código roda + extrai alguns dados + formato parcialmente correto
+- **NOTA 4-5**: Código roda mas não extrai dados corretos
+- **NOTA 0-3**: Código não roda ou não extrai nada
+
+🎯 **EXEMPLO DE AVALIAÇÃO CORRETA PARA SCRAPING**:
+Se o aluno extrai dados corretos e o código roda sem erro:
+- ✅ CORRETO: "Extrai dados corretos e código funciona"
+- ❌ INCORRETO: "Usa seletores CSS incorretos, deveria usar tabela"
+
 """
             formatted_prompt += instructions
         return formatted_prompt
@@ -334,6 +365,14 @@ Detalhes dos testes:\n"""
             student_code=student_code,
             assessment_criteria=assessment_criteria or "Avalie se o aluno seguiu corretamente os requisitos e estrutura especificados."
         )
+        
+        # Detecta se é um assignment de scraping
+        is_scraping_assignment = self._is_scraping_assignment(assignment)
+        
+        # Adiciona instruções específicas para scraping se aplicável
+        if is_scraping_assignment:
+            scraping_instructions = self._get_scraping_instructions()
+            formatted_prompt += scraping_instructions
         
         # Adiciona informações sobre a execução do código se disponível
         if python_execution:
@@ -409,9 +448,96 @@ Detalhes dos testes:\n"""
 
 **LEMBRE-SE**: O que importa é se o código FUNCIONA e produz RESULTADO, não como ele chega nesse resultado!
 
+=== INSTRUÇÕES ESPECÍFICAS PARA SCRAPING ===
+
+🚨 **SE ESTE FOR UM ASSIGNMENT DE SCRAPING**: AVALIE APENAS O RESULTADO FINAL!
+
+⚠️ **PROIBIDO TOTALMENTE EM SCRAPING**:
+- ❌ NÃO avalie se os seletores CSS estão "corretos" ou "incorretos"
+- ❌ NÃO critique classes CSS, IDs ou estrutura HTML usados
+- ❌ NÃO sugira seletores "melhores" ou "mais apropriados"
+- ❌ NÃO avalie se a estrutura HTML corresponde ao que você conhece da página
+- ❌ NÃO mencione que "a página deveria ter tabela" ou "deveria usar classes específicas"
+- ❌ NÃO desconsidere dados extraídos só porque usou método diferente do esperado
+
+✅ **O QUE AVALIAR EM SCRAPING**:
+- ✅ O código roda sem erros?
+- ✅ Extrai os dados solicitados?
+- ✅ Retorna no formato correto?
+- ✅ Exibe output no terminal no formato especificado?
+- ✅ Passa nos testes automatizados?
+
+📊 **CRITÉRIOS DE NOTA PARA SCRAPING**:
+- **NOTA 10**: Código roda + extrai todos os dados + formato correto + passa testes
+- **NOTA 8-9**: Código roda + extrai dados (mesmo com pequenos problemas) + formato correto
+- **NOTA 6-7**: Código roda + extrai alguns dados + formato parcialmente correto
+- **NOTA 4-5**: Código roda mas não extrai dados corretos
+- **NOTA 0-3**: Código não roda ou não extrai nada
+
+🎯 **EXEMPLO DE AVALIAÇÃO CORRETA PARA SCRAPING**:
+Se o aluno extrai dados corretos e o código roda sem erro:
+- ✅ CORRETO: "Extrai dados corretos e código funciona"
+- ❌ INCORRETO: "Usa seletores CSS incorretos, deveria usar tabela"
+
 """
             formatted_prompt += instructions
         return formatted_prompt
+    
+    def _is_scraping_assignment(self, assignment: Assignment) -> bool:
+        """Detecta se um assignment é de scraping baseado no nome e requisitos."""
+        # Lista de assignments conhecidos de scraping
+        known_scraping_assignments = [
+            "prog1-tarefa-scrap-simples",
+            "prog1-tarefa-scrap-yahoo",
+            "prog1-prova-av"  # Também é de scraping
+        ]
+        
+        # Verifica se é um assignment conhecido de scraping
+        if assignment.name in known_scraping_assignments:
+            return True
+        
+        # Verifica se os requisitos mencionam scraping
+        scraping_keywords = ["scraping", "web scraping", "extrair dados", "requests", "beautifulsoup", "bs4"]
+        requirements_text = " ".join(assignment.requirements).lower()
+        
+        return any(keyword in requirements_text for keyword in scraping_keywords)
+    
+    def _get_scraping_instructions(self) -> str:
+        """Retorna as instruções específicas para assignments de scraping."""
+        return """
+
+=== INSTRUÇÕES ESPECÍFICAS PARA SCRAPING ===
+
+🚨 **SE ESTE FOR UM ASSIGNMENT DE SCRAPING**: AVALIE APENAS O RESULTADO FINAL!
+
+⚠️ **PROIBIDO TOTALMENTE EM SCRAPING**:
+- ❌ NÃO avalie se os seletores CSS estão "corretos" ou "incorretos"
+- ❌ NÃO critique classes CSS, IDs ou estrutura HTML usados
+- ❌ NÃO sugira seletores "melhores" ou "mais apropriados"
+- ❌ NÃO avalie se a estrutura HTML corresponde ao que você conhece da página
+- ❌ NÃO mencione que "a página deveria ter tabela" ou "deveria usar classes específicas"
+- ❌ NÃO desconsidere dados extraídos só porque usou método diferente do esperado
+
+✅ **O QUE AVALIAR EM SCRAPING**:
+- ✅ O código roda sem erros?
+- ✅ Extrai os dados solicitados?
+- ✅ Retorna no formato correto?
+- ✅ Exibe output no terminal no formato especificado?
+- ✅ Passa nos testes automatizados?
+
+📊 **CRITÉRIOS DE NOTA PARA SCRAPING**:
+- **NOTA 10**: Código roda + extrai todos os dados + formato correto + passa testes
+- **NOTA 8-9**: Código roda + extrai dados (mesmo com pequenos problemas) + formato correto
+- **NOTA 6-7**: Código roda + extrai alguns dados + formato parcialmente correto
+- **NOTA 4-5**: Código roda mas não extrai dados corretos
+- **NOTA 0-3**: Código não roda ou não extrai nada
+
+🎯 **EXEMPLO DE AVALIAÇÃO CORRETA PARA SCRAPING**:
+Se o aluno extrai dados corretos e o código roda sem erro:
+- ✅ CORRETO: "Extrai dados corretos e código funciona"
+- ❌ INCORRETO: "Usa seletores CSS incorretos, deveria usar tabela"
+
+"""
     
     def _read_assignment_readme(self, assignment_name: str) -> str:
         """Lê o README.md do enunciado do assignment."""

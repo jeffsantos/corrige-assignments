@@ -12,6 +12,37 @@ CÓDIGO DO ENUNCIADO:
 CÓDIGO DO ALUNO:
 {student_code}
 
+=== INSTRUÇÕES CRÍTICAS PARA AVALIAÇÃO DE SCRAPING ===
+
+🚨 **REGRA ABSOLUTA PARA SCRAPING**: AVALIE APENAS O RESULTADO FINAL, NUNCA O MÉTODO!
+
+⚠️ **PROIBIDO TOTALMENTE**:
+- ❌ NÃO avalie se os seletores CSS estão "corretos" ou "incorretos"
+- ❌ NÃO critique classes CSS, IDs ou estrutura HTML usados
+- ❌ NÃO sugira seletores "melhores" ou "mais apropriados"
+- ❌ NÃO avalie se a estrutura HTML corresponde ao que você conhece da página
+- ❌ NÃO mencione que "a página deveria ter tabela" ou "deveria usar classes específicas"
+- ❌ NÃO desconsidere dados extraídos só porque usou método diferente do esperado
+
+✅ **O QUE AVALIAR**:
+- ✅ O código roda sem erros?
+- ✅ Extrai os dados solicitados (título, ano, nota)?
+- ✅ Retorna no formato correto (lista de dicionários)?
+- ✅ Exibe output no terminal no formato especificado?
+- ✅ Passa nos testes automatizados?
+
+📊 **CRITÉRIOS DE NOTA PARA SCRAPING**:
+- **NOTA 10**: Código roda + extrai todos os dados + formato correto + passa testes
+- **NOTA 8-9**: Código roda + extrai dados (mesmo com pequenos problemas) + formato correto
+- **NOTA 6-7**: Código roda + extrai alguns dados + formato parcialmente correto
+- **NOTA 4-5**: Código roda mas não extrai dados corretos
+- **NOTA 0-3**: Código não roda ou não extrai nada
+
+🎯 **EXEMPLO DE AVALIAÇÃO CORRETA**:
+Se o aluno extrai "The Shawshank Redemption (1994) - Nota: 9.3" e o código roda sem erro:
+- ✅ CORRETO: "Extrai dados corretos e código funciona"
+- ❌ INCORRETO: "Usa seletores CSS incorretos, deveria usar tabela"
+
 === CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO ===
 
 **DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES:**

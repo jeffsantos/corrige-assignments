@@ -112,31 +112,33 @@ class AIAnalyzer:
         """Analisa código Python usando IA com prompt específico do assignment."""
         if not self.ai_available:
             return self._analyze_python_code_basic(submission_path, assignment)
-        
+
         # Lê os arquivos Python da submissão
         python_files = self._read_python_files(submission_path)
-        
+
         if not python_files:
-                    return CodeAnalysis(
-            score=0.0,
-            score_justification="Nenhum arquivo Python encontrado para análise",
-            comments=["Nenhum arquivo Python encontrado"],
-            issues_found=["Arquivos Python ausentes"]
-        )
-        
-        # Constrói o prompt específico para o assignment
-        if self.prompt_manager:
-            prompt = self.prompt_manager.get_assignment_prompt(
-                assignment=assignment,
-                assignment_type="python",
-                student_code=self._format_python_files(python_files),
-                python_execution=python_execution,
-                test_results=test_results
+            return CodeAnalysis(
+                score=0.0,
+                score_justification="Nenhum arquivo Python encontrado para análise",
+                comments=["Nenhum arquivo Python encontrado"],
+                issues_found=["Arquivos Python ausentes"]
             )
-        else:
-            # Fallback para prompt genérico
-            prompt = self._build_python_analysis_prompt(python_files, assignment, python_execution, test_results)
-        
+
+        # Garante que sempre haverá um PromptManager
+        prompt_manager = self.prompt_manager
+        if prompt_manager is None:
+            from .prompt_manager import PromptManager
+            prompt_manager = PromptManager(self.enunciados_path or Path("enunciados"))
+
+        # Constrói o prompt específico para o assignment
+        prompt = prompt_manager.get_assignment_prompt(
+            assignment=assignment,
+            assignment_type="python",
+            student_code=self._format_python_files(python_files),
+            python_execution=python_execution,
+            test_results=test_results
+        )
+
         try:
             # Chama a API do OpenAI
             response = self.client.chat.completions.create(
@@ -148,11 +150,11 @@ class AIAnalyzer:
                 #max_tokens=OPENAI_MAX_TOKENS,
                 #temperature=OPENAI_TEMPERATURE
             )
-            
+
             # Processa a resposta
             analysis_text = response.choices[0].message.content
             parsed_result = self._parse_python_analysis(analysis_text)
-            
+
             # Salva log da análise
             submission_identifier = submission_path.name.split('-', 1)[1] if '-' in submission_path.name else submission_path.name
             self._save_ai_log(
@@ -169,9 +171,9 @@ class AIAnalyzer:
                     "issues_found": parsed_result.issues_found
                 }
             )
-            
+
             return parsed_result
-            
+
         except Exception as e:
             return CodeAnalysis(
                 score=0.0,
@@ -404,153 +406,6 @@ class AIAnalyzer:
                 css_files[str(file_path.relative_to(submission_path))] = f"Erro ao ler arquivo: {str(e)}"
         
         return css_files
-    
-    def _build_python_analysis_prompt(self, python_files: Dict[str, str], assignment: Assignment, python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None) -> str:
-        """Constrói o prompt para análise de código Python."""
-        # Lê código do enunciado se disponível
-        enunciado_code = self._read_enunciado_code(assignment.name)
-        
-        prompt = f"""
-Analise o código Python abaixo para o assignment "{assignment.name}".
-
-Descrição do assignment:
-{assignment.description}
-
-Requisitos:
-{chr(10).join(f"- {req}" for req in assignment.requirements)}
-
-CÓDIGO DO ENUNCIADO:
-{enunciado_code}
-
-CÓDIGO DO ALUNO:
-"""
-        
-        for filename, content in python_files.items():
-            prompt += f"\n--- {filename} ---\n{content}\n"
-        
-        # Adiciona informações sobre a execução do código se disponível
-        if python_execution:
-            prompt += f"""
-
-RESULTADO DA EXECUÇÃO DO CÓDIGO:
-Status: {python_execution.execution_status}
-Tempo de execução: {python_execution.execution_time:.2f} segundos
-Código de retorno: {python_execution.return_code}
-
-Output do terminal (stdout):
-{python_execution.stdout_output}
-
-Erros do terminal (stderr):
-{python_execution.stderr_output}
-
-"""
-        
-        # Adiciona informações sobre os resultados dos testes se disponível
-        if test_results:
-            prompt += f"""
-
-RESULTADO DOS TESTES:
-Total de testes: {len(test_results)}
-Testes que passaram: {sum(1 for test in test_results if test.result.value == 'passed')}
-Testes que falharam: {sum(1 for test in test_results if test.result.value == 'failed')}
-Testes com erro: {sum(1 for test in test_results if test.result.value == 'error')}
-
-Detalhes dos testes:
-"""
-            for test in test_results:
-                status_emoji = "✅" if test.result.value == 'passed' else "❌" if test.result.value == 'failed' else "⚠️"
-                prompt += f"{status_emoji} {test.test_name} ({test.result.value.upper()})"
-                if test.message:
-                    prompt += f" - {test.message}"
-                if test.execution_time > 0:
-                    prompt += f" ({test.execution_time:.3f}s)"
-                prompt += "\n"
-            
-            prompt += "\n"
-        
-        # Adiciona instruções críticas sobre execução e testes
-        prompt += """
-=== INSTRUÇÕES CRÍTICAS SOBRE EXECUÇÃO E TESTES ===
-
-⚠️ **REGRA FUNDAMENTAL**: AVALIE APENAS O QUE O CÓDIGO FAZ, NÃO COMO ELE FAZ!
-- Sempre considere o resultado dos testes e da execução do código na sua avaliação.
-- O campo "Output do terminal (stdout)" deve mostrar algo relevante. Se estiver vazio, isso indica que o programa não produziu nenhuma saída, o que é um erro lógico para aplicações de terminal.
-- O campo "Erros do terminal (stderr)" deve estar vazio. Se houver mensagens aqui, o código apresentou erros de execução.
-- Se ambos os campos estiverem vazios, o código rodou sem erro, mas não produziu nenhuma saída — isso deve ser considerado um problema grave, pois toda aplicação de terminal deve exibir alguma informação ao usuário.
-- Penalize a nota e aponte como PROBLEMA se o código não mostrar nada no terminal, mesmo sem erro.
-
-🚫 **PROIBIDO AVALIAR**:
-- NÃO avalie se as tags HTML, classes CSS ou seletores usados no scraping estão "corretos" baseado no seu conhecimento sobre as páginas originais
-- NÃO critique seletores CSS específicos como "incorretos" 
-- NÃO sugira seletores "melhores" ou "mais corretos"
-- NÃO avalie se a estrutura HTML extraída corresponde ao que você espera da página original
-- NÃO sugira revisar, ajustar ou corrigir seletores CSS
-- Esses elementos podem mudar constantemente e NÃO são critério de avaliação
-
-⚠️ **IMPORTANTE**: Não repita o mesmo problema múltiplas vezes. Se um dado não foi extraído corretamente, mencione apenas UMA vez como problema.
-
-📊 **CALIBRAÇÃO DE NOTAS**:
-- Se o código roda, exibe output e passa nos testes, mas apenas UM campo específico não foi extraído corretamente, considere uma nota entre 7-8
-- Se múltiplos campos não foram extraídos ou o código não funciona, aplique penalização maior
-- Se o código funciona perfeitamente mas tem pequenos problemas de formatação, considere nota 9-10
-- Se o código roda sem erros
-- Se exibe output no terminal
-- Se passa nos testes automatizados
-
-**LEMBRE-SE**: O que importa é se o código FUNCIONA e produz RESULTADO, não como ele chega nesse resultado!
-
-=== CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO ===
-
-**DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES:**
-
-**PROBLEMAS (só inclua aqui se for CRÍTICO):**
-- Requisitos OBRIGATÓRIOS do enunciado que estão AUSENTES ou INCORRETOS
-- Funções obrigatórias que não foram implementadas ou não funcionam
-- Estrutura de código que não segue o especificado no enunciado
-- Funcionalidades essenciais que não operam corretamente
-
-**SUGESTÕES (inclua aqui melhorias opcionais):**
-- Melhorias de código que não são obrigatórias
-- Otimizações de performance que não afetam funcionalidade
-- Adições de funcionalidades extras que enriquecem mas não são exigidas
-- Melhorias de legibilidade ou organização não obrigatórias
-- Sugestões de boas práticas que não são requisitos
-
-**EXEMPLOS DE CLASSIFICAÇÃO:**
-- ❌ PROBLEMA: "Função obrigatória não foi implementada" (se for obrigatória)
-- ✅ SUGESTÃO: "Poderia adicionar mais tratamento de erros"
-- ❌ PROBLEMA: "Estrutura de arquivos não segue o especificado" (se for obrigatório)
-- ✅ SUGESTÃO: "Poderia melhorar a organização do código"
-
-=== FORMATO DE RESPOSTA ===
-
-Formate sua resposta EXATAMENTE assim:
-
-NOTA: [número de 0 a 10]
-JUSTIFICATIVA: [justificativa resumida e clara da nota]
-
-COMENTARIOS: [lista de comentários sobre pontos positivos]
-
-SUGESTOES: [lista de sugestões de melhoria - apenas melhorias opcionais]
-
-PROBLEMAS: [lista de problemas encontrados - apenas requisitos obrigatórios ausentes/incorretos]
-
-=== REGRAS CRÍTICAS ===
-
-1. **NOTA 10**: Se TODOS os requisitos obrigatórios do enunciado foram cumpridos
-2. **PROBLEMAS**: Só inclua requisitos OBRIGATÓRIOS ausentes/incorretos
-3. **SUGESTÕES**: Inclua melhorias opcionais e aperfeiçoamentos
-4. **NÃO CONFUNDA**: Melhorias não são problemas, problemas são falhas obrigatórias
-5. **BASEIE A NOTA**: Nos requisitos do enunciado, não em suas preferências pessoais
-
-Por favor, analise o código considerando:
-1. Se o aluno seguiu a estrutura e requisitos específicos do assignment
-2. Se implementou corretamente as funcionalidades solicitadas
-3. Se manteve a qualidade do código (quando não fornecido no enunciado)
-4. Se adicionou valor além do que foi fornecido no enunciado
-"""
-        
-        return prompt
     
     def _build_html_analysis_prompt(self, html_files: Dict[str, str], css_files: Dict[str, str], assignment: Assignment) -> str:
         """Constrói o prompt para análise de código HTML."""
