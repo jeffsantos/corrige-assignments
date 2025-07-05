@@ -470,5 +470,105 @@ def generate_visual_report(assignment, turma, output_dir, force_recapture, verbo
         sys.exit(1)
 
 
+@cli.command()
+@click.option('--assignment', '-a', help='Nome do assignment para exportar')
+@click.option('--turma', '-t', required=True, help='Nome da turma')
+@click.option('--all-assignments', is_flag=True, help='Exportar todos os assignments da turma')
+@click.option('--format', '-f', type=click.Choice(['csv']), default='csv', help='Formato de exportação')
+@click.option('--output-dir', '-o', default='reports/csv', help='Diretório para salvar arquivos CSV')
+def export_results(assignment, turma, all_assignments, format, output_dir):
+    """Exporta tabela de resultados para CSV."""
+    try:
+        # Configura caminhos
+        base_path = Path(__file__).parent.parent
+        reports_path = Path("reports")  # Diretório padrão dos relatórios JSON
+        output_path = Path(output_dir)
+        
+        # Verifica se o diretório de relatórios existe
+        if not reports_path.exists():
+            console.print(f"[red]Erro: Diretório 'reports' não encontrado[/red]")
+            console.print(f"[yellow]Dica: Execute primeiro o comando 'correct' para gerar relatórios JSON[/yellow]")
+            sys.exit(1)
+        
+        # Cria diretório de saída se não existir
+        output_path.mkdir(parents=True, exist_ok=True)
+        
+        # Inicializa serviço de exportação CSV
+        from .services.csv_export_service import CSVExportService
+        csv_service = CSVExportService(reports_path)
+        
+        if all_assignments:
+            # Exporta todos os assignments da turma
+            console.print(Panel(f"[bold blue]Exportando todos os assignments da turma {turma} para CSV[/bold blue]"))
+            
+            with Progress(
+                SpinnerColumn(),
+                TextColumn("[progress.description]{task.description}"),
+                console=console
+            ) as progress:
+                task = progress.add_task("Buscando relatórios...", total=None)
+                
+                exported_files = csv_service.export_all_assignments(turma, output_path)
+                
+                progress.update(task, description="Exportando dados...")
+                
+                if not exported_files:
+                    console.print(f"[red]Nenhum relatório encontrado para a turma {turma}[/red]")
+                    sys.exit(1)
+                
+                # Calcula estatísticas totais
+                total_submissions = 0
+                for csv_file in exported_files:
+                    # Carrega dados do CSV para estatísticas
+                    import csv
+                    with open(csv_file, 'r', encoding='utf-8') as f:
+                        reader = csv.DictReader(f)
+                        submissions_count = sum(1 for row in reader)
+                        total_submissions += submissions_count
+                    
+                    assignment_name = csv_file.stem.replace(f"_{turma}_results", "")
+                    console.print(f"[green]✅ {assignment_name}: {submissions_count} submissões exportadas[/green]")
+                
+                console.print(f"\n[bold green]📁 Arquivos gerados em: {output_path}[/bold green]")
+                for csv_file in exported_files:
+                    console.print(f"   - {csv_file.name}")
+                
+                console.print(f"\n[bold green]📊 Total: {total_submissions} submissões exportadas[/bold green]")
+            
+        else:
+            # Exporta um assignment específico
+            if not assignment:
+                console.print("[red]Erro: --assignment é obrigatório quando --all-assignments não é usado[/red]")
+                sys.exit(1)
+            
+            console.print(Panel(f"[bold blue]Exportando assignment {assignment} da turma {turma} para CSV[/bold blue]"))
+            
+            with Progress(
+                SpinnerColumn(),
+                TextColumn("[progress.description]{task.description}"),
+                console=console
+            ) as progress:
+                task = progress.add_task("Carregando relatório...", total=None)
+                
+                csv_file = csv_service.export_single_assignment(assignment, turma, output_path)
+                
+                progress.update(task, description="Exportando dados...")
+                
+                # Calcula estatísticas
+                import csv
+                with open(csv_file, 'r', encoding='utf-8') as f:
+                    reader = csv.DictReader(f)
+                    submissions_count = sum(1 for row in reader)
+                
+                console.print(f"[green]✅ Arquivo CSV salvo: {csv_file}[/green]")
+                console.print(f"[green]📊 {submissions_count} submissões exportadas[/green]")
+        
+        console.print(f"[bold green]✅ Exportação concluída![/bold green]")
+        
+    except Exception as e:
+        console.print(f"[red]Erro durante a exportação: {str(e)}[/red]")
+        sys.exit(1)
+
+
 if __name__ == "__main__":
     cli() 

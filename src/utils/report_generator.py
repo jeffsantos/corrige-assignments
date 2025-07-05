@@ -2,7 +2,7 @@
 Utilitário para gerar relatórios em diferentes formatos.
 """
 from pathlib import Path
-from typing import List
+from typing import List, Dict
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
@@ -105,6 +105,99 @@ class ReportGenerator:
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write(md_content)
     
+    def generate_csv_export(self, reports: List[CorrectionReport], output_path: Path) -> None:
+        """Gera arquivo CSV com dados de múltiplos relatórios."""
+        import csv
+        
+        # Converte todos os relatórios para dados CSV
+        all_csv_data = []
+        for report in reports:
+            csv_data = self._convert_report_to_csv_data(report)
+            all_csv_data.extend(csv_data)
+        
+        if not all_csv_data:
+            raise ValueError("Nenhum dado para exportar")
+        
+        # Define campos do CSV
+        fieldnames = [
+            'assignment_name', 'turma', 'submission_identifier', 'submission_type',
+            'test_score', 'ai_score', 'final_score', 'status',
+            'tests_passed', 'tests_total', 'generated_at'
+        ]
+        
+        # Cria diretório de saída se não existir
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Escreve arquivo CSV
+        with open(output_path, 'w', newline='', encoding='utf-8') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            
+            # Escreve cabeçalho
+            writer.writeheader()
+            
+            # Escreve dados
+            writer.writerows(all_csv_data)
+    
+    def _convert_report_to_csv_data(self, report: CorrectionReport) -> List[Dict]:
+        """Converte um relatório para dados CSV."""
+        csv_data = []
+        
+        for submission in report.submissions:
+            # Calcula nota dos testes
+            test_score = 0.0
+            tests_passed = 0
+            tests_total = 0
+            if submission.test_results:
+                tests_passed = sum(1 for test in submission.test_results if test.result.value == "passed")
+                tests_total = len(submission.test_results)
+                if tests_total > 0:
+                    test_score = (tests_passed / tests_total) * 10.0
+            
+            # Calcula nota da IA
+            ai_score = 0.0
+            if hasattr(submission, 'code_analysis') and submission.code_analysis:
+                ai_score = submission.code_analysis.score
+            elif hasattr(submission, 'html_analysis') and submission.html_analysis:
+                ai_score = submission.html_analysis.score
+            
+            # Determina tipo de submissão e identificador
+            from ..domain.models import IndividualSubmission, GroupSubmission
+            if isinstance(submission, IndividualSubmission):
+                submission_type = "individual"
+                submission_identifier = submission.github_login
+            else:  # GroupSubmission
+                submission_type = "group"
+                submission_identifier = submission.group_name
+            
+            # Determina status baseado na nota final
+            if submission.final_score >= 9.0:
+                status = "🟢 Excelente"
+            elif submission.final_score >= 7.0:
+                status = "🟡 Bom"
+            elif submission.final_score >= 6.0:
+                status = "🟠 Aprovado"
+            else:
+                status = "🔴 Reprovado"
+            
+            # Cria linha de dados
+            row = {
+                'assignment_name': report.assignment_name,
+                'turma': report.turma,
+                'submission_identifier': submission_identifier,
+                'submission_type': submission_type,
+                'test_score': round(test_score, 1),
+                'ai_score': round(ai_score, 1),
+                'final_score': round(submission.final_score, 1),
+                'status': status,
+                'tests_passed': tests_passed,
+                'tests_total': tests_total,
+                'generated_at': report.generated_at
+            }
+            
+            csv_data.append(row)
+        
+        return csv_data
+    
     def _build_html_content(self, report: CorrectionReport) -> str:
         """Constrói conteúdo HTML do relatório."""
         return f"""
@@ -130,6 +223,33 @@ class ReportGenerator:
         .test-failed {{ color: #721c24; background-color: #f8d7da; padding: 5px; margin: 2px 0; border-radius: 3px; }}
         .test-error {{ color: #856404; background-color: #fff3cd; padding: 5px; margin: 2px 0; border-radius: 3px; }}
         .test-skipped {{ color: #0c5460; background-color: #d1ecf1; padding: 5px; margin: 2px 0; border-radius: 3px; }}
+        .feedback-pre {{ 
+            white-space: pre-wrap; 
+            word-wrap: break-word; 
+            overflow-wrap: break-word; 
+            max-width: 100%; 
+            background-color: #f8f9fa; 
+            padding: 10px; 
+            border-radius: 5px; 
+            border: 1px solid #dee2e6; 
+            font-family: monospace; 
+            font-size: 12px; 
+            line-height: 1.4; 
+        }}
+        .score-breakdown {{ 
+            display: flex; 
+            gap: 20px; 
+            margin: 10px 0; 
+            flex-wrap: wrap; 
+        }}
+        .score-item {{ 
+            background-color: #e9ecef; 
+            padding: 8px 12px; 
+            border-radius: 4px; 
+            font-weight: bold; 
+        }}
+        .test-score {{ color: #0066cc; }}
+        .ai-score {{ color: #28a745; }}
     </style>
 </head>
 <body>
@@ -155,7 +275,8 @@ class ReportGenerator:
         <thead>
             <tr>
                 <th>Submissão</th>
-                <th>Nota Final</th>
+                <th>Nota Testes</th>
+                <th>Nota IA</th>
                 <th>Status</th>
                 <th>Testes</th>
             </tr>
@@ -188,6 +309,28 @@ class ReportGenerator:
                 status = "🔴 Reprovado"
                 css_class = "fail"
             
+            # Calcula nota dos testes
+            test_score = 0.0
+            if submission.test_results:
+                passed = sum(1 for test in submission.test_results if test.result.value == "passed")
+                total = len(submission.test_results)
+                if total > 0:
+                    test_score = (passed / total) * 10.0
+            
+            # Calcula nota da IA
+            ai_score = 0.0
+            if hasattr(submission, 'code_analysis') and submission.code_analysis:
+                ai_score = submission.code_analysis.score
+            elif hasattr(submission, 'html_analysis') and submission.html_analysis:
+                ai_score = submission.html_analysis.score
+            
+            # Simplifica o nome da submissão (remove "(individual)" e "(grupo)")
+            display_name = submission.display_name
+            if " (individual)" in display_name:
+                display_name = display_name.replace(" (individual)", "")
+            elif " (grupo)" in display_name:
+                display_name = display_name.replace(" (grupo)", "")
+            
             test_info = "N/A"
             if submission.test_results:
                 passed = sum(1 for test in submission.test_results if test.result.value == "passed")
@@ -196,8 +339,9 @@ class ReportGenerator:
             
             rows.append(f"""
             <tr class="{css_class}">
-                <td>{submission.display_name}</td>
-                <td>{submission.final_score:.1f}</td>
+                <td>{display_name}</td>
+                <td>{test_score:.1f}</td>
+                <td>{ai_score:.1f}</td>
                 <td>{status}</td>
                 <td>{test_info}</td>
             </tr>
@@ -212,16 +356,42 @@ class ReportGenerator:
             # Constrói detalhes dos testes
             test_details_html = self._build_html_test_details(submission.test_results)
             
+            # Calcula nota dos testes
+            test_score = 0.0
+            if submission.test_results:
+                passed = sum(1 for test in submission.test_results if test.result.value == "passed")
+                total = len(submission.test_results)
+                if total > 0:
+                    test_score = (passed / total) * 10.0
+            
+            # Calcula nota da IA
+            ai_score = 0.0
+            if hasattr(submission, 'code_analysis') and submission.code_analysis:
+                ai_score = submission.code_analysis.score
+            elif hasattr(submission, 'html_analysis') and submission.html_analysis:
+                ai_score = submission.html_analysis.score
+            
+            # Simplifica o nome da submissão (remove "(individual)" e "(grupo)")
+            display_name = submission.display_name
+            if " (individual)" in display_name:
+                display_name = display_name.replace(" (individual)", "")
+            elif " (grupo)" in display_name:
+                display_name = display_name.replace(" (grupo)", "")
+            
             details.append(f"""
             <div class="student-detail">
-                <h3>👤 {submission.display_name}</h3>
-                <p><strong>Nota:</strong> {submission.final_score:.1f}/10</p>
+                <h3>👤 {display_name}</h3>
+                
+                <div class="score-breakdown">
+                    <div class="score-item test-score">🧪 Nota Testes: {test_score:.1f}/10</div>
+                    <div class="score-item ai-score">🤖 Nota IA: {ai_score:.1f}/10</div>
+                </div>
                 
                 <h4>🧪 Resultados dos Testes:</h4>
                 {test_details_html}
                 
                 <h4>📝 Feedback:</h4>
-                <pre>{submission.feedback}</pre>
+                <pre class="feedback-pre">{submission.feedback}</pre>
             </div>
             """)
         
@@ -274,8 +444,8 @@ class ReportGenerator:
 
 ## 📋 Resultados por Submissão
 
-| Submissão | Nota Final | Status | Testes |
-|-------|------------|--------|--------|
+| Submissão | Nota Testes | Nota IA | Status | Testes |
+|-------|------------|--------|--------|--------|
 """
         
         # Adiciona linhas da tabela
@@ -289,13 +459,35 @@ class ReportGenerator:
             else:
                 status = "🔴 Reprovado"
             
+            # Calcula nota dos testes
+            test_score = 0.0
+            if submission.test_results:
+                passed = sum(1 for test in submission.test_results if test.result.value == "passed")
+                total = len(submission.test_results)
+                if total > 0:
+                    test_score = (passed / total) * 10.0
+            
+            # Calcula nota da IA
+            ai_score = 0.0
+            if hasattr(submission, 'code_analysis') and submission.code_analysis:
+                ai_score = submission.code_analysis.score
+            elif hasattr(submission, 'html_analysis') and submission.html_analysis:
+                ai_score = submission.html_analysis.score
+            
+            # Simplifica o nome da submissão (remove "(individual)" e "(grupo)")
+            display_name = submission.display_name
+            if " (individual)" in display_name:
+                display_name = display_name.replace(" (individual)", "")
+            elif " (grupo)" in display_name:
+                display_name = display_name.replace(" (grupo)", "")
+            
             test_info = "N/A"
             if submission.test_results:
                 passed = sum(1 for test in submission.test_results if test.result.value == "passed")
                 total = len(submission.test_results)
                 test_info = f"{passed}/{total}"
             
-            content += f"| {submission.display_name} | {submission.final_score:.1f} | {status} | {test_info} |\n"
+            content += f"| {display_name} | {test_score:.1f} | {ai_score:.1f} | {status} | {test_info} |\n"
         
         content += "\n## 📝 Detalhes por Submissão\n\n"
         
@@ -304,9 +496,32 @@ class ReportGenerator:
             # Constrói detalhes dos testes
             test_details_md = self._build_markdown_test_details(submission.test_results)
             
-            content += f"""### 👤 {submission.display_name}
+            # Calcula nota dos testes
+            test_score = 0.0
+            if submission.test_results:
+                passed = sum(1 for test in submission.test_results if test.result.value == "passed")
+                total = len(submission.test_results)
+                if total > 0:
+                    test_score = (passed / total) * 10.0
+            
+            # Calcula nota da IA
+            ai_score = 0.0
+            if hasattr(submission, 'code_analysis') and submission.code_analysis:
+                ai_score = submission.code_analysis.score
+            elif hasattr(submission, 'html_analysis') and submission.html_analysis:
+                ai_score = submission.html_analysis.score
+            
+            # Simplifica o nome da submissão (remove "(individual)" e "(grupo)")
+            display_name = submission.display_name
+            if " (individual)" in display_name:
+                display_name = display_name.replace(" (individual)", "")
+            elif " (grupo)" in display_name:
+                display_name = display_name.replace(" (grupo)", "")
+            
+            content += f"""### 👤 {display_name}
 
-**Nota:** {submission.final_score:.1f}/10
+**🧪 Nota Testes:** {test_score:.1f}/10  
+**🤖 Nota IA:** {ai_score:.1f}/10
 
 #### 🧪 Resultados dos Testes
 

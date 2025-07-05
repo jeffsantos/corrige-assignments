@@ -196,6 +196,49 @@ def run_example():
     # Comentar para não executar automaticamente
     # cli(["generate-visual-report", "--assignment", "prog1-tarefa-html-curriculo", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
     
+    # Exemplo 11: Exportar tabela de resultados para CSV
+    print("\n📝 Exemplo 11: Exportar Tabela de Resultados para CSV")
+    print("-" * 50)
+    print("Assignment: prog1-prova-av")
+    print("Características:")
+    print("  • Exporta tabela 'Resultados por Submissão' para CSV")
+    print("  • Mostra notas de testes e IA separadamente")
+    print("  • Inclui estatísticas: testes passados/total, status")
+    print("  • Formato compatível com Excel, Google Sheets, BI")
+    print("  • Encoding UTF-8 para caracteres especiais")
+    print("  • Colunas: assignment, turma, aluno/grupo, notas, status, etc.")
+    
+    # Comentar para não executar automaticamente
+    # cli(["export-results", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025"])
+    
+    # Exemplo 12: Exportar todos os assignments de uma turma para CSV
+    print("\n📝 Exemplo 12: Exportar Todos os Assignments para CSV")
+    print("-" * 50)
+    print("Turma: ebape-prog-aplic-barra-2025")
+    print("Características:")
+    print("  • Exporta todos os assignments da turma para CSV")
+    print("  • Um arquivo CSV por assignment")
+    print("  • Estatísticas consolidadas de todos os assignments")
+    print("  • Tratamento de erros: continua mesmo se um assignment falhar")
+    print("  • Diretório de saída: reports/csv/")
+    print("  • Nomenclatura: {assignment}_{turma}_results.csv")
+    
+    # Comentar para não executar automaticamente
+    # cli(["export-results", "--turma", "ebape-prog-aplic-barra-2025", "--all-assignments"])
+    
+    # Exemplo 13: Exportar CSV com diretório personalizado
+    print("\n📝 Exemplo 13: Exportar CSV com Diretório Personalizado")
+    print("-" * 50)
+    print("Turma: ebape-prog-aplic-barra-2025")
+    print("Características:")
+    print("  • Exporta todos os assignments da turma")
+    print("  • Diretório de saída personalizado: meus-csv/")
+    print("  • Útil para organizar exportações por data ou projeto")
+    print("  • Mantém estrutura de arquivos organizada")
+    
+    # Comentar para não executar automaticamente
+    # cli(["export-results", "--turma", "ebape-prog-aplic-barra-2025", "--all-assignments", "--output-dir", "meus-csv"])
+    
     print("\n✅ Exemplos demonstrados!")
     print("\n💡 Para executar os exemplos, descomente as linhas correspondentes no código.")
     print("💡 Para mais opções, execute: python -m src.main --help")

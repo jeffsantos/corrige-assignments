@@ -194,6 +194,19 @@ python -m src.main convert-latest --format html
 python -m src.main convert-latest --format markdown
 ```
 
+### Comandos de Exportação CSV
+
+```bash
+# Exportar tabela de resultados de um assignment para CSV
+python -m src.main export-results --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
+
+# Exportar tabela de resultados de todos os assignments de uma turma para CSV
+python -m src.main export-results --turma ebape-prog-aplic-barra-2025 --all-assignments
+
+# Especificar diretório de saída para arquivos CSV
+python -m src.main export-results --turma ebape-prog-aplic-barra-2025 --all-assignments --output-dir reports/csv
+```
+
 ### Comandos de Thumbnails
 
 ```bash
@@ -257,6 +270,12 @@ python -m src.main generate-visual-report --assignment prog1-tarefa-html-curricu
 
 # Exemplo 14: Gerar relatório visual com logs detalhados
 python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose
+
+# Exemplo 15: Exportar tabela de resultados para CSV
+python -m src.main export-results --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025
+
+# Exemplo 16: Exportar todos os assignments de uma turma para CSV
+python -m src.main export-results --turma ebape-prog-aplic-barra-2025 --all-assignments
 ```
 
 ## 🖼️ Funcionalidade de Thumbnails
@@ -347,6 +366,38 @@ pillow = "*"    # Manipulação de imagens para captura completa
 ### Formatos Disponíveis
 
 - **Console**: Exibição colorida e formatada no terminal
+- **HTML**: Relatório interativo com gráficos e navegação
+- **Markdown**: Relatório em formato texto estruturado
+- **JSON**: Dados estruturados para processamento posterior
+- **CSV**: Tabela de resultados para análise em planilhas e BI
+
+### Exportação CSV
+
+O sistema permite exportar a tabela "Resultados por Submissão" em formato CSV para análise em planilhas, ferramentas de BI e outras aplicações.
+
+#### Estrutura do CSV
+
+O arquivo CSV contém as seguintes colunas:
+
+- **assignment_name**: Nome do assignment
+- **turma**: Nome da turma
+- **submission_identifier**: Login do aluno ou nome do grupo
+- **submission_type**: Tipo de submissão (individual/group)
+- **test_score**: Nota dos testes (0-10)
+- **ai_score**: Nota da análise de IA (0-10)
+- **final_score**: Nota final (0-10)
+- **status**: Status da submissão (🟢 Excelente, 🟡 Bom, 🟠 Aprovado, 🔴 Reprovado)
+- **tests_passed**: Número de testes que passaram
+- **tests_total**: Número total de testes
+- **generated_at**: Data/hora de geração do relatório
+
+#### Características
+
+- **Notas separadas**: Mostra nota dos testes e nota da IA separadamente
+- **Suporte a múltiplos assignments**: Exporta todos os assignments de uma turma
+- **Encoding UTF-8**: Suporte completo a caracteres especiais
+- **Estatísticas**: Calcula estatísticas de exportação (média, taxa de aprovação, etc.)
+- **Tratamento de erros**: Continua exportação mesmo se um assignment falhar
 - **HTML**: Relatório interativo com gráficos e navegação
 - **Markdown**: Relatório em formato texto estruturado
 - **JSON**: Dados estruturados para processamento posterior
