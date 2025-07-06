@@ -252,6 +252,9 @@ python -m src.main generate-execution-visual-report --assignment prog1-tarefa-sc
 # Processamento completo de turma (correção + visuais + CSV)
 python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025
 
+# Processamento completo de apenas um assignment da turma
+python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --assignment prog1-tarefa-scrap-simples
+
 # Processamento completo com formato específico
 python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --output-format markdown
 
@@ -324,6 +327,9 @@ python -m src.main correct --turma ebape-prog-aplic-barra-2025 --all-assignments
 
 # Exemplo 19: Processamento completo de turma
 python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025
+
+# Exemplo 19b: Processamento completo de apenas um assignment da turma
+python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --assignment prog1-tarefa-scrap-simples
 
 # Exemplo 20: Relatório visual de execução Python
 python -m src.main generate-execution-visual-report --assignment prog1-tarefa-scrap-yahoo --turma ebape-prog-aplic-barra-2025

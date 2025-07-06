@@ -320,6 +320,15 @@ def run_example():
     # Comentar para não executar automaticamente
     # cli(["generate-execution-visual-report", "--assignment", "prog1-tarefa-scrap-yahoo", "--turma", "ebape-prog-aplic-barra-2025"])
     
+    # Exemplo 19: Processamento completo de apenas um assignment da turma
+    print("\n📝 Exemplo 19b: Processamento completo de apenas um assignment da turma")
+    print("-" * 50)
+    print("Assignment: prog1-tarefa-scrap-simples")
+    print("Características:")
+    print("  • Correção, relatórios, thumbnails e CSV apenas para o assignment especificado")
+    print("  • Útil para reprocessar ou atualizar um assignment isoladamente")
+    # python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --assignment prog1-tarefa-scrap-simples
+    
     print("\n✅ Exemplos demonstrados!")
     print("\n💡 Para executar os exemplos, descomente as linhas correspondentes no código.")
     print("💡 Para mais opções, execute: python -m src.main --help")
