@@ -1,0 +1,1834 @@
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-ana-clara-e-isabella
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-ana-clara-e-isabella
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-bernardo-destri-e-daniel-valentim
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-bernardo-destri-e-daniel-valentim
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-bernardo-garrido-e-bernardo-mattos
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-bernardo-garrido-e-bernardo-mattos
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-breno-e-matheus
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-breno-e-matheus
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-bruna-e-luisa
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-bruna-e-luisa
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-carol-e-maria
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-carol-e-maria
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-daniella-e-maria-eduarda
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-daniella-e-maria-eduarda
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-giovane-e-vitor
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-giovane-e-vitor
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-giovanna-machado-e-beatriz-politano
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-giovanna-machado-e-beatriz-politano
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-giulia-meira-e-pedro-marcio
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-giulia-meira-e-pedro-marcio
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-gustavo
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-gustavo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-lucca-e-fred
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-lucca-e-fred
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-luis-tito-e-mateus-mahmoud
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-luis-tito-e-mateus-mahmoud
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-miguel
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-miguel
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-olga-elisa-e-gabriel
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-olga-elisa-e-gabriel
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-roberta-e-giulia-paura
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-roberta-e-giulia-paura
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-sarah-e-mariana
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-sarah-e-mariana
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-thais-e-bianca
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-thais-e-bianca
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-valentine-e-nina
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-prova-av-submissions\prog1-prova-av-valentine-e-nina
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-anaclaravtoledo
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-anaclaravtoledo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-arthurrrangel
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-arthurrrangel
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-barc102
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-barc102
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-bedestri
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-bedestri
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Bianca02411
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Bianca02411
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-biapolitanos
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-biapolitanos
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Brenoall
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Brenoall
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-brunadutrain
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-brunadutrain
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Carolinabragafgv
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Carolinabragafgv
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-daniellafferreira
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-daniellafferreira
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-DavidPamponet
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-DavidPamponet
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-enzociraudo
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-enzociraudo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Felipeslobo
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Felipeslobo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-FredericoKlein
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-FredericoKlein
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Gabriel-Pierre
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Gabriel-Pierre
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-gabriellavares
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-gabriellavares
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-gioguadagno
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-gioguadagno
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Giovannamgomes
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Giovannamgomes
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-GiuliaPPaura
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-GiuliaPPaura
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-giumeira
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-giumeira
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-gustavofin-1
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-gustavofin-1
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Immortals2698-1
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Immortals2698-1
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-isafcf
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-isafcf
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-lf198100
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-lf198100
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-luccabtorres
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-luccabtorres
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Luisas-Amaral
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Luisas-Amaral
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-mariaeduardanigri
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-mariaeduardanigri
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-marianacbp
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-marianacbp
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-mariclaraluz
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-mariclaraluz
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-mateusmahmoud
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-mateusmahmoud
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Miguelbms
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Miguelbms
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Nina-777
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Nina-777
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Olga864
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Olga864
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-PedroM-FGV
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-PedroM-FGV
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Robertabbcorrea
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Robertabbcorrea
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-SarahSouzafgv
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-SarahSouzafgv
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Tetz777
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Tetz777
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-thaisbotelho21
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-thaisbotelho21
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-valentineribeiro
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-valentineribeiro
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-vitorjohn
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-vitorjohn
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-anaclaravtoledo
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-anaclaravtoledo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-bedestri
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-bedestri
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Bianca02411
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Bianca02411
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-biapolitanos
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-biapolitanos
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Brenoall
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Brenoall
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-brunadutrain
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-brunadutrain
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Carolinabragafgv
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Carolinabragafgv
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-daniellafferreira
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-daniellafferreira
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Danielvlf39
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Danielvlf39
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-FredericoKlein
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-FredericoKlein
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Gabriel-Pierre
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Gabriel-Pierre
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-gioguadagno
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-gioguadagno
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Giovannamgomes
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Giovannamgomes
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-GiuliaPPaura
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-GiuliaPPaura
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-giumeira
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-giumeira
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-isafcf
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-isafcf
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Luisas-Amaral
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Luisas-Amaral
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-mariaeduardanigri
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-mariaeduardanigri
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-marianacbp
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-marianacbp
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Miguelbms
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Miguelbms
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Nina-777
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Nina-777
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Olga864
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Olga864
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-PedroM-FGV
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-PedroM-FGV
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Robertabbcorrea
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Robertabbcorrea
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-SarahSouzafgv
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-SarahSouzafgv
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-thaisbotelho21
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-thaisbotelho21
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-valentineribeiro
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-valentineribeiro
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-vitorlimafjc
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-vitorlimafjc
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-anaclaravtoledo
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-anaclaravtoledo
+Updating 7870332..7bc30a6
+Fast-forward
+ main.py | 61 -------------------------------------------------------------
+ 1 file changed, 61 deletions(-)
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-bedestri
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-bedestri
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Bianca02411
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Bianca02411
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-biapolitanos
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-biapolitanos
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Brenoall
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Brenoall
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-brunadutrain
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-brunadutrain
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Carolinabragafgv
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Carolinabragafgv
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-daniellafferreira
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-daniellafferreira
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Danielvlf39
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Danielvlf39
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-deresaw2010
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-deresaw2010
+Updating 59c92fb..ff93d36
+Fast-forward
+ VALE.csv           |  83 +++++++++++++++++++++++++++++++++++
+ experimentos.ipynb | 126 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ main.py            |  12 +++--
+ 3 files changed, 217 insertions(+), 4 deletions(-)
+ create mode 100644 experimentos.ipynb
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Felipeslobo
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Felipeslobo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Gabriel-Pierre
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Gabriel-Pierre
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-gioguadagno
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-gioguadagno
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Giovannamgomes
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Giovannamgomes
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-GiuliaPPaura
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-GiuliaPPaura
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-isafcf
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-isafcf
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-mariaeduardanigri
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-mariaeduardanigri
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-marianacbp
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-marianacbp
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Miguelbms
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Miguelbms
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-natiemi
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-natiemi
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Nina-777
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Nina-777
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Olga864
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Olga864
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Robertabbcorrea
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Robertabbcorrea
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-SarahSouzafgv
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-SarahSouzafgv
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-thaisbotelho21
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-thaisbotelho21
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-valentineribeiro
+git pull OK: respostas\ebape-prog-aplic-barra-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-valentineribeiro
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-ahmad-zein-e-joaquim-figueiredo
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-ahmad-zein-e-joaquim-figueiredo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-ana-isoppo-e-guilherme-rivas
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-ana-isoppo-e-guilherme-rivas
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-bidu
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-bidu
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-bruno-gervasio-e-guilherme-tenorio
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-bruno-gervasio-e-guilherme-tenorio
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-carlos-carvalho-igor-nunes
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-carlos-carvalho-igor-nunes
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-carlos-eduardo-wey-e-gustavo-lin
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-carlos-eduardo-wey-e-gustavo-lin
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-carolina-de-britto-e-maria-vitoria
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-carolina-de-britto-e-maria-vitoria
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-eduarda-telles-e-fernanda-mirilli
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-eduarda-telles-e-fernanda-mirilli
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-eduardo-bonaparte
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-eduardo-bonaparte
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-eduardo-poppe-e-camilla-silva
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-eduardo-poppe-e-camilla-silva
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-gabriel-pineschi-e-breno-henrico
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-gabriel-pineschi-e-breno-henrico
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-guilherme-kacelnik-e-christiano-mello
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-guilherme-kacelnik-e-christiano-mello
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-habynner-samuel-e-gabriel-barbosa
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-habynner-samuel-e-gabriel-barbosa
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-henrique-palmer
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-henrique-palmer
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-ilan-jacobovicz-e-joao-paulo-carrusca
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-ilan-jacobovicz-e-joao-paulo-carrusca
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-isabela-medeiros-e-davi-chaar
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-isabela-medeiros-e-davi-chaar
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-joao-andrade-e-luis-bulcao
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-joao-andrade-e-luis-bulcao
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-joaquim-lacerda-e-diogo-villar
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-joaquim-lacerda-e-diogo-villar
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-joaquim-luiz
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-joaquim-luiz
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-jose-lourenco-quindere
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-jose-lourenco-quindere
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-juliana-pinho-e-gabriella-tavares
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-juliana-pinho-e-gabriella-tavares
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-maria-guilhermina-e-giovanna-vianello
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-maria-guilhermina-e-giovanna-vianello
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-mariana-camara
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-mariana-camara
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-patrick-cohen-e-patrick-siles
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-patrick-cohen-e-patrick-siles
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-samuel-feldman-e-enzo-schiavinato
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-prova-av-submissions\prog1-prova-av-samuel-feldman-e-enzo-schiavinato
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Ahmadsz99
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Ahmadsz99
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-beatrizdomingues418
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-beatrizdomingues418
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-brenohenrico
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-brenohenrico
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-brungg81
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-brungg81
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Bruno-R-Arias
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Bruno-R-Arias
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Caducs
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Caducs
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-camillamoreirasilva
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-camillamoreirasilva
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-carlos28427
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-carlos28427
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Carolinacbritto
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Carolinacbritto
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-christianomello
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-christianomello
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-deresaw2010
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-deresaw2010
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Dudaazeredo
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Dudaazeredo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-dvillar00
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-dvillar00
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-EduardaTelles
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-EduardaTelles
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-EduardogBonaparte
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-EduardogBonaparte
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-eduardopoppe
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-eduardopoppe
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Fmirilli
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Fmirilli
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-GabrielBarbosaPinto
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-GabrielBarbosaPinto
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-gabriellavares-1
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-gabriellavares-1
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-giovannavianello
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-giovannavianello
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-gpineschiramos
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-gpineschiramos
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-guigui2600
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-guigui2600
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-guilhermekacelnik
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-guilhermekacelnik
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-GuilhermeTenorio061
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-GuilhermeTenorio061
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-gustavolin13
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-gustavolin13
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-habynner-samuel
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-habynner-samuel
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Igornmmiranda
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Igornmmiranda
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Ilan-jacobovicz
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Ilan-jacobovicz
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Immortals2698
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Immortals2698
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-isabela-alt09
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-isabela-alt09
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-isoppana
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-isoppana
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-joao-pedro-berba
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-joao-pedro-berba
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-joaozinhoandrade
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-joaozinhoandrade
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Joaquim0Luiz
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Joaquim0Luiz
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-joselourenco07
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-joselourenco07
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-juujfp
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-juujfp
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-kikopalmer
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-kikopalmer
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-MarianaCamara
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-MarianaCamara
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-mghoog
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-mghoog
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Patricio18613
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Patricio18613
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Patricksiles
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Patricksiles
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Phfcs0
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Phfcs0
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-SamuelFeldman
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-SamuelFeldman
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-schiavienzo
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-schiavienzo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-vivipsoares
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-vivipsoares
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-beatrizdomingues418
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-beatrizdomingues418
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-brenohenrico
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-brenohenrico
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-brungg81
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-brungg81
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Bruno-R-Arias
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Bruno-R-Arias
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Caducs
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Caducs
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-camillamoreirasilva
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-camillamoreirasilva
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-carlos28427
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-carlos28427
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Carolinacbritto
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Carolinacbritto
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-christianomello
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-christianomello
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-deresaw2010-1
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-deresaw2010-1
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Dudaazeredo
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Dudaazeredo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-dvillar00
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-dvillar00
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-EduardaTelles
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-EduardaTelles
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-EduardogBonaparte
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-EduardogBonaparte
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-eduardopoppe
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-eduardopoppe
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Fmirilli
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Fmirilli
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-GabrielBarbosaPinto
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-GabrielBarbosaPinto
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-gabriellavares
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-gabriellavares
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-giovannavianello
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-giovannavianello
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-gpineschiramos
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-gpineschiramos
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-guigui2600
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-guigui2600
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-guilhermekacelnik
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-guilhermekacelnik
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-GuilhermeTenorio061
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-GuilhermeTenorio061
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-gustavolin13
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-gustavolin13
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-habynner-samuel
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-habynner-samuel
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Igornmmiranda
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Igornmmiranda
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Ilan-jacobovicz
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Ilan-jacobovicz
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Immortals2698
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Immortals2698
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-isabela-alt09
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-isabela-alt09
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-isoppana
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-isoppana
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-joao-pedro-berba
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-joao-pedro-berba
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-joaozinhoandrade
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-joaozinhoandrade
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Joaquim0Luiz
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Joaquim0Luiz
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-joselourenco07
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-joselourenco07
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-juujfp
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-juujfp
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-kikopalmer
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-kikopalmer
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-MarianaCamara
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-MarianaCamara
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-mghoog
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-mghoog
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Patricio18613
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Patricio18613
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Patricksiles
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Patricksiles
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Phfcs0
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Phfcs0
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-SamuelFeldman
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-SamuelFeldman
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-schiavienzo
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-schiavienzo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-vivipsoares
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-vivipsoares
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-beatrizdomingues418
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-beatrizdomingues418
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Bruno-R-Arias
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Bruno-R-Arias
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Caducs
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Caducs
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-camillamoreirasilva
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-camillamoreirasilva
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-carlos28427
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-carlos28427
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Carolinacbritto
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Carolinacbritto
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-christianomello
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-christianomello
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Dudaazeredo
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Dudaazeredo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-dvillar00
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-dvillar00
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-EduardaTelles
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-EduardaTelles
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-EduardogBonaparte
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-EduardogBonaparte
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-eduardopoppe
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-eduardopoppe
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Fmirilli
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Fmirilli
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-gabriellavares
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-gabriellavares
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-giovannavianello
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-giovannavianello
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-gpineschiramos
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-gpineschiramos
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-guigui2600
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-guigui2600
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-guilhermekacelnik
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-guilhermekacelnik
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-gustavolin13
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-gustavolin13
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-habynner-samuel
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-habynner-samuel
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Igornmmiranda
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Igornmmiranda
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Ilan-jacobovicz
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Ilan-jacobovicz
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Immortals2698
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Immortals2698
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-isabela-alt09
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-isabela-alt09
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-isoppana
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-isoppana
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-joao-pedro-berba
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-joao-pedro-berba
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Joaquim0Luiz
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Joaquim0Luiz
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-joselourenco07
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-joselourenco07
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-juujfp
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-juujfp
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-kauanferes
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-kauanferes
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-kikopalmer
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-kikopalmer
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-MarianaCamara
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-MarianaCamara
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-mghoog
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-mghoog
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Patricksiles
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Patricksiles
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Phfcs0
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Phfcs0
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-SamuelFeldman
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-SamuelFeldman
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-schiavienzo
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-schiavienzo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-vivipsoares
+git pull OK: respostas\ebape-prog-aplic-botafogo1-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-vivipsoares
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-ana-clara-e-nadine
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-ana-clara-e-nadine
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-anthony-duarte-e-vitor-nascimento
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-anthony-duarte-e-vitor-nascimento
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-anthony-munaro-e-otto-pereira
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-anthony-munaro-e-otto-pereira
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-kauan-feres-e-moises-gordiano
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-kauan-feres-e-moises-gordiano
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-luiza-pollo-e-maria-fernanda-luna
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-luiza-pollo-e-maria-fernanda-luna
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-mariana-e-ana
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-mariana-e-ana
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-mariana-yumi-e-viviane-costa
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-mariana-yumi-e-viviane-costa
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-martin-e-lucas-steinle
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-martin-e-lucas-steinle
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-naif-mardine-e-pedro-muller
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-naif-mardine-e-pedro-muller
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-nathalia-e-sofia
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-nathalia-e-sofia
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-nicolas-singer-e-rafael-lannes
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-nicolas-singer-e-rafael-lannes
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-rafael-possidente-e-joao-victor
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-rafael-possidente-e-joao-victor
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-valentina-ribeiro-e-luana-seixas
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-valentina-ribeiro-e-luana-seixas
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-valentina-romero
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-valentina-romero
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-vitoria-goncalves
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-prova-av-submissions\prog1-prova-av-vitoria-goncalves
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-AnaGalv
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-AnaGalv
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-analaurakuhlen
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-analaurakuhlen
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Anthony2522
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Anthony2522
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-AnthonyMunaro
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-AnthonyMunaro
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-bemattos
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-bemattos
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Caducs-1
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Caducs-1
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-joaovictocp
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-joaovictocp
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-kauanferes
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-kauanferes
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-luanapseixas
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-luanapseixas
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-lucas230905
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-lucas230905
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Luiza-pollo
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Luiza-pollo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-mafemluna
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-mafemluna
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-mariana-fontanezi
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-mariana-fontanezi
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-martinlifsic
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-martinlifsic
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Monza-byte
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Monza-byte
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-MrOck8000
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-MrOck8000
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-nadinetoledo
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-nadinetoledo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-naifmardine
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-naifmardine
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-natiemi
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-natiemi
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Nicolas517-alt
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Nicolas517-alt
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Pedro-Rocha78
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Pedro-Rocha78
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Pedromuller35
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Pedromuller35
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Rafael-Possi-Rocha
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Rafael-Possi-Rocha
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-rafaels33
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-rafaels33
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-sofiassanz
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-sofiassanz
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-valentinaromero4
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-valentinaromero4
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-varibeiroc
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-varibeiroc
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-vitoriacgongalves
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-vitoriacgongalves
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-vitorlimafjc
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-vitorlimafjc
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Vivisilvacosta
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-html-curriculo-submissions\prog1-tarefa-html-curriculo-Vivisilvacosta
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-AnaGalv
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-AnaGalv
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-analaurakuhlen
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-analaurakuhlen
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Anthony2522
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Anthony2522
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-AnthonyMunaro
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-AnthonyMunaro
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-gustavofin
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-gustavofin
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Immortals2698-1
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Immortals2698-1
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-kauanferes
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-kauanferes
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-luanapseixas
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-luanapseixas
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-lucas230905
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-lucas230905
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Luiza-pollo
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Luiza-pollo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-mafemluna
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-mafemluna
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-mariana-fontanezi
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-mariana-fontanezi
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-martinlifsic
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-martinlifsic
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Monza-byte
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Monza-byte
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-MrOck8000
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-MrOck8000
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-nadinetoledo
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-nadinetoledo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-naifmardine
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-naifmardine
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-natiemi
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-natiemi
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Nicolas517-alt
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Nicolas517-alt
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Pedro-Rocha78
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Pedro-Rocha78
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Pedromuller35
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Pedromuller35
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Rafael-Possi-Rocha
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Rafael-Possi-Rocha
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-rafaels33
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-rafaels33
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-sofiassanz
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-sofiassanz
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-valentinaromero4
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-valentinaromero4
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-varibeiroc
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-varibeiroc
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-vitoriacgongalves
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-vitoriacgongalves
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Vivisilvacosta
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-Vivisilvacosta
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-yumitg
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-simples-submissions\prog1-tarefa-scrap-simples-yumitg
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-AnaGalv
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-AnaGalv
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-analaurakuhlen
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-analaurakuhlen
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Anthony2522
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Anthony2522
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-AnthonyMunaro
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-AnthonyMunaro
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Immortals2698-1
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Immortals2698-1
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-kauanferes-1
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-kauanferes-1
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-luanapseixas
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-luanapseixas
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-lucas230905
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-lucas230905
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Luiza-pollo
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Luiza-pollo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-mafemluna
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-mafemluna
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-mariana-fontanezi
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-mariana-fontanezi
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-martinlifsic
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-martinlifsic
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Monza-byte
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Monza-byte
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-MrOck8000
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-MrOck8000
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-nadinetoledo
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-nadinetoledo
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-naifmardine
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-naifmardine
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Nicolas517-alt
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Nicolas517-alt
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Pedromuller35
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Pedromuller35
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Rafael-Possi-Rocha
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Rafael-Possi-Rocha
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-rafaels33
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-rafaels33
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-sofiassanz
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-sofiassanz
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-varibeiroc
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-varibeiroc
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-vitoriacgongalves
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-vitoriacgongalves
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-vitorlimafjc
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-vitorlimafjc
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Vivisilvacosta
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-Vivisilvacosta
+Already up to date.
+
+----------------------------------------
+Executando git pull em: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-yumitg
+git pull OK: respostas\ebape-prog-aplic-botafogo2-2025\prog1-tarefa-scrap-yahoo-submissions\prog1-tarefa-scrap-yahoo-yumitg
+Already up to date.
+
+----------------------------------------
