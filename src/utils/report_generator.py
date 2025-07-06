@@ -8,6 +8,7 @@ from rich.table import Table
 from rich.panel import Panel
 from rich.text import Text
 from ..domain.models import CorrectionReport, Submission
+import html
 
 
 class ReportGenerator:
@@ -49,13 +50,22 @@ class ReportGenerator:
         results_table.add_column("Status", style="yellow")
         results_table.add_column("Testes", style="blue")
         
-        for submission in sorted(report.submissions, key=lambda x: x.final_score, reverse=True):
-            # Determina status baseado na nota
-            if submission.final_score >= 9.0:
+        def get_ai_score(submission):
+            if hasattr(submission, 'code_analysis') and submission.code_analysis:
+                return submission.code_analysis.score
+            elif hasattr(submission, 'html_analysis') and submission.html_analysis:
+                return submission.html_analysis.score
+            return 0.0
+        
+        for submission in sorted(report.submissions, key=get_ai_score, reverse=True):
+            # Determina status baseado na nota da IA (NÃO na nota final)
+            ai_score = get_ai_score(submission)
+            status_score = ai_score
+            if status_score >= 9.0:
                 status = "🟢 Excelente"
-            elif submission.final_score >= 7.0:
+            elif status_score >= 7.0:
                 status = "🟡 Bom"
-            elif submission.final_score >= 6.0:
+            elif status_score >= 6.0:
                 status = "🟠 Aprovado"
             else:
                 status = "🔴 Reprovado"
@@ -142,6 +152,13 @@ class ReportGenerator:
         """Converte um relatório para dados CSV."""
         csv_data = []
         
+        def get_ai_score(submission):
+            if hasattr(submission, 'code_analysis') and submission.code_analysis:
+                return submission.code_analysis.score
+            elif hasattr(submission, 'html_analysis') and submission.html_analysis:
+                return submission.html_analysis.score
+            return 0.0
+        
         for submission in report.submissions:
             # Calcula nota dos testes
             test_score = 0.0
@@ -154,11 +171,7 @@ class ReportGenerator:
                     test_score = (tests_passed / tests_total) * 10.0
             
             # Calcula nota da IA
-            ai_score = 0.0
-            if hasattr(submission, 'code_analysis') and submission.code_analysis:
-                ai_score = submission.code_analysis.score
-            elif hasattr(submission, 'html_analysis') and submission.html_analysis:
-                ai_score = submission.html_analysis.score
+            ai_score = get_ai_score(submission)
             
             # Determina tipo de submissão e identificador
             from ..domain.models import IndividualSubmission, GroupSubmission
@@ -169,12 +182,13 @@ class ReportGenerator:
                 submission_type = "group"
                 submission_identifier = submission.group_name
             
-            # Determina status baseado na nota final
-            if submission.final_score >= 9.0:
+            # Determina status baseado na nota da IA (NÃO na nota final)
+            status_score = ai_score
+            if status_score >= 9.0:
                 status = "🟢 Excelente"
-            elif submission.final_score >= 7.0:
+            elif status_score >= 7.0:
                 status = "🟡 Bom"
-            elif submission.final_score >= 6.0:
+            elif status_score >= 6.0:
                 status = "🟠 Aprovado"
             else:
                 status = "🔴 Reprovado"
@@ -295,20 +309,14 @@ class ReportGenerator:
     def _build_html_table_rows(self, submissions: List[Submission]) -> str:
         """Constrói linhas da tabela HTML."""
         rows = []
-        for submission in sorted(submissions, key=lambda x: x.final_score, reverse=True):
-            if submission.final_score >= 9.0:
-                status = "🟢 Excelente"
-                css_class = "excellent"
-            elif submission.final_score >= 7.0:
-                status = "🟡 Bom"
-                css_class = "good"
-            elif submission.final_score >= 6.0:
-                status = "🟠 Aprovado"
-                css_class = "pass"
-            else:
-                status = "🔴 Reprovado"
-                css_class = "fail"
-            
+        def get_ai_score(submission):
+            if hasattr(submission, 'code_analysis') and submission.code_analysis:
+                return submission.code_analysis.score
+            elif hasattr(submission, 'html_analysis') and submission.html_analysis:
+                return submission.html_analysis.score
+            return 0.0
+        
+        for submission in sorted(submissions, key=get_ai_score, reverse=True):
             # Calcula nota dos testes
             test_score = 0.0
             if submission.test_results:
@@ -318,11 +326,21 @@ class ReportGenerator:
                     test_score = (passed / total) * 10.0
             
             # Calcula nota da IA
-            ai_score = 0.0
-            if hasattr(submission, 'code_analysis') and submission.code_analysis:
-                ai_score = submission.code_analysis.score
-            elif hasattr(submission, 'html_analysis') and submission.html_analysis:
-                ai_score = submission.html_analysis.score
+            ai_score = get_ai_score(submission)
+            
+            # Determina status baseado na nota da IA (NÃO na nota final)
+            if ai_score >= 9.0:
+                status = "🟢 Excelente"
+                css_class = "excellent"
+            elif ai_score >= 7.0:
+                status = "🟡 Bom"
+                css_class = "good"
+            elif ai_score >= 6.0:
+                status = "🟠 Aprovado"
+                css_class = "pass"
+            else:
+                status = "🔴 Reprovado"
+                css_class = "fail"
             
             # Simplifica o nome da submissão (remove "(individual)" e "(grupo)")
             display_name = submission.display_name
@@ -352,6 +370,13 @@ class ReportGenerator:
     def _build_html_student_details(self, submissions: List[Submission]) -> str:
         """Constrói detalhes dos alunos em HTML."""
         details = []
+        def get_ai_score(submission):
+            if hasattr(submission, 'code_analysis') and submission.code_analysis:
+                return submission.code_analysis.score
+            elif hasattr(submission, 'html_analysis') and submission.html_analysis:
+                return submission.html_analysis.score
+            return 0.0
+        
         for submission in submissions:
             # Constrói detalhes dos testes
             test_details_html = self._build_html_test_details(submission.test_results)
@@ -365,11 +390,7 @@ class ReportGenerator:
                     test_score = (passed / total) * 10.0
             
             # Calcula nota da IA
-            ai_score = 0.0
-            if hasattr(submission, 'code_analysis') and submission.code_analysis:
-                ai_score = submission.code_analysis.score
-            elif hasattr(submission, 'html_analysis') and submission.html_analysis:
-                ai_score = submission.html_analysis.score
+            ai_score = get_ai_score(submission)
             
             # Simplifica o nome da submissão (remove "(individual)" e "(grupo)")
             display_name = submission.display_name
@@ -391,7 +412,7 @@ class ReportGenerator:
                 {test_details_html}
                 
                 <h4>📝 Feedback:</h4>
-                <pre class="feedback-pre">{submission.feedback}</pre>
+                <pre class="feedback-pre">{html.escape(submission.feedback)}</pre>
             </div>
             """)
         
@@ -448,17 +469,14 @@ class ReportGenerator:
 |-------|------------|--------|--------|--------|
 """
         
-        # Adiciona linhas da tabela
-        for submission in sorted(report.submissions, key=lambda x: x.final_score, reverse=True):
-            if submission.final_score >= 9.0:
-                status = "🟢 Excelente"
-            elif submission.final_score >= 7.0:
-                status = "🟡 Bom"
-            elif submission.final_score >= 6.0:
-                status = "🟠 Aprovado"
-            else:
-                status = "🔴 Reprovado"
-            
+        def get_ai_score(submission):
+            if hasattr(submission, 'code_analysis') and submission.code_analysis:
+                return submission.code_analysis.score
+            elif hasattr(submission, 'html_analysis') and submission.html_analysis:
+                return submission.html_analysis.score
+            return 0.0
+        
+        for submission in sorted(report.submissions, key=get_ai_score, reverse=True):
             # Calcula nota dos testes
             test_score = 0.0
             if submission.test_results:
@@ -468,11 +486,17 @@ class ReportGenerator:
                     test_score = (passed / total) * 10.0
             
             # Calcula nota da IA
-            ai_score = 0.0
-            if hasattr(submission, 'code_analysis') and submission.code_analysis:
-                ai_score = submission.code_analysis.score
-            elif hasattr(submission, 'html_analysis') and submission.html_analysis:
-                ai_score = submission.html_analysis.score
+            ai_score = get_ai_score(submission)
+            
+            # Determina status baseado na nota da IA (NÃO na nota final)
+            if ai_score >= 9.0:
+                status = "🟢 Excelente"
+            elif ai_score >= 7.0:
+                status = "🟡 Bom"
+            elif ai_score >= 6.0:
+                status = "🟠 Aprovado"
+            else:
+                status = "🔴 Reprovado"
             
             # Simplifica o nome da submissão (remove "(individual)" e "(grupo)")
             display_name = submission.display_name
@@ -505,11 +529,7 @@ class ReportGenerator:
                     test_score = (passed / total) * 10.0
             
             # Calcula nota da IA
-            ai_score = 0.0
-            if hasattr(submission, 'code_analysis') and submission.code_analysis:
-                ai_score = submission.code_analysis.score
-            elif hasattr(submission, 'html_analysis') and submission.html_analysis:
-                ai_score = submission.html_analysis.score
+            ai_score = get_ai_score(submission)
             
             # Simplifica o nome da submissão (remove "(individual)" e "(grupo)")
             display_name = submission.display_name
@@ -530,7 +550,7 @@ class ReportGenerator:
 #### 📝 Feedback
 
 ```
-{submission.feedback}
+{html.escape(submission.feedback)}
 ```
 
 ---

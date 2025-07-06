@@ -118,12 +118,13 @@ class CSVExportService:
                 submission_type = "group"
                 submission_identifier = submission.group_name
             
-            # Determina status baseado na nota final
-            if submission.final_score >= 9.0:
+            # Determina status baseado na nota da IA (NÃO na nota final)
+            status_score = ai_score
+            if status_score >= 9.0:
                 status = "🟢 Excelente"
-            elif submission.final_score >= 7.0:
+            elif status_score >= 7.0:
                 status = "🟡 Bom"
-            elif submission.final_score >= 6.0:
+            elif status_score >= 6.0:
                 status = "🟠 Aprovado"
             else:
                 status = "🔴 Reprovado"
