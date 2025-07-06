@@ -240,11 +240,13 @@ Status: {python_execution.execution_status}
 Tempo de execução: {python_execution.execution_time:.2f} segundos
 Código de retorno: {python_execution.return_code}
 
-Output do terminal (stdout):
+--- Output do terminal (stdout): ---
 {python_execution.stdout_output}
+--- Fim do stdout ---
 
-Erros do terminal (stderr):
+--- Erros do terminal (stderr): ---
 {python_execution.stderr_output}
+--- Fim do stderr ---
 
 """
             formatted_prompt += execution_info
@@ -383,11 +385,13 @@ Status: {python_execution.execution_status}
 Tempo de execução: {python_execution.execution_time:.2f} segundos
 Código de retorno: {python_execution.return_code}
 
-Output do terminal (stdout):
+--- Output do terminal (stdout): ---
 {python_execution.stdout_output}
+--- Fim do stdout ---
 
-Erros do terminal (stderr):
+--- Erros do terminal (stderr): ---
 {python_execution.stderr_output}
+--- Fim do stderr ---
 
 """
             formatted_prompt += execution_info
