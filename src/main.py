@@ -769,12 +769,13 @@ def generate_execution_visual_report(assignment, turma, output_dir, verbose):
 
 @cli.command()
 @click.option('--turma', '-t', required=True, help='Nome da turma')
+@click.option('--assignment', '-a', help='Nome do assignment específico (opcional - se não fornecido, processa todos)')
 @click.option('--output-format', '-f', type=click.Choice(['console', 'html', 'markdown', 'json']), 
               default='html', help='Formato de saída do relatório')
 @click.option('--output-dir', '-o', default='reports', help='Diretório para salvar relatórios')
 @click.option('--force-recapture', is_flag=True, help='Força recaptura de thumbnails mesmo se já existirem')
 @click.option('--verbose', '-v', is_flag=True, help='Mostra logs detalhados de debug')
-def correct_all_with_visual(turma, output_format, output_dir, force_recapture, verbose):
+def correct_all_with_visual(turma, assignment, output_format, output_dir, force_recapture, verbose):
     """Executa correção completa de turma com relatórios visuais."""
     try:
         # Configura caminhos
@@ -806,18 +807,28 @@ def correct_all_with_visual(turma, output_format, output_dir, force_recapture, v
         report_generator = ReportGenerator()
         visual_generator = VisualReportGenerator()
         
-        console.print(Panel(f"[bold blue]Processamento completo da turma {turma}[/bold blue]"))
-        console.print("[yellow]📋 Inclui: Correção + Relatórios + Thumbnails + Exportação CSV[/yellow]")
+        # Determina o escopo do processamento
+        if assignment:
+            console.print(Panel(f"[bold blue]Processamento completo do assignment {assignment} da turma {turma}[/bold blue]"))
+            console.print("[yellow]📋 Inclui: Correção + Relatórios + Thumbnails + Exportação CSV[/yellow]")
+        else:
+            console.print(Panel(f"[bold blue]Processamento completo da turma {turma}[/bold blue]"))
+            console.print("[yellow]📋 Inclui: Correção + Relatórios + Thumbnails + Exportação CSV[/yellow]")
         
         with Progress(
             SpinnerColumn(),
             TextColumn("[progress.description]{task.description}"),
             console=console
         ) as progress:
-            # Etapa 1: Correção de todos os assignments
+            # Etapa 1: Correção de assignments
             task = progress.add_task("1/4 - Corrigindo assignments...", total=None)
             
-            reports = correction_service.correct_all_assignments(turma)
+            if assignment:
+                # Processa apenas o assignment específico
+                reports = [correction_service.correct_assignment(assignment, turma)]
+            else:
+                # Processa todos os assignments da turma
+                reports = correction_service.correct_all_assignments(turma)
             
             progress.update(task, description="1/4 - Correção concluída")
             
@@ -920,11 +931,17 @@ def correct_all_with_visual(turma, output_format, output_dir, force_recapture, v
                 from .services.csv_export_service import CSVExportService
                 csv_service = CSVExportService(output_path)
                 
-                exported_files = csv_service.export_all_assignments(turma, output_path / "csv")
-                
-                for csv_file in exported_files:
-                    assignment_name = csv_file.stem.replace(f"_{turma}_results", "")
+                if assignment:
+                    # Exporta apenas o assignment específico
+                    csv_file = csv_service.export_single_assignment(assignment, turma, output_path / "csv")
                     console.print(f"[green]✅ CSV exportado: {csv_file.name}[/green]")
+                else:
+                    # Exporta todos os assignments da turma
+                    exported_files = csv_service.export_all_assignments(turma, output_path / "csv")
+                    
+                    for csv_file in exported_files:
+                        assignment_name = csv_file.stem.replace(f"_{turma}_results", "")
+                        console.print(f"[green]✅ CSV exportado: {csv_file.name}[/green]")
                 
                 progress.update(task, description="4/4 - Exportação CSV concluída")
                 
