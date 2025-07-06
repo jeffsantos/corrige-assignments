@@ -26,6 +26,7 @@ reports/
 logs/
 *.log
 next.txt
+git_pull_log.txt
 
 # Secrets
 .env

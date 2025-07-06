@@ -1,7 +1,7 @@
 import subprocess
 from pathlib import Path
 
-ROOT_DIR = Path("respostas")
+ROOT_DIR = Path("../respostas")
 
 FIRST_LEVEL_FOLDERS = [
     "ebape-prog-aplic-barra-2025",
