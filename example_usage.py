@@ -329,6 +329,18 @@ def run_example():
     print("  • Útil para reprocessar ou atualizar um assignment isoladamente")
     # python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --assignment prog1-tarefa-scrap-simples
     
+    # Exemplo 19c: Processamento completo de uma submissão específica
+    print("\n📝 Exemplo 19c: Processamento completo de uma submissão específica")
+    print("-" * 50)
+    print("Assignment: prog1-prova-av")
+    print("Submissão: joao-silva")
+    print("Características:")
+    print("  • Correção, relatórios, thumbnails e CSV apenas para a submissão especificada")
+    print("  • Útil para reprocessar ou analisar uma submissão específica")
+    print("  • Processamento mais rápido que turma completa")
+    print("  • Ideal para análise individual ou debugging")
+    # python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --assignment prog1-prova-av --submissao joao-silva
+    
     print("\n✅ Exemplos demonstrados!")
     print("\n💡 Para executar os exemplos, descomente as linhas correspondentes no código.")
     print("💡 Para mais opções, execute: python -m src.main --help")

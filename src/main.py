@@ -770,12 +770,13 @@ def generate_execution_visual_report(assignment, turma, output_dir, verbose):
 @cli.command()
 @click.option('--turma', '-t', required=True, help='Nome da turma')
 @click.option('--assignment', '-a', help='Nome do assignment específico (opcional - se não fornecido, processa todos)')
+@click.option('--submissao', '-s', help='Identificador da submissão (login do aluno ou nome do grupo)')
 @click.option('--output-format', '-f', type=click.Choice(['console', 'html', 'markdown', 'json']), 
               default='html', help='Formato de saída do relatório')
 @click.option('--output-dir', '-o', default='reports', help='Diretório para salvar relatórios')
 @click.option('--force-recapture', is_flag=True, help='Força recaptura de thumbnails mesmo se já existirem')
 @click.option('--verbose', '-v', is_flag=True, help='Mostra logs detalhados de debug')
-def correct_all_with_visual(turma, assignment, output_format, output_dir, force_recapture, verbose):
+def correct_all_with_visual(turma, assignment, submissao, output_format, output_dir, force_recapture, verbose):
     """Executa correção completa de turma com relatórios visuais."""
     try:
         # Configura caminhos
@@ -808,7 +809,10 @@ def correct_all_with_visual(turma, assignment, output_format, output_dir, force_
         visual_generator = VisualReportGenerator()
         
         # Determina o escopo do processamento
-        if assignment:
+        if assignment and submissao:
+            console.print(Panel(f"[bold blue]Processamento completo da submissão {submissao} do assignment {assignment} da turma {turma}[/bold blue]"))
+            console.print("[yellow]📋 Inclui: Correção + Relatórios + Thumbnails + Exportação CSV[/yellow]")
+        elif assignment:
             console.print(Panel(f"[bold blue]Processamento completo do assignment {assignment} da turma {turma}[/bold blue]"))
             console.print("[yellow]📋 Inclui: Correção + Relatórios + Thumbnails + Exportação CSV[/yellow]")
         else:
@@ -823,7 +827,10 @@ def correct_all_with_visual(turma, assignment, output_format, output_dir, force_
             # Etapa 1: Correção de assignments
             task = progress.add_task("1/4 - Corrigindo assignments...", total=None)
             
-            if assignment:
+            if assignment and submissao:
+                # Processa apenas a submissão específica do assignment
+                reports = [correction_service.correct_assignment(assignment, turma, submissao)]
+            elif assignment:
                 # Processa apenas o assignment específico
                 reports = [correction_service.correct_assignment(assignment, turma)]
             else:
@@ -931,7 +938,11 @@ def correct_all_with_visual(turma, assignment, output_format, output_dir, force_
                 from .services.csv_export_service import CSVExportService
                 csv_service = CSVExportService(output_path)
                 
-                if assignment:
+                if assignment and submissao:
+                    # Exporta apenas a submissão específica do assignment
+                    csv_file = csv_service.export_single_assignment(assignment, turma, output_path / "csv")
+                    console.print(f"[green]✅ CSV exportado: {csv_file.name}[/green]")
+                elif assignment:
                     # Exporta apenas o assignment específico
                     csv_file = csv_service.export_single_assignment(assignment, turma, output_path / "csv")
                     console.print(f"[green]✅ CSV exportado: {csv_file.name}[/green]")
@@ -951,7 +962,15 @@ def correct_all_with_visual(turma, assignment, output_format, output_dir, force_
         
         # Resumo final
         console.print(f"\n[bold green]🎉 Processamento completo concluído![/bold green]")
-        console.print(f"[blue]📊 Assignments processados: {len(reports)}[/blue]")
+        
+        if assignment and submissao:
+            console.print(f"[blue]📊 Assignment processado: {assignment}[/blue]")
+            console.print(f"[blue]👤 Submissão processada: {submissao}[/blue]")
+        elif assignment:
+            console.print(f"[blue]📊 Assignment processado: {assignment}[/blue]")
+        else:
+            console.print(f"[blue]📊 Assignments processados: {len(reports)}[/blue]")
+        
         console.print(f"[blue]📸 Relatórios visuais gerados: {visual_reports_generated}[/blue]")
         console.print(f"[blue]🐍 Relatórios visuais de execução: {execution_visual_reports_generated}[/blue]")
         console.print(f"[blue]📁 Diretório de saída: {output_path}[/blue]")
