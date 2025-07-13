@@ -9,6 +9,7 @@ from typing import Dict, List, Optional, Tuple
 from datetime import datetime
 
 from ..domain.models import PythonExecutionResult
+from config import INTERACTIVE_ASSIGNMENTS_CONFIG
 
 
 class InteractiveExecutionService:
@@ -16,30 +17,7 @@ class InteractiveExecutionService:
     
     def __init__(self, verbose: bool = False):
         self.verbose = verbose
-        
-        # Configuração hardcoded para assignments interativos
-        self.interactive_config = {
-            "prog1-tarefa-scrap-yahoo": {
-                "python_file": "main.py",  # Arquivo Python a ser executado
-                "command_args": ["VALE"],
-                "inputs": [
-                    "2024-01-01",  # Data inicial
-                    "2024-01-31"   # Data final
-                ],
-                "timeout": 30,
-                "expected_outputs": ["vale", "ações", "data", "início", "fim"]
-            },
-            "prog1-prova-as": {
-                "python_file": "yahoo.py",  # Arquivo Python a ser executado
-                "command_args": ["VALE"],
-                "inputs": [
-                    "2024-01-01",  # Data inicial
-                    "2024-01-31"   # Data final
-                ],
-                "timeout": 30,
-                "expected_outputs": ["vale", "ações", "data", "início", "fim"]
-            }
-        }
+        self.interactive_config = INTERACTIVE_ASSIGNMENTS_CONFIG
     
     def _debug_print(self, message: str):
         """Imprime mensagem de debug apenas se verbose estiver habilitado."""

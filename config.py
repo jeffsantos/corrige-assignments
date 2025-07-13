@@ -65,6 +65,30 @@ ASSIGNMENTS_WITH_PYTHON_EXECUTION = {
     "prog1-prova-as": True,  # Atividade de recuperação com execução Python
 }
 
+# Configuração de assignments interativos (argumentos, inputs, arquivo python, etc)
+INTERACTIVE_ASSIGNMENTS_CONFIG = {
+    "prog1-tarefa-scrap-yahoo": {
+        "python_file": "main.py",  # Arquivo Python a ser executado
+        "command_args": ["VALE"],
+        "inputs": [
+            "2024-01-01",  # Data inicial
+            "2024-01-31"   # Data final
+        ],
+        "timeout": 30,
+        "expected_outputs": ["vale", "ações", "data", "início", "fim"]
+    },
+    "prog1-prova-as": {
+        "python_file": "yahoo.py",  # Arquivo Python a ser executado
+        "command_args": ["VALE"],
+        "inputs": [
+            "2024-01-01",  # Data inicial
+            "2024-01-31"   # Data final
+        ],
+        "timeout": 30,
+        "expected_outputs": ["vale", "ações", "data", "início", "fim"]
+    }
+}
+
 def get_assignment_submission_type(assignment_name: str) -> SubmissionType:
     """
     Retorna o tipo de submissão para um assignment específico.
