@@ -1,6 +1,6 @@
 """
 Serviço para executar programas Python interativos com entrada simulada.
-MVP: Implementação específica para prog1-tarefa-scrap-yahoo
+Suporta diferentes arquivos Python por assignment.
 """
 import subprocess
 import time
@@ -17,9 +17,20 @@ class InteractiveExecutionService:
     def __init__(self, verbose: bool = False):
         self.verbose = verbose
         
-        # Configuração hardcoded para MVP (prog1-tarefa-scrap-yahoo)
+        # Configuração hardcoded para assignments interativos
         self.interactive_config = {
             "prog1-tarefa-scrap-yahoo": {
+                "python_file": "main.py",  # Arquivo Python a ser executado
+                "command_args": ["VALE"],
+                "inputs": [
+                    "2024-01-01",  # Data inicial
+                    "2024-01-31"   # Data final
+                ],
+                "timeout": 30,
+                "expected_outputs": ["vale", "ações", "data", "início", "fim"]
+            },
+            "prog1-prova-as": {
+                "python_file": "yahoo.py",  # Arquivo Python a ser executado
                 "command_args": ["VALE"],
                 "inputs": [
                     "2024-01-01",  # Data inicial
@@ -44,12 +55,13 @@ class InteractiveExecutionService:
         
         config = self.interactive_config[assignment_name]
         
-        # Encontra o arquivo main.py
-        main_file = submission_path / "main.py"
-        if not main_file.exists():
-            raise FileNotFoundError(f"Arquivo main.py não encontrado em {submission_path}")
+        # Encontra o arquivo Python especificado na configuração
+        python_file = submission_path / config['python_file']
+        if not python_file.exists():
+            raise FileNotFoundError(f"Arquivo {config['python_file']} não encontrado em {submission_path}")
         
         self._debug_print(f"Executando programa interativo: {assignment_name}")
+        self._debug_print(f"Arquivo: {config['python_file']}")
         self._debug_print(f"Argumentos: {config['command_args']}")
         self._debug_print(f"Inputs: {config['inputs']}")
         
@@ -58,7 +70,7 @@ class InteractiveExecutionService:
         
         try:
             result = self._run_interactive_program(
-                main_file, 
+                python_file, 
                 config['command_args'], 
                 config['inputs'], 
                 config['timeout']
@@ -97,14 +109,14 @@ class InteractiveExecutionService:
                 error_message=str(e)
             )
     
-    def _run_interactive_program(self, main_file: Path, args: List[str], inputs: List[str], timeout: int) -> Dict:
+    def _run_interactive_program(self, python_file: Path, args: List[str], inputs: List[str], timeout: int) -> Dict:
         """Executa programa interativo com entrada simulada."""
         
         # Monta comando com argumentos
-        cmd = ["pipenv", "run", "python", "main.py"] + args
+        cmd = ["pipenv", "run", "python", python_file.name] + args
         
         self._debug_print(f"Executando comando: {' '.join(cmd)}")
-        self._debug_print(f"Diretório: {main_file.parent}")
+        self._debug_print(f"Diretório: {python_file.parent}")
         
         # Inicia processo
         process = subprocess.Popen(
@@ -112,7 +124,7 @@ class InteractiveExecutionService:
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            cwd=main_file.parent,
+            cwd=python_file.parent,
             text=True,
             encoding='utf-8',
             errors='replace'
