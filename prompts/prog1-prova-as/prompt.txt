@@ -1,0 +1,119 @@
+Analise o código Python abaixo para o assignment "{assignment_name}".
+
+DESCRIÇÃO DO ASSIGNMENT:
+{assignment_description}
+
+REQUISITOS ESPECÍFICOS:
+{assignment_requirements}
+
+CÓDIGO DO ENUNCIADO:
+{enunciado_code}
+
+CÓDIGO DO ALUNO:
+{student_code}
+
+=== INSTRUÇÕES CRÍTICAS PARA AVALIAÇÃO DE SCRAPING ===
+
+🚨 **REGRA ABSOLUTA PARA SCRAPING**: AVALIE APENAS O RESULTADO FINAL, NUNCA O MÉTODO!
+
+⚠️ **PROIBIDO TOTALMENTE**:
+- ❌ NÃO avalie se os seletores CSS estão "corretos" ou "incorretos"
+- ❌ NÃO critique classes CSS, IDs ou estrutura HTML usados
+- ❌ NÃO sugira seletores "melhores" ou "mais apropriados"
+- ❌ NÃO avalie se a estrutura HTML corresponde ao que você conhece da página
+- ❌ NÃO mencione que "a página deveria ter tabela" ou "deveria usar classes específicas"
+- ❌ NÃO desconsidere dados extraídos só porque usou método diferente do esperado
+
+✅ **O QUE AVALIAR**:
+- ✅ O código roda sem erros?
+- ✅ Extrai os dados solicitados?
+- ✅ Retorna no formato correto?
+- ✅ Exibe output no terminal no formato especificado?
+- ✅ Passa nos testes automatizados?
+
+📊 **CRITÉRIOS DE NOTA PARA SCRAPING**:
+- **NOTA 10**: Código roda + extrai todos os dados + formato correto + passa testes
+- **NOTA 8-9**: Código roda + extrai dados (mesmo com pequenos problemas) + formato correto
+- **NOTA 6-7**: Código roda + extrai alguns dados + formato parcialmente correto
+- **NOTA 4-5**: Código roda mas não extrai dados corretos
+- **NOTA 0-3**: Código não roda ou não extrai nada
+
+🎯 **EXEMPLO DE AVALIAÇÃO CORRETA**:
+Se o aluno extrai dados corretos e o código roda sem erro:
+- ✅ CORRETO: "Extrai dados corretos e código funciona"
+- ❌ INCORRETO: "Usa seletores CSS incorretos, deveria usar tabela"
+
+=== CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO ===
+
+**DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES:**
+
+**PROBLEMAS (só inclua aqui se for CRÍTICO):**
+- Requisitos OBRIGATÓRIOS do enunciado que estão AUSENTES ou INCORRETOS
+- Funções obrigatórias que não foram implementadas ou não funcionam
+- Estrutura de código que não segue o especificado no enunciado
+- Funcionalidades essenciais que não operam corretamente
+
+**SUGESTÕES (inclua aqui melhorias opcionais):**
+- Melhorias de código que não são obrigatórias
+- Otimizações de performance que não afetam funcionalidade
+- Adições de funcionalidades extras que enriquecem mas não são exigidas
+- Melhorias de legibilidade ou organização não obrigatórias
+- Sugestões de boas práticas que não são requisitos
+
+**EXEMPLOS DE CLASSIFICAÇÃO:**
+- ❌ PROBLEMA: "Função get_stock_url() não foi implementada" (se for obrigatória)
+- ✅ SUGESTÃO: "Poderia adicionar validação de formato de data"
+- ❌ PROBLEMA: "Dashboard não tem 3 filtros" (se for obrigatório)
+- ✅ SUGESTÃO: "Poderia melhorar a apresentação visual dos gráficos"
+
+=== INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS ===
+
+Este é um assignment de recuperação que combina Web Scraping do Yahoo Finance + Streamlit Dashboard. Avalie considerando:
+
+1. **Funcionamento do Scraping Yahoo Finance (35% do peso)**:
+   - A função `get_stock_url()` deve construir corretamente a URL com parâmetros
+   - A função `convert_to_unix()` deve converter datas para formato Unix corretamente
+   - A função `get_page_data()` deve fazer requisições HTTP com User-Agent apropriado
+   - A função `scrap_stock_page()` deve extrair dados da página HTML com BeautifulSoup
+   - O programa deve aceitar códigos de ações como argumentos de linha de comando
+   - O programa deve solicitar datas no formato AAAA-MM-DD
+   - O programa deve exibir valores encontrados para cada ação
+
+2. **Dashboard Streamlit (50% do peso)**:
+   - Deve ter título personalizado seguindo o padrão "Dashboard Final: <Título do seu Projeto>"
+   - Deve ter 3 filtros na sidebar (text_input, checkbox, radio, selectbox, multiselect, slider)
+   - Deve exibir tabela de dados carregada do CSV
+   - Deve ter 2 gráficos interativos relevantes para os dados
+   - Deve ter descrição/resumo com markdown ou write
+   - Deve usar o arquivo `dados/output.csv` como fonte de dados
+
+3. **Estrutura e Organização (15% do peso)**:
+   - O aluno deve manter a estrutura fornecida no enunciado
+   - Não deve modificar nomes de funções ou parâmetros dados
+   - Deve manter separação entre scraping (yahoo.py) e dashboard (main.py)
+   - Deve manter o arquivo test_yahoo.py inalterado
+   - Deve gerar CSV com dados para uso no dashboard
+
+=== FORMATO DE RESPOSTA ===
+
+Formate sua resposta EXATAMENTE assim:
+
+NOTA: [número de 0 a 10]
+JUSTIFICATIVA: [justificativa resumida e clara da nota]
+
+COMENTARIOS: [lista de comentários sobre pontos positivos]
+
+SUGESTOES: [lista de sugestões de melhoria - apenas melhorias opcionais]
+
+PROBLEMAS: [lista de problemas encontrados - apenas requisitos obrigatórios ausentes/incorretos]
+
+=== REGRAS CRÍTICAS ===
+
+1. **NOTA 10**: Se TODOS os requisitos obrigatórios do enunciado foram cumpridos
+2. **PROBLEMAS**: Só inclua requisitos OBRIGATÓRIOS ausentes/incorretos
+3. **SUGESTÕES**: Inclua melhorias opcionais e aperfeiçoamentos
+4. **NÃO CONFUNDA**: Melhorias não são problemas, problemas são falhas obrigatórias
+5. **BASEIE A NOTA**: Nos requisitos do enunciado, não em suas preferências pessoais
+6. **CONSIDERE CONTEXTO**: Esta é uma atividade de recuperação, avalie com rigor mas justiça
+
+IMPORTANTE: Considere que o aluno recebeu uma estrutura base no enunciado. Avalie principalmente se ele implementou corretamente as funcionalidades solicitadas tanto no scraping quanto no dashboard, e se fez escolhas inteligentes para filtros e gráficos. Esta atividade combina duas competências importantes: web scraping e visualização de dados. 

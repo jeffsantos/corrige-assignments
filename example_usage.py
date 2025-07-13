@@ -32,6 +32,21 @@ def run_example():
     # Comentar para não executar automaticamente
     # cli(["correct", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025"])
     
+    # Exemplo 1a: Atividade de recuperação com prompt personalizado
+    print("\n📝 Exemplo 1a: Atividade de Recuperação com Prompt Personalizado")
+    print("-" * 50)
+    print("Assignment: prog1-prova-as (Yahoo Scraping + Streamlit Dashboard)")
+    print("Características:")
+    print("  • Prompt personalizado em prompts/prog1-prova-as/prompt.txt")
+    print("  • Combina scraping do Yahoo Finance com dashboard Streamlit")
+    print("  • Avalia critérios específicos: scraping (35%), dashboard (50%), estrutura (15%)")
+    print("  • Atividade de recuperação para alunos que não alcançaram a média")
+    print("  • Submissões individuais (não em grupo)")
+    print("  • Suporte a execução Python + geração de thumbnails")
+    
+    # Comentar para não executar automaticamente
+    # cli(["correct", "--assignment", "prog1-prova-as", "--turma", "ebape-prog-aplic-barra-2025"])
+    
     # Exemplo 1b: Assignment Python com logs detalhados de debug
     print("\n📝 Exemplo 1b: Assignment Python com Debug Detalhado")
     print("-" * 50)
@@ -340,6 +355,22 @@ def run_example():
     print("  • Processamento mais rápido que turma completa")
     print("  • Ideal para análise individual ou debugging")
     # python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --assignment prog1-prova-av --submissao joao-silva
+    
+    # Exemplo 20: Atividade de recuperação com processamento completo
+    print("\n📝 Exemplo 20: Atividade de Recuperação com Processamento Completo")
+    print("-" * 50)
+    print("Assignment: prog1-prova-as (Yahoo Scraping + Streamlit Dashboard)")
+    print("Características:")
+    print("  • Correção completa: testes + análise de IA")
+    print("  • Relatórios visuais com thumbnails do dashboard")
+    print("  • Relatório de execução Python do scraper")
+    print("  • Exportação CSV para análise de resultados")
+    print("  • Atividade de recuperação com critérios específicos")
+    print("  • Combina competências de scraping e visualização")
+    print("  • Suporte a submissões individuais")
+    
+    # Comentar para não executar automaticamente
+    # cli(["correct-all-with-visual", "--turma", "ebape-prog-aplic-barra-2025", "--assignment", "prog1-prova-as"])
     
     print("\n✅ Exemplos demonstrados!")
     print("\n💡 Para executar os exemplos, descomente as linhas correspondentes no código.")

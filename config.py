@@ -41,12 +41,16 @@ ASSIGNMENT_SUBMISSION_TYPES: Dict[str, SubmissionType] = {
     
     # Assignments em grupo
     "prog1-prova-av": SubmissionType.GROUP,
+    
+    # Assignments individuais
+    "prog1-prova-as": SubmissionType.INDIVIDUAL,  # Atividade de recuperação
 }
 
 # Configuração de assignments que geram thumbnails
 ASSIGNMENTS_WITH_THUMBNAILS = {
     # Assignments Streamlit
     "prog1-prova-av": "streamlit",
+    "prog1-prova-as": "streamlit",  # Atividade de recuperação com dashboard
     
     # Assignments HTML
     "prog1-tarefa-html-curriculo": "html",
@@ -58,6 +62,7 @@ ASSIGNMENTS_WITH_PYTHON_EXECUTION = {
     # Assignments Python de terminal (não-Streamlit)
     "prog1-tarefa-scrap-simples": True,
     "prog1-tarefa-scrap-yahoo": True,
+    "prog1-prova-as": True,  # Atividade de recuperação com execução Python
 }
 
 def get_assignment_submission_type(assignment_name: str) -> SubmissionType:
