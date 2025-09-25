@@ -228,13 +228,16 @@ class PythonExecutionService:
         fundamental_deps = [
             "requests",
             "beautifulsoup4",
-            "pandas", 
+            "pandas",
             "numpy",
             "matplotlib",
             "seaborn",
             "lxml",
             "selenium",
-            "webdriver-manager"
+            "webdriver-manager",
+            "sqlalchemy",
+            "psycopg2-binary",
+            "python-dotenv"
         ]
         
         self._debug_print(f"  [DEBUG] Instalando dependências fundamentais...")
@@ -267,7 +270,10 @@ class PythonExecutionService:
             "seaborn",
             "lxml",
             "selenium",
-            "webdriver-manager"
+            "webdriver-manager",
+            "sqlalchemy",
+            "psycopg2-binary",
+            "python-dotenv"
         ]
         
         self._debug_print(f"  [DEBUG] Tentando instalar dependências comuns...")

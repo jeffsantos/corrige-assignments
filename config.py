@@ -44,6 +44,7 @@ ASSIGNMENT_SUBMISSION_TYPES: Dict[str, SubmissionType] = {
     
     # Assignments individuais
     "prog1-prova-as": SubmissionType.INDIVIDUAL,  # Atividade de recuperação
+    "prog2-teste": SubmissionType.INDIVIDUAL
 }
 
 # Configuração de assignments que geram thumbnails
@@ -51,10 +52,11 @@ ASSIGNMENTS_WITH_THUMBNAILS = {
     # Assignments Streamlit
     "prog1-prova-av": "streamlit",
     "prog1-prova-as": "streamlit",  # Atividade de recuperação com dashboard
+    "prog2-teste": "streamlit",
     
     # Assignments HTML
     "prog1-tarefa-html-curriculo": "html",
-    "prog1-tarefa-html-tutorial": "html",
+    "prog1-tarefa-html-tutorial": "html"
 }
 
 # Configuração de assignments Python que devem ter execução de código

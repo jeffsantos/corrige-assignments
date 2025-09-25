@@ -257,14 +257,17 @@ class StreamlitThumbnailService:
         fundamental_deps = [
             "streamlit",
             "plotly",
-            "pandas", 
+            "pandas",
             "requests",
             "beautifulsoup4",
             "numpy",
             "matplotlib",
             "seaborn",
             "altair",
-            "lxml"
+            "lxml",
+            "sqlalchemy",
+            "psycopg2-binary",
+            "python-dotenv"
         ]
         
         self._debug_print(f"  [DEBUG] Instalando dependências fundamentais...")
@@ -290,14 +293,17 @@ class StreamlitThumbnailService:
         """Instala dependências comuns que podem estar faltando."""
         common_deps = [
             "plotly",
-            "altair", 
+            "altair",
             "matplotlib",
             "seaborn",
             "numpy",
             "pandas",
             "requests",
             "beautifulsoup4",
-            "lxml"
+            "lxml",
+            "sqlalchemy",
+            "psycopg2-binary",
+            "python-dotenv"
         ]
         
         self._debug_print(f"  [DEBUG] Tentando instalar dependências comuns...")

@@ -1,18 +1,18 @@
 # Diagrama UML - Sistema de Correção Automática
 
-> Gerado automaticamente em 03/07/2025 às 11:00:45
+> Gerado automaticamente em 13/07/2025 às 20:37:13
 
 ## Visão Geral
 
 Este diagrama representa a arquitetura e relacionamentos entre as classes do sistema de correção automática de assignments.
 
 **Estatísticas:**
-- **Total de classes:** 21
-- **Módulos:** 10
+- **Total de classes:** 27
+- **Módulos:** 15
 - **Pacotes:** 4
 - **Heranças:** 0
 - **Composições:** 3
-- **Dependências:** 28
+- **Dependências:** 37
 
 ## Diagrama de Classes
 
@@ -28,6 +28,7 @@ classDiagram
         class GroupSubmission
         class HTMLAnalysis
         class IndividualSubmission
+        class PythonExecutionResult
         class SubmissionType
         class ThumbnailResult
         class Turma
@@ -38,9 +39,14 @@ classDiagram
     }
     namespace services {
         class AIAnalyzer
+        class CSVExportService
         class CorrectionService
+        class HTMLThumbnailService
+        class InteractiveExecutionService
         class PromptManager
         class PytestExecutor
+        class PythonExecutionService
+        class PythonExecutionVisualService
         class StreamlitThumbnailService
     }
     namespace utils {
@@ -48,34 +54,43 @@ classDiagram
         class VisualReportGenerator
     }
     AssignmentTestExecution --> AssignmentTestResult : has-a
-    Assignment --> SubmissionType : has-a
     Assignment --> AssignmentType : has-a
+    Assignment --> SubmissionType : has-a
     CorrectionReport ..> CorrectionReport
     AssignmentRepository ..> AssignmentType
     AssignmentRepository ..> SubmissionType
     AssignmentRepository ..> Assignment
     SubmissionRepository ..> GroupSubmission
+    SubmissionRepository ..> Turma
     SubmissionRepository ..> IndividualSubmission
     SubmissionRepository ..> SubmissionType
-    SubmissionRepository ..> Turma
-    AIAnalyzer ..> HTMLAnalysis
+    AIAnalyzer ..> PromptManager
     AIAnalyzer ..> CodeAnalysis
     AIAnalyzer ..> Assignment
-    AIAnalyzer ..> PromptManager
-    CorrectionService ..> SubmissionRepository
-    CorrectionService ..> CorrectionReport
-    CorrectionService ..> AssignmentRepository
-    CorrectionService ..> StreamlitThumbnailService
+    AIAnalyzer ..> HTMLAnalysis
     CorrectionService ..> PytestExecutor
-    CorrectionService ..> AssignmentType
-    CorrectionService ..> AIAnalyzer
-    CorrectionService ..> Assignment
     CorrectionService ..> AssignmentTestResult
+    CorrectionService ..> HTMLThumbnailService
+    CorrectionService ..> AIAnalyzer
+    CorrectionService ..> StreamlitThumbnailService
+    CorrectionService ..> PythonExecutionService
+    CorrectionService ..> SubmissionRepository
+    CorrectionService ..> AssignmentRepository
+    CorrectionService ..> InteractiveExecutionService
+    CorrectionService ..> AssignmentType
+    CorrectionService ..> CorrectionReport
+    CorrectionService ..> Assignment
+    CSVExportService ..> CorrectionReport
+    CSVExportService ..> IndividualSubmission
+    HTMLThumbnailService ..> ThumbnailResult
+    InteractiveExecutionService ..> PythonExecutionResult
     PromptManager ..> Assignment
+    PythonExecutionService ..> PythonExecutionResult
     StreamlitThumbnailService ..> ThumbnailResult
-    PytestExecutor ..> AssignmentTestResult
     PytestExecutor ..> AssignmentTestExecution
+    PytestExecutor ..> AssignmentTestResult
     ReportGenerator ..> CorrectionReport
+    ReportGenerator ..> IndividualSubmission
     VisualReportGenerator ..> ThumbnailResult
     VisualReportGenerator ..> CorrectionReport
 ```
@@ -84,9 +99,9 @@ classDiagram
 
 | Pacote | Classes | Quantidade |
 |--------|---------|------------|
-| `domain` | Assignment, AssignmentTestExecution, AssignmentTestResult, AssignmentType, CodeAnalysis, CorrectionReport, GroupSubmission, HTMLAnalysis, IndividualSubmission, SubmissionType, ThumbnailResult, Turma | 12 |
+| `domain` | Assignment, AssignmentTestExecution, AssignmentTestResult, AssignmentType, CodeAnalysis, CorrectionReport, GroupSubmission, HTMLAnalysis, IndividualSubmission, PythonExecutionResult, SubmissionType, ThumbnailResult, Turma | 13 |
 | `repositories` | AssignmentRepository, SubmissionRepository | 2 |
-| `services` | AIAnalyzer, CorrectionService, PromptManager, PytestExecutor, StreamlitThumbnailService | 5 |
+| `services` | AIAnalyzer, CSVExportService, CorrectionService, HTMLThumbnailService, InteractiveExecutionService, PromptManager, PytestExecutor, PythonExecutionService, PythonExecutionVisualService, StreamlitThumbnailService | 10 |
 | `utils` | ReportGenerator, VisualReportGenerator | 2 |
 
 
@@ -94,12 +109,17 @@ classDiagram
 
 | Módulo | Classes | Quantidade |
 |--------|---------|------------|
-| `domain/models.py` | Assignment, AssignmentTestExecution, AssignmentTestResult, AssignmentType, CodeAnalysis, CorrectionReport, GroupSubmission, HTMLAnalysis, IndividualSubmission, SubmissionType, ThumbnailResult, Turma | 12 |
+| `domain/models.py` | Assignment, AssignmentTestExecution, AssignmentTestResult, AssignmentType, CodeAnalysis, CorrectionReport, GroupSubmission, HTMLAnalysis, IndividualSubmission, PythonExecutionResult, SubmissionType, ThumbnailResult, Turma | 13 |
 | `repositories/assignment_repository.py` | AssignmentRepository | 1 |
 | `repositories/submission_repository.py` | SubmissionRepository | 1 |
 | `services/ai_analyzer.py` | AIAnalyzer | 1 |
 | `services/correction_service.py` | CorrectionService | 1 |
+| `services/csv_export_service.py` | CSVExportService | 1 |
+| `services/html_thumbnail_service.py` | HTMLThumbnailService | 1 |
+| `services/interactive_execution_service.py` | InteractiveExecutionService | 1 |
 | `services/prompt_manager.py` | PromptManager | 1 |
+| `services/python_execution_service.py` | PythonExecutionService | 1 |
+| `services/python_execution_visual_service.py` | PythonExecutionVisualService | 1 |
 | `services/streamlit_thumbnail_service.py` | StreamlitThumbnailService | 1 |
 | `services/test_executor.py` | PytestExecutor | 1 |
 | `utils/report_generator.py` | ReportGenerator | 1 |
@@ -113,8 +133,8 @@ classDiagram
 
 ### Composição
 - `AssignmentTestExecution` contém `AssignmentTestResult`
-- `Assignment` contém `SubmissionType`
 - `Assignment` contém `AssignmentType`
+- `Assignment` contém `SubmissionType`
 
 ### Dependências
 - `CorrectionReport` depende de `CorrectionReport`
@@ -122,27 +142,36 @@ classDiagram
 - `AssignmentRepository` depende de `SubmissionType`
 - `AssignmentRepository` depende de `Assignment`
 - `SubmissionRepository` depende de `GroupSubmission`
+- `SubmissionRepository` depende de `Turma`
 - `SubmissionRepository` depende de `IndividualSubmission`
 - `SubmissionRepository` depende de `SubmissionType`
-- `SubmissionRepository` depende de `Turma`
-- `AIAnalyzer` depende de `HTMLAnalysis`
+- `AIAnalyzer` depende de `PromptManager`
 - `AIAnalyzer` depende de `CodeAnalysis`
 - `AIAnalyzer` depende de `Assignment`
-- `AIAnalyzer` depende de `PromptManager`
-- `CorrectionService` depende de `SubmissionRepository`
-- `CorrectionService` depende de `CorrectionReport`
-- `CorrectionService` depende de `AssignmentRepository`
-- `CorrectionService` depende de `StreamlitThumbnailService`
+- `AIAnalyzer` depende de `HTMLAnalysis`
 - `CorrectionService` depende de `PytestExecutor`
-- `CorrectionService` depende de `AssignmentType`
-- `CorrectionService` depende de `AIAnalyzer`
-- `CorrectionService` depende de `Assignment`
 - `CorrectionService` depende de `AssignmentTestResult`
+- `CorrectionService` depende de `HTMLThumbnailService`
+- `CorrectionService` depende de `AIAnalyzer`
+- `CorrectionService` depende de `StreamlitThumbnailService`
+- `CorrectionService` depende de `PythonExecutionService`
+- `CorrectionService` depende de `SubmissionRepository`
+- `CorrectionService` depende de `AssignmentRepository`
+- `CorrectionService` depende de `InteractiveExecutionService`
+- `CorrectionService` depende de `AssignmentType`
+- `CorrectionService` depende de `CorrectionReport`
+- `CorrectionService` depende de `Assignment`
+- `CSVExportService` depende de `CorrectionReport`
+- `CSVExportService` depende de `IndividualSubmission`
+- `HTMLThumbnailService` depende de `ThumbnailResult`
+- `InteractiveExecutionService` depende de `PythonExecutionResult`
 - `PromptManager` depende de `Assignment`
+- `PythonExecutionService` depende de `PythonExecutionResult`
 - `StreamlitThumbnailService` depende de `ThumbnailResult`
-- `PytestExecutor` depende de `AssignmentTestResult`
 - `PytestExecutor` depende de `AssignmentTestExecution`
+- `PytestExecutor` depende de `AssignmentTestResult`
 - `ReportGenerator` depende de `CorrectionReport`
+- `ReportGenerator` depende de `IndividualSubmission`
 - `VisualReportGenerator` depende de `ThumbnailResult`
 - `VisualReportGenerator` depende de `CorrectionReport`
 
