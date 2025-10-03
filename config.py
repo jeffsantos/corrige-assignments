@@ -44,7 +44,8 @@ ASSIGNMENT_SUBMISSION_TYPES: Dict[str, SubmissionType] = {
     
     # Assignments individuais
     "prog1-prova-as": SubmissionType.INDIVIDUAL,  # Atividade de recuperação
-    "prog2-teste": SubmissionType.INDIVIDUAL
+    "prog2-teste": SubmissionType.INDIVIDUAL,
+    "prog2-prova": SubmissionType.INDIVIDUAL
 }
 
 # Configuração de assignments que geram thumbnails
@@ -53,7 +54,8 @@ ASSIGNMENTS_WITH_THUMBNAILS = {
     "prog1-prova-av": "streamlit",
     "prog1-prova-as": "streamlit",  # Atividade de recuperação com dashboard
     "prog2-teste": "streamlit",
-    
+    "prog2-prova": "streamlit",
+
     # Assignments HTML
     "prog1-tarefa-html-curriculo": "html",
     "prog1-tarefa-html-tutorial": "html"
@@ -65,6 +67,7 @@ ASSIGNMENTS_WITH_PYTHON_EXECUTION = {
     "prog1-tarefa-scrap-simples": True,
     "prog1-tarefa-scrap-yahoo": True,
     "prog1-prova-as": True,  # Atividade de recuperação com execução Python
+    "prog2-prova": True,  # Prova final com aplicação de terminal
 }
 
 # Configuração de assignments interativos (argumentos, inputs, arquivo python, etc)
@@ -88,6 +91,16 @@ INTERACTIVE_ASSIGNMENTS_CONFIG = {
         ],
         "timeout": 30,
         "expected_outputs": ["vale", "ações", "data", "início", "fim"]
+    },
+    "prog2-prova": {
+        "python_file": "main.py",  # Arquivo Python a ser executado
+        "command_args": [],
+        "inputs": [
+            "100",    # Valor em R$
+            "USD"     # Moeda de destino
+        ],
+        "timeout": 30,
+        "expected_outputs": ["conversão", "câmbio", "moeda", "valor", "usd"]
     }
 }
 

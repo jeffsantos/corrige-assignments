@@ -113,7 +113,7 @@ class CorrectionService:
                 from config import assignment_has_python_execution
                 
                 # Verifica se é um assignment interativo
-                if assignment.name in ["prog1-tarefa-scrap-yahoo", "prog1-prova-as"]:
+                if assignment.name in ["prog1-tarefa-scrap-yahoo", "prog1-prova-as", "prog2-prova"]:
                     print(f"  🔄 Executando programa interativo para {submission.display_name}...")
                     submission.python_execution = self.interactive_execution_service.execute_interactive_program(
                         assignment.name, submission.submission_path

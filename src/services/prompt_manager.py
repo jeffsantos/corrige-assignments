@@ -223,12 +223,16 @@ Por favor, analise o código considerando:
     
     def _format_custom_prompt(self, prompt_template: str, assignment: Assignment, student_code: str, python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None) -> str:
         """Formata prompt personalizado."""
+        # Escapa chaves no código do aluno para evitar conflitos com .format()
+        escaped_student_code = student_code.replace('{', '{{').replace('}', '}}')
+        escaped_enunciado_code = self._read_enunciado_code(assignment.name).replace('{', '{{').replace('}', '}}')
+
         formatted_prompt = prompt_template.format(
             assignment_name=assignment.name,
             assignment_description=assignment.description,
             assignment_requirements="\n".join(f"- {req}" for req in assignment.requirements),
-            enunciado_code=self._read_enunciado_code(assignment.name),
-            student_code=student_code
+            enunciado_code=escaped_enunciado_code,
+            student_code=escaped_student_code
         )
         
         # Adiciona informações sobre a execução do código se disponível
