@@ -18,7 +18,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, WebDriverException
 
 from ..domain.models import ThumbnailResult
-from config import STREAMLIT_STARTUP_TIMEOUT, SCREENSHOT_WAIT_TIME, CHROME_WINDOW_SIZE, STREAMLIT_PORT_RANGE
+from config import STREAMLIT_STARTUP_TIMEOUT, SCREENSHOT_WAIT_TIME, CHROME_WINDOW_SIZE, STREAMLIT_PORT_RANGE, STREAMLIT_FILE_CONFIG
 
 
 class StreamlitThumbnailService:
@@ -28,23 +28,27 @@ class StreamlitThumbnailService:
         self.output_dir = output_dir or Path("reports/visual/thumbnails")
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.verbose = verbose
+        self.current_assignment = None  # Para rastrear o assignment atual
     
     def _debug_print(self, message: str):
         """Imprime mensagem de debug apenas se verbose estiver habilitado."""
         if self.verbose:
             print(message)
         
-    def generate_thumbnails_for_assignment(self, assignment_name: str, turma_name: str, 
+    def generate_thumbnails_for_assignment(self, assignment_name: str, turma_name: str,
                                          submissions: List) -> List[ThumbnailResult]:
         """Gera thumbnails para todas as submissões de um assignment."""
         print(f"Gerando thumbnails para {assignment_name} da turma {turma_name}")
-        
+
+        # Armazena o assignment atual para uso posterior
+        self.current_assignment = assignment_name
+
         # Instala dependências fundamentais uma única vez para toda a execução
         if submissions:
             first_submission_path = submissions[0].submission_path.parent
             self._debug_print(f"Instalando dependências fundamentais uma única vez...")
             self._install_fundamental_dependencies(first_submission_path)
-        
+
         results = []
         
         for submission in submissions:
@@ -69,13 +73,14 @@ class StreamlitThumbnailService:
         
         return results
     
-    def _capture_submission_thumbnail(self, submission, assignment_name: str, 
+    def _capture_submission_thumbnail(self, submission, assignment_name: str,
                                     turma_name: str) -> ThumbnailResult:
         """Captura thumbnail de uma submissão específica."""
-        # Encontra o arquivo main.py da submissão
-        main_file = submission.submission_path / "main.py"
+        # Determina o arquivo Streamlit a ser usado
+        streamlit_filename = STREAMLIT_FILE_CONFIG.get(assignment_name, "main.py")
+        main_file = submission.submission_path / streamlit_filename
         if not main_file.exists():
-            raise FileNotFoundError(f"Arquivo main.py não encontrado em {submission.submission_path}")
+            raise FileNotFoundError(f"Arquivo {streamlit_filename} não encontrado em {submission.submission_path}")
         
         # Identificador da submissão
         identifier = getattr(submission, 'github_login', None) or getattr(submission, 'group_name', None)
@@ -213,9 +218,12 @@ class StreamlitThumbnailService:
         """Inicia o Streamlit em background."""
         # Limpa cache do Streamlit para garantir execução limpa
         self._clear_streamlit_cache(main_file.parent)
-        
+
+        # Usa o nome do arquivo correto
+        streamlit_filename = main_file.name
+
         cmd = [
-            "pipenv", "run", "streamlit", "run", "main.py",
+            "pipenv", "run", "streamlit", "run", streamlit_filename,
             "--server.port", str(port),
             "--server.headless", "true",
             "--server.enableCORS", "false",
@@ -380,32 +388,39 @@ class StreamlitThumbnailService:
         chrome_options.add_argument("--force-device-scale-factor=1")  # Força escala 1:1
         chrome_options.add_argument("--high-dpi-support=1")
         chrome_options.add_argument(f"--window-size={CHROME_WINDOW_SIZE}")
-        
+        # Suprime warnings e erros do Chrome
+        chrome_options.add_argument("--disable-background-networking")
+        chrome_options.add_argument("--disable-sync")
+        chrome_options.add_argument("--disable-translate")
+        chrome_options.add_argument("--disable-features=TranslateUI")
+        chrome_options.add_argument("--log-level=3")  # Somente erros fatais
+        chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
+
         driver = webdriver.Chrome(options=chrome_options)
-        
+
         try:
             # Acessa a página Streamlit
             url = f"http://localhost:{port}"
             self._debug_print(f"  [DEBUG] Acessando {url}")
             driver.get(url)
-            
+
             # Aguarda a página carregar
             wait = WebDriverWait(driver, STREAMLIT_STARTUP_TIMEOUT)
             wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
-            
-            # Aguarda um pouco mais para o Streamlit renderizar completamente
+
+            # Aguarda o Streamlit renderizar completamente
             time.sleep(SCREENSHOT_WAIT_TIME)
-            
+
             # Captura screenshot da página inteira
             self._capture_full_page_screenshot(driver, output_path)
             self._debug_print(f"  [DEBUG] Screenshot completo salvo em {output_path}")
-            
+
         except Exception as e:
             self._debug_print(f"  [DEBUG] Erro na captura de screenshot: {e}")
             raise e
         finally:
             driver.quit()
-    
+
     def _capture_full_page_screenshot(self, driver, output_path: Path):
         """Captura screenshot da página inteira, incluindo conteúdo rolável."""
         try:

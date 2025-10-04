@@ -27,7 +27,7 @@ MAX_TEST_OUTPUT = 1000  # caracteres
 
 # Configurações de thumbnails
 STREAMLIT_STARTUP_TIMEOUT = 30  # segundos para aguardar Streamlit inicializar
-SCREENSHOT_WAIT_TIME = 3  # segundos para aguardar renderização completa
+SCREENSHOT_WAIT_TIME = 8  # segundos para aguardar renderização completa
 CHROME_WINDOW_SIZE = "1440,900"  # tamanho da janela do Chrome (maior para alta resolução)
 STREAMLIT_PORT_RANGE = (8501, 8600)  # range de portas para Streamlit
 
@@ -59,6 +59,12 @@ ASSIGNMENTS_WITH_THUMBNAILS = {
     # Assignments HTML
     "prog1-tarefa-html-curriculo": "html",
     "prog1-tarefa-html-tutorial": "html"
+}
+
+# Configuração do arquivo Streamlit para cada assignment (default: main.py)
+STREAMLIT_FILE_CONFIG = {
+    "prog2-prova": "app_streamlit.py",
+    # Outros assignments usam main.py por padrão
 }
 
 # Configuração de assignments Python que devem ter execução de código
