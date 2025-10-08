@@ -39,7 +39,7 @@ CÓDIGO DO ALUNO:
 
 Este é um assignment de prova final que integra Banco de Dados PostgreSQL + API de Câmbio + Aplicação Terminal + Dashboard Streamlit. Avalie considerando:
 
-1. **Banco de Dados PostgreSQL (25% do peso)**:
+1. **Banco de Dados PostgreSQL (30% do peso)**:
    - Deve ter de 3 a 4 tabelas conforme especificado
    - Deve possuir relacionamento N:N (tabela intermediária com 2+ foreign keys)
    - Todos os campos devem ser NOT NULL ou SERIAL/IDENTITY
@@ -49,8 +49,8 @@ Este é um assignment de prova final que integra Banco de Dados PostgreSQL + API
    - Arquivo bd.sql deve permitir reconstrução completa do banco
    - Commit obrigatório: "Cria banco de dados inicial"
 
-2. **Aplicação de Terminal (25% do peso)**:
-   - Deve integrar com Brasil API de câmbio (GET /api/v1/cambio/moedas e GET /api/v1/cambio/cotacao/{{moeda}}/{{data}})
+2. **Aplicação de Terminal (30% do peso)**:
+   - Deve integrar com Brasil API de câmbio (GET /api/cambio/v1/moedas e GET /api/cambio/v1/cotacao/{{moeda}}/{{data}})
    - Deve solicitar valor em R$ e moeda de destino do usuário
    - Deve fazer requisições HTTP corretas e parsear JSON
    - Deve calcular conversão de valores R$ → outras moedas
@@ -71,7 +71,6 @@ Este é um assignment de prova final que integra Banco de Dados PostgreSQL + API
 
 4. **Estrutura e Organização (10% do peso)**:
    - Arquivos bd.sql, main.py e app_streamlit.py devem estar presentes
-   - Commits devem seguir as mensagens obrigatórias especificadas
    - Código deve estar organizado e funcional
 
 === FORMATO DE RESPOSTA ===
