@@ -98,23 +98,28 @@ class StreamlitThumbnailService:
             if not self._wait_for_streamlit_ready(port, identifier):
                 raise RuntimeError("Streamlit não inicializou corretamente")
             
-            # Captura screenshot
+            # Captura screenshot e detecta erros
             thumbnail_path = self.output_dir / f"{identifier}_{assignment_name}.png"
+            streamlit_errors = []
             try:
-                self._capture_screenshot(port, thumbnail_path)
+                streamlit_errors = self._capture_screenshot(port, thumbnail_path)
                 self._debug_print(f"  [DEBUG] Screenshot capturado com sucesso para {identifier}")
             except Exception as screenshot_exc:
                 self._debug_print(f"  [DEBUG] Erro na captura de screenshot para {identifier}: {screenshot_exc}")
                 # Loga stdout/stderr do processo Streamlit
                 self._log_process_output(process, identifier)
                 raise screenshot_exc
-            
+
+            # Determina o status com base na presença de erros
+            status = "error" if streamlit_errors else "success"
+
             return ThumbnailResult(
                 submission_identifier=identifier,
                 display_name=submission.display_name,
                 thumbnail_path=thumbnail_path,
                 capture_timestamp=datetime.now().isoformat(),
-                streamlit_status="success"
+                streamlit_status=status,
+                streamlit_exceptions=streamlit_errors
             )
             
         except Exception as e:
@@ -136,14 +141,16 @@ class StreamlitThumbnailService:
                 
                 # Tenta capturar screenshot novamente
                 try:
-                    self._capture_screenshot(port, thumbnail_path)
+                    streamlit_errors_retry = self._capture_screenshot(port, thumbnail_path)
                     self._debug_print(f"  [DEBUG] Screenshot capturado com sucesso após instalar dependências")
+                    status_retry = "error" if streamlit_errors_retry else "success"
                     return ThumbnailResult(
                         submission_identifier=identifier,
                         display_name=submission.display_name,
                         thumbnail_path=thumbnail_path,
                         capture_timestamp=datetime.now().isoformat(),
-                        streamlit_status="success"
+                        streamlit_status=status_retry,
+                        streamlit_exceptions=streamlit_errors_retry
                     )
                 except Exception as retry_exc:
                     self._debug_print(f"  [DEBUG] Falha na segunda tentativa: {retry_exc}")
@@ -377,7 +384,7 @@ class StreamlitThumbnailService:
             self._debug_print(f"  [DEBUG] Erro ao matar processos órfãos: {e}")
     
     def _capture_screenshot(self, port: int, output_path: Path):
-        """Captura screenshot da página Streamlit completa."""
+        """Captura screenshot da página Streamlit completa e detecta erros."""
         chrome_options = Options()
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--no-sandbox")
@@ -397,6 +404,7 @@ class StreamlitThumbnailService:
         chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
 
         driver = webdriver.Chrome(options=chrome_options)
+        streamlit_errors = []
 
         try:
             # Acessa a página Streamlit
@@ -411,6 +419,11 @@ class StreamlitThumbnailService:
             # Aguarda o Streamlit renderizar completamente
             time.sleep(SCREENSHOT_WAIT_TIME)
 
+            # Detecta erros do Streamlit na página (div com classe stException)
+            streamlit_errors = self._detect_streamlit_errors(driver)
+            if streamlit_errors:
+                self._debug_print(f"  [DEBUG] Detectados {len(streamlit_errors)} erros do Streamlit na página")
+
             # Captura screenshot da página inteira
             self._capture_full_page_screenshot(driver, output_path)
             self._debug_print(f"  [DEBUG] Screenshot completo salvo em {output_path}")
@@ -420,6 +433,80 @@ class StreamlitThumbnailService:
             raise e
         finally:
             driver.quit()
+
+        return streamlit_errors
+
+    def _detect_streamlit_errors(self, driver) -> List[str]:
+        """Detecta erros do Streamlit exibidos na página (classe stException)."""
+        errors = []
+        try:
+            # Se verbose, salva o HTML da página para debug
+            if self.verbose:
+                try:
+                    page_source = driver.page_source
+                    debug_html_path = self.output_dir / "debug_page_source.html"
+                    debug_html_path.write_text(page_source, encoding='utf-8')
+                    self._debug_print(f"  [DEBUG] HTML da página salvo em: {debug_html_path}")
+                except Exception as e:
+                    self._debug_print(f"  [DEBUG] Erro ao salvar HTML de debug: {e}")
+
+            # Busca todos os elementos com classe stException
+            error_elements = driver.find_elements(By.CSS_SELECTOR, ".stException")
+            self._debug_print(f"  [DEBUG] Encontrados {len(error_elements)} elementos com classe .stException")
+
+            for element in error_elements:
+                try:
+                    # Extrai o texto do erro
+                    error_text = element.text.strip()
+                    if error_text:
+                        errors.append(error_text)
+                        self._debug_print(f"  [DEBUG] Erro Streamlit detectado (.stException): {error_text[:100]}...")
+                except Exception as e:
+                    self._debug_print(f"  [DEBUG] Erro ao extrair texto de stException: {e}")
+
+            # Também verifica por elementos com data-testid="stException" (formato alternativo)
+            error_elements_alt = driver.find_elements(By.CSS_SELECTOR, "[data-testid='stException']")
+            self._debug_print(f"  [DEBUG] Encontrados {len(error_elements_alt)} elementos com data-testid='stException'")
+
+            for element in error_elements_alt:
+                try:
+                    error_text = element.text.strip()
+                    if error_text and error_text not in errors:  # Evita duplicatas
+                        errors.append(error_text)
+                        self._debug_print(f"  [DEBUG] Erro Streamlit detectado (data-testid): {error_text[:100]}...")
+                except Exception as e:
+                    self._debug_print(f"  [DEBUG] Erro ao extrair texto de stException alternativo: {e}")
+
+            # Tenta seletores mais genéricos se nenhum erro foi encontrado
+            if not errors:
+                self._debug_print(f"  [DEBUG] Nenhum erro encontrado com seletores específicos, tentando seletores genéricos...")
+
+                # Busca por elementos que contenham "error", "exception", "traceback" no HTML
+                generic_selectors = [
+                    "[class*='exception']",
+                    "[class*='error']",
+                    "[data-testid*='error']",
+                    "[data-testid*='exception']",
+                    ".element-container [class*='error']"
+                ]
+
+                for selector in generic_selectors:
+                    elements = driver.find_elements(By.CSS_SELECTOR, selector)
+                    self._debug_print(f"  [DEBUG] Encontrados {len(elements)} elementos com seletor '{selector}'")
+                    for element in elements:
+                        try:
+                            error_text = element.text.strip()
+                            if error_text and len(error_text) > 10 and error_text not in errors:
+                                errors.append(error_text)
+                                self._debug_print(f"  [DEBUG] Erro Streamlit detectado (genérico '{selector}'): {error_text[:100]}...")
+                        except Exception as e:
+                            pass
+
+        except Exception as e:
+            self._debug_print(f"  [DEBUG] Erro ao detectar exceções do Streamlit: {e}")
+
+        self._debug_print(f"  [DEBUG] Total de erros detectados: {len(errors)}")
+        return errors
 
     def _capture_full_page_screenshot(self, driver, output_path: Path):
         """Captura screenshot da página inteira, incluindo conteúdo rolável."""

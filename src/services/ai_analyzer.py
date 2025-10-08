@@ -108,7 +108,7 @@ class AIAnalyzer:
         except Exception as e:
             print(f"⚠️  Erro ao salvar log: {e}")
     
-    def analyze_python_code(self, submission_path: Path, assignment: Assignment, python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None) -> CodeAnalysis:
+    def analyze_python_code(self, submission_path: Path, assignment: Assignment, python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None, streamlit_thumbnail: Optional[Any] = None) -> CodeAnalysis:
         """Analisa código Python usando IA com prompt específico do assignment."""
         if not self.ai_available:
             return self._analyze_python_code_basic(submission_path, assignment)
@@ -136,7 +136,8 @@ class AIAnalyzer:
             assignment_type="python",
             student_code=self._format_python_files(python_files),
             python_execution=python_execution,
-            test_results=test_results
+            test_results=test_results,
+            streamlit_thumbnail=streamlit_thumbnail
         )
 
         try:
@@ -366,17 +367,22 @@ class AIAnalyzer:
         )
     
     def _read_python_files(self, submission_path: Path) -> Dict[str, str]:
-        """Lê todos os arquivos Python da submissão."""
+        """Lê todos os arquivos Python da submissão, excluindo arquivos de teste."""
         python_files = {}
-        
+
         for file_path in submission_path.rglob("*.py"):
+            # Ignora arquivos de teste (já estão no enunciado)
+            filename = file_path.name
+            if filename.startswith('test_') or filename == 'conftest.py':
+                continue
+
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
                     content = f.read()
                 python_files[str(file_path.relative_to(submission_path))] = content
             except Exception as e:
                 python_files[str(file_path.relative_to(submission_path))] = f"Erro ao ler arquivo: {str(e)}"
-        
+
         return python_files
     
     def _read_html_files(self, submission_path: Path) -> Dict[str, str]:

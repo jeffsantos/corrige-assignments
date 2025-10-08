@@ -185,8 +185,8 @@ Por favor, analise o código considerando:
 
 """
 
-    def get_assignment_prompt(self, assignment: Assignment, assignment_type: str, 
-                            student_code: str, assessment_criteria: str = "", python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None) -> str:
+    def get_assignment_prompt(self, assignment: Assignment, assignment_type: str,
+                            student_code: str, assessment_criteria: str = "", python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None, streamlit_thumbnail: Optional[Any] = None) -> str:
         """Gera o prompt específico para um assignment."""
         
         # Tenta carregar prompt personalizado do assignment
@@ -194,10 +194,10 @@ Por favor, analise o código considerando:
         
         if custom_prompt:
             # Usa prompt personalizado
-            return self._format_custom_prompt(custom_prompt, assignment, student_code, python_execution, test_results)
+            return self._format_custom_prompt(custom_prompt, assignment, student_code, python_execution, test_results, streamlit_thumbnail)
         else:
             # Usa template padrão
-            return self._format_default_prompt(assignment, assignment_type, student_code, assessment_criteria, python_execution, test_results)
+            return self._format_default_prompt(assignment, assignment_type, student_code, assessment_criteria, python_execution, test_results, streamlit_thumbnail)
     
     def _load_custom_prompt(self, assignment_name: str) -> Optional[str]:
         """Carrega prompt personalizado do assignment se existir."""
@@ -221,7 +221,7 @@ Por favor, analise o código considerando:
         
         return None
     
-    def _format_custom_prompt(self, prompt_template: str, assignment: Assignment, student_code: str, python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None) -> str:
+    def _format_custom_prompt(self, prompt_template: str, assignment: Assignment, student_code: str, python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None, streamlit_thumbnail: Optional[Any] = None) -> str:
         """Formata prompt personalizado."""
         # Escapa chaves no código do aluno para evitar conflitos com .format()
         escaped_student_code = student_code.replace('{', '{{').replace('}', '}}')
@@ -276,8 +276,69 @@ Detalhes dos testes:\n"""
                 test_info += "\n"
             test_info += "\n"
             formatted_prompt += test_info
+
+        # Adiciona informações sobre erros do Streamlit se disponível
+        if streamlit_thumbnail and hasattr(streamlit_thumbnail, 'streamlit_exceptions') and streamlit_thumbnail.streamlit_exceptions:
+            streamlit_errors_info = f"""
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚨 ERROS CRÍTICOS DE EXECUÇÃO DO STREAMLIT 🚨
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Status da aplicação: {streamlit_thumbnail.streamlit_status.upper()}
+
+⛔ A aplicação Streamlit FALHOU DURANTE A EXECUÇÃO com os seguintes erros:
+
+"""
+            for idx, error in enumerate(streamlit_thumbnail.streamlit_exceptions, 1):
+                streamlit_errors_info += f"━━━ ERRO {idx} (CRÍTICO) ━━━\n{error}\n\n"
+
+            streamlit_errors_info += """
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚨 **INSTRUÇÕES OBRIGATÓRIAS PARA AVALIAÇÃO** 🚨
+
+1. ⛔ ERROS DE EXECUÇÃO = FUNCIONALIDADE NÃO FUNCIONA
+   - Se o Streamlit apresenta erros, o dashboard NÃO está funcional
+   - Testes estáticos podem passar, mas a aplicação FALHA na execução real
+   - Um dashboard que não funciona NÃO pode receber nota alta
+
+2. 📊 **PESO DOS ERROS DE EXECUÇÃO**:
+   - Dashboard com erros de execução = máximo 5.0 pontos (50% da nota)
+   - Para cada erro de execução, reduza 1-2 pontos dependendo da gravidade
+   - Erros que impedem a aplicação de carregar = redução de 3-4 pontos
+
+3. ⚖️ **CALIBRAÇÃO DE NOTAS COM ERROS DE EXECUÇÃO**:
+   - Dashboard NÃO FUNCIONA (erros críticos) = nota máxima 5.0
+   - Dashboard PARCIALMENTE funcional (erros menores) = nota máxima 7.0
+   - Dashboard TOTALMENTE funcional (sem erros) = nota até 10.0
+
+4. ❌ **CLASSIFIQUE ERROS DE EXECUÇÃO COMO PROBLEMAS CRÍTICOS**:
+   - TODOS os erros de execução devem ir na seção PROBLEMAS
+   - Descreva cada erro como problema crítico que impede funcionamento
+   - NÃO minimize a gravidade: "aplicação não funciona" é PROBLEMA, não sugestão
+
+5. 🎯 **EXEMPLO DE AVALIAÇÃO CORRETA**:
+   ```
+   NOTA: 4.0
+   JUSTIFICATIVA: Embora o código esteja estruturado e os testes passem, a aplicação Streamlit apresenta erros CRÍTICOS de execução que impedem seu funcionamento. Um dashboard que não executa não atende aos requisitos da prova.
+
+   PROBLEMAS:
+   - Dashboard Streamlit apresenta erro de execução crítico (KeyError/AttributeError/etc)
+   - Aplicação não carrega e não pode ser utilizada
+   - Funcionalidade principal do dashboard comprometida
+   ```
+
+⚠️ LEMBRE-SE: Código que não executa = código que não funciona = NOTA BAIXA
+Não dê nota alta para código que apresenta erros de execução, mesmo que pareça bem escrito!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+"""
+            formatted_prompt += streamlit_errors_info
+
         # Adiciona instruções críticas sobre execução e testes se houver execução ou testes
-        if python_execution or test_results:
+        if python_execution or test_results or (streamlit_thumbnail and streamlit_thumbnail.streamlit_exceptions):
             instructions = """
 
 === INSTRUÇÕES CRÍTICAS SOBRE EXECUÇÃO E TESTES ===
@@ -346,8 +407,8 @@ Se o aluno extrai dados corretos e o código roda sem erro:
             formatted_prompt += instructions
         return formatted_prompt
     
-    def _format_default_prompt(self, assignment: Assignment, assignment_type: str, 
-                              student_code: str, assessment_criteria: str, python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None) -> str:
+    def _format_default_prompt(self, assignment: Assignment, assignment_type: str,
+                              student_code: str, assessment_criteria: str, python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None, streamlit_thumbnail: Optional[Any] = None) -> str:
         """Formata prompt usando template padrão."""
         
         # Lê README.md do enunciado
@@ -421,8 +482,69 @@ Detalhes dos testes:\n"""
                 test_info += "\n"
             test_info += "\n"
             formatted_prompt += test_info
+
+        # Adiciona informações sobre erros do Streamlit se disponível
+        if streamlit_thumbnail and hasattr(streamlit_thumbnail, 'streamlit_exceptions') and streamlit_thumbnail.streamlit_exceptions:
+            streamlit_errors_info = f"""
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚨 ERROS CRÍTICOS DE EXECUÇÃO DO STREAMLIT 🚨
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Status da aplicação: {streamlit_thumbnail.streamlit_status.upper()}
+
+⛔ A aplicação Streamlit FALHOU DURANTE A EXECUÇÃO com os seguintes erros:
+
+"""
+            for idx, error in enumerate(streamlit_thumbnail.streamlit_exceptions, 1):
+                streamlit_errors_info += f"━━━ ERRO {idx} (CRÍTICO) ━━━\n{error}\n\n"
+
+            streamlit_errors_info += """
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚨 **INSTRUÇÕES OBRIGATÓRIAS PARA AVALIAÇÃO** 🚨
+
+1. ⛔ ERROS DE EXECUÇÃO = FUNCIONALIDADE NÃO FUNCIONA
+   - Se o Streamlit apresenta erros, o dashboard NÃO está funcional
+   - Testes estáticos podem passar, mas a aplicação FALHA na execução real
+   - Um dashboard que não funciona NÃO pode receber nota alta
+
+2. 📊 **PESO DOS ERROS DE EXECUÇÃO**:
+   - Dashboard com erros de execução = máximo 5.0 pontos (50% da nota)
+   - Para cada erro de execução, reduza 1-2 pontos dependendo da gravidade
+   - Erros que impedem a aplicação de carregar = redução de 3-4 pontos
+
+3. ⚖️ **CALIBRAÇÃO DE NOTAS COM ERROS DE EXECUÇÃO**:
+   - Dashboard NÃO FUNCIONA (erros críticos) = nota máxima 5.0
+   - Dashboard PARCIALMENTE funcional (erros menores) = nota máxima 7.0
+   - Dashboard TOTALMENTE funcional (sem erros) = nota até 10.0
+
+4. ❌ **CLASSIFIQUE ERROS DE EXECUÇÃO COMO PROBLEMAS CRÍTICOS**:
+   - TODOS os erros de execução devem ir na seção PROBLEMAS
+   - Descreva cada erro como problema crítico que impede funcionamento
+   - NÃO minimize a gravidade: "aplicação não funciona" é PROBLEMA, não sugestão
+
+5. 🎯 **EXEMPLO DE AVALIAÇÃO CORRETA**:
+   ```
+   NOTA: 4.0
+   JUSTIFICATIVA: Embora o código esteja estruturado e os testes passem, a aplicação Streamlit apresenta erros CRÍTICOS de execução que impedem seu funcionamento. Um dashboard que não executa não atende aos requisitos da prova.
+
+   PROBLEMAS:
+   - Dashboard Streamlit apresenta erro de execução crítico (KeyError/AttributeError/etc)
+   - Aplicação não carrega e não pode ser utilizada
+   - Funcionalidade principal do dashboard comprometida
+   ```
+
+⚠️ LEMBRE-SE: Código que não executa = código que não funciona = NOTA BAIXA
+Não dê nota alta para código que apresenta erros de execução, mesmo que pareça bem escrito!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+"""
+            formatted_prompt += streamlit_errors_info
+
         # Adiciona instruções críticas sobre execução e testes se houver execução ou testes
-        if python_execution or test_results:
+        if python_execution or test_results or (streamlit_thumbnail and streamlit_thumbnail.streamlit_exceptions):
             instructions = """
 
 === INSTRUÇÕES CRÍTICAS SOBRE EXECUÇÃO E TESTES ===

@@ -125,15 +125,37 @@ class CorrectionService:
         except Exception as e:
             print(f"  ⚠️  Erro na execução Python para {submission.display_name}: {e}")
             submission.python_execution = None
-        
+
+        try:
+            # Captura thumbnail do Streamlit se aplicável
+            from config import ASSIGNMENTS_WITH_THUMBNAILS
+            if assignment.name in ASSIGNMENTS_WITH_THUMBNAILS:
+                thumbnail_type = ASSIGNMENTS_WITH_THUMBNAILS[assignment.name]
+                if thumbnail_type == "streamlit":
+                    print(f"  📸 Capturando thumbnail do Streamlit para {submission.display_name}...")
+                    try:
+                        thumbnail_result = self.streamlit_thumbnail_service._capture_submission_thumbnail(
+                            submission, assignment.name, submission.turma
+                        )
+                        submission.streamlit_thumbnail = thumbnail_result
+                        if thumbnail_result.streamlit_exceptions:
+                            print(f"  ⚠️  {len(thumbnail_result.streamlit_exceptions)} erro(s) detectado(s) no Streamlit")
+                    except Exception as thumb_e:
+                        print(f"  ⚠️  Erro ao capturar thumbnail: {thumb_e}")
+                        submission.streamlit_thumbnail = None
+        except Exception as e:
+            print(f"  ⚠️  Erro na captura de thumbnail para {submission.display_name}: {e}")
+            submission.streamlit_thumbnail = None
+
         try:
             # Analisa código usando IA
             if assignment.type == AssignmentType.PYTHON:
                 submission.code_analysis = self.ai_analyzer.analyze_python_code(
-                    submission.submission_path, 
+                    submission.submission_path,
                     assignment,
                     submission.python_execution,
-                    submission.test_results
+                    submission.test_results,
+                    submission.streamlit_thumbnail
                 )
             else:  # HTML
                 submission.html_analysis = self.ai_analyzer.analyze_html_code(

@@ -85,6 +85,7 @@ class IndividualSubmission:
     code_analysis: Optional[CodeAnalysis] = None
     html_analysis: Optional[HTMLAnalysis] = None
     python_execution: Optional[PythonExecutionResult] = None
+    streamlit_thumbnail: Optional['ThumbnailResult'] = None  # Thumbnail e erros do Streamlit
     final_score: float = 0.0
     feedback: str = ""
     
@@ -106,6 +107,7 @@ class GroupSubmission:
     code_analysis: Optional[CodeAnalysis] = None
     html_analysis: Optional[HTMLAnalysis] = None
     python_execution: Optional[PythonExecutionResult] = None
+    streamlit_thumbnail: Optional['ThumbnailResult'] = None  # Thumbnail e erros do Streamlit
     final_score: float = 0.0
     feedback: str = ""
     
@@ -152,6 +154,7 @@ class ThumbnailResult:
     capture_timestamp: str
     streamlit_status: str  # "success", "error", "timeout"
     error_message: Optional[str] = None
+    streamlit_exceptions: List[str] = field(default_factory=list)  # Erros capturados da página (classe stException)
 
 
 @dataclass

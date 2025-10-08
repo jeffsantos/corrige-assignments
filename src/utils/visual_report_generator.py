@@ -82,7 +82,8 @@ class VisualReportGenerator:
                     thumbnail_status = f"❌ {thumbnail.error_message[:30]}..." if thumbnail.error_message else "❌ Erro"
             
             # Thumbnail ou placeholder
-            if thumbnail and thumbnail.streamlit_status == "success" and thumbnail.thumbnail_path.exists():
+            # Exibe thumbnail se foi capturado com sucesso (arquivo existe), mesmo que haja erros de execução
+            if thumbnail and thumbnail.thumbnail_path and thumbnail.thumbnail_path.exists():
                 thumbnail_src = f"thumbnails/{thumbnail.thumbnail_path.name}"
                 thumbnail_alt = f"Dashboard de {submission.display_name}"
                 has_thumbnail = True
