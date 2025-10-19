@@ -1,6 +1,5 @@
 ### Miscelânea
 
-- readme muito grande + docs + contexto.md
 - warnings de slow tests
 - uma pasta prompts está surgindo dentro de tools
 - ver ambientes pipenv criados para testes e não apagados
@@ -51,7 +50,7 @@ if assignment.name in ["prog1-tarefa-scrap-yahoo", "prog1-prova-as", "prog2-prov
 --------------------------------------------------
 ### Erro deecução do Streamlit não está sendo considerada ao enviar para IA
 
-Durante minha última execução de correção dos assingments prog2-prova, notei o seguinte caso: na turma da barra, a aluna mariclaraluz recebeu nota 10 na correção da IA, embora a aplicação streamlit que ela entregou (app_streamlit.py) execute com erros. O teste correspondente passa 100% porque só analisa os elementos estáticos do programa (presentes no caso dessa aluna), mas não levou em consideração o resultado da execução, mas deveria, já que o programa que envia a correção para ser feita pela IA embute os resultados dos testes e da execução para ela. Eu renomeei os logs e reports dessa correção para facilitar minha avaliação. Os logs salvos com a situação dessa aluna podem ser encontrados nas pastas logs/2025-10-06-prog2-prova e os reports estão em reports/2025-10-06-prog2-prova. Isso parece ser um problema da correção de tarefas streamlit. Qualquer solução deve ser integrada à estrutura atual do código, mantendo a consistência com o que já foi feito e com os padrões de programação estabelecidos no contexto.md e em docs/*.md. Os arquivos README.md e CLAUDE.md tratam dos propósitos gerais e funcionamento do projeto. Alguns erros de execução streamlit não são exibidos no terminal, mas podem ser capturados, pois são exibidos no browser em uma div com class stException. 
+Durante minha última execução de correção dos assingments prog2-prova, notei o seguinte caso: na turma da barra, a aluna mariclaraluz recebeu nota 10 na correção da IA, embora a aplicação streamlit que ela entregou (app_streamlit.py) execute com erros. O teste correspondente passa 100% porque só analisa os elementos estáticos do programa (presentes no caso dessa aluna), mas não levou em consideração o resultado da execução, mas deveria, já que o programa que envia a correção para ser feita pela IA embute os resultados dos testes e da execução para ela. Eu renomeei os logs e reports dessa correção para facilitar minha avaliação. Os logs salvos com a situação dessa aluna podem ser encontrados nas pastas logs/2025-10-06-prog2-prova e os reports estão em reports/2025-10-06-prog2-prova. Isso parece ser um problema da correção de tarefas streamlit. Qualquer solução deve ser integrada à estrutura atual do código, mantendo a consistência com o que já foi feito e com os padrões de programação estabelecidos em CLAUDE.md e em docs/*.md. Os arquivos README.md e CLAUDE.md tratam dos propósitos gerais e funcionamento do projeto. Alguns erros de execução streamlit não são exibidos no terminal, mas podem ser capturados, pois são exibidos no browser em uma div com class stException. 
 
 Pode-se testar o caso acima com o comando abaixo: 
 

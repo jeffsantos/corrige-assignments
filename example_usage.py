@@ -16,375 +16,177 @@ from src.main import cli
 
 def run_example():
     """Executa exemplos de uso do sistema."""
-    
+
     print("🚀 Sistema de Correção Automática - Exemplos de Uso")
     print("=" * 60)
-    
-    # Exemplo 1: Correção de um assignment específico com prompt personalizado
-    print("\n📝 Exemplo 1: Assignment Python com prompt personalizado")
+
+    # Exemplo 1: Correção básica de assignment
+    print("\n📝 Exemplo 1: Correção Básica de Assignment")
     print("-" * 50)
     print("Assignment: prog1-prova-av (Web Scraping + Streamlit)")
     print("Características:")
     print("  • Prompt personalizado em prompts/prog1-prova-av/prompt.txt")
-    print("  • Considera estrutura específica do enunciado")
-    print("  • Avalia critérios específicos: scraping (40%), dashboard (50%), escolhas (10%)")
-    
-    # Comentar para não executar automaticamente
+    print("  • Avalia critérios específicos: scraping, dashboard, escolhas")
+    print("  • Submissões em grupo")
+    print("\nComando:")
+    print("  python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025")
     # cli(["correct", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025"])
-    
-    # Exemplo 1a: Atividade de recuperação com prompt personalizado
-    print("\n📝 Exemplo 1a: Atividade de Recuperação com Prompt Personalizado")
+
+    # Exemplo 2: Correção com debug detalhado
+    print("\n📝 Exemplo 2: Correção com Debug Detalhado")
     print("-" * 50)
-    print("Assignment: prog1-prova-as (Yahoo Scraping + Streamlit Dashboard)")
     print("Características:")
-    print("  • Prompt personalizado em prompts/prog1-prova-as/prompt.txt")
-    print("  • Combina scraping do Yahoo Finance com dashboard Streamlit")
-    print("  • Avalia critérios específicos: scraping (35%), dashboard (50%), estrutura (15%)")
-    print("  • Atividade de recuperação para alunos que não alcançaram a média")
-    print("  • Submissões individuais (não em grupo)")
-    print("  • Suporte a execução Python + geração de thumbnails")
-    
-    # Comentar para não executar automaticamente
-    # cli(["correct", "--assignment", "prog1-prova-as", "--turma", "ebape-prog-aplic-barra-2025"])
-    
-    # Exemplo 1b: Assignment Python com logs detalhados de debug
-    print("\n📝 Exemplo 1b: Assignment Python com Debug Detalhado")
-    print("-" * 50)
-    print("Assignment: prog1-prova-av (Web Scraping + Streamlit)")
-    print("Características:")
-    print("  • Todas as funcionalidades do exemplo 1")
-    print("  • Logs detalhados de debug com flag --verbose")
-    print("  • Debug da geração de thumbnails (se aplicável)")
-    print("  • Informações de performance e otimizações")
-    print("  • Logs de instalação de dependências")
-    
-    # Comentar para não executar automaticamente
+    print("  • Mesmas funcionalidades do Exemplo 1")
+    print("  • Logs detalhados com flag --verbose")
+    print("  • Útil para troubleshooting e otimização")
+    print("\nComando:")
+    print("  python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose")
     # cli(["correct", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
-    
-    # Exemplo 2: Assignment HTML com prompt personalizado
-    print("\n📝 Exemplo 2: Assignment HTML com prompt personalizado")
+
+    # Exemplo 3: Assignment HTML
+    print("\n📝 Exemplo 3: Assignment HTML")
     print("-" * 50)
     print("Assignment: prog1-tarefa-html-curriculo")
     print("Características:")
-    print("  • Prompt personalizado em prompts/prog1-tarefa-html-curriculo/prompt.txt")
-    print("  • Avalia estrutura de arquivos (20%), index.html (40%), contato.html (30%), CSS (10%)")
-    print("  • Verifica elementos HTML obrigatórios: headings, lists, images, links, tables")
-    
-    # Comentar para não executar automaticamente
+    print("  • Prompt personalizado para avaliação HTML/CSS")
+    print("  • Avalia estrutura de arquivos e elementos HTML obrigatórios")
+    print("  • Submissões individuais")
+    print("\nComando:")
+    print("  python -m src.main correct --assignment prog1-tarefa-html-curriculo --turma ebape-prog-aplic-barra-2025")
     # cli(["correct", "--assignment", "prog1-tarefa-html-curriculo", "--turma", "ebape-prog-aplic-barra-2025"])
-    
-    # Exemplo 3: Assignment sem prompt personalizado (usa template padrão)
-    print("\n📝 Exemplo 3: Assignment sem prompt personalizado")
-    print("-" * 50)
-    print("Assignment: prog1-tarefa-scrap-simples")
-    print("Características:")
-    print("  • Usa template padrão de prompt Python")
-    print("  • Lê README.md do enunciado automaticamente")
-    print("  • Analisa estrutura esperada dos arquivos fornecidos")
-    
-    # Comentar para não executar automaticamente
-    # cli(["correct", "--assignment", "prog1-tarefa-scrap-simples", "--turma", "ebape-prog-aplic-barra-2025"])
-    
-    # Exemplo 4: Correção de todos os assignments de uma turma
-    print("\n📝 Exemplo 4: Correção completa de turma")
+
+    # Exemplo 4: Correção completa de turma
+    print("\n📝 Exemplo 4: Correção Completa de Turma")
     print("-" * 50)
     print("Turma: ebape-prog-aplic-barra-2025")
     print("Características:")
     print("  • Processa todos os assignments da turma")
     print("  • Usa prompts específicos quando disponíveis")
     print("  • Gera relatórios consolidados")
-    
-    # Comentar para não executar automaticamente
-    # cli(["correct", "--turma", "ebape-prog-aplic-barra-2025"])
-    
-    # Exemplo 4b: Correção completa de turma com logs detalhados
-    print("\n📝 Exemplo 4b: Correção Completa de Turma com Debug Detalhado")
-    print("-" * 50)
-    print("Turma: ebape-prog-aplic-barra-2025")
-    print("Características:")
-    print("  • Todas as funcionalidades do exemplo 4")
-    print("  • Logs detalhados de debug com flag --verbose")
-    print("  • Debug de todos os assignments processados")
-    print("  • Informações de performance para cada assignment")
-    print("  • Logs de geração de thumbnails (se aplicável)")
-    
-    # Comentar para não executar automaticamente
-    # cli(["correct", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
-    
-    # Exemplo 5: Converter relatório JSON existente para HTML
-    print("\n📝 Exemplo 5: Converter relatório JSON existente para HTML")
-    print("-" * 50)
-    print("Gera um relatório HTML a partir de um JSON já existente, sem rodar a correção novamente.")
-    print("Comando:")
-    print("  python -m src.main convert-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --format html")
-    # Comentar para não executar automaticamente
-    # cli(["convert-report", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025", "--format", "html"])
+    print("\nComando:")
+    print("  python -m src.main correct --turma ebape-prog-aplic-barra-2025 --all-assignments")
+    # cli(["correct", "--turma", "ebape-prog-aplic-barra-2025", "--all-assignments"])
 
-    # Exemplo 6: Converter o relatório JSON mais recente para Markdown
-    print("\n📝 Exemplo 6: Converter o relatório JSON mais recente para Markdown")
+    # Exemplo 5: Conversão de relatórios
+    print("\n📝 Exemplo 5: Conversão de Relatórios")
     print("-" * 50)
-    print("Gera um relatório Markdown a partir do JSON mais recente no diretório de relatórios.")
-    print("Comando:")
+    print("Características:")
+    print("  • Converte JSON existente para HTML/Markdown")
+    print("  • Não executa correção novamente")
+    print("  • Economiza tempo e processamento")
+    print("\nComandos:")
+    print("  # Converter relatório específico")
+    print("  python -m src.main convert-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --format html")
+    print("\n  # Converter relatório mais recente")
     print("  python -m src.main convert-latest --format markdown")
-    # Comentar para não executar automaticamente
+    # cli(["convert-report", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025", "--format", "html"])
     # cli(["convert-latest", "--format", "markdown"])
-    
-    # Exemplo 7: Verificar logs de auditoria da IA
-    print("\n📝 Exemplo 7: Logs de Auditoria da IA")
+
+    # Exemplo 6: Exportação CSV
+    print("\n📝 Exemplo 6: Exportação CSV")
     print("-" * 50)
-    print("O sistema gera logs detalhados de todas as análises da IA.")
-    print("Localização: logs/YYYY-MM-DD/assignment-name/")
-    print("Conteúdo: Prompt, resposta raw da IA, resultado processado")
-    print("Formato: JSON com metadados completos")
-    
-    # Exemplo 8: Gerar diagrama UML da arquitetura
-    print("\n📝 Exemplo 8: Gerar Diagrama UML da Arquitetura")
-    print("-" * 50)
-    print("Gera um diagrama UML completo da arquitetura do sistema.")
-    print("Comando:")
-    print("  python tools/generate_mermaid_uml.py")
-    print("Saída: diagrama_uml.md com diagrama Mermaid")
-    
-    # Exemplo 9: Relatório visual com thumbnails (sem correção)
-    print("\n📝 Exemplo 9: Relatório Visual com Thumbnails")
-    print("-" * 50)
-    print("Assignment: prog1-prova-av (apenas thumbnails)")
     print("Características:")
-    print("  • Carrega todas as submissões do assignment")
-    print("  • Inicia cada dashboard Streamlit em porta separada")
-    print("  • Captura screenshot de cada dashboard")
-    print("  • Gera relatório visual HTML com thumbnails")
-    print("  • Não executa testes ou análise de IA")
-    print("  • Mais rápido que correção completa")
-    print("  • Performance otimizada: dependências instaladas uma única vez")
-    print("  • Captura completa: altura mínima de 1800px")
-    print("  • Suporte a alta resolução: 2880x1620, 200% escala")
-    
-    # Comentar para não executar automaticamente
-    # cli(["generate-visual-report", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025"])
-    
-    # Exemplo 9b: Relatório visual com logs detalhados
-    print("\n📝 Exemplo 9b: Relatório Visual com Debug Detalhado")
-    print("-" * 50)
-    print("Assignment: prog1-prova-av (thumbnails + verbose)")
-    print("Características:")
-    print("  • Todas as funcionalidades do exemplo 9")
-    print("  • Logs detalhados de debug com flag --verbose")
-    print("  • Mostra instalação de dependências")
-    print("  • Exibe dimensões de páginas detectadas")
-    print("  • Logs de captura de screenshots")
-    print("  • Informações de processos e portas")
-    
-    # Comentar para não executar automaticamente
-    # cli(["generate-visual-report", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
-    
-    # Exemplo 10: Relatório visual com thumbnails HTML
-    print("\n📝 Exemplo 10: Relatório Visual com Thumbnails HTML")
-    print("-" * 50)
-    print("Assignment: prog1-tarefa-html-curriculo (apenas thumbnails)")
-    print("Características:")
-    print("  • Carrega todas as submissões do assignment HTML")
-    print("  • Acessa diretamente o arquivo index.html de cada submissão")
-    print("  • Captura screenshot de cada página HTML")
-    print("  • Gera relatório visual HTML com thumbnails")
-    print("  • Não executa testes ou análise de IA")
-    print("  • Mais rápido que correção completa")
-    print("  • Não requer servidor (acesso direto ao arquivo)")
-    print("  • Captura completa: altura mínima de 1200px")
-    print("  • Suporte a alta resolução: 2880x1620, 200% escala")
-    
-    # Comentar para não executar automaticamente
-    # cli(["generate-visual-report", "--assignment", "prog1-tarefa-html-curriculo", "--turma", "ebape-prog-aplic-barra-2025"])
-    
-    # Exemplo 10b: Relatório visual HTML com logs detalhados
-    print("\n📝 Exemplo 10b: Relatório Visual HTML com Debug Detalhado")
-    print("-" * 50)
-    print("Assignment: prog1-tarefa-html-curriculo (thumbnails + verbose)")
-    print("Características:")
-    print("  • Todas as funcionalidades do exemplo 10")
-    print("  • Logs detalhados de debug com flag --verbose")
-    print("  • Mostra caminhos dos arquivos HTML acessados")
-    print("  • Exibe dimensões de páginas detectadas")
-    print("  • Logs de captura de screenshots")
-    print("  • Informações de renderização HTML")
-    
-    # Comentar para não executar automaticamente
-    # cli(["generate-visual-report", "--assignment", "prog1-tarefa-html-curriculo", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
-    
-    # Exemplo 11: Exportar tabela de resultados para CSV
-    print("\n📝 Exemplo 11: Exportar Tabela de Resultados para CSV")
-    print("-" * 50)
-    print("Assignment: prog1-prova-av")
-    print("Características:")
-    print("  • Exporta tabela 'Resultados por Submissão' para CSV")
-    print("  • Mostra notas de testes e IA separadamente")
-    print("  • Inclui estatísticas: testes passados/total, status")
-    print("  • Formato compatível com Excel, Google Sheets, BI")
-    print("  • Encoding UTF-8 para caracteres especiais")
-    print("  • Colunas: assignment, turma, aluno/grupo, notas, status, etc.")
-    
-    # Comentar para não executar automaticamente
+    print("  • Exporta tabela de resultados para CSV")
+    print("  • Compatível com Excel, Google Sheets, BI")
+    print("  • Inclui notas de testes e IA separadamente")
+    print("\nComandos:")
+    print("  # Exportar um assignment")
+    print("  python -m src.main export-results --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025")
+    print("\n  # Exportar todos os assignments")
+    print("  python -m src.main export-results --turma ebape-prog-aplic-barra-2025 --all-assignments")
     # cli(["export-results", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025"])
-    
-    # Exemplo 12: Exportar todos os assignments de uma turma para CSV
-    print("\n📝 Exemplo 12: Exportar Todos os Assignments para CSV")
+
+    # Exemplo 7: Geração de thumbnails
+    print("\n📝 Exemplo 7: Geração de Thumbnails")
     print("-" * 50)
-    print("Turma: ebape-prog-aplic-barra-2025")
     print("Características:")
-    print("  • Exporta todos os assignments da turma para CSV")
-    print("  • Um arquivo CSV por assignment")
-    print("  • Estatísticas consolidadas de todos os assignments")
-    print("  • Tratamento de erros: continua mesmo se um assignment falhar")
-    print("  • Diretório de saída: reports/csv/")
-    print("  • Nomenclatura: {assignment}_{turma}_results.csv")
-    
-    # Comentar para não executar automaticamente
-    # cli(["export-results", "--turma", "ebape-prog-aplic-barra-2025", "--all-assignments"])
-    
-    # Exemplo 13: Exportar CSV com diretório personalizado
-    print("\n📝 Exemplo 13: Exportar CSV com Diretório Personalizado")
+    print("  • Gera relatório visual com screenshots")
+    print("  • Suporta Streamlit dashboards e páginas HTML")
+    print("  • Não executa testes ou análise de IA")
+    print("  • Performance otimizada e captura completa")
+    print("\nComandos:")
+    print("  # Thumbnails Streamlit")
+    print("  python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025")
+    print("\n  # Thumbnails HTML")
+    print("  python -m src.main generate-visual-report --assignment prog1-tarefa-html-curriculo --turma ebape-prog-aplic-barra-2025")
+    print("\n  # Com logs detalhados")
+    print("  python -m src.main generate-visual-report --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --verbose")
+    # cli(["generate-visual-report", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025"])
+
+    # Exemplo 8: Relatório de execução Python
+    print("\n📝 Exemplo 8: Relatório de Execução Python")
     print("-" * 50)
-    print("Turma: ebape-prog-aplic-barra-2025")
+    print("Assignment: prog1-tarefa-scrap-yahoo")
     print("Características:")
-    print("  • Exporta todos os assignments da turma")
-    print("  • Diretório de saída personalizado: meus-csv/")
-    print("  • Útil para organizar exportações por data ou projeto")
-    print("  • Mantém estrutura de arquivos organizada")
-    
-    # Comentar para não executar automaticamente
-    # cli(["export-results", "--turma", "ebape-prog-aplic-barra-2025", "--all-assignments", "--output-dir", "meus-csv"])
-    
-    # Exemplo 14: Correção com relatórios visuais
-    print("\n📝 Exemplo 14: Correção com Relatórios Visuais")
+    print("  • Gera relatório visual da execução de programas Python")
+    print("  • Exibe saídas STDOUT e STDERR")
+    print("  • Estatísticas de execução e status visual")
+    print("  • Suporte a assignments interativos")
+    print("\nComando:")
+    print("  python -m src.main generate-execution-visual-report --assignment prog1-tarefa-scrap-yahoo --turma ebape-prog-aplic-barra-2025")
+    # cli(["generate-execution-visual-report", "--assignment", "prog1-tarefa-scrap-yahoo", "--turma", "ebape-prog-aplic-barra-2025"])
+
+    # Exemplo 9: Correção com relatórios visuais
+    print("\n📝 Exemplo 9: Correção com Relatórios Visuais")
     print("-" * 50)
-    print("Assignment: prog1-prova-av")
     print("Características:")
     print("  • Executa correção completa (testes + IA)")
     print("  • Gera relatórios nos formatos solicitados")
     print("  • Gera relatório visual com thumbnails automaticamente")
     print("  • Tudo em uma única operação")
-    print("  • Ideal para assignments que suportam thumbnails")
-    
-    # Comentar para não executar automaticamente
+    print("\nComandos:")
+    print("  # Um assignment")
+    print("  python -m src.main correct --assignment prog1-prova-av --turma ebape-prog-aplic-barra-2025 --with-visual-reports")
+    print("\n  # Todos os assignments")
+    print("  python -m src.main correct --turma ebape-prog-aplic-barra-2025 --all-assignments --with-visual-reports")
     # cli(["correct", "--assignment", "prog1-prova-av", "--turma", "ebape-prog-aplic-barra-2025", "--with-visual-reports"])
-    
-    # Exemplo 15: Correção completa de turma com visuais
-    print("\n📝 Exemplo 15: Correção Completa de Turma com Visuais")
+
+    # Exemplo 10: Processamento completo de turma
+    print("\n📝 Exemplo 10: Processamento Completo de Turma")
     print("-" * 50)
     print("Turma: ebape-prog-aplic-barra-2025")
     print("Características:")
-    print("  • Processa todos os assignments da turma")
-    print("  • Executa correção completa (testes + IA)")
-    print("  • Gera relatórios nos formatos solicitados")
-    print("  • Gera relatórios visuais para assignments compatíveis")
-    print("  • Tudo em uma única operação")
-    print("  • Tratamento de erros robusto")
-    
-    # Comentar para não executar automaticamente
-    # cli(["correct", "--turma", "ebape-prog-aplic-barra-2025", "--all-assignments", "--with-visual-reports"])
-    
-    # Exemplo 16: Processamento completo de turma
-    print("\n📝 Exemplo 16: Processamento Completo de Turma")
-    print("-" * 50)
-    print("Turma: ebape-prog-aplic-barra-2025")
-    print("Características:")
-    print("  • Processamento completo em 4 etapas:")
+    print("  • Processamento em 4 etapas:")
     print("    1. Correção (testes + IA)")
     print("    2. Relatórios (HTML/Markdown/JSON)")
     print("    3. Thumbnails (relatórios visuais)")
     print("    4. Exportação CSV")
-    print("  • Barra de progresso com etapas bem definidas")
-    print("  • Resumo final com estatísticas completas")
-    print("  • Estrutura organizada de saída")
-    print("  • Ideal para processamento de turmas completas")
-    print("  • Economia de tempo e esforço")
-    
-    # Comentar para não executar automaticamente
+    print("  • Barra de progresso e resumo final")
+    print("  • Tratamento robusto de erros")
+    print("\nComandos:")
+    print("  # Toda a turma")
+    print("  python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025")
+    print("\n  # Apenas um assignment")
+    print("  python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --assignment prog1-tarefa-scrap-simples")
+    print("\n  # Com debug detalhado")
+    print("  python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --verbose")
     # cli(["correct-all-with-visual", "--turma", "ebape-prog-aplic-barra-2025"])
-    
-    # Exemplo 17: Processamento completo com logs detalhados
-    print("\n📝 Exemplo 17: Processamento Completo com Debug Detalhado")
+
+    # Exemplo 11: Comandos de listagem
+    print("\n📝 Exemplo 11: Comandos de Listagem")
     print("-" * 50)
-    print("Turma: ebape-prog-aplic-barra-2025")
     print("Características:")
-    print("  • Todas as funcionalidades do exemplo 16")
-    print("  • Logs detalhados de debug com flag --verbose")
-    print("  • Debug de todas as etapas do processamento")
-    print("  • Informações de performance para cada etapa")
-    print("  • Logs de geração de thumbnails")
-    print("  • Debug de exportação CSV")
-    print("  • Útil para troubleshooting e otimização")
-    
-    # Comentar para não executar automaticamente
-    # cli(["correct-all-with-visual", "--turma", "ebape-prog-aplic-barra-2025", "--verbose"])
-    
-    # Exemplo 18: Relatório visual de execução Python
-    print("\n📝 Exemplo 18: Relatório Visual de Execução Python")
-    print("-" * 50)
-    print("Assignment: prog1-tarefa-scrap-yahoo")
-    print("Características:")
-    print("  • Gera relatório visual da execução de programas Python")
-    print("  • Exibe saídas STDOUT e STDERR de cada submissão")
-    print("  • Mostra estatísticas de execução (tempo, código de retorno)")
-    print("  • Interface HTML responsiva e organizada")
-    print("  • Suporte a assignments interativos")
-    print("  • Formatação preservada da saída do programa")
-    print("  • Truncamento inteligente para saídas longas")
-    print("  • Indicadores visuais de status (sucesso, erro, parcial)")
-    
-    # Comentar para não executar automaticamente
-    # cli(["generate-execution-visual-report", "--assignment", "prog1-tarefa-scrap-yahoo", "--turma", "ebape-prog-aplic-barra-2025"])
-    
-    # Exemplo 19: Processamento completo de apenas um assignment da turma
-    print("\n📝 Exemplo 19b: Processamento completo de apenas um assignment da turma")
-    print("-" * 50)
-    print("Assignment: prog1-tarefa-scrap-simples")
-    print("Características:")
-    print("  • Correção, relatórios, thumbnails e CSV apenas para o assignment especificado")
-    print("  • Útil para reprocessar ou atualizar um assignment isoladamente")
-    # python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --assignment prog1-tarefa-scrap-simples
-    
-    # Exemplo 19c: Processamento completo de uma submissão específica
-    print("\n📝 Exemplo 19c: Processamento completo de uma submissão específica")
-    print("-" * 50)
-    print("Assignment: prog1-prova-av")
-    print("Submissão: joao-silva")
-    print("Características:")
-    print("  • Correção, relatórios, thumbnails e CSV apenas para a submissão especificada")
-    print("  • Útil para reprocessar ou analisar uma submissão específica")
-    print("  • Processamento mais rápido que turma completa")
-    print("  • Ideal para análise individual ou debugging")
-    # python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --assignment prog1-prova-av --submissao joao-silva
-    
-    # Exemplo 20: Atividade de recuperação com processamento completo
-    print("\n📝 Exemplo 20: Atividade de Recuperação com Processamento Completo")
-    print("-" * 50)
-    print("Assignment: prog1-prova-as (Yahoo Scraping + Streamlit Dashboard)")
-    print("Características:")
-    print("  • Correção completa: testes + análise de IA")
-    print("  • Relatórios visuais com thumbnails do dashboard")
-    print("  • Relatório de execução Python do scraper")
-    print("  • Exportação CSV para análise de resultados")
-    print("  • Atividade de recuperação com critérios específicos")
-    print("  • Combina competências de scraping e visualização")
-    print("  • Suporte a submissões individuais")
-    
-    # Comentar para não executar automaticamente
-    # cli(["correct-all-with-visual", "--turma", "ebape-prog-aplic-barra-2025", "--assignment", "prog1-prova-as"])
-    
+    print("  • Lista assignments, turmas e submissões disponíveis")
+    print("  • Útil para explorar o sistema")
+    print("\nComandos:")
+    print("  python -m src.main list-assignments")
+    print("  python -m src.main list-turmas")
+    print("  python -m src.main list-submissions --turma ebape-prog-aplic-barra-2025")
+    # cli(["list-assignments"])
+
     print("\n✅ Exemplos demonstrados!")
-    print("\n💡 Para executar os exemplos, descomente as linhas correspondentes no código.")
-    print("💡 Para mais opções, execute: python -m src.main --help")
-    print("💡 Para ver a arquitetura: python tools/generate_mermaid_uml.py")
-    print("\n🔧 Configurações para thumbnails:")
-    print("  • Instale Chrome/Chromium para Selenium")
+    print("\n💡 Dicas:")
+    print("  • Descomente as linhas cli([...]) para executar os exemplos")
+    print("  • Use --help para ver todas as opções: python -m src.main --help")
+    print("  • Use --verbose para debug detalhado em qualquer comando")
     print("  • Configure OPENAI_API_KEY para análise de IA")
-    print("  • Verifique se pipenv está configurado")
-    print("  • Ajuste timeouts em config.py se necessário")
-    print("  • Dependências otimizadas: psutil, pillow")
-    print("  • Suporte a alta resolução: 2880x1620, 200% escala")
-    print("  • Use --verbose para debug detalhado")
+    print("  • Instale Chrome/Chromium para geração de thumbnails")
+    print("\n📚 Documentação:")
+    print("  • README.md - Guia completo do sistema")
+    print("  • CLAUDE.md - Guia para desenvolvimento")
+    print("  • docs/sistema-notas.md - Sistema de cálculo de notas")
+    print("  • docs/solucao-scraping-llm.md - Avaliação de assignments de scraping")
 
 
 if __name__ == "__main__":
-    run_example() 
+    run_example()

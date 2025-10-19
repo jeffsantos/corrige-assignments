@@ -2,27 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Common Development Commands
+## Environment Setup
 
-### Main Correction Commands
-```bash
-# Main entry point - correct assignments using pytest-based tests and AI analysis
-python -m src.main correct --assignment <assignment-name> --turma <turma-name>
-
-# Correct specific submission (individual or group)
-python -m src.main correct --assignment <assignment-name> --turma <turma-name> --submissao <student-login-or-group-name>
-
-# Correct all assignments for a turma
-python -m src.main correct --turma <turma-name> --all-assignments
-
-# Generate with visual reports (thumbnails for Streamlit/HTML)
-python -m src.main correct --assignment <assignment-name> --turma <turma-name> --with-visual-reports
-
-# Complete processing (correction + visual reports + CSV export)
-python -m src.main correct-all-with-visual --turma <turma-name>
-```
-
-### Environment Setup
 ```bash
 # Install dependencies
 pipenv install
@@ -35,6 +16,44 @@ pipenv run pytest tests/ -m "not integration and not thumbnails and not slow"
 
 # Run all tests including optional ones
 pipenv run pytest tests/
+```
+
+## Common Development Commands
+
+### Most Important Command - Complete Processing
+
+**This is the primary command for processing a turma:**
+
+```bash
+# Complete processing (correction + reports + thumbnails + CSV)
+python -m src.main correct-all-with-visual --turma <turma-name>
+
+# Process only one assignment
+python -m src.main correct-all-with-visual --turma <turma-name> --assignment <assignment-name>
+
+# Process specific submission
+python -m src.main correct-all-with-visual --turma <turma-name> --assignment <assignment-name> --submissao <student-login>
+
+# With detailed debug logs
+python -m src.main correct-all-with-visual --turma <turma-name> --verbose
+```
+
+**What it does:**
+1. Executes tests and AI analysis for all assignments
+2. Generates reports in all formats (HTML/Markdown/JSON)
+3. Creates visual reports with thumbnails (when applicable)
+4. Exports results to CSV for analysis
+
+### Other Correction Commands
+```bash
+# Basic correction - tests and AI analysis only
+python -m src.main correct --assignment <assignment-name> --turma <turma-name>
+
+# Correct specific submission
+python -m src.main correct --assignment <assignment-name> --turma <turma-name> --submissao <student-login>
+
+# Correct with visual reports
+python -m src.main correct --assignment <assignment-name> --turma <turma-name> --with-visual-reports
 ```
 
 ### Report Commands
@@ -165,6 +184,93 @@ Automatically generates visual reports with:
 - **Dependency caching** - Streamlit dependencies installed once per execution
 - **Process cleanup** - Automatic removal of orphaned processes
 - **Screenshot optimization** - Minimum heights and smart viewport sizing
+
+## Specification-Driven Development Workflow
+
+This project uses a **specification-driven approach** for all new implementations, bug fixes, and refactorings. Before implementing any feature or change:
+
+### Specification Files (specs/)
+
+All new work items are documented in the `specs/` directory with the following structure:
+
+**File Naming Convention:**
+```
+YYYYMMDD-NN-brief-description.md
+```
+- `YYYYMMDD` - Creation date (e.g., 20251018)
+- `NN` - Sequential number for the day (01, 02, 03, etc.)
+- `brief-description` - Short, hyphenated description
+
+**File Content Structure:**
+```markdown
+Tarefa: [Complete Title of Implementation/Fix/Refactoring]
+
+Descrição:
+
+[Detailed description of what needs to be done, including:
+- Context and motivation
+- Specific requirements
+- Files affected
+- Expected outcomes
+- Any relevant technical considerations]
+```
+
+### Development Workflow
+
+1. **Read the specification** - Always start by reading the corresponding spec file in `specs/`
+2. **Understand requirements** - Ensure full understanding of the task before implementation
+3. **Implement systematically** - Follow the specification details precisely
+4. **Update documentation** - Keep docs synchronized with code changes
+5. **Reference the spec** - When committing, reference the spec file if applicable
+
+**Important:** Specification files in `specs/` take precedence over ad-hoc requests. Always check for existing specs before starting work on a feature or fix.
+
+## Documentation Standards
+
+### Documentation Update Policy
+
+**Rule:** Always verify and update documentation after any functional change.
+
+After any change that affects functionality, interface, or system behavior, **always check** if these files need updates:
+
+1. **`README.md`**:
+   - New commands or options
+   - Changes in usage examples
+   - New features
+   - Configuration changes
+   - Troubleshooting updates
+
+2. **`example_usage.py`**:
+   - New usage examples
+   - Updates to existing examples
+   - Demonstration of new flags (e.g., `--verbose`)
+   - New feature demonstrations
+
+### Documentation Checklist
+
+Execute this checklist after changes:
+
+- [ ] **README.md**: New commands/options documented?
+- [ ] **README.md**: Examples updated?
+- [ ] **README.md**: Troubleshooting updated?
+- [ ] **example_usage.py**: New examples added?
+- [ ] **example_usage.py**: Existing examples updated?
+- [ ] **example_usage.py**: New flags demonstrated?
+
+### When to Update Documentation
+
+**Always update when:**
+- Adding new commands or options
+- Changing CLI interface
+- Adding new features
+- Modifying configurations
+- Fixing bugs that affect existing examples
+
+**Skip updates when:**
+- Only changing tests
+- Internal refactoring that doesn't affect interface
+- Bug fixes that don't change visible behavior
+- Changes only in logs or debug output
 
 ## Git Commit Guidelines
 
