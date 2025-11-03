@@ -133,9 +133,3 @@ MIT License - Veja o arquivo `LICENSE` para mais detalhes.
 **Jefferson Santos**
 - GitHub: [@jeffersonsantos](https://github.com/jeffersonsantos)
 - Email: jefferson.santos@fgv.br
-
-## Agradecimentos
-
-- OpenAI pela API GPT
-- pytest pela framework de testes
-- Comunidade Python pelos recursos utilizados
