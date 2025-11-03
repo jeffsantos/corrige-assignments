@@ -2,6 +2,7 @@
 Gerenciador de prompts específicos por assignment.
 """
 import os
+import re
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 from ..domain.models import Assignment
@@ -220,14 +221,44 @@ Por favor, analise o código considerando:
                 print(f"⚠️  Erro ao ler prompt personalizado para {assignment_name}: {e}")
         
         return None
-    
+
+    def _escape_non_placeholder_braces(self, template: str) -> str:
+        """Escapa chaves no template que não são placeholders conhecidos."""
+        # Lista de placeholders conhecidos que devem ser preservados
+        known_placeholders = [
+            'assignment_name',
+            'assignment_description',
+            'assignment_requirements',
+            'enunciado_code',
+            'student_code'
+        ]
+
+        # Padrão para encontrar todas as ocorrências de {algo}
+        pattern = r'\{([^}]+)\}'
+
+        def replace_brace(match):
+            """Substitui a chave por chave escapada se não for placeholder conhecido."""
+            placeholder_name = match.group(1)
+            if placeholder_name in known_placeholders:
+                # Preserva placeholders conhecidos
+                return match.group(0)
+            else:
+                # Escapa placeholders desconhecidos (duplica as chaves)
+                return '{{' + placeholder_name + '}}'
+
+        # Substitui todas as ocorrências
+        return re.sub(pattern, replace_brace, template)
+
     def _format_custom_prompt(self, prompt_template: str, assignment: Assignment, student_code: str, python_execution: Optional[Any] = None, test_results: Optional[List[Any]] = None, streamlit_thumbnail: Optional[Any] = None) -> str:
         """Formata prompt personalizado."""
         # Escapa chaves no código do aluno para evitar conflitos com .format()
         escaped_student_code = student_code.replace('{', '{{').replace('}', '}}')
         escaped_enunciado_code = self._read_enunciado_code(assignment.name).replace('{', '{{').replace('}', '}}')
 
-        formatted_prompt = prompt_template.format(
+        # Escapa chaves no template que não são placeholders conhecidos
+        escaped_template = self._escape_non_placeholder_braces(prompt_template)
+
+        formatted_prompt = escaped_template.format(
             assignment_name=assignment.name,
             assignment_description=assignment.description,
             assignment_requirements="\n".join(f"- {req}" for req in assignment.requirements),
