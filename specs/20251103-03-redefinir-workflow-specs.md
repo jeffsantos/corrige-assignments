@@ -30,3 +30,8 @@ Vamos seguir o workflow abaixo para lidar com as specs:
 4. **SEMPRE comitar** os ajustes com mensagem descritiva referenciando a spec
 
 Isso deve ser registrado no CLAUDE.md para ser lembrado nas interações futuras. 
+
+---
+### Ajustes
+
+1. As primeiras specs desse projeto foram criadas antes da regra que acabamos de estabelecer e, portanto, não possuem arquivos de resposta. Para mantermos o padrão estabelecido, seria possível criar os arquivos de resposta faltante a partir dos logs de commits associados às primeiras specs?

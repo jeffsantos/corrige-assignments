@@ -63,5 +63,35 @@ Atualizei a seção "Specification-Driven Development Workflow" do arquivo CLAUD
 
 ---
 
+## Ajustes Aplicados
+
+### Ajuste 1: Criação de arquivos -RESPOSTA.md para specs anteriores (2025-11-03)
+
+**Contexto:** As primeiras specs do projeto foram criadas antes da regra de criar arquivos `-RESPOSTA.md` ser estabelecida. Para manter o padrão consistente, foram criados arquivos de resposta retroativos baseados nos logs de commits associados.
+
+**Specs que receberam arquivos de resposta:**
+
+1. **20251018-01-limpeza-dos-docs-RESPOSTA.md**
+   - Baseado no commit `be27c4c` - "docs: reorganiza e consolida documentação do projeto"
+   - Documentado: limpeza completa da documentação, redução de 72% do README.md, criação de docs/ modulares
+   - Arquivos modificados: CLAUDE.md, README.md, contexto.md (removido), docs/*, example_usage.py
+
+2. **20251103-01-criar-prompt-as-RESPOSTA.md**
+   - Baseado no commit `c1200ab` - "feat(prompts): adiciona prompt especializado para prog2-as"
+   - Documentado: criação de prompt para atividade prog2-as adaptado de prog2-prova
+   - Diferenças principais: API CPTEC (previsão do tempo) vs API Câmbio
+
+3. **20251103-02-fix-erro-correcao-RESPOSTA.md**
+   - Baseado no commit `1b740a1` - "fix(ai): corrige KeyError em prompts com placeholders de API"
+   - Documentado: implementação de escape seletivo de chaves em templates de prompt
+   - Solução: método `_escape_non_placeholder_braces()` no PromptManager
+
+**Resultado:**
+- ✅ Todas as specs implementadas agora possuem arquivos de resposta
+- ✅ Histórico completo documentado retroativamente
+- ✅ Padrão de documentação consistente estabelecido
+
+---
+
 **Implementado por:** Claude Code
 **Supervisionado por:** Jefferson Santos
