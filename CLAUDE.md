@@ -187,44 +187,48 @@ Automatically generates visual reports with:
 
 ## Specification-Driven Development Workflow
 
-This project uses a **specification-driven approach** for all new implementations, bug fixes, and refactorings. Before implementing any feature or change:
+This project uses a **specification-driven approach** for all new implementations, bug fixes, and refactorings.
 
 ### Specification Files (specs/)
 
-All new work items are documented in the `specs/` directory with the following structure:
+All work items are documented in the `specs/` directory:
 
 **File Naming Convention:**
-```
-YYYYMMDD-NN-brief-description.md
-```
-- `YYYYMMDD` - Creation date (e.g., 20251018)
+- Specs: `specs/YYYYMMDD-NN-brief-description.md`
+- Responses: `specs/YYYYMMDD-NN-brief-description-RESPOSTA.md`
+- Backlog: `specs/backlog.md` for future implementations
+
+Where:
+- `YYYYMMDD` - Creation date (e.g., 20251103)
 - `NN` - Sequential number for the day (01, 02, 03, etc.)
 - `brief-description` - Short, hyphenated description
 
-**File Content Structure:**
-```markdown
-Tarefa: [Complete Title of Implementation/Fix/Refactoring]
+### Workflow with Specifications
 
-Descrição:
+**Creating Specs:**
+1. Create spec file with clear task description and requirements
+2. Include context, motivation, files affected, and expected outcomes
 
-[Detailed description of what needs to be done, including:
-- Context and motivation
-- Specific requirements
-- Files affected
-- Expected outcomes
-- Any relevant technical considerations]
-```
+**Responding to Specs:**
+1. Read the spec file `specs/YYYYMMDD-NN-title.md`
+2. Execute all requested tasks and analyses
+3. **ALWAYS create** a response file `specs/YYYYMMDD-NN-title-RESPOSTA.md` containing:
+   - Detailed analysis of what was done
+   - Technical decisions made
+   - Test results and validations
+   - Modified files with relevant line numbers
+4. **ALWAYS commit** after completing the spec response:
+   - Include spec, response, and all modified files
+   - Use descriptive commit message following Conventional Commits
+   - Example: `docs(specs): adiciona resposta da spec 03 - redefinir-workflow`
 
-### Development Workflow
+**Applying Adjustments to Specs:**
+1. **ALWAYS update** the corresponding `-RESPOSTA.md` file
+2. Document each adjustment in a new section
+3. Maintain complete chronological history
+4. **ALWAYS commit** adjustments with descriptive message referencing the spec
 
-1. **Read the specification** - Always start by reading the corresponding spec file in `specs/`
-2. **Understand requirements** - Ensure full understanding of the task before implementation
-3. **Implement systematically** - Follow the specification details precisely
-4. **Update documentation** - Keep docs synchronized with code changes
-5. **Reference the spec** - When committing, reference the spec file if applicable
-6. **Commit the spec** - After completing the implementation, commit all changes including the spec file itself
-
-**Important:** Specification files in `specs/` take precedence over ad-hoc requests. Always check for existing specs before starting work on a feature or fix.
+**Important:** Specification files in `specs/` take precedence over ad-hoc requests. Always check for existing specs before starting work.
 
 ## Documentation Standards
 
