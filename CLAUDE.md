@@ -222,6 +222,7 @@ Descrição:
 3. **Implement systematically** - Follow the specification details precisely
 4. **Update documentation** - Keep docs synchronized with code changes
 5. **Reference the spec** - When committing, reference the spec file if applicable
+6. **Commit the spec** - After completing the implementation, commit all changes including the spec file itself
 
 **Important:** Specification files in `specs/` take precedence over ad-hoc requests. Always check for existing specs before starting work on a feature or fix.
 

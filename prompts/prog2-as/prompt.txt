@@ -1,0 +1,109 @@
+Analise o código Python abaixo para o assignment "{assignment_name}".
+
+DESCRIÇÃO DO ASSIGNMENT:
+{assignment_description}
+
+REQUISITOS ESPECÍFICOS:
+{assignment_requirements}
+
+CÓDIGO DO ENUNCIADO:
+{enunciado_code}
+
+CÓDIGO DO ALUNO:
+{student_code}
+
+=== CRITÉRIOS FUNDAMENTAIS DE AVALIAÇÃO ===
+
+**DEFINIÇÃO DE PROBLEMAS vs SUGESTÕES:**
+
+**PROBLEMAS (só inclua aqui se for CRÍTICO):**
+- Requisitos OBRIGATÓRIOS do enunciado que estão AUSENTES ou INCORRETOS
+- Funções ou componentes obrigatórios que não foram implementados ou não funcionam
+- Estrutura de código que não segue o especificado no enunciado
+- Funcionalidades essenciais que não operam corretamente
+
+**SUGESTÕES (inclua aqui melhorias opcionais):**
+- Melhorias de código que não são obrigatórias
+- Otimizações de performance que não afetam funcionalidade
+- Adições de funcionalidades extras que enriquecem mas não são exigidas
+- Melhorias de legibilidade ou organização não obrigatórias
+- Sugestões de boas práticas que não são requisitos
+
+**EXEMPLOS DE CLASSIFICAÇÃO:**
+- ❌ PROBLEMA: "Banco de dados não tem relacionamento N:N" (se for obrigatório)
+- ✅ SUGESTÃO: "Poderia adicionar mais tratamento de erros nas queries"
+- ❌ PROBLEMA: "Aplicação de terminal não integra com API de previsão do tempo" (se for obrigatório)
+- ✅ SUGESTÃO: "Poderia melhorar a apresentação visual dos componentes do dashboard"
+
+=== INSTRUÇÕES DE AVALIAÇÃO ESPECÍFICAS ===
+
+Este é um assignment de prova substitutiva (AS) que integra Banco de Dados PostgreSQL + API de Previsão do Tempo + Aplicação Terminal + Dashboard Streamlit. Avalie considerando:
+
+1. **Banco de Dados PostgreSQL (30% do peso)**:
+   - Deve ter de 3 a 4 tabelas conforme especificado
+   - Deve possuir relacionamento N:N (tabela intermediária com 2+ foreign keys)
+   - Deve incluir necessariamente uma tabela de Cidades com campo VARCHAR para nome da cidade
+   - Todos os campos devem ser NOT NULL ou SERIAL/IDENTITY
+   - Deve ter pelo menos um campo DATE, VARCHAR e INTEGER
+   - Relacionamentos devem estar explicitamente definidos
+   - Deve ter de 5-10 registros por tabela
+   - Relacionamento N:N deve ser parcial (permitir LEFT JOINs)
+   - Arquivo bd.sql deve permitir reconstrução completa do banco
+   - Commit obrigatório: "Cria banco de dados inicial"
+
+2. **Aplicação de Terminal (30% do peso)**:
+   - Deve integrar com Brasil API - CPTEC para previsão do tempo
+   - Endpoints: GET /api/cptec/v1/cidade/{cityName} e GET /api/cptec/v1/clima/previsao/{cityCode}
+   - Deve solicitar nome de cidade do usuário
+   - Deve buscar código da cidade na API (primeiro endpoint)
+   - Deve obter previsão do tempo usando o código da cidade (segundo endpoint)
+   - Deve exibir o campo "condicao_desc" da previsão (descrição da condição climática)
+   - Deve fazer requisições HTTP corretas e parsear JSON
+   - Arquivo main.py deve estar funcional
+   - Commit obrigatório: "Implementa aplicacao de terminal com API de previsao do tempo"
+
+3. **Dashboard Streamlit (40% do peso)**:
+   - Deve se conectar ao banco PostgreSQL usando SQLAlchemy
+   - Query da tabela principal deve usar pelo menos 1 JOIN (incluindo tabela de cidades)
+   - Deve ter filtro interativo funcional (selectbox ou multiselect)
+   - Deve criar função obter_previsao() que busca previsão do tempo usando a API CPTEC
+   - Deve adicionar coluna com previsão do tempo (campo condicao_desc) para cada cidade da tabela
+   - A coluna de previsão deve usar .apply() no campo de cidade do DataFrame
+   - Deve ter gráfico (qualquer tipo: bar_chart, line_chart, area_chart, etc.)
+   - Interface deve ser funcional e apresentar dados corretamente
+   - Arquivo app_streamlit.py deve estar funcional
+   - Commit obrigatório: "Finaliza dashboard Streamlit com previsao do tempo"
+
+4. **Estrutura e Organização (10% do peso)**:
+   - Arquivos bd.sql, main.py e app_streamlit.py devem estar presentes
+   - Código deve estar organizado e funcional
+   - Evidências do diálogo com LLM na pasta evidencias (opcional mas recomendado)
+
+=== FORMATO DE RESPOSTA ===
+
+Formate sua resposta EXATAMENTE assim:
+
+NOTA: [número de 0 a 10]
+JUSTIFICATIVA: [justificativa resumida e clara da nota]
+
+COMPONENTES:
+- Banco de Dados (3-4 tabelas, N:N, tabela Cidades): [Presente/Ausente/Parcial]
+- Aplicação Terminal (integração API CPTEC de previsão): [Presente/Ausente/Parcial]
+- Dashboard Streamlit (JOIN + filtro + gráfico + previsão tempo): [Presente/Ausente/Parcial]
+- Commits Obrigatórios: [Presente/Ausente/Parcial]
+
+COMENTARIOS: [lista de comentários sobre pontos positivos]
+
+SUGESTOES: [lista de sugestões de melhoria - apenas melhorias opcionais]
+
+PROBLEMAS: [lista de problemas encontrados - apenas requisitos obrigatórios ausentes/incorretos]
+
+=== REGRAS CRÍTICAS ===
+
+1. **NOTA 10**: Se TODOS os requisitos obrigatórios do enunciado foram cumpridos
+2. **PROBLEMAS**: Só inclua requisitos OBRIGATÓRIOS ausentes/incorretos
+3. **SUGESTÕES**: Inclua melhorias opcionais e aperfeiçoamentos
+4. **NÃO CONFUNDA**: Melhorias não são problemas, problemas são falhas obrigatórias
+5. **BASEIE A NOTA**: Nos requisitos do enunciado, não em suas preferências pessoais
+
+IMPORTANTE: Esta é uma prova substitutiva (AS) que avalia conhecimentos de SQL, banco de dados relacional com cidades, integração com APIs RESTful de previsão do tempo, manipulação de dados e dashboards interativos. Priorize a correta implementação dos 3 componentes principais (banco com cidades, terminal com previsão, dashboard integrando banco + API), com especial atenção aos relacionamentos N:N, integração com API CPTEC e adição de coluna de previsão do tempo no dashboard.
