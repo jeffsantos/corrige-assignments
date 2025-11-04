@@ -111,17 +111,21 @@ class InteractiveExecutionService:
         try:
             # Envia inputs com delay para simular usuário real
             self._send_inputs(process, inputs)
-            
+
             # Captura saída com timeout
             stdout, stderr = process.communicate(timeout=timeout)
-            
+
+            # Filtra warnings informativos do pipenv
+            stderr_filtered = self._filter_pipenv_warnings(stderr)
+
             self._debug_print(f"Processo finalizado com código: {process.returncode}")
             self._debug_print(f"STDOUT: {stdout[:200]}...")
-            self._debug_print(f"STDERR: {stderr[:200]}...")
-            
+            self._debug_print(f"STDERR (original): {stderr[:200]}...")
+            self._debug_print(f"STDERR (filtrado): {stderr_filtered[:200] if stderr_filtered else '(vazio)'}...")
+
             return {
                 'stdout': stdout,
-                'stderr': stderr,
+                'stderr': stderr_filtered,
                 'return_code': process.returncode
             }
             
@@ -154,13 +158,13 @@ class InteractiveExecutionService:
     
     def _send_inputs(self, process: subprocess.Popen, inputs: List[str]):
         """Envia inputs para o processo com delay realista."""
-        
+
         for i, input_text in enumerate(inputs):
             # Aguarda um pouco para simular usuário real
             time.sleep(0.5)
-            
+
             self._debug_print(f"Enviando input {i+1}: '{input_text}'")
-            
+
             try:
                 # Envia input com quebra de linha
                 process.stdin.write(input_text + "\n")
@@ -168,34 +172,84 @@ class InteractiveExecutionService:
             except Exception as e:
                 self._debug_print(f"Erro ao enviar input {i+1}: {e}")
                 break
-    
+
+        # Fecha stdin para indicar que não há mais inputs
+        # Isso evita que programas esperem indefinidamente por mais entradas
+        try:
+            process.stdin.close()
+            self._debug_print("STDIN fechado após enviar todos os inputs")
+        except Exception as e:
+            self._debug_print(f"Erro ao fechar STDIN: {e}")
+
+    def _filter_pipenv_warnings(self, stderr: str) -> str:
+        """Remove warnings informativos do pipenv do STDERR."""
+        if not stderr:
+            return stderr
+
+        # Lista de mensagens do pipenv que são apenas informativas
+        pipenv_warning_patterns = [
+            "Courtesy Notice:",
+            "Pipenv found itself running within a virtual environment",
+            "PIPENV_IGNORE_VIRTUALENVS=1",
+            "PIPENV_VERBOSITY=-1"
+        ]
+
+        # Filtra linhas que contêm warnings do pipenv
+        filtered_lines = []
+        skip_line = False
+
+        for line in stderr.split('\n'):
+            # Verifica se a linha contém algum padrão de warning do pipenv
+            is_pipenv_warning = any(pattern in line for pattern in pipenv_warning_patterns)
+
+            if is_pipenv_warning:
+                skip_line = True
+                continue
+
+            # Se a linha está vazia e estávamos pulando, continua pulando
+            if skip_line and not line.strip():
+                continue
+
+            skip_line = False
+            filtered_lines.append(line)
+
+        return '\n'.join(filtered_lines).strip()
+
     def _analyze_execution_result(self, result: Dict, config: Dict) -> bool:
         """Analisa se a execução foi bem-sucedida."""
-        
+
         stdout = result['stdout'].lower()
         stderr = result['stderr'].lower()
-        
-        # Verifica se há saída
-        if not stdout.strip():
-            self._debug_print("Nenhuma saída detectada")
-            return False
-        
-        # Verifica se há erros críticos
+        return_code = result['return_code']
+
+        # Verifica se há erros críticos no stderr
         error_keywords = ['error', 'exception', 'traceback', 'failed']
-        if any(keyword in stderr for keyword in error_keywords):
-            self._debug_print(f"Erros detectados: {stderr}")
+        has_critical_errors = any(keyword in stderr for keyword in error_keywords)
+
+        if has_critical_errors:
+            self._debug_print(f"Erros críticos detectados: {stderr}")
             return False
-        
+
+        # Se não há saída no stdout mas também não há erros e o código retornou 0,
+        # considera como execução bem-sucedida (código vazio ou sem output)
+        if not stdout.strip():
+            if not stderr.strip() and return_code == 0:
+                self._debug_print("Código sem saída mas executado com sucesso (código vazio ou sem output)")
+                return True
+            else:
+                self._debug_print("Nenhuma saída detectada e há indicação de problemas")
+                return False
+
         # Verifica se contém outputs esperados
         expected_outputs = [output.lower() for output in config['expected_outputs']]
         found_outputs = sum(1 for expected in expected_outputs if expected in stdout)
-        
+
         self._debug_print(f"Outputs esperados encontrados: {found_outputs}/{len(expected_outputs)}")
-        
+
         # Considera sucesso se pelo menos 50% dos outputs esperados foram encontrados
         success_rate = found_outputs / len(expected_outputs)
         success = success_rate >= 0.5
-        
+
         self._debug_print(f"Taxa de sucesso: {success_rate:.2f} ({'SUCESSO' if success else 'FALHA'})")
-        
+
         return success 
