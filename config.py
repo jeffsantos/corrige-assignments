@@ -46,7 +46,8 @@ ASSIGNMENT_SUBMISSION_TYPES: Dict[str, SubmissionType] = {
     # Assignments individuais
     "prog1-prova-as": SubmissionType.INDIVIDUAL,  # Atividade de recuperação
     "prog2-teste": SubmissionType.INDIVIDUAL,
-    "prog2-prova": SubmissionType.INDIVIDUAL
+    "prog2-prova": SubmissionType.INDIVIDUAL,
+    "prog2-as": SubmissionType.INDIVIDUAL,  # Prova substitutiva (AS)
 }
 
 # Configuração de assignments que geram thumbnails
@@ -56,6 +57,7 @@ ASSIGNMENTS_WITH_THUMBNAILS = {
     "prog1-prova-as": "streamlit",  # Atividade de recuperação com dashboard
     "prog2-teste": "streamlit",
     "prog2-prova": "streamlit",
+    "prog2-as": "streamlit",  # Prova substitutiva (AS) com dashboard
 
     # Assignments HTML
     "prog1-tarefa-html-curriculo": "html",
@@ -65,6 +67,7 @@ ASSIGNMENTS_WITH_THUMBNAILS = {
 # Configuração do arquivo Streamlit para cada assignment (default: main.py)
 STREAMLIT_FILE_CONFIG = {
     "prog2-prova": "app_streamlit.py",
+    "prog2-as": "app_streamlit.py",
     # Outros assignments usam main.py por padrão
 }
 
@@ -75,6 +78,7 @@ ASSIGNMENTS_WITH_PYTHON_EXECUTION = {
     "prog1-tarefa-scrap-yahoo": True,
     "prog1-prova-as": True,  # Atividade de recuperação com execução Python
     "prog2-prova": True,  # Prova final com aplicação de terminal
+    "prog2-as": True,  # Prova substitutiva (AS) com aplicação de terminal
 }
 
 # Configuração de assignments interativos (argumentos, inputs, arquivo python, etc)
@@ -108,6 +112,15 @@ INTERACTIVE_ASSIGNMENTS_CONFIG = {
         ],
         "timeout": 30,
         "expected_outputs": ["conversão", "câmbio", "moeda", "valor", "usd"]
+    },
+    "prog2-as": {
+        "python_file": "main.py",  # Arquivo Python a ser executado
+        "command_args": [],
+        "inputs": [
+            "São Paulo"  # Nome da cidade para consulta de previsão do tempo
+        ],
+        "timeout": 30,
+        "expected_outputs": ["previsão", "tempo", "clima", "condição", "nublado", "sol", "chuva"]
     }
 }
 
