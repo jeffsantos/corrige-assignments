@@ -186,6 +186,15 @@ pipenv run pytest tests/ -m thumbnails
 - **Thumbnails em branco**: Aumente `SCREENSHOT_WAIT_TIME` em config.py
 - **Arquivo não encontrado**: Verifique se index.html existe na submissão
 
+### Para Assignments Interativos (Python)
+
+- **Warnings do pipenv no STDERR**: Execute os comandos de correção **fora do terminal integrado do VS Code**
+  - **Recomendado**: Use terminal externo (Windows Terminal, PowerShell, CMD, Git Bash)
+  - **Alternativa 1**: `pipenv run python -m src.main correct-all-with-visual --turma <turma>`
+  - **Alternativa 2**: Entre no shell primeiro: `pipenv shell` e depois `python -m src.main correct-all-with-visual --turma <turma>`
+  - **Por quê**: O terminal integrado do VS Code pode carregar um ambiente virtual previamente, causando conflitos com o pipenv usado para executar código dos alunos
+  - **Sintoma**: Mensagens de "Courtesy Notice: Pipenv found itself running within a virtual environment" aparecem no STDERR dos relatórios
+
 ### Geral
 
 - **Debug detalhado**: Use flag `--verbose` para logs completos

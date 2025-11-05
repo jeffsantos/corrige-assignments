@@ -115,17 +115,13 @@ class InteractiveExecutionService:
             # Captura saída com timeout
             stdout, stderr = process.communicate(timeout=timeout)
 
-            # Filtra warnings informativos do pipenv
-            stderr_filtered = self._filter_pipenv_warnings(stderr)
-
             self._debug_print(f"Processo finalizado com código: {process.returncode}")
             self._debug_print(f"STDOUT: {stdout[:200]}...")
-            self._debug_print(f"STDERR (original): {stderr[:200]}...")
-            self._debug_print(f"STDERR (filtrado): {stderr_filtered[:200] if stderr_filtered else '(vazio)'}...")
+            self._debug_print(f"STDERR: {stderr[:200]}...")
 
             return {
                 'stdout': stdout,
-                'stderr': stderr_filtered,
+                'stderr': stderr,
                 'return_code': process.returncode
             }
             
@@ -180,40 +176,6 @@ class InteractiveExecutionService:
             self._debug_print("STDIN fechado após enviar todos os inputs")
         except Exception as e:
             self._debug_print(f"Erro ao fechar STDIN: {e}")
-
-    def _filter_pipenv_warnings(self, stderr: str) -> str:
-        """Remove warnings informativos do pipenv do STDERR."""
-        if not stderr:
-            return stderr
-
-        # Lista de mensagens do pipenv que são apenas informativas
-        pipenv_warning_patterns = [
-            "Courtesy Notice:",
-            "Pipenv found itself running within a virtual environment",
-            "PIPENV_IGNORE_VIRTUALENVS=1",
-            "PIPENV_VERBOSITY=-1"
-        ]
-
-        # Filtra linhas que contêm warnings do pipenv
-        filtered_lines = []
-        skip_line = False
-
-        for line in stderr.split('\n'):
-            # Verifica se a linha contém algum padrão de warning do pipenv
-            is_pipenv_warning = any(pattern in line for pattern in pipenv_warning_patterns)
-
-            if is_pipenv_warning:
-                skip_line = True
-                continue
-
-            # Se a linha está vazia e estávamos pulando, continua pulando
-            if skip_line and not line.strip():
-                continue
-
-            skip_line = False
-            filtered_lines.append(line)
-
-        return '\n'.join(filtered_lines).strip()
 
     def _analyze_execution_result(self, result: Dict, config: Dict) -> bool:
         """Analisa se a execução foi bem-sucedida."""

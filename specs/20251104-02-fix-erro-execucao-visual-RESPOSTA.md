@@ -283,3 +283,58 @@ pipenv run python -m src.main correct --assignment prog2-as --turma ebape-prog-a
 - STDIN seja fechado após os inputs
 - Warnings do pipenv sejam filtrados
 - Código vazio seja tratado adequadamente
+
+---
+
+### Ajuste 2 - 2025-11-05 22:45 BRT
+
+**Problema Identificado**: Após o Ajuste 1, o `InteractiveExecutionService` passou a ser chamado corretamente, mas o STDERR dos relatórios ainda apresentava mensagens do pipenv. O filtro de mensagens pipenv implementado na correção original não estava sendo efetivo em todos os casos, especialmente quando o comando era executado no terminal integrado do VS Code.
+
+**Análise do Comportamento**:
+- **Executando fora do VS Code** (`pipenv run` ou `pipenv shell` em terminal externo): Funciona perfeitamente, sem warnings do pipenv
+- **Executando no terminal integrado do VS Code**: O terminal carrega um ambiente Python previamente (baseado no Python: Select Interpreter), causando conflitos quando o pipenv tenta executar o código dos alunos
+
+**Sintoma**: Mensagens como "Courtesy Notice: Pipenv found itself running within a virtual environment" aparecem no STDERR dos relatórios visuais.
+
+**Alternativas Avaliadas**:
+
+1. **Opção 1 (ESCOLHIDA)**: Documentar para rodar fora do VS Code e remover o filtro
+   - ✅ Mais simples
+   - ✅ Resolve o problema na raiz
+   - ✅ Sem código frágil de filtragem de strings
+   - ✅ Melhor prática: separar ambiente de desenvolvimento do ambiente de execução dos testes
+
+2. **Opção 2**: Implementar supressão adicional de mensagens no ambiente de execução
+   - ❌ Mais complexa
+   - ❌ Solução paliativa que não resolve a raiz do problema
+   - ❌ Requer manutenção contínua conforme novas mensagens aparecem
+
+**Solução Implementada** (Opção 1):
+
+1. **Documentação adicionada** em `docs/guia-de-uso.md` (linhas 189-196):
+   - Nova seção "Para Assignments Interativos (Python)" em Solução de Problemas
+   - Recomendação clara: executar fora do terminal integrado do VS Code
+   - Alternativas documentadas: `pipenv run` ou `pipenv shell` em terminal externo
+   - Explicação do motivo técnico
+   - Sintoma descrito para fácil identificação
+
+2. **Código removido** de `src/services/interactive_execution_service.py`:
+   - Linhas 119, 124, 128: Removida chamada e uso de `_filter_pipenv_warnings`
+   - Linhas 184-216: Removido método `_filter_pipenv_warnings` completo
+   - Debug logs simplificados (removido "STDERR (original)" e "STDERR (filtrado)")
+   - Retorno usa `stderr` diretamente sem filtragem
+
+**Validação**: A solução foi validada nas execuções anteriores que mostraram que comandos rodados fora do VS Code funcionam perfeitamente sem necessidade de filtragem.
+
+**Arquivos Modificados**:
+- **docs/guia-de-uso.md** (linhas 189-196): Nova seção documentando o problema e solução
+- **src/services/interactive_execution_service.py**:
+  - Linhas 115-126: Removida filtragem e simplificados logs de debug
+  - Linhas 184-216: Removido método `_filter_pipenv_warnings` completo
+
+**Impacto**:
+- ✅ Código mais limpo e simples
+- ✅ Sem lógica frágil de filtragem de strings
+- ✅ Documentação clara do problema e solução
+- ✅ Melhor separação de ambientes (desenvolvimento vs execução)
+- ⚠️ Usuários devem executar comandos fora do terminal integrado do VS Code para evitar warnings do pipenv

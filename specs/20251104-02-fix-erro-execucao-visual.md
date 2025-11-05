@@ -34,3 +34,30 @@ O código do aluno 2 está em branco, como foi entregue no enunciado (apenas um 
 ### Ajustes
 
 1. Rodei novamente o mesmo comando. Os arquivos html gerados permanecem com o mesmo problema relatado na spec.
+
+2. Após o ajuste 1, parece que agora estamos capturando corretamente a saída da execução dos programas dos alunos. Mas o STDERR continua indicando mensagem ao ambiente pipenv de execução dos programas. Quando indiquei isso na descrição original da spec, a solução dada e registrada no arquivo de resposta foi filtrar as mensanges pipenv da execução dos alunos. Parece que parte da mensagem foi filtrada e outra parte continuou sendo exibida. Essa solução de filtro de mensagens que aplicamos não parece muito robusta. Fiz um backup dos reports da última execução na pasta `reports/2025-11-04`. Os logs estão em `logs/2025-11-04`. 
+
+Acho que identifiquei o problema. Quando rodo o programa de correção de assignments por fora do VS Code, a execução dos alunos é corretamente capturada e nenhum STDERR relativo a ambientes pipenv aparecem. 
+
+**Rodando com pipen run**
+
+```shell
+pipenv run python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --assignment prog2-as --submissao Brenoall
+```
+
+**Entrando primeiro no shell do pipenv e rodando o programa na sequência**
+```shell
+pipenv shell
+
+python -m src.main correct-all-with-visual --turma ebape-prog-aplic-barra-2025 --assignment prog2-as --submissao Brenoall
+```
+
+Em ambos os casos, tudo ocorre quando esperado. O problema acontece quando rodo do terminal integrado do VS Code. O terminal integrado primeiro carrega o ambiente python associado ao projeto usando como referência o path que escolhi o Python: Select Interpreter na workspace. Nesse caso, o pipenv carregado para a execução dos programas dos alunos parece ter uma incompatibilidade com a forma que o VS Code carregou o ambiente primário. 
+
+Temos duas alternativas: 
+
+1. Deixar como está e passar a rodar o programa de correção sempre fora do VS Code. Seria bom registrar isso no documento `docs/guia-de-uso.md`. Nesse caso, acho que podemos remover o filtro de mensagens pipenv que adicionamos anteriormente, já que ele não resolveu o problema. 
+
+2. Implementar na execução do ambiente de execução dos trabalhos dos alunos alguma forma de suprimir mensagens quando rodando dentro de outro ambiente previamente carregado. 
+
+A opção mais simples deve ser adotada. 
