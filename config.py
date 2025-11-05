@@ -120,7 +120,7 @@ INTERACTIVE_ASSIGNMENTS_CONFIG = {
             "São Paulo"  # Nome da cidade para consulta de previsão do tempo
         ],
         "timeout": 30,
-        "expected_outputs": ["previsão", "tempo", "clima", "condição", "nublado", "sol", "chuva"]
+        "expected_outputs": ["nublado", "sol", "chuva"] 
     }
 }
 

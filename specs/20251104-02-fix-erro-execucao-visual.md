@@ -29,3 +29,8 @@ Os logs foram registrados em `logs/2025-11-04/*.json` e os reports gerados em `r
 Rodando o código do aluno 1 manualmente, funciona, pede para o usuário informar corretamente a cidade e apresenta o clima da cidade dentro das opções esperadas no arquivo config.py. Não entendi porque a execução não foi bem sucedida nesse caso
 
 O código do aluno 2 está em branco, como foi entregue no enunciado (apenas um import). Isso deveria gerar uma execução sem erro e vazia (nenhum output no terminal), mas estamos, ao invés, apresentando um caso de erro.  
+
+---
+### Ajustes
+
+1. Rodei novamente o mesmo comando. Os arquivos html gerados permanecem com o mesmo problema relatado na spec.

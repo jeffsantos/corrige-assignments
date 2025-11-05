@@ -230,3 +230,56 @@ As correções resolvem os dois problemas identificados na spec:
 2. **Warnings do pipenv como erros**: Resolvido pela filtragem de warnings informativos e melhoria na análise de resultado
 
 Os relatórios visuais agora apresentam informações mais precisas e limpas, sem falsos positivos causados por warnings informativos do sistema de gerenciamento de dependências.
+
+---
+
+## Ajustes
+
+### Ajuste 1 - 2025-11-04 21:23 BRT
+
+**Problema Identificado**: Após executar novamente `correct-all-with-visual`, os arquivos HTML gerados ainda apresentavam os mesmos problemas relatados na spec original. As correções implementadas no `InteractiveExecutionService` não estavam sendo aplicadas.
+
+**Causa Raiz Encontrada**: O assignment `prog2-as` estava configurado em `INTERACTIVE_ASSIGNMENTS_CONFIG` (config.py:116-124), mas o `correction_service.py` usava uma lista hardcoded que NÃO incluía "prog2-as":
+
+```python
+# correction_service.py linha 116 (ANTES)
+if assignment.name in ["prog1-tarefa-scrap-yahoo", "prog1-prova-as", "prog2-prova"]:
+```
+
+Como resultado, o assignment `prog2-as` estava sendo processado pelo `PythonExecutionService` (execução simples) ao invés do `InteractiveExecutionService` (execução com inputs simulados).
+
+**Solução Implementada**: Modificado `correction_service.py` para usar `INTERACTIVE_ASSIGNMENTS_CONFIG` ao invés de lista hardcoded:
+
+```python
+# correction_service.py linhas 113-120 (DEPOIS)
+from config import assignment_has_python_execution, INTERACTIVE_ASSIGNMENTS_CONFIG
+
+# Verifica se é um assignment interativo (usa config ao invés de lista hardcoded)
+if assignment.name in INTERACTIVE_ASSIGNMENTS_CONFIG:
+    print(f"  🔄 Executando programa interativo para {submission.display_name}...")
+    submission.python_execution = self.interactive_execution_service.execute_interactive_program(
+        assignment.name, submission.submission_path
+    )
+```
+
+**Validação**: Executado teste com aluno dudusampaio1981:
+
+```bash
+pipenv run python -m src.main correct --assignment prog2-as --turma ebape-prog-aplic-barra-2025 --submissao dudusampaio1981 --verbose
+```
+
+**Resultado**:
+- ✅ `InteractiveExecutionService` agora é chamado: `"🔄 Executando programa interativo para dudusampaio1981"`
+- ✅ STDIN fechado corretamente: `"[DEBUG] STDIN fechado após enviar todos os inputs"`
+- ✅ STDERR filtrado: `"[DEBUG] STDERR (filtrado): (vazio)"`
+- ✅ Código vazio reconhecido como sucesso: `"Código sem saída mas executado com sucesso"`
+- ✅ Status da execução: `"Execução Python: success"`
+
+**Arquivo Modificado**:
+- **src/services/correction_service.py** (linhas 113-120): Importa `INTERACTIVE_ASSIGNMENTS_CONFIG` e usa para verificar se assignment é interativo
+
+**Impacto**: Agora TODOS os assignments configurados em `INTERACTIVE_ASSIGNMENTS_CONFIG` serão corretamente processados pelo `InteractiveExecutionService`, garantindo que:
+- Inputs sejam enviados conforme configurado
+- STDIN seja fechado após os inputs
+- Warnings do pipenv sejam filtrados
+- Código vazio seja tratado adequadamente
